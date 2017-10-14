@@ -1,0 +1,13 @@
+{
+  "code": "SUCCESS",
+  "data": [
+    {
+      "id": "<@int(10000)>",
+      "text": "<@english(10)>"
+    },
+    "<@repeat(@)>"
+  ],
+  "mock": true,
+  "message": null,
+  "rid": "a647d834-1412-46c1-80d0-df321fd85d24"
+}

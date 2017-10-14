@@ -1,0 +1,50 @@
+{
+  "version": "0.0.1",
+  "name": "damoCore",
+  "main": "./src/index.js",
+  "output": {
+    "file": "none",
+    "version": "",
+    "path": "dist/core",
+    "app": "damoCore",
+    "library": "damoCore",
+    "libraryTarget": "umd"
+  },
+  "docco": {
+    "dir": "./src"
+  },
+  "jsx": true,
+  "externals": [
+    "seamless-immutable",
+    "core-js",
+
+    "react",
+    "react-dom",
+    "react-redux",
+    "react-router",
+    "redux-router",
+    "react-router-redux",
+    "redux",
+    "redux-logger",
+    "redux-thunk",
+    "redux-crud",
+    "react-intl",
+    "react-mixin",
+    "cuid",
+    "redux-promise-middleware",
+    "react-redux-loading-bar",
+    "hoist-non-react-statics",
+    "recompose",
+    "reselect",
+    "async-validator",
+
+    "isomorphic-fetch",
+    "rxjs",
+    "events"
+  ],
+  "devtool": "",
+  "partition": {
+    "NODE_ENV": "production",
+    "RXJS": true
+  }
+}

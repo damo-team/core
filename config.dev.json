@@ -1,0 +1,47 @@
+{
+  "version": "0.0.1",
+  "name": "damoCore",
+  "index": "./demo/index.html",
+  "main": "./demo/app.jsx",
+  "server": {
+    "host": "http://localhost:8009"
+  },
+  "output": {
+    "path": "dist/dev"
+  },
+  "jsx": true,
+  "vendors": [
+    "seamless-immutable",
+    "core-js",
+
+    "react",
+    "react-dom",
+    "react-redux",
+    "react-router",
+    "redux-router",
+    "react-router-redux",
+    "redux-logger",
+    "redux-thunk",
+    "redux-crud",
+    "react-intl",
+    "react-mixin",
+    "cuid",
+    "redux",
+    "redux-promise-middleware",
+    "react-redux-loading-bar",
+    "hoist-non-react-statics",
+    "recompose",
+    "reselect",
+    "async-validator",
+
+    "isomorphic-fetch",
+    "rxjs",
+    "events"
+  ],
+  "noUglify": true,
+  "devtool": "#cheap-source-map",
+  "partition": {
+    "NODE_ENV": "development",
+    "RXJS": true
+  }
+}
