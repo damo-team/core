@@ -265,8 +265,9 @@ export const initialState = (prototype, property, obj) => {
     name: property,
     value: obj.initializer()
   });
-  Object.assign(prototype, {
-    get properties(){
+  Object.defineProperty(prototype, 'properties', {
+    enumerable: true,
+    get() {
       const properties = {};
       prototype.$propMethods_.forEach(prop => {
         properties[prop.name] = prop.value;
@@ -276,11 +277,13 @@ export const initialState = (prototype, property, obj) => {
   })
 } 
 
-export const dispatch = (prototype, method) => {
-  const func = prototype.method;
-  prototype.method = (...args) => {
-    return func.apply(this, args)(prototype.dispatch);
-  }
+export const dispatch = (prototype, method, obj) => {
+  const func = obj.value;
+  obj.initializer = (...args) => {
+    return function(){
+      return func.apply(this, args)(this.dispatch);
+    }
+  };
 } 
 
 export const View = component;

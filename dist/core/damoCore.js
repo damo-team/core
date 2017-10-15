@@ -7284,14 +7284,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	};
 
-	var dispatch = exports.dispatch = function dispatch(prototype, method) {
-	  var func = prototype.method;
-	  prototype.method = function () {
+	var dispatch = exports.dispatch = function dispatch(prototype, method, obj) {
+	  var func = obj.value;
+	  obj.initializer = function () {
 	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
 	      args[_key2] = arguments[_key2];
 	    }
 
-	    return func.apply(undefined, args)(prototype.dispatch);
+	    return function () {
+	      return func.apply(this, args)(this.dispatch);
+	    };
 	  };
 	};
 
