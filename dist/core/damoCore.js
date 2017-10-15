@@ -7,7 +7,7 @@
 		exports["damoCore"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-redux-loading-bar"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-dom"), require("react-redux"), require("react-router"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
 		root["damoCore"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-redux-loading-bar"], root["recompose"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-dom"], root["react-redux"], root["react-router"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_18__, __WEBPACK_EXTERNAL_MODULE_33__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_74__, __WEBPACK_EXTERNAL_MODULE_75__, __WEBPACK_EXTERNAL_MODULE_76__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_33__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_74__, __WEBPACK_EXTERNAL_MODULE_75__, __WEBPACK_EXTERNAL_MODULE_76__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -61,7 +61,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
 
-	var _inject = __webpack_require__(16);
+	var _inject = __webpack_require__(15);
 
 	Object.keys(_inject).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -323,9 +323,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var isFunction_1 = __webpack_require__(24);
+	var isFunction_1 = __webpack_require__(23);
 	var Subscription_1 = __webpack_require__(6);
-	var Observer_1 = __webpack_require__(19);
+	var Observer_1 = __webpack_require__(18);
 	var rxSubscriber_1 = __webpack_require__(12);
 	/**
 	 * Implements the {@link Observer} interface and extends the
@@ -583,7 +583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.lcfirst = lcfirst;
 	exports.Deferred = Deferred;
 
-	var _events = __webpack_require__(17);
+	var _events = __webpack_require__(16);
 
 	/**
 	 * # 核心的工具方法
@@ -717,7 +717,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var root_1 = __webpack_require__(3);
 	var toSubscriber_1 = __webpack_require__(62);
-	var observable_1 = __webpack_require__(21);
+	var observable_1 = __webpack_require__(20);
 	/**
 	 * A representation of any set of values over any amount of time. This the most basic building block
 	 * of RxJS.
@@ -860,10 +860,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var isArray_1 = __webpack_require__(23);
+	var isArray_1 = __webpack_require__(22);
 	var isObject_1 = __webpack_require__(59);
-	var isFunction_1 = __webpack_require__(24);
-	var tryCatch_1 = __webpack_require__(25);
+	var isFunction_1 = __webpack_require__(23);
+	var tryCatch_1 = __webpack_require__(24);
 	var errorObject_1 = __webpack_require__(13);
 	var UnsubscriptionError_1 = __webpack_require__(58);
 	/**
@@ -1044,9 +1044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _core = __webpack_require__(2);
 
-	var _events = __webpack_require__(17);
-
-	var _resourceCRUD = __webpack_require__(14);
+	var _events = __webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1472,7 +1470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return BaseModel;
-	}(_events.EventEmitter), _class.appStore = null, _class.ASSIGN_METHODS = _resourceCRUD.resourceCRUD, _temp);
+	}(_events.EventEmitter), _class.appStore = null, _class.ASSIGN_TYPES = _createCrud.changeOperators, _temp);
 
 /***/ },
 /* 8 */
@@ -1498,7 +1496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    */
 
 
-	var _events = __webpack_require__(17);
+	var _events = __webpack_require__(16);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2186,258 +2184,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 14 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-	var resourceCRUD = exports.resourceCRUD = {
-	  QUERY: function QUERY(name, action, initialState) {
-	    return [{
-	      name: name,
-	      start: function start() {
-	        return initialState[name];
-	      },
-	      success: function success(data) {
-	        return data.data;
-	      }
-	    }];
-	  },
-
-	  QUERY_METRIC: function QUERY_METRIC(name, action, initialState) {
-	    return [{
-	      name: name,
-	      start: function start() {
-	        return initialState[name];
-	      },
-	      success: function success(data, origin) {
-	        return { loading: false, total: data.total };
-	      }
-	    }];
-	  },
-
-	  PURE: function PURE(name, action, initialState) {
-	    var propType = _typeof(initialState[name]);
-	    if (propType === 'object' && Array.isArray(initialState[name])) {
-	      propType = 'array';
-	    } else {
-	      propType = propType || 'object';
-	    }
-	    return [{
-	      name: name,
-	      start: function start() {
-	        return initialState[name];
-	      },
-	      success: function success(data) {
-	        return data;
-	      }
-	    }];
-	  },
-
-	  PASS: function PASS(name, action, initialState) {
-	    return [{
-	      name: name,
-	      success: function success(data) {
-	        return data;
-	      }
-	    }];
-	  },
-
-	  GET: function GET(name, action, initialState) {
-	    return [{
-	      name: name,
-	      start: function start() {
-	        return initialState[name];
-	      },
-	      success: function success(data) {
-	        return data;
-	      }
-	    }];
-	  },
-
-	  // #! {cid, params}
-	  ADD: function ADD(name, action, initialState) {
-	    if (Array.isArray(initialState[name])) {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          origin = origin.asMutable();
-
-	          origin.unshift(data);
-	          if (action.limit && action.limit < origin.length) {
-	            origin.pop();
-	          }
-	          return origin;
-	        }
-	      }];
-	    } else {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          return data;
-	        }
-	      }];
-	    }
-	  },
-
-	  ADD_METRIC: function ADD_METRIC(name, action, initialState) {
-	    return [{
-	      name: name,
-	      success: function success(data, origin, params) {
-	        if (Object(data) !== data && data !== false) {
-	          data = params;
-	        }
-	        return origin.set('total', origin.total + 1);
-	      }
-	    }];
-	  },
-
-	  // #! {cid, params}
-	  UPDATE: function UPDATE(name, action, initialState) {
-	    if (Array.isArray(initialState[name])) {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          if (!Array.isArray(data)) {
-	            data = [data];
-	          }
-	          data.forEach(function (d) {
-	            var idx = origin.findIndex(function (item) {
-	              return item[action.cid] === d[action.cid];
-	            });
-	            if (idx > -1) {
-	              if (action.attributes) {
-	                var newD = {};
-	                action.attributes.forEach(function (attr) {
-	                  return newD[attr] = d[attr];
-	                });
-	                d = newD;
-	              }
-	              var item = origin[idx].merge(d);
-	              origin = origin.set(idx, item);
-	            }
-	          });
-
-	          return origin;
-	        }
-	      }];
-	    } else {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params, state) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          if (origin[action.cid] === data[action.cid]) {
-	            origin = origin.merge(data);
-	          }
-
-	          return origin;
-	        }
-	      }];
-	    }
-	  },
-
-	  // #! {cid, params}
-	  DELETE: function DELETE(name, action, initialState) {
-	    if (Array.isArray(initialState[name])) {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params, state) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          var idx = origin.findIndex(function (item) {
-	            return item[action.cid] === data[action.cid];
-	          });
-	          if (idx > -1) {
-	            origin = origin.asMutable();
-	            origin.splice(idx, 1);
-	          }
-
-	          return origin;
-	        }
-	      }];
-	    } else {
-	      return [{
-	        name: name,
-	        success: function success(data, origin, params, state) {
-	          if (Object(data) !== data && data !== false) {
-	            data = params;
-	          }
-	          if (origin[action.cid] === data[action.cid]) {
-	            origin = initialState[name];
-	          }
-
-	          return origin;
-	        }
-	      }];
-	    }
-	  },
-
-	  DELETE_METRIC: function DELETE_METRIC(name, action, initialState) {
-	    return [{
-	      name: name,
-	      success: function success(data, origin, params, state) {
-	        if (Object(data) !== data && data !== false) {
-	          data = params;
-	        }
-	        if (origin.total > 0) {
-	          origin = origin.set('total', origin.total - 1);
-	        }
-
-	        return origin;
-	      }
-	    }];
-	  },
-
-	  // #! {cid, joinName}
-	  JOIN: function JOIN(name, action, initialState) {
-	    var joinName = action.joinName;
-	    if (Array.isArray(initialState[joinName])) {
-	      return [{
-	        success: function success(data, origin, params, state) {
-	          var idx = state[joinName].find(function (item) {
-	            return item[action.cid] === params[action.cid];
-	          });
-	          if (idx > -1) {
-	            var item = state[joinName][idx].set(name, data);
-	            var list = state[joinName].set(idx, item);
-	            state = state.set(joinName, list);
-	          }
-	          return state;
-	        }
-	      }];
-	    } else {
-	      return [{
-	        success: function success(data, origin, params, state) {
-	          if (state[joinName][action.cid] === params[action.cid]) {
-	            var item = state[joinName].set(name, data);
-	            state = state.set(joinName, item);
-	          }
-	          return state;
-	        }
-	      }];
-	    }
-	  }
-	};
-
-/***/ },
-/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2589,7 +2335,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}, _class.removeTrailingSlash = false, _class.resourcePath = '', _temp);
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2776,6 +2522,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
+
+/***/ },
 /* 17 */
 /***/ function(module, exports) {
 
@@ -2783,12 +2535,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 18 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_18__;
-
-/***/ },
-/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2801,7 +2547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Observer.js.map
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2893,7 +2639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=map.js.map
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2920,7 +2666,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=observable.js.map
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2952,7 +2698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=ObjectUnsubscribedError.js.map
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2960,7 +2706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=isArray.js.map
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2971,7 +2717,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=isFunction.js.map
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2995,7 +2741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=tryCatch.js.map
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3017,7 +2763,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3037,11 +2783,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    */
 
 
-	var _rxjs = __webpack_require__(18);
+	var _rxjs = __webpack_require__(17);
 
 	var _rxjs2 = _interopRequireDefault(_rxjs);
 
-	var _resourceModel = __webpack_require__(15);
+	var _resourceModel = __webpack_require__(14);
 
 	var _createCrud = __webpack_require__(9);
 
@@ -3051,7 +2797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
-	var _resourceCRUD = __webpack_require__(14);
+	var _resourceCRUD = __webpack_require__(27);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3511,7 +3257,259 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return BaseResource;
-	}(), _class.validate = function () {}, _temp);
+	}(), _class.validate = function () {}, _class.ASSIGN_METHODS = _resourceCRUD.resourceCRUD, _temp);
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var resourceCRUD = exports.resourceCRUD = {
+	  QUERY: function QUERY(name, action, initialState) {
+	    return [{
+	      name: name,
+	      start: function start() {
+	        return initialState[name];
+	      },
+	      success: function success(data) {
+	        return data.data;
+	      }
+	    }];
+	  },
+
+	  QUERY_METRIC: function QUERY_METRIC(name, action, initialState) {
+	    return [{
+	      name: name,
+	      start: function start() {
+	        return initialState[name];
+	      },
+	      success: function success(data, origin) {
+	        return { loading: false, total: data.total };
+	      }
+	    }];
+	  },
+
+	  PURE: function PURE(name, action, initialState) {
+	    var propType = _typeof(initialState[name]);
+	    if (propType === 'object' && Array.isArray(initialState[name])) {
+	      propType = 'array';
+	    } else {
+	      propType = propType || 'object';
+	    }
+	    return [{
+	      name: name,
+	      start: function start() {
+	        return initialState[name];
+	      },
+	      success: function success(data) {
+	        return data;
+	      }
+	    }];
+	  },
+
+	  PASS: function PASS(name, action, initialState) {
+	    return [{
+	      name: name,
+	      success: function success(data) {
+	        return data;
+	      }
+	    }];
+	  },
+
+	  GET: function GET(name, action, initialState) {
+	    return [{
+	      name: name,
+	      start: function start() {
+	        return initialState[name];
+	      },
+	      success: function success(data) {
+	        return data;
+	      }
+	    }];
+	  },
+
+	  // #! {cid, params}
+	  ADD: function ADD(name, action, initialState) {
+	    if (Array.isArray(initialState[name])) {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          origin = origin.asMutable();
+
+	          origin.unshift(data);
+	          if (action.limit && action.limit < origin.length) {
+	            origin.pop();
+	          }
+	          return origin;
+	        }
+	      }];
+	    } else {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          return data;
+	        }
+	      }];
+	    }
+	  },
+
+	  ADD_METRIC: function ADD_METRIC(name, action, initialState) {
+	    return [{
+	      name: name,
+	      success: function success(data, origin, params) {
+	        if (Object(data) !== data && data !== false) {
+	          data = params;
+	        }
+	        return origin.set('total', origin.total + 1);
+	      }
+	    }];
+	  },
+
+	  // #! {cid, params}
+	  UPDATE: function UPDATE(name, action, initialState) {
+	    if (Array.isArray(initialState[name])) {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          if (!Array.isArray(data)) {
+	            data = [data];
+	          }
+	          data.forEach(function (d) {
+	            var idx = origin.findIndex(function (item) {
+	              return item[action.cid] === d[action.cid];
+	            });
+	            if (idx > -1) {
+	              if (action.attributes) {
+	                var newD = {};
+	                action.attributes.forEach(function (attr) {
+	                  return newD[attr] = d[attr];
+	                });
+	                d = newD;
+	              }
+	              var item = origin[idx].merge(d);
+	              origin = origin.set(idx, item);
+	            }
+	          });
+
+	          return origin;
+	        }
+	      }];
+	    } else {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params, state) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          if (origin[action.cid] === data[action.cid]) {
+	            origin = origin.merge(data);
+	          }
+
+	          return origin;
+	        }
+	      }];
+	    }
+	  },
+
+	  // #! {cid, params}
+	  DELETE: function DELETE(name, action, initialState) {
+	    if (Array.isArray(initialState[name])) {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params, state) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          var idx = origin.findIndex(function (item) {
+	            return item[action.cid] === data[action.cid];
+	          });
+	          if (idx > -1) {
+	            origin = origin.asMutable();
+	            origin.splice(idx, 1);
+	          }
+
+	          return origin;
+	        }
+	      }];
+	    } else {
+	      return [{
+	        name: name,
+	        success: function success(data, origin, params, state) {
+	          if (Object(data) !== data && data !== false) {
+	            data = params;
+	          }
+	          if (origin[action.cid] === data[action.cid]) {
+	            origin = initialState[name];
+	          }
+
+	          return origin;
+	        }
+	      }];
+	    }
+	  },
+
+	  DELETE_METRIC: function DELETE_METRIC(name, action, initialState) {
+	    return [{
+	      name: name,
+	      success: function success(data, origin, params, state) {
+	        if (Object(data) !== data && data !== false) {
+	          data = params;
+	        }
+	        if (origin.total > 0) {
+	          origin = origin.set('total', origin.total - 1);
+	        }
+
+	        return origin;
+	      }
+	    }];
+	  },
+
+	  // #! {cid, joinName}
+	  JOIN: function JOIN(name, action, initialState) {
+	    var joinName = action.joinName;
+	    if (Array.isArray(initialState[joinName])) {
+	      return [{
+	        success: function success(data, origin, params, state) {
+	          var idx = state[joinName].find(function (item) {
+	            return item[action.cid] === params[action.cid];
+	          });
+	          if (idx > -1) {
+	            var item = state[joinName][idx].set(name, data);
+	            var list = state[joinName].set(idx, item);
+	            state = state.set(joinName, list);
+	          }
+	          return state;
+	        }
+	      }];
+	    } else {
+	      return [{
+	        success: function success(data, origin, params, state) {
+	          if (state[joinName][action.cid] === params[action.cid]) {
+	            var item = state[joinName].set(name, data);
+	            state = state.set(joinName, item);
+	          }
+	          return state;
+	        }
+	      }];
+	    }
+	  }
+	};
 
 /***/ },
 /* 28 */
@@ -3529,13 +3527,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.resource = resource;
 
-	var _resource = __webpack_require__(27);
+	var _resource = __webpack_require__(26);
 
-	var _hotStaticResource = __webpack_require__(26);
+	var _hotStaticResource = __webpack_require__(25);
 
 	var _core = __webpack_require__(2);
 
-	var _inject = __webpack_require__(16);
+	var _inject = __webpack_require__(15);
 
 	var _baseSelector = __webpack_require__(8);
 
@@ -4085,7 +4083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ob;
 	  };
 
-	  var Rx = __webpack_require__(18);
+	  var Rx = __webpack_require__(17);
 
 	  var RxComponent = (_temp2 = _class = function (_Component) {
 	    _inherits(RxComponent, _Component);
@@ -4166,7 +4164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(38), __webpack_require__(5), __webpack_require__(19), __webpack_require__(41), __webpack_require__(1), __webpack_require__(46), __webpack_require__(20), __webpack_require__(47), __webpack_require__(48), __webpack_require__(49), __webpack_require__(50), __webpack_require__(56));
+			module.exports = factory(__webpack_require__(38), __webpack_require__(5), __webpack_require__(18), __webpack_require__(41), __webpack_require__(1), __webpack_require__(46), __webpack_require__(19), __webpack_require__(47), __webpack_require__(48), __webpack_require__(49), __webpack_require__(50), __webpack_require__(56));
 		else if(typeof define === 'function' && define.amd)
 			define(["rxjs/BehaviorSubject", "rxjs/Observable", "rxjs/Observer", "rxjs/Operator", "rxjs/Subscriber", "rxjs/operator/distinctUntilChanged", "rxjs/operator/map", "rxjs/operator/observeOn", "rxjs/operator/pluck", "rxjs/operator/scan", "rxjs/operator/withLatestFrom", "rxjs/scheduler/queue"], factory);
 		else if(typeof exports === 'object')
@@ -4918,7 +4916,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var Subject_1 = __webpack_require__(44);
-	var ObjectUnsubscribedError_1 = __webpack_require__(22);
+	var ObjectUnsubscribedError_1 = __webpack_require__(21);
 	/**
 	 * @class BehaviorSubject<T>
 	 */
@@ -5243,7 +5241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Observable_1 = __webpack_require__(5);
 	var Subscriber_1 = __webpack_require__(1);
 	var Subscription_1 = __webpack_require__(6);
-	var ObjectUnsubscribedError_1 = __webpack_require__(22);
+	var ObjectUnsubscribedError_1 = __webpack_require__(21);
 	var SubjectSubscription_1 = __webpack_require__(45);
 	var rxSubscriber_1 = __webpack_require__(12);
 	/**
@@ -5451,7 +5449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var Subscriber_1 = __webpack_require__(1);
-	var tryCatch_1 = __webpack_require__(25);
+	var tryCatch_1 = __webpack_require__(24);
 	var errorObject_1 = __webpack_require__(13);
 	/**
 	 * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item.
@@ -5607,7 +5605,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var map_1 = __webpack_require__(20);
+	var map_1 = __webpack_require__(19);
 	/**
 	 * Maps each source value (an object) to its specified nested property.
 	 *
@@ -6343,12 +6341,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var root_1 = __webpack_require__(3);
-	var isArray_1 = __webpack_require__(23);
+	var isArray_1 = __webpack_require__(22);
 	var isPromise_1 = __webpack_require__(60);
 	var Observable_1 = __webpack_require__(5);
 	var iterator_1 = __webpack_require__(57);
 	var InnerSubscriber_1 = __webpack_require__(39);
-	var observable_1 = __webpack_require__(21);
+	var observable_1 = __webpack_require__(20);
 	function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 	    var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
 	    if (destination.closed) {
@@ -6450,7 +6448,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _resource = __webpack_require__(27);
+	var _resource = __webpack_require__(26);
 
 	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -6462,7 +6460,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceCRUD = __webpack_require__(14);
+	var _resourceCRUD = __webpack_require__(27);
 
 	Object.keys(_resourceCRUD).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -6498,7 +6496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceModel = __webpack_require__(15);
+	var _resourceModel = __webpack_require__(14);
 
 	Object.keys(_resourceModel).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -6585,9 +6583,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _resourceDecorator = __webpack_require__(28);
 
-	var _resourceModel = __webpack_require__(15);
+	var _resourceModel = __webpack_require__(14);
 
-	var _hotStaticResource = __webpack_require__(26);
+	var _hotStaticResource = __webpack_require__(25);
 
 	var _baseModel = __webpack_require__(7);
 
@@ -6990,7 +6988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _withState3 = _interopRequireDefault(_withState2);
 
-	var _inject = __webpack_require__(16);
+	var _inject = __webpack_require__(15);
 
 	var _hoistNonReactStatics = __webpack_require__(74);
 
@@ -7273,8 +7271,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    name: property,
 	    value: obj.initializer()
 	  });
-	  Object.assign(prototype, {
-	    get properties() {
+	  Object.defineProperty(prototype, 'properties', {
+	    enumerable: true,
+	    get: function get() {
 	      var properties = {};
 	      prototype.$propMethods_.forEach(function (prop) {
 	        properties[prop.name] = prop.value;
@@ -7322,7 +7321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	if (true) {
-	  var Rx = __webpack_require__(18);
+	  var Rx = __webpack_require__(17);
 	  var RxComponent = __webpack_require__(32);
 	  var SUBSCRIBE_NS = 'subscribe.';
 

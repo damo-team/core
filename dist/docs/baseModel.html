@@ -240,12 +240,12 @@
 <span class="hljs-keyword">import</span> cuid <span class="hljs-keyword">from</span> <span class="hljs-string">'cuid'</span>;
 <span class="hljs-keyword">import</span> {ucfirst} <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
 <span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
-<span class="hljs-keyword">import</span> {resourceCRUD} <span class="hljs-keyword">from</span> <span class="hljs-string">'../resource/resourceCRUD'</span>;
 
 <span class="hljs-keyword">const</span> defaultProccessData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res.data };
 <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
   <span class="hljs-keyword">static</span> appStore = <span class="hljs-literal">null</span>;
-  <span class="hljs-keyword">static</span> ASSIGN_METHODS = resourceCRUD;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+  
+  <span class="hljs-keyword">static</span> ASSIGN_TYPES = changeOperators;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>

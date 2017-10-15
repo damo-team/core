@@ -16,6 +16,7 @@ const defaultProcessData = function (res) {
 
 export class BaseResource {
   static validate = function(){};
+  static ASSIGN_METHODS = resourceCRUD;
 
   constructor(resourceName, option = {}, initialState) {
 
