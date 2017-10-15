@@ -41,6 +41,7 @@
     "rxjs",
     "events"
   ],
+  "noUglify": true,
   "devtool": "",
   "partition": {
     "NODE_ENV": "production",
