@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>接口调用模块-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>接口调用模块 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="-">接口调用模块</h1>
+<ol>
+<li>封装ES7的fetch模块</li>
+<li>对外提供get, post, delete, put静态方法，分别调用不同类型的接口</li>
+<li>对外开发errorhandler和mock数据的接口</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">'isomorphic-fetch'</span>;
+<span class="hljs-keyword">import</span> { substitute } <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
+
+<span class="hljs-keyword">const</span> HttpCodes = {
+  <span class="hljs-attr">OK</span>: <span class="hljs-number">200</span>,
+  <span class="hljs-attr">ERROR</span>: <span class="hljs-number">301</span>
+}
+
+<span class="hljs-keyword">const</span> constants = {
+  <span class="hljs-attr">APP_JSON_HEADER</span>: <span class="hljs-string">'application/json'</span>,
+  <span class="hljs-attr">SAME_ORIGIN</span>: <span class="hljs-string">'same-origin'</span>,
+  <span class="hljs-attr">INCLUDE</span>: <span class="hljs-string">'include'</span>,
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <ul>
+<li>接口数据解析，所有的接口数据都会已json格式进行解析</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseJSON</span>(<span class="hljs-params">response, errorNotification, uri</span>) </span>{
+  <span class="hljs-keyword">return</span> response.json().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> Api.errorHandler(res, errorNotification, uri));
+}
+
+Api.errorHandler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res, errorNotification</span>)</span>{<span class="hljs-keyword">return</span> res};
+Api.validateHandler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, ajaxOption</span>)</span>{<span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, data)};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>错误处理处理<blockquote>
+<p>see: see: <a href="http://php.net/manual/en/function.http-response-code.php">http://php.net/manual/en/function.http-response-code.php</a>
+see: <a href="https://stackoverflow.com/questions/34304335/redux-using-async-middlewares-vs-dispatching-actions-on-success-functions">https://stackoverflow.com/questions/34304335/redux-using-async-middlewares-vs-dispatching-actions-on-success-functions</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkStatus</span>(<span class="hljs-params">response, errorNotification</span>) </span>{
+  <span class="hljs-keyword">if</span>(errorNotification &amp;&amp; errorNotification.quiet) <span class="hljs-keyword">return</span> response;
+
+  <span class="hljs-keyword">if</span> (response.status &lt; HttpCodes.OK || response.status &gt;= HttpCodes.ERROR) {
+    <span class="hljs-keyword">let</span> error = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(response.statusText);
+    <span class="hljs-keyword">try</span>{
+      error.response = response.json();
+    }<span class="hljs-keyword">catch</span>(e){
+      error.response = response.text();
+    }
+    error.errorNotification = errorNotification;
+    <span class="hljs-keyword">throw</span> error;
+  }
+  <span class="hljs-keyword">return</span> response;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <ul>
+<li>mock数据</li>
+<li>在生产环境，直接抛弃mock逻辑</li>
+<li>在日常环境，当地址栏参数debug=true或者window.DEBUG=true，同时接口url包含proxy=true参数时，触发mock数据逻辑</li>
+<li>当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由<code>damo-mocker</code>模块提供</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">let</span> doFetch;
+<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'production'</span>) {
+  doFetch = fetch;
+}<span class="hljs-keyword">else</span>{
+  <span class="hljs-keyword">if</span>(location.search.indexOf(<span class="hljs-string">'debug=true'</span>) &gt; <span class="hljs-number">-1</span> || <span class="hljs-built_in">window</span>.DEBUG){
+    doFetch = <span class="hljs-function">(<span class="hljs-params">uri, options</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (Api.getMockUrl &amp;&amp; uri.indexOf(<span class="hljs-string">'proxy=true'</span>) &gt; <span class="hljs-number">-1</span>) {
+        <span class="hljs-keyword">let</span> tmp = uri.split(<span class="hljs-string">'?'</span>);
+        <span class="hljs-keyword">let</span> url = tmp[<span class="hljs-number">0</span>].replace(location.protocol + <span class="hljs-string">'//'</span> + location.hostname, <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/^[:\d]*/</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/\/\{[^\}]*\}/</span>, <span class="hljs-string">''</span>);
+        <span class="hljs-keyword">let</span> params = {};
+        tmp[<span class="hljs-number">1</span>].split(<span class="hljs-string">'&amp;'</span>).forEach(<span class="hljs-function"><span class="hljs-params">str</span> =&gt;</span> {
+          <span class="hljs-keyword">let</span> s = str.split(<span class="hljs-string">'='</span>);
+          params[s[<span class="hljs-number">0</span>]] = s[<span class="hljs-number">1</span>];
+        });
+        uri = Api.getMockUrl(url, params, options);
+      }
+      <span class="hljs-keyword">return</span> fetch(uri, options);
+    }
+  }<span class="hljs-keyword">else</span>{
+    doFetch = fetch;
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isValidParamValue</span>(<span class="hljs-params">val</span>) </span>{
+    <span class="hljs-keyword">var</span> t = <span class="hljs-keyword">typeof</span> val;
+    <span class="hljs-comment">// #! If the type of val is null, undefined, number, string, boolean, return TRUE.</span>
+    <span class="hljs-keyword">return</span> val == <span class="hljs-literal">null</span> || (t !== <span class="hljs-string">'object'</span> &amp;&amp; t !== <span class="hljs-string">'function'</span>);
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <ul>
+<li>参数序列化，参考与kissy的param<blockquote>
+<p>see: <a href="https://g.alicdn.com/??kissy/k/6.2.4/seed.js#stringify">https://g.alicdn.com/??kissy/k/6.2.4/seed.js#stringify</a>
+see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/querystring.html</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">var</span> SEP = <span class="hljs-string">'&amp;'</span>;
+<span class="hljs-keyword">var</span> EMPTY = <span class="hljs-string">''</span>;
+<span class="hljs-keyword">var</span> undef;
+<span class="hljs-keyword">var</span> urlEncode = <span class="hljs-built_in">encodeURIComponent</span>;
+<span class="hljs-keyword">var</span> toString = ({}).toString;
+<span class="hljs-keyword">var</span> EQ = <span class="hljs-string">'='</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">param</span>(<span class="hljs-params">o, sep, eq, serializeArray</span>) </span>{
+  sep = sep || SEP;
+  eq = eq || EQ;
+  <span class="hljs-keyword">if</span> (serializeArray === undef) {
+    serializeArray = <span class="hljs-literal">true</span>;
+  }
+  <span class="hljs-keyword">var</span> buf = [];
+  <span class="hljs-keyword">var</span> key;
+  <span class="hljs-keyword">var</span> i;
+  <span class="hljs-keyword">var</span> v;
+  <span class="hljs-keyword">var</span> len;
+  <span class="hljs-keyword">var</span> val;
+  <span class="hljs-keyword">for</span> (key <span class="hljs-keyword">in</span> o) {
+    val = o[key];
+    <span class="hljs-keyword">var</span> originalKey = key;
+    key = urlEncode(key);
+
+    <span class="hljs-comment">//#! val is valid non-array value</span>
+    <span class="hljs-keyword">if</span> (isValidParamValue(val)) {
+      buf.push(key);
+      <span class="hljs-keyword">if</span> (val !== undef) {
+        buf.push(eq, urlEncode(val + EMPTY));
+      }
+      buf.push(sep);
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(val)) {
+      <span class="hljs-comment">//#! val is not empty array</span>
+      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, len = val.length; i &lt; len; ++i) {
+        v = val[i];
+        <span class="hljs-keyword">if</span> (isValidParamValue(v)) {
+          buf.push(key, (serializeArray &amp;&amp; (originalKey.slice(<span class="hljs-number">0</span> - <span class="hljs-number">2</span>) !== <span class="hljs-string">'[]'</span>) ? urlEncode(<span class="hljs-string">'[]'</span>) : EMPTY));
+          <span class="hljs-keyword">if</span> (v !== undef) {
+            buf.push(eq, urlEncode(v + EMPTY));
+          }
+          buf.push(sep);
+        }
+      }
+    }
+    <span class="hljs-comment">//#! ignore other cases, including empty array, Function, RegExp, Date etc.</span>
+  }
+  buf.pop();
+  <span class="hljs-keyword">return</span> buf.join(EMPTY);
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <h3 id="api-context">API Context</h3>
+<p>Api本身可以通过new来初始化，通过配置的method属性指定调用方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+<th>参数</th>
+<th>默认参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>get</td>
+<td>调用get请求</td>
+<td>{uri: String, body: Object, params: Object, headers: Object }</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>post</td>
+<td>调用post请求</td>
+<td>同get</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>put</td>
+<td>调用put请求</td>
+<td>同get</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>调用delete请求</td>
+<td>同get</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>errorHandler</td>
+<td>接口错误处理的开放接口</td>
+<td>(res: 接口数据, errorNotification: 错误处理器}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getMockUrl</td>
+<td>接口mock路径的开放接口</td>
+<td>{url: String, params: 接口参数, options: ajax配置}</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span>(<span class="hljs-params">ajaxOption</span>)</span>{
+  <span class="hljs-keyword">const</span> method = ajaxOption.method.toLocaleUpperCase();
+  <span class="hljs-keyword">const</span> body = Api.validateHandler(ajaxOption.data || ajaxOption.params, ajaxOption);
+  <span class="hljs-keyword">let</span> headers;
+  <span class="hljs-keyword">if</span>(ajaxOption.headers){
+    <span class="hljs-keyword">if</span>(ajaxOption.headers.target){
+      headers = <span class="hljs-built_in">Object</span>.assign({}, ajaxOption.headers);
+      headers.target = substitute(headers.target, body, <span class="hljs-literal">true</span>);
+    }<span class="hljs-keyword">else</span>{
+      headers = ajaxOption.headers;
+    }
+  }
+  <span class="hljs-keyword">const</span> credential = ajaxOption.withCredentials ? <span class="hljs-string">'INCLUDE'</span> : <span class="hljs-string">'SAME_ORIGIN'</span>;
+  <span class="hljs-keyword">const</span> uri = substitute(ajaxOption.url, body, <span class="hljs-literal">true</span>);
+  
+  <span class="hljs-keyword">switch</span>(method){
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'POST'</span>:
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'PUT'</span>:
+      <span class="hljs-keyword">return</span> Api.postput(uri, method, body, ajaxOption.errorNotification, headers, credential);
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'DELETE'</span>:
+      <span class="hljs-keyword">return</span> Api.delete(<span class="hljs-string">`<span class="hljs-subst">${uri.indexOf(<span class="hljs-string">'?'</span>) &gt; <span class="hljs-number">-1</span> ? uri : uri + <span class="hljs-string">'?'</span>}</span>&amp;<span class="hljs-subst">${param(body)}</span>`</span>, ajaxOption.errorNotification, headers, credential)
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'GET'</span>:
+    <span class="hljs-keyword">default</span>:
+      <span class="hljs-keyword">return</span> Api.get(<span class="hljs-string">`<span class="hljs-subst">${uri.indexOf(<span class="hljs-string">'?'</span>) &gt; <span class="hljs-number">-1</span> ? uri : uri + <span class="hljs-string">'?'</span>}</span>&amp;<span class="hljs-subst">${param(body)}</span>`</span>, ajaxOption.errorNotification, headers, credential)
+  }
+}
+
+Api.headers = <span class="hljs-built_in">Object</span>.assign(<span class="hljs-built_in">window</span>.ajaxHeader || {}, {
+  <span class="hljs-string">'Accept'</span>: constants.APP_JSON_HEADER,
+  <span class="hljs-string">'Content-Type'</span>: constants.APP_JSON_HEADER
+});
+Api.doFetch = doFetch;
+
+<span class="hljs-built_in">Object</span>.assign(Api, {
+  success(res){
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.resolve(res);
+  },
+  error(err){
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(err);
+  },
+  get(uri, errorNotification, headers, credential){
+    <span class="hljs-keyword">return</span> doFetch(uri,
+    {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>,
+      <span class="hljs-attr">credentials</span>: constants[credential],
+      <span class="hljs-attr">headers</span>: headers || Api.headers
+    })
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+  },
+  <span class="hljs-keyword">delete</span>(uri, errorNotification, headers, credential){
+    <span class="hljs-keyword">return</span> doFetch(uri,
+    {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">'DELETE'</span>,
+      <span class="hljs-attr">credentials</span>: constants[credential],
+      <span class="hljs-attr">headers</span>: headers || Api.headers
+    })
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+  },
+  postput(uri, method, data, errorNotification, headers, credential){
+    <span class="hljs-keyword">return</span> doFetch(uri,
+    {
+      <span class="hljs-attr">method</span>: method,
+      <span class="hljs-attr">credentials</span>: constants[credential],
+      <span class="hljs-attr">headers</span>: headers || Api.headers,
+      <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify(data)
+    })
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+  },
+  post(uri, data, errorNotification, headers, credential){
+    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'POST'</span>, data, errorNotification, headers, credential);
+  },
+  put(uri, data, errorNotification, headers, credential){
+    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'PUT'</span>, data, errorNotification, headers, credential);
+  }
+});</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-7'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <ul>
+<li>需要在业务中实现这个方法来集成</li>
+</ul>
+<p>Api.getMockUrl = function(url, params, options){
+  if(url.indexOf(‘.json’) === -1){
+    url = url + ‘.json’;
+  }
+  return ‘/mocks’ + url;
+} </p>
+
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>resourceDecorator.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>resourceDecorator.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {BaseResource} <span class="hljs-keyword">from</span> <span class="hljs-string">'./resource'</span>;
+<span class="hljs-keyword">import</span> {HotStaticResource} <span class="hljs-keyword">from</span> <span class="hljs-string">'./hotStaticResource'</span>;
+<span class="hljs-keyword">import</span> {ucfirst, toSnakeCase} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/core'</span>;
+<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/inject'</span>;
+<span class="hljs-keyword">import</span> {BaseSelector} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/baseSelector'</span>;
+<span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
+
+BaseSelector.prototype.getModel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">modelName</span>)</span>{
+  <span class="hljs-keyword">const</span> model = <span class="hljs-keyword">this</span>.getAppStore().models[modelName];
+  <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$subscribersMap_){
+    <span class="hljs-keyword">this</span>.$subscribersMap_ = {};
+  }
+  <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$subscribersMap_[modelName] &amp;&amp; model.subscribeResources){
+    <span class="hljs-keyword">this</span>.$subscribersMap_[modelName] = model.subscribeResources(<span class="hljs-keyword">this</span>);
+  }
+
+  <span class="hljs-keyword">return</span> model;
+}
+<span class="hljs-built_in">Object</span>.defineProperty(BaseSelector.prototype, <span class="hljs-string">'dispatch'</span>, {
+  <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$dispatch_){
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$dispatch_;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">this</span>.$dispatch_ = <span class="hljs-function">(<span class="hljs-params">action</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().dispatch(action);
+      }
+      <span class="hljs-keyword">this</span>.$dispatch_.selector = <span class="hljs-keyword">this</span>;
+
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$dispatch_;
+    }
+  },
+  <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>
+});
+
+<span class="hljs-keyword">const</span> destroy = BaseSelector.prototype.destroy;
+BaseSelector.prototype.destroy = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  destroy.call(<span class="hljs-keyword">this</span>);
+  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$subscribersMap_){
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> modelName <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.$subscribersMap_){
+      <span class="hljs-keyword">this</span>.$subscribersMap_[modelName].forEach(<span class="hljs-function"><span class="hljs-params">subscription</span> =&gt;</span> subscription.unsubscribe())
+    }
+    <span class="hljs-keyword">this</span>.$subscribersMap_ = {};
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resource</span>(<span class="hljs-params">options = {}, actionState</span>) </span>{
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">Model</span>) </span>{
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span> </span>{
+      get properties() {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$properties_;
+      }
+
+      subscribeResources(selector){
+        <span class="hljs-keyword">const</span> subcriptions = [];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> resourceName <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.$resources_){
+          <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.$resources_[resourceName];</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>payload = {
+ name,
+ status,
+ ajaxOption,
+ data,
+ error,
+ state,
+ dispatch,
+ stateAction
+}</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          <span class="hljs-keyword">let</span> subscription = resource.subscribe(<span class="hljs-function"><span class="hljs-params">payload</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span>(selector &amp;&amp; payload.dispatch &amp;&amp; selector !== payload.dispatch.selector) <span class="hljs-keyword">return</span>;
+            
+            <span class="hljs-keyword">const</span> funcName = ucfirst(resourceName) + ucfirst(payload.name);
+            <span class="hljs-keyword">switch</span> (payload.status) {
+              <span class="hljs-keyword">case</span> <span class="hljs-string">'start'</span>:
+                <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">`before<span class="hljs-subst">${funcName}</span>`</span>, payload.ajaxOption);
+                <span class="hljs-keyword">break</span>;
+              <span class="hljs-keyword">case</span> <span class="hljs-string">'success'</span>:
+                <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">`after<span class="hljs-subst">${funcName}</span>`</span>, <span class="hljs-literal">null</span>, payload.data);
+                <span class="hljs-keyword">break</span>;
+              <span class="hljs-keyword">case</span> <span class="hljs-string">'error'</span>:
+                <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">`after<span class="hljs-subst">${funcName}</span>`</span>, payload.error);
+                <span class="hljs-keyword">break</span>;
+              <span class="hljs-keyword">default</span>:
+                <span class="hljs-keyword">break</span>;
+            }
+            <span class="hljs-keyword">if</span> (payload.dispatch &amp;&amp; payload.state) {
+              <span class="hljs-keyword">const</span> type = toSnakeCase(<span class="hljs-keyword">this</span>.name + funcName + ucfirst(payload.status));
+              <span class="hljs-keyword">this</span>.defineActionTypes[type] = <span class="hljs-keyword">this</span>.defineActionTypes[type] || {
+                <span class="hljs-attr">type</span>: type,
+                <span class="hljs-attr">status</span>: payload.status
+              }
+              payload.dispatch(<span class="hljs-built_in">Object</span>.assign({
+                <span class="hljs-attr">type</span>: type,
+                <span class="hljs-attr">error</span>: payload.error,
+                <span class="hljs-attr">state</span>: <span class="hljs-function">(<span class="hljs-params">prevState</span>) =&gt;</span> {
+                  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$transfer_){
+                    <span class="hljs-keyword">return</span> prevState.merge(payload.state);
+                  }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">return</span> prevState.set(resourceName, payload.state);
+                  }
+                }
+              }, payload.stateAction));
+            }
+          });
+          subcriptions.push(subscription);
+        }
+        <span class="hljs-keyword">return</span> subcriptions;
+      }
+
+      <span class="hljs-keyword">constructor</span>(name) {
+        <span class="hljs-keyword">super</span>(name);
+        <span class="hljs-keyword">this</span>.$resources_ = {};
+        <span class="hljs-keyword">this</span>.$properties_ = <span class="hljs-keyword">super</span>.properties || {};
+
+        <span class="hljs-keyword">if</span>(options.prototype <span class="hljs-keyword">instanceof</span> BaseResource){
+          <span class="hljs-keyword">this</span>.$transfer_ = <span class="hljs-literal">true</span>;
+          <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.setResource(options.displayName, options);
+          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> actionName <span class="hljs-keyword">in</span> resource.$options_.actions){
+            <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>[actionName]){
+              <span class="hljs-comment">// #! 升级方法</span>
+              <span class="hljs-keyword">this</span>[actionName] = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery({
+                  <span class="hljs-attr">params</span>: params,
+                  <span class="hljs-attr">request</span>: resource[actionName]
+                });
+              }
+            }
+          }
+          <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.$properties_, resource.getState());
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">if</span>(actionState){
+            <span class="hljs-keyword">this</span>.$transfer_ = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options.actions){
+              <span class="hljs-built_in">Object</span>.assign(options.actions[key], actionState[key]);
+            }
+            options.initialState = <span class="hljs-keyword">this</span>.$properties_;
+            <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.setResource(name, options);
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> actionName <span class="hljs-keyword">in</span> resource.$options_.actions){
+              <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>[actionName]){
+                <span class="hljs-comment">// #! 升级方法</span>
+                <span class="hljs-keyword">this</span>[actionName] = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
+                  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery({
+                    <span class="hljs-attr">params</span>: params,
+                    <span class="hljs-attr">request</span>: resource[actionName]
+                  });
+                }
+              }
+            }
+            <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.$properties_, resource.getState());
+          }<span class="hljs-keyword">else</span>{
+            <span class="hljs-built_in">Object</span>
+            .keys(options)
+            .forEach(<span class="hljs-function"><span class="hljs-params">resourceName</span> =&gt;</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>resource = {
+ getState,
+ subscribe,
+ destroy
+}</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>              <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.setResource(resourceName, options[resourceName]);
+              <span class="hljs-keyword">this</span>.$properties_[resourceName] = resource.getState();
+            })
+          }
+        }
+      }
+
+      destroy() {
+        <span class="hljs-keyword">super</span>.destroy();
+        
+        <span class="hljs-comment">// #! resource是共用的，所以不考虑销毁，一直保留</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> resourceName <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.$resources_){
+          <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$resources_[resourceName].isolate){
+            <span class="hljs-keyword">this</span>.$resources_[resourceName].destroy();
+          }
+        }
+      }
+
+      getResource(resourceName) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$resources_[resourceName];
+      }
+
+      setResource(resourceName, option) {
+        <span class="hljs-keyword">let</span> resource;
+        option.cid = option.cid || <span class="hljs-keyword">this</span>.generatorKey;
+        <span class="hljs-keyword">if</span> (rcInject.resources[resourceName]) {
+          resource = <span class="hljs-keyword">this</span>.$resources_[resourceName] = rcInject.resources[resourceName];
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">if</span> (option.prototype <span class="hljs-keyword">instanceof</span> BaseResource) {
+            resource = <span class="hljs-keyword">new</span> option(resourceName, {}, option.initialState);
+          } <span class="hljs-keyword">else</span> {
+            resource = <span class="hljs-keyword">new</span> BaseResource(resourceName, option);
+            resource.isolate = <span class="hljs-literal">true</span>;
+          }
+
+          <span class="hljs-keyword">this</span>.$resources_[resourceName] = rcInject.resources[resourceName] = resource;
+        }
+        <span class="hljs-keyword">return</span> resource;
+      }
+    }
+
+    <span class="hljs-keyword">return</span> NewModel
+  };
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

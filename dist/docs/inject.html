@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>inject.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>inject.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h3 id="by-angular-1-x">by Angular 1.x</h3>
+<p>拷贝angular初始化service的逻辑，完成service初始化是依赖注入（DI）的操作。</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {lcfirst} <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
+
+<span class="hljs-keyword">var</span> ARROW_ARG = <span class="hljs-regexp">/^([^\(]+?)=&gt;/</span>;
+<span class="hljs-keyword">var</span> FN_ARGS = <span class="hljs-regexp">/^[^\(]*\(\s*([^\)]*)\)/m</span>;
+<span class="hljs-keyword">var</span> FN_ARG_SPLIT = <span class="hljs-regexp">/,/</span>;
+<span class="hljs-keyword">var</span> FN_ARG = <span class="hljs-regexp">/^\s*(_?)(\S+?)\1\s*$/</span>;
+<span class="hljs-keyword">var</span> STRIP_COMMENTS = <span class="hljs-regexp">/((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extractArgs</span>(<span class="hljs-params">fn</span>) </span>{
+  <span class="hljs-keyword">var</span> fnText = fn
+      .toString()
+      .replace(STRIP_COMMENTS, <span class="hljs-string">''</span>),
+    args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
+  <span class="hljs-keyword">return</span> args;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">anonFn</span>(<span class="hljs-params">fn</span>) </span>{
+  <span class="hljs-comment">// #! For anonymous functions, showing at the very least the function signature</span></pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>can help in</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  <span class="hljs-keyword">var</span> args = extractArgs(fn);
+  <span class="hljs-keyword">if</span> (args) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'function('</span> + (args[<span class="hljs-number">1</span>] || <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/[\s\r\n]+/</span>, <span class="hljs-string">' '</span>) + <span class="hljs-string">')'</span>;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-string">'fn'</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">assertArgFn</span>(<span class="hljs-params">arg, name, acceptArrayAnnotation</span>) </span>{
+  <span class="hljs-keyword">if</span> (acceptArrayAnnotation &amp;&amp; <span class="hljs-built_in">Array</span>.isArray(arg)) {
+    arg = arg[arg.length - <span class="hljs-number">1</span>];
+  }
+
+  <span class="hljs-keyword">return</span> arg;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <blockquote>
+<p>see: <a href="http://stackoverflow.com/questions/29093396/how-do-you-check-the-difference-between-an-ecmascript-6-class-and-function">http://stackoverflow.com/questions/29093396/how-do-you-check-the-difference-between-an-ecmascript-6-class-and-function</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isClass</span>(<span class="hljs-params">func</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> func === <span class="hljs-string">'function'</span>) {
+    <span class="hljs-keyword">let</span> funcStr = <span class="hljs-built_in">Function</span>
+      .prototype
+      .toString
+      .call(func);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>un minify or babel or uglify</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>    <span class="hljs-keyword">return</span> <span class="hljs-regexp">/^class\s/</span>.test(funcStr) || <span class="hljs-regexp">/_classCallCheck/</span>.test(funcStr) || <span class="hljs-regexp">/^function (\w+)[\s\S]*?\w\(this,\1\);/</span>.test(funcStr);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">annotate</span>(<span class="hljs-params">fn, name</span>) </span>{
+  <span class="hljs-keyword">var</span> $inject,
+    argDecl,
+    last;
+  <span class="hljs-keyword">if</span> (fn.contextTypes) {
+    $inject = <span class="hljs-built_in">Object</span>.keys(fn.contextTypes);
+  } <span class="hljs-keyword">else</span> {
+    $inject = fn.$inject;
+  }
+
+  <span class="hljs-keyword">if</span> (!$inject) {
+    $inject = [];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> name !== <span class="hljs-string">'string'</span> || !name) {
+      name = fn.name || anonFn(fn);
+    }
+    argDecl = extractArgs(fn);
+    argDecl[<span class="hljs-number">1</span>]
+      .split(FN_ARG_SPLIT)
+      .forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arg</span>) </span>{
+        arg
+          .replace(FN_ARG, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">all, underscore, name</span>) </span>{
+            $inject.push(name);
+          });
+      });
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(fn)) {
+    last = fn.length - <span class="hljs-number">1</span>;
+    assertArgFn(fn[last], <span class="hljs-string">'fn'</span>);
+    $inject = fn.slice(<span class="hljs-number">0</span>, last);
+  } <span class="hljs-keyword">else</span> {
+    assertArgFn(fn, <span class="hljs-string">'fn'</span>, <span class="hljs-literal">true</span>);
+  }
+  <span class="hljs-keyword">return</span> $inject;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">invoke</span>(<span class="hljs-params">fn, serviceName, getService, self</span>) </span>{
+  <span class="hljs-keyword">var</span> $inject = annotate(fn, serviceName) || [];
+  <span class="hljs-keyword">var</span> args = [],
+    ctxs = {},
+    ctx,
+    length,
+    i,
+    key;
+
+  <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, length = $inject.length; i &lt; length; i++) {
+    key = $inject[i];
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> key !== <span class="hljs-string">'string'</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Incorrect injection token! Expected service name as string'</span>);
+    }
+    ctx = getService(key);
+    ctxs[key] = ctx;
+    args.push(ctx);
+  }
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(fn)) {
+    fn = fn[length];
+  }
+
+  <span class="hljs-keyword">if</span> (isClass(fn)) {
+    <span class="hljs-keyword">const</span> inst = <span class="hljs-keyword">new</span> fn(...args);
+    inst.context = ctxs;
+    <span class="hljs-keyword">return</span> inst;
+  } <span class="hljs-keyword">else</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <blockquote>
+<p>see: <a href="http://jsperf.com/angularjs-invoke-apply-vs-switch">http://jsperf.com/angularjs-invoke-apply-vs-switch</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>    self.context = ctxs;
+    <span class="hljs-keyword">return</span> fn.apply(self, args);
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> rcInject = {
+  instantiate(provider, serviceName, getService) {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <ul>
+<li>Check if Type is annotated and use just the given function at n-1 as
+parameter  e.g. someModule.factory(‘greeter’, [‘$window’,
+function(renamed$window) {}]);  &gt; Object creation:
+<a href="http://jsperf.com/create-constructor/2">http://jsperf.com/create-constructor/2</a></li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>    <span class="hljs-keyword">let</span> instance = <span class="hljs-built_in">Object</span>.create(provider.prototype || <span class="hljs-literal">null</span>);
+    <span class="hljs-keyword">let</span> returnedValue = invoke(provider, serviceName, getService, instance);
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>(returnedValue) === returnedValue || <span class="hljs-keyword">typeof</span> returnedValue === <span class="hljs-string">'function'</span>
+      ? returnedValue
+      : instance;
+  },
+  <span class="hljs-attr">resources</span>: {},
+  <span class="hljs-attr">services</span>: {},
+  setService(Services) {
+    <span class="hljs-keyword">const</span> getService = rcInject
+      .getService
+      .bind(rcInject);
+    <span class="hljs-comment">// #! array</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Services)) {
+      Services.forEach(<span class="hljs-function"><span class="hljs-params">Service</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> name = Service.displayName;
+        <span class="hljs-keyword">if</span> (name) {
+          <span class="hljs-keyword">if</span> (!rcInject.services[name]) {
+            rcInject.services[name] = rcInject.instantiate(Service, name, getService);
+          }
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'服务${Service.name}：displayName静态属性不能为空！'</span>);
+        }
+      })
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// #! json</span>
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> Services) {
+        <span class="hljs-keyword">let</span> Service = Services[name];
+        <span class="hljs-keyword">let</span> name = Service.displayName || key;
+        <span class="hljs-keyword">if</span> (!rcInject.Service) {
+          rcInject.Service = rcInject.instantiate(Service, name, getService);
+        }
+      }
+    }
+  },
+  getService(name) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> name === <span class="hljs-string">'string'</span>) {
+      <span class="hljs-keyword">return</span> rcInject.services[name];
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">const</span> Service = name;
+      name = Service.displayName;
+      <span class="hljs-keyword">if</span> (name) {
+        <span class="hljs-comment">// #! class or function</span>
+        <span class="hljs-keyword">if</span> (!rcInject.services[name]) {
+          rcInject.services[name] = rcInject.instantiate(Service, name, (name) =&gt; rcInject.services[name]);
+        }
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'服务${Service.name}：displayName静态属性不能为空！'</span>);
+      }
+      <span class="hljs-keyword">return</span> rcInject.services[name];
+    }
+  },
+  getServiceInjectName(fn) {
+    <span class="hljs-keyword">if</span> (fn.contextTypes) {
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(fn.contextTypes);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> fn.$inject;
+    }
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>poller轮询-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>poller轮询 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="poller-">poller轮询</h1>
+<ol>
+<li>解决接口轮询功能，通过subscribe订阅轮询结果。</li>
+<li>提供start, stop, remove控制轮询<blockquote>
+<p>see: <a href="https://github.com/emmaguo/angular-poller/blob/master/angular-poller.js">https://github.com/emmaguo/angular-poller/blob/master/angular-poller.js</a></p>
+</blockquote>
+</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Poller</span></span>{
+  <span class="hljs-keyword">constructor</span>(opt){
+    <span class="hljs-keyword">this</span>.$option_ = <span class="hljs-built_in">Object</span>.assign({
+      <span class="hljs-attr">delay</span>: <span class="hljs-number">5000</span>,
+      <span class="hljs-attr">smart</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">action</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">catchError</span>: <span class="hljs-literal">null</span>
+    }, opt);
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$option_.delay){
+      <span class="hljs-keyword">this</span>.$option_.delay = <span class="hljs-number">5000</span>;
+    }
+    <span class="hljs-keyword">this</span>.$current_ = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">this</span>.$interval_ = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">this</span>.$stopTimestamp_ = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">this</span>.$watchers_ = [];
+  }
+
+  then(success, error){
+    <span class="hljs-keyword">const</span> watcher = <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span>(err){
+        error &amp;&amp; error(err);
+      }<span class="hljs-keyword">else</span>{
+        success &amp;&amp; success(res);
+      }
+    }
+    <span class="hljs-keyword">this</span>.$watchers_.push(watcher);
+  }
+
+  subscribe(watcher){
+    <span class="hljs-keyword">this</span>.$watchers_.push(watcher);
+    <span class="hljs-keyword">this</span>.start();
+  }
+
+  unsubscribe(){
+    <span class="hljs-keyword">this</span>.$watchers_ = [];
+  }
+
+  tick(){
+    <span class="hljs-keyword">const</span> timestamp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    <span class="hljs-keyword">this</span>.$current_ = <span class="hljs-keyword">this</span>.$option_.action();
+    <span class="hljs-keyword">this</span>.$current_.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+      <span class="hljs-keyword">this</span>.$current_.$resolved = <span class="hljs-literal">true</span>;
+      <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$stopTimestamp_ || timestamp &gt;= <span class="hljs-keyword">this</span>.$stopTimestamp_){
+        <span class="hljs-keyword">this</span>.$watchers_.forEach(<span class="hljs-function"><span class="hljs-params">watcher</span> =&gt;</span> {
+          watcher(<span class="hljs-literal">null</span>, res);
+        });
+      }
+    }, (err) =&gt; {
+      <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$stopTimestamp_ || timestamp &gt;= <span class="hljs-keyword">this</span>.$stopTimestamp_){
+        <span class="hljs-keyword">this</span>.$watchers_.forEach(<span class="hljs-function"><span class="hljs-params">watcher</span> =&gt;</span> {
+          watcher(err);
+        });
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$option_.catchError){
+          <span class="hljs-keyword">this</span>.$option_.catchError(err);
+        }
+      }
+    });
+  }
+
+  start(){
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$watchers_.length) <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">this</span>.stop();
+    <span class="hljs-keyword">this</span>.$stopTimestamp_ = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">this</span>.tick();
+    <span class="hljs-keyword">this</span>.$interval_ = setInterval(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$option_.smart || !<span class="hljs-keyword">this</span>.$current_ || <span class="hljs-keyword">this</span>.$current_.$resolved){
+        <span class="hljs-keyword">this</span>.tick();
+      }
+    }, <span class="hljs-keyword">this</span>.$option_.delay);
+  }
+  
+  stop(){
+    clearInterval(<span class="hljs-keyword">this</span>.$interval_);
+    <span class="hljs-keyword">this</span>.$stopTimestamp_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+  }
+
+  remove(){
+    <span class="hljs-keyword">this</span>.stop();
+    <span class="hljs-keyword">this</span>.unsubscribe();
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

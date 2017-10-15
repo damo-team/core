@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>resourceCRUD.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>resourceCRUD.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> resourceCRUD = {
+  <span class="hljs-attr">QUERY</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">start</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-keyword">return</span> initialState[name]
+        },
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> data.data;
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-attr">QUERY_METRIC</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">start</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-keyword">return</span> initialState[name];
+        },
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> {<span class="hljs-attr">loading</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">total</span>: data.total};
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-attr">PURE</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">let</span> propType = <span class="hljs-keyword">typeof</span> initialState[name];
+    <span class="hljs-keyword">if</span> (propType === <span class="hljs-string">'object'</span> &amp;&amp; <span class="hljs-built_in">Array</span>.isArray(initialState[name])) {
+      propType = <span class="hljs-string">'array'</span>;
+    } <span class="hljs-keyword">else</span> {
+      propType = propType || <span class="hljs-string">'object'</span>;
+    }
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">start</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-keyword">return</span> initialState[name]
+        },
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> data;
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-attr">PASS</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> data;
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-attr">GET</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">start</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-keyword">return</span> initialState[name];
+        },
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> data;
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-comment">// #! {cid, params}</span>
+  ADD: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(initialState[name])) {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            origin = origin.asMutable();
+
+            origin.unshift(data);
+            <span class="hljs-keyword">if</span> (action.limit &amp;&amp; action.limit &lt; origin.length) {
+              origin.pop();
+            }
+            <span class="hljs-keyword">return</span> origin;
+          }
+        }
+      ]
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            <span class="hljs-keyword">return</span> data;
+          }
+        }
+      ]
+    }
+  },
+
+  <span class="hljs-attr">ADD_METRIC</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+            data = params;
+          }
+          <span class="hljs-keyword">return</span> origin.set(<span class="hljs-string">'total'</span>, origin.total + <span class="hljs-number">1</span>);
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-comment">// #! {cid, params}</span>
+  UPDATE: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(initialState[name])) {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Array</span>.isArray(data)) {
+              data = [data];
+            }
+            data.forEach(<span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> {
+              <span class="hljs-keyword">const</span> idx = origin.findIndex(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item[action.cid] === d[action.cid]);
+              <span class="hljs-keyword">if</span> (idx &gt; <span class="hljs-number">-1</span>) {
+                <span class="hljs-keyword">if</span> (action.attributes) {
+                  <span class="hljs-keyword">let</span> newD = {};
+                  action
+                    .attributes
+                    .forEach(<span class="hljs-function"><span class="hljs-params">attr</span> =&gt;</span> newD[attr] = d[attr]);
+                  d = newD;
+                }
+                <span class="hljs-keyword">const</span> item = origin[idx].merge(d)
+                origin = origin.set(idx, item);
+              }
+            });
+
+            <span class="hljs-keyword">return</span> origin;
+          }
+        }
+      ]
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            <span class="hljs-keyword">if</span> (origin[action.cid] === data[action.cid]) {
+              origin = origin.merge(data);
+            }
+
+            <span class="hljs-keyword">return</span> origin;
+          }
+        }
+      ]
+    }
+  },
+
+  <span class="hljs-comment">// #! {cid, params}</span>
+  DELETE: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(initialState[name])) {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            <span class="hljs-keyword">const</span> idx = origin.findIndex(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item[action.cid] === data[action.cid]);
+            <span class="hljs-keyword">if</span> (idx &gt; <span class="hljs-number">-1</span>) {
+              origin = origin.asMutable();
+              origin.splice(idx, <span class="hljs-number">1</span>);
+            }
+
+            <span class="hljs-keyword">return</span> origin;
+          }
+        }
+      ]
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+              data = params;
+            }
+            <span class="hljs-keyword">if</span> (origin[action.cid] === data[action.cid]) {
+              origin = initialState[name];
+            }
+
+            <span class="hljs-keyword">return</span> origin;
+          }
+        }
+      ]
+    }
+  },
+
+  <span class="hljs-attr">DELETE_METRIC</span>: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> [
+      {
+        <span class="hljs-attr">name</span>: name,
+        <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(data) !== data &amp;&amp; data !== <span class="hljs-literal">false</span>) {
+            data = params;
+          }
+          <span class="hljs-keyword">if</span> (origin.total &gt; <span class="hljs-number">0</span>) {
+            origin = origin.set(<span class="hljs-string">'total'</span>, origin.total - <span class="hljs-number">1</span>);
+          }
+
+          <span class="hljs-keyword">return</span> origin;
+        }
+      }
+    ]
+  },
+
+  <span class="hljs-comment">// #! {cid, joinName}</span>
+  JOIN: <span class="hljs-function">(<span class="hljs-params">name, action, initialState</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> joinName = action.joinName;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(initialState[joinName])) {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> idx = state[joinName].find(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> item[action.cid] === params[action.cid]);
+            <span class="hljs-keyword">if</span> (idx &gt; <span class="hljs-number">-1</span>) {
+              <span class="hljs-keyword">let</span> item = state[joinName][idx].set(name, data);
+              <span class="hljs-keyword">let</span> list = state[joinName].set(idx, item);
+              state = state.set(joinName, list);
+            }
+            <span class="hljs-keyword">return</span> state;
+          }
+        }
+      ]
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> [
+        {
+          <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">data, origin, params, state</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (state[joinName][action.cid] === params[action.cid]) {
+              <span class="hljs-keyword">let</span> item = state[joinName].set(name, data);
+              state = state.set(joinName, item);
+            }
+            <span class="hljs-keyword">return</span> state;
+          }
+        }
+      ]
+    }
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

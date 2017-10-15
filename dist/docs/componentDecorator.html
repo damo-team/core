@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>组件装饰器-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>组件装饰器 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="-">组件装饰器</h1>
+<ol>
+<li>同connect，实际上connect也是React组件装饰器，不同的是component需要完成更多的封装。</li>
+<li>component希望把外部的state和context也能装饰到React组件中</li>
+<li>内部通过recompose库来实现(hoc by recompose)</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {PropTypes} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> {connect} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
+<span class="hljs-keyword">import</span> {compose} <span class="hljs-keyword">from</span> <span class="hljs-string">'recompose'</span>;
+<span class="hljs-keyword">import</span> cuid <span class="hljs-keyword">from</span> <span class="hljs-string">'cuid'</span>;
+<span class="hljs-keyword">import</span> withState <span class="hljs-keyword">from</span> <span class="hljs-string">'./withState'</span>;
+<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./inject'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <ul>
+<li>Copies non-react specific statics from a child component to a parent component<blockquote>
+<p>see: <a href="https://www.npmjs.com/package/hoist-non-react-statics">https://www.npmjs.com/package/hoist-non-react-statics</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> hoistNonReactStatics <span class="hljs-keyword">from</span> <span class="hljs-string">'hoist-non-react-statics'</span>;
+
+<span class="hljs-keyword">const</span> _withState = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> BaseComponent =&gt; {
+  <span class="hljs-keyword">let</span> Component = withState(...args)(BaseComponent);
+  <span class="hljs-keyword">return</span> hoistNonReactStatics(Component, BaseComponent);
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>hoc by recompose<blockquote>
+<p>see:</p>
+<ol>
+<li><a href="https://leozdgao.me/chushi-hoc/">https://leozdgao.me/chushi-hoc/</a></li>
+<li><a href="https://github.com/leozdgao/react-async-script-loader">https://github.com/leozdgao/react-async-script-loader</a></li>
+<li><a href="https://github.com/acdlite/recompose">https://github.com/acdlite/recompose</a></li>
+<li><a href="http://www.hartzis.me/react-recompose-redux/">http://www.hartzis.me/react-recompose-redux/</a></li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>code ground: <a href="https://jsbin.com/buqeqac/edit?html,js,console,output">https://jsbin.com/buqeqac/edit?html,js,console,output</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> component = ({
+  elementFactory,
+  inputs,
+  outputs,
+  selector,
+  providers,
+  props
+}) =&gt; {
+  <span class="hljs-keyword">let</span> composeArgs = [];
+
+  <span class="hljs-comment">// #! 把selector的inputs和outputs通过connect来装饰到React组件中。</span>
+  <span class="hljs-keyword">let</span> selectorInstance,
+    selectorServices;
+  <span class="hljs-keyword">if</span> (selector) {
+    selectorServices = rcInject.getServiceInjectName(selector);
+    selector.displayName = selector.displayName || cuid();
+    selectorInstance = rcInject.getService(selector);
+    selectorInstance.name = selector.displayName;
+    inputs = selectorInstance.inputs;
+    outputs = selectorInstance.outputs;
+  }
+
+  composeArgs.push(<span class="hljs-function"><span class="hljs-params">BaseComponent</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> contextTypes = {};
+    <span class="hljs-keyword">const</span> services = {};
+    <span class="hljs-keyword">if</span> (selectorInstance) {
+      contextTypes.selector = PropTypes.object.isRequired;
+    }
+    eachProvider(providers, (Provider, key) =&gt; {
+      <span class="hljs-keyword">let</span> name = Provider.displayName || key;
+      <span class="hljs-keyword">if</span> (name) {
+        contextTypes[name] = PropTypes.any.isRequired;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'服务${Provider.name}：displayName静态属性不能为空！'</span>);
+      }
+    });
+    <span class="hljs-keyword">if</span> (contextTypes) {
+      BaseComponent.contextTypes = <span class="hljs-built_in">Object</span>.assign(BaseComponent.contextTypes || {}, contextTypes);
+    }
+
+    <span class="hljs-keyword">const</span> Component = connect(inputs, outputs)(BaseComponent);
+
+    Component.childContextTypes = contextTypes;
+
+    Component.prototype.getChildContext = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.$services_) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$services_;
+      }
+
+      <span class="hljs-keyword">this</span>.$services_ = services;
+
+      <span class="hljs-comment">// #! 初始化所有的context</span>
+      eachProvider(providers, (Provider, key) =&gt; {
+        <span class="hljs-keyword">let</span> name = Provider.displayName || key;
+        services[name] = getService.call(<span class="hljs-keyword">this</span>, name) || rcInject.instantiate(Provider, name, getService.bind(<span class="hljs-keyword">this</span>));
+      });
+
+      <span class="hljs-keyword">if</span> (services.selector) {
+        services
+          .selector
+          .emit(<span class="hljs-string">'afterInitialize'</span>);
+      }
+
+      <span class="hljs-keyword">return</span> services;
+    }
+
+    <span class="hljs-keyword">const</span> _clearCache = Component.prototype.clearCache;
+    <span class="hljs-keyword">const</span> _unmount = Component.prototype.componentWillUnmount;
+    Component.prototype.clearCache = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (!services.selector &amp;&amp; selectorInstance) {
+        services.selector = selectorInstance;
+
+        services
+          .selector
+          .emit(<span class="hljs-string">'beforeInitialize'</span>);
+      }
+      <span class="hljs-keyword">return</span> _clearCache.call(<span class="hljs-keyword">this</span>);
+    }
+    Component.prototype.componentWillMount = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (services.selector) {
+        <span class="hljs-keyword">if</span> (services.selector.parentSelector === <span class="hljs-literal">undefined</span>) {
+          services.selector.parentSelector = getParantService.call(<span class="hljs-keyword">this</span>, <span class="hljs-string">'selector'</span>) || <span class="hljs-keyword">this</span>.props.parentSelector || <span class="hljs-literal">null</span>;
+        }
+
+        services.selector.getService = <span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> getService.call(<span class="hljs-keyword">this</span>, name) || rcInject.getService(name);
+        };
+
+        <span class="hljs-keyword">if</span> (selectorServices) {
+          selectorServices.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+            services.selector.context[name] = getService.call(<span class="hljs-keyword">this</span>, name) || rcInject.getService(name) || <span class="hljs-function">(<span class="hljs-params">services[name] = rcInject.instantiate(findProvider(providers, name</span>), <span class="hljs-params">name</span>, (<span class="hljs-params">name</span>) =&gt;</span> {
+              <span class="hljs-keyword">return</span> services[name] || getService.call(<span class="hljs-keyword">this</span>, name);
+            }));
+          });
+        }
+        <span class="hljs-keyword">try</span> {
+          services
+            .selector
+            .initialize(<span class="hljs-keyword">this</span>.props);
+        } <span class="hljs-keyword">catch</span> (e) {
+          <span class="hljs-built_in">console</span>.error(e);
+        }
+      }
+    }
+    Component.prototype.componentWillUnmount = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">const</span> services = <span class="hljs-keyword">this</span>.$services_;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> services) {
+        <span class="hljs-keyword">if</span> (services[key].destroy) {
+          services[key].destroy();
+        }
+        <span class="hljs-keyword">if</span> (services[key].dispose) {
+          services[key].dispose();
+        }
+        <span class="hljs-keyword">delete</span> services[key];
+      }
+      _unmount.call(<span class="hljs-keyword">this</span>);
+    }
+
+    <span class="hljs-keyword">return</span> Component;
+  });
+
+  <span class="hljs-comment">// #! 初始化所有的props</span>
+  <span class="hljs-keyword">if</span> (props) {
+    composeArgs.push(_withState(props));
+  }
+
+  <span class="hljs-keyword">if</span> (elementFactory) {
+    <span class="hljs-keyword">return</span> compose(...composeArgs)(elementFactory);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> compose(...composeArgs)
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">eachProvider</span>(<span class="hljs-params">providers, callback</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(providers)) {
+    providers.forEach(<span class="hljs-function"><span class="hljs-params">Provider</span> =&gt;</span> callback(Provider));
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> providers) {
+      callback(providers[key], key);
+    }
+  }
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findProvider</span>(<span class="hljs-params">providers, name</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(providers)) {
+    <span class="hljs-keyword">return</span> providers.find(<span class="hljs-function"><span class="hljs-params">Provider</span> =&gt;</span> Provider.displayName === name);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">return</span> providers[name];
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <ul>
+<li>获取HOC包装的组件的实例 &gt; see:
+<a href="https://github.com/RubaXa/Sortable/issues/713#issuecomment-169668921">https://github.com/RubaXa/Sortable/issues/713#issuecomment-169668921</a></li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getParantService</span>(<span class="hljs-params">name</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._reactInternalInstance._context[name];
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getService</span>(<span class="hljs-params">name</span>) </span>{
+  <span class="hljs-keyword">let</span> service;
+  <span class="hljs-keyword">switch</span> (name) {
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'props'</span>:
+      service = <span class="hljs-keyword">this</span>.props;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'inputs'</span>:
+      service = <span class="hljs-keyword">this</span>.stateProps;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">'outputs'</span>:
+      service = <span class="hljs-keyword">this</span>.dispatchProps;
+      <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">default</span>:
+      service = <span class="hljs-keyword">this</span>.$services_ &amp;&amp; <span class="hljs-keyword">this</span>.$services_[name] || <span class="hljs-keyword">this</span>.context[name];
+      <span class="hljs-keyword">break</span>;
+  }
+  <span class="hljs-keyword">return</span> service || getParantService.call(<span class="hljs-keyword">this</span>, name)
+};
+
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Input = <span class="hljs-function">(<span class="hljs-params">option = {}</span>) =&gt;</span> (prototype, method, obj) =&gt; {
+  prototype.$inputMethods_ = prototype.$inputMethods_ || [];
+  prototype.$inputMethods_.push({
+    <span class="hljs-attr">name</span>: method,
+    <span class="hljs-attr">value</span>: option.literal ? obj.initializer() : obj.value,
+    <span class="hljs-attr">literal</span>: option.literal
+  });
+  <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'inputs'</span>)) <span class="hljs-keyword">return</span>;
+  <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'inputs'</span>, {
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> iState = {};
+        prototype.$inputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+          <span class="hljs-keyword">if</span>(method.literal){
+            iState[method.name] = method.value;
+          }<span class="hljs-keyword">else</span>{
+            iState[method.name] = method.value.call(<span class="hljs-keyword">this</span>, state, ownProps);
+          }
+        })
+        <span class="hljs-keyword">return</span> iState;
+      }
+    }
+  })
+} 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Output = <span class="hljs-function">(<span class="hljs-params">option = {}</span>) =&gt;</span> (prototype, method, obj) =&gt; {
+  prototype.$outputMethods_ = prototype.$outputMethods_ || [];
+  prototype.$outputMethods_.push({
+    <span class="hljs-attr">name</span>: method,
+    <span class="hljs-attr">value</span>: obj.value,
+    <span class="hljs-attr">literal</span>: option.literal
+  });
+  <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'outputs'</span>)) <span class="hljs-keyword">return</span>;
+  <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'outputs'</span>, {
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
+    get(){
+      <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> iAction = {};
+        prototype.$outputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+          <span class="hljs-keyword">if</span>(method.literal){
+            iAction[method.name] = method.value;
+          }<span class="hljs-keyword">else</span>{
+            iAction[method.name] = method.value.call(<span class="hljs-keyword">this</span>, dispatch, ownProps);
+          }
+        })
+        <span class="hljs-keyword">return</span> iAction;
+      }
+    }
+  })
+} 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> initialState = <span class="hljs-function">(<span class="hljs-params">prototype, property, obj</span>) =&gt;</span> {
+  prototype.$propMethods_ = prototype.$propMethods_ || [];
+  prototype.$propMethods_.push({
+    <span class="hljs-attr">name</span>: property,
+    <span class="hljs-attr">value</span>: obj.initializer()
+  });
+  <span class="hljs-built_in">Object</span>.assign(prototype, {
+    get properties(){
+      <span class="hljs-keyword">const</span> properties = {};
+      prototype.$propMethods_.forEach(<span class="hljs-function"><span class="hljs-params">prop</span> =&gt;</span> {
+        properties[prop.name] = prop.value;
+      });
+      <span class="hljs-keyword">return</span> properties;
+    }
+  })
+} 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dispatch = <span class="hljs-function">(<span class="hljs-params">prototype, method</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> func = prototype.method;
+  prototype.method = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, args)(prototype.dispatch);
+  }
+} 
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> View = component;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

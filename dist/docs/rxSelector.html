@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>rxSelector.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>rxSelector.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {BaseSelector} <span class="hljs-keyword">from</span> <span class="hljs-string">'./baseSelector'</span>;
+<span class="hljs-keyword">import</span> {ucfirst} <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
+
+<span class="hljs-keyword">if</span> (process.env.RXJS) {
+  <span class="hljs-keyword">const</span> Rx = <span class="hljs-built_in">require</span>(<span class="hljs-string">'rxjs'</span>);
+  <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./rxComponent'</span>);
+  <span class="hljs-keyword">const</span> SUBSCRIBE_NS = <span class="hljs-string">'subscribe.'</span>;
+  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RxSelector</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span></span>{
+    <span class="hljs-keyword">constructor</span>(){
+      <span class="hljs-keyword">super</span>();
+      <span class="hljs-keyword">this</span>.$collectionMap_ = {};
+    }
+    
+    createEvent(event, isPolling){
+      <span class="hljs-keyword">let</span> eventObj = <span class="hljs-keyword">this</span>.$collectionMap_[event];
+      <span class="hljs-keyword">const</span> emitevent = <span class="hljs-string">`<span class="hljs-subst">${SUBSCRIBE_NS}</span><span class="hljs-subst">${event}</span>`</span>;
+
+      <span class="hljs-keyword">if</span>(!eventObj){
+        <span class="hljs-keyword">this</span>.$collectionMap_[event] = eventObj = {<span class="hljs-attr">eventName</span>: event};
+
+        eventObj.action = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+          <span class="hljs-comment">// #! once callback</span>
+          <span class="hljs-keyword">let</span> onceCallback = args[args.length - <span class="hljs-number">1</span>];
+          <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> onceCallback === <span class="hljs-string">'function'</span>){
+            <span class="hljs-keyword">if</span>(isPolling){
+              <span class="hljs-keyword">const</span> pollingCallback = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span>(onceCallback(...args) === <span class="hljs-literal">false</span>){
+                  <span class="hljs-keyword">this</span>.removeListener(event, pollingCallback);
+                }
+              }
+              <span class="hljs-keyword">this</span>.on(event, pollingCallback);
+            }<span class="hljs-keyword">else</span>{
+              <span class="hljs-keyword">this</span>.once(event, onceCallback);
+            }
+          }
+          <span class="hljs-keyword">this</span>.emit(emitevent, ...args);
+        };
+        eventObj.stream = Rx.Observable.fromEvent(<span class="hljs-keyword">this</span>, emitevent);
+      }<span class="hljs-keyword">else</span>{
+        eventObj.subscription &amp;&amp; eventObj.subscription.unsubscribe();
+      }
+      <span class="hljs-keyword">return</span> eventObj;
+    }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <h3 id="-rxjs-selector-">集成rxjs，同时开放新的Selector方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+<th>参数</th>
+<th>默认参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>addPureSubscribe</td>
+<td>把函数包装成一个eventEmitter方法，一旦方法触发，函数也会被调用</td>
+<td>{event: String, callback: Function, immediate: Boolean}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>addSubscribe</td>
+<td>和addPureSubscribe不同的是，callback函数中拿到的是rx的eventEmitter的source</td>
+<td>{event: String, callback: Function, immediate: Boolean}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>pollingSubscribe</td>
+<td>调用addSubscribe同时在callback中传入polling函数</td>
+<td>{event: String, callback: Function, immediate: Boolean}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getAction</td>
+<td>获取指定的eventEmitter方法</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getActions</td>
+<td>获取所有封装的eventEmitter方法</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>    addPureSubscribe(event, callback, immediate){
+      <span class="hljs-keyword">const</span> eventObj = <span class="hljs-keyword">this</span>.createEvent(event);
+      <span class="hljs-keyword">const</span> _callback = callback;
+      callback = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> eventObj.stream.flatMap(_callback);
+      }
+
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.addSubscribe(event, callback, immediate);
+    }
+
+    addSubscribe(event, callback, immediate){
+      <span class="hljs-keyword">const</span> eventObj = <span class="hljs-keyword">this</span>.createEvent(event);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>全局都加，避免combine过程中，stream调用多次<blockquote>
+<p>see: see: <a href="https://www.learnrxjs.io/operators/multicasting/cache.html">https://www.learnrxjs.io/operators/multicasting/cache.html</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>      <span class="hljs-keyword">const</span> source = callback(eventObj.stream, eventObj.action, eventObj.polling);
+      
+      <span class="hljs-keyword">if</span>(source){
+        eventObj.source = source.cache(<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">this</span>.addSubscription(eventObj);
+      }
+      <span class="hljs-keyword">if</span>(immediate){
+        <span class="hljs-keyword">let</span> timer = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          clearTimeout(timer);
+          eventObj.action();
+        });
+      }
+      <span class="hljs-keyword">return</span> eventObj;
+    }
+
+    pollingSubscribe(event, callback, immediate){
+      <span class="hljs-keyword">const</span> eventObj = <span class="hljs-keyword">this</span>.createEvent(event, <span class="hljs-number">1</span>);
+      <span class="hljs-keyword">const</span> stopFlag = {};
+      <span class="hljs-keyword">const</span> startFlag = {};
+      eventObj.polling = <span class="hljs-function">(<span class="hljs-params">opt</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> option = <span class="hljs-built_in">Object</span>.assign({
+          <span class="hljs-attr">delay</span>: <span class="hljs-number">5000</span>,
+          <span class="hljs-attr">data</span>: startFlag,
+          <span class="hljs-attr">checkSuccess</span>: <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> <span class="hljs-literal">true</span>,
+          <span class="hljs-attr">action</span>: <span class="hljs-literal">null</span>
+        }, opt);
+        <span class="hljs-keyword">if</span>(!option.delay){
+          option.delay = <span class="hljs-number">5000</span>;
+        }
+        <span class="hljs-keyword">if</span>(!option.action){
+          <span class="hljs-keyword">return</span> Rx.Observable.of(stopFlag);
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">return</span> Rx.Observable.of(option.data)
+            .expand(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+              <span class="hljs-keyword">if</span>(res === startFlag || option.checkSuccess(res)){
+                <span class="hljs-keyword">const</span> stream = option.action(res, stopFlag);
+                <span class="hljs-keyword">if</span>(stream <span class="hljs-keyword">instanceof</span> Rx.Observable){
+                  <span class="hljs-keyword">return</span> stream;
+                }<span class="hljs-keyword">else</span>{
+                  <span class="hljs-comment">// #! 数据必须是对象或者promise</span>
+                  <span class="hljs-keyword">return</span> Rx.Observable.from(stream).delay(option.delay);
+                }
+              }<span class="hljs-keyword">else</span>{
+                <span class="hljs-keyword">return</span> Rx.Observable.of(stopFlag);
+              }
+            })
+            .takeWhile(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res != stopFlag)
+        }
+      }
+      eventObj.polling.stopFlag = stopFlag;
+      eventObj.polling.startFlag = startFlag;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.addSubscribe(event, callback, immediate);
+    }
+
+    addSubscription(eventObj){
+      <span class="hljs-keyword">let</span> stream = eventObj.source
+        .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+          <span class="hljs-keyword">this</span>.emit(eventObj.eventName, err);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <blockquote>
+<p>see: <a href="https://www.bennadel.com/blog/3046-experimenting-with-the-catch-operator-and-stream-continuation-in-rxjs-and-angular-2.htm">https://www.bennadel.com/blog/3046-experimenting-with-the-catch-operator-and-stream-continuation-in-rxjs-and-angular-2.htm</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          <span class="hljs-keyword">return</span> stream;
+        });
+
+      eventObj.subscription = stream.subscribe(<span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+        <span class="hljs-keyword">this</span>.emit(eventObj.eventName, <span class="hljs-literal">null</span>, ...args);
+      }, err =&gt; {
+        <span class="hljs-keyword">this</span>.emit(eventObj.eventName, err);
+      });
+    }
+
+    getAction(event){
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$collectionMap_[event] &amp;&amp; <span class="hljs-keyword">this</span>.$collectionMap_[event].action;
+    }
+
+    getActions(){
+      <span class="hljs-keyword">let</span> actions = {};
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.$collectionMap_){
+        actions[<span class="hljs-string">`do<span class="hljs-subst">${ucfirst(key)}</span>`</span>] = <span class="hljs-keyword">this</span>.$collectionMap_[key].action;
+      }
+      <span class="hljs-keyword">return</span> actions;
+    }
+
+    removeSubscription(eventObj){
+      eventObj.subscription.unsubscribe();
+    }
+
+    getEvent(event){
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$collectionMap_[event];
+    }
+
+    select(){
+      <span class="hljs-keyword">const</span> args = <span class="hljs-built_in">Array</span>.prototype.slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">0</span>);
+      <span class="hljs-keyword">if</span>(args[args.length - <span class="hljs-number">1</span>] === <span class="hljs-literal">true</span>){
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.select(args[<span class="hljs-number">0</span>]);
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">this</span>.getAppStore();
+        <span class="hljs-keyword">if</span>(store.liftedStore &amp;&amp; store.liftedStore.select){
+          <span class="hljs-keyword">return</span> store.liftedStore.select(...args);
+        }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(store.select){
+          <span class="hljs-keyword">return</span> store.select(...args);
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'store类型不为Observable，需要更新redux为rxjs-redux'</span>);
+        }
+      }
+    }
+    
+    selectable() {
+      <span class="hljs-keyword">return</span> RxComponent.selectable(<span class="hljs-keyword">this</span>.select.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>));
+    }
+    
+    destroy(){
+      <span class="hljs-keyword">super</span>.destroy();
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.$collectionMap_){
+        <span class="hljs-keyword">this</span>.$collectionMap_[key].subscription &amp;&amp; <span class="hljs-keyword">this</span>.$collectionMap_[key].subscription.unsubscribe();
+      }
+    }
+  }
+
+  <span class="hljs-built_in">module</span>.exports = RxSelector;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

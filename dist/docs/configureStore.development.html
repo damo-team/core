@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>【日常】创建全局唯一的store-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="hotStaticResource.html">
+            hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="index.html">
+            index.js
+          </a>
+        
+          
+          <a class="source" href="resource.html">
+            resource.js
+          </a>
+        
+          
+          <a class="source" href="resourceAction.html">
+            resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resourceCRUD.html">
+            resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resourceDecorator.html">
+            resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resourceModel.html">
+            resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.development.html">
+            configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.html">
+            configureStore.js
+          </a>
+        
+          
+          <a class="source" href="configureStore.production.html">
+            configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="createReducerFactory.html">
+            createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="enhanceStore.html">
+            enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="loadingBarMiddleware.html">
+            loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="baseModel.html">
+            baseModel.js
+          </a>
+        
+          
+          <a class="source" href="baseSelector.html">
+            baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="componentDecorator.html">
+            componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="core.html">
+            core.js
+          </a>
+        
+          
+          <a class="source" href="createCrud.html">
+            createCrud.js
+          </a>
+        
+          
+          <a class="source" href="fetch.html">
+            fetch.js
+          </a>
+        
+          
+          <a class="source" href="inject.html">
+            inject.js
+          </a>
+        
+          
+          <a class="source" href="poller.html">
+            poller.js
+          </a>
+        
+          
+          <a class="source" href="rx.html">
+            rx.js
+          </a>
+        
+          
+          <a class="source" href="rxComponent.html">
+            rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="rxSelector.html">
+            rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="withState.html">
+            withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>【日常】创建全局唯一的store <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="-store">【日常】创建全局唯一的store</h1>
+<ol>
+<li>applyMiddleware -&gt; compose -&gt; enhancer</li>
+<li>combineReducers -&gt; rootReducer</li>
+<li>createStore(rootReducer, initialState, enhancer);<blockquote>
+<p>see: <a href="https://github.com/barrystaes/react-trebuchet/tree/test-bottledapi-apireduxmiddleware/src/store">https://github.com/barrystaes/react-trebuchet/tree/test-bottledapi-apireduxmiddleware/src/store</a></p>
+</blockquote>
+</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { 
+  createStore, 
+  compose, 
+  applyMiddleware, 
+  combineReducers 
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/rx'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <ul>
+<li>redux的middleware，让dispatch支持actionCreator  <blockquote>
+<p>see: <a href="https://www.npmjs.com/package/redux-thunk">https://www.npmjs.com/package/redux-thunk</a> </p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> thunk <span class="hljs-keyword">from</span> <span class="hljs-string">'redux-thunk'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>redux的middleware, 支持action日志打印到console控制台<blockquote>
+<p>see: <a href="https://www.npmjs.com/package/redux-logger">https://www.npmjs.com/package/redux-logger</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> createLogger <span class="hljs-keyword">from</span> <span class="hljs-string">'redux-logger'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <ul>
+<li>history + store (redux) → react-router-redux → enhanced history → react-router<blockquote>
+<p>see: <a href="https://github.com/reactjs/react-router-redux/blob/master/README.md#how-it-works">https://github.com/reactjs/react-router-redux/blob/master/README.md#how-it-works</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { hashHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
+<span class="hljs-keyword">import</span> { routerMiddleware, routerReducer } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-redux'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <ul>
+<li>react-redux-loading-bar<blockquote>
+<p>see: <a href="https://www.npmjs.com/package/react-redux-loading-bar">https://www.npmjs.com/package/react-redux-loading-bar</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> promiseMiddleware <span class="hljs-keyword">from</span> <span class="hljs-string">'redux-promise-middleware'</span>; 
+<span class="hljs-keyword">import</span> { loadingBarReducer } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-loading-bar'</span>;
+<span class="hljs-keyword">import</span> { loadingBarMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">'./loadingBarMiddleware'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <ul>
+<li>把Models转成Reducers注入到redux
+同时redux生成的store赋予BaseModel和BaseSelector</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { createReducerAndModels } <span class="hljs-keyword">from</span> <span class="hljs-string">'./createReducerFactory'</span>;
+<span class="hljs-keyword">import</span> enhanceStore <span class="hljs-keyword">from</span> <span class="hljs-string">'./enhanceStore'</span>;
+
+<span class="hljs-keyword">let</span> appStore;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configureStore</span>(<span class="hljs-params">initialState, storeMiddlewares, createReducer</span>) </span>{
+  <span class="hljs-keyword">if</span>(appStore) <span class="hljs-keyword">return</span> appStore;
+
+  <span class="hljs-keyword">const</span> logger = createLogger({
+    <span class="hljs-attr">level</span>: <span class="hljs-string">'info'</span>,
+    <span class="hljs-attr">collapsed</span>: <span class="hljs-literal">true</span>
+  });
+
+  <span class="hljs-keyword">const</span> router = routerMiddleware(hashHistory);
+
+  <span class="hljs-keyword">const</span> enhancer = compose(
+    applyMiddleware(thunk, router, logger, ...storeMiddlewares, promiseMiddleware(), loadingBarMiddleware({<span class="hljs-attr">promiseTypeSuffixes</span>: [<span class="hljs-string">'START'</span>, <span class="hljs-string">'SUCCESS'</span>, <span class="hljs-string">'ERROR'</span>]})),
+    <span class="hljs-built_in">window</span>.__REDUX_DEVTOOLS_EXTENSION__ ? <span class="hljs-built_in">window</span>.__REDUX_DEVTOOLS_EXTENSION__() : <span class="hljs-function"><span class="hljs-params">noop</span> =&gt;</span> noop
+  );
+
+  <span class="hljs-keyword">const</span> { Models, hotAcceptId, hotModelsFeedback } = createReducer(<span class="hljs-built_in">module</span>.hot);
+
+  <span class="hljs-keyword">const</span> { reducers, models } = createReducerAndModels({<span class="hljs-attr">routing</span>: routerReducer, <span class="hljs-attr">loadingBar</span>: loadingBarReducer}, Models);
+  
+  <span class="hljs-keyword">const</span> rootReducer = combineReducers(reducers);
+
+  appStore = createStore(rootReducer, initialState, enhancer);
+
+  enhanceStore(appStore, models, reducers);
+
+  <span class="hljs-comment">// #! 集成到chrome插件redux</span>
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.__REDUX_DEVTOOLS_EXTENSION__) {
+    <span class="hljs-built_in">window</span>.__REDUX_DEVTOOLS_EXTENSION__.updateStore(appStore);
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-7'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <ul>
+<li>支持代码热模块替换，原理是重新替换所有的Reducer<blockquote>
+<p>see: <a href="https://webpack.github.io/docs/hot-module-replacement.html#example-3-hot-module-replace-with-require-context">https://webpack.github.io/docs/hot-module-replacement.html#example-3-hot-module-replace-with-require-context</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; hotModelsFeedback) {
+    <span class="hljs-built_in">module</span>.hot.accept(hotAcceptId, () =&gt; {
+      
+      <span class="hljs-keyword">const</span> Models = hotModelsFeedback();
+
+      <span class="hljs-keyword">const</span> { reducers, models } = createReducerAndModels({<span class="hljs-attr">routing</span>: routerReducer, <span class="hljs-attr">loadingBar</span>: loadingBarReducer}, Models);
+
+      <span class="hljs-keyword">const</span> rootReducer = combineReducers(reducers);
+      
+      appStore.replaceReducer(rootReducer);
+      
+      <span class="hljs-comment">// #! 重新赋值models</span>
+      appStore.models = models;
+    });
+  }
+
+  <span class="hljs-keyword">return</span> appStore;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>
