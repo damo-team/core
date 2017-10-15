@@ -31,6 +31,7 @@ const _withState = (...args) => BaseComponent => {
  *
  * > code ground: https://jsbin.com/buqeqac/edit?html,js,console,output
  */
+
 export const component = ({
   elementFactory,
   inputs,
@@ -204,3 +205,82 @@ function getService(name) {
   }
   return service || getParantService.call(this, name)
 };
+
+
+export const Input = (option = {}) => (prototype, method, obj) => {
+  prototype.$inputMethods_ = prototype.$inputMethods_ || [];
+  prototype.$inputMethods_.push({
+    name: method,
+    value: option.literal ? obj.initializer() : obj.value,
+    literal: option.literal
+  });
+  if(prototype.propertyIsEnumerable('inputs')) return;
+  Object.defineProperty(prototype, 'inputs', {
+    enumerable: true,
+    get: function() {
+      return (state, ownProps) => {
+        const iState = {};
+        prototype.$inputMethods_.forEach(method => {
+          if(method.literal){
+            iState[method.name] = method.value;
+          }else{
+            iState[method.name] = method.value.call(this, state, ownProps);
+          }
+        })
+        return iState;
+      }
+    }
+  })
+} 
+
+export const Output = (option = {}) => (prototype, method, obj) => {
+  prototype.$outputMethods_ = prototype.$outputMethods_ || [];
+  prototype.$outputMethods_.push({
+    name: method,
+    value: obj.value,
+    literal: option.literal
+  });
+  if(prototype.propertyIsEnumerable('outputs')) return;
+  Object.defineProperty(prototype, 'outputs', {
+    enumerable: true,
+    get(){
+      return (dispatch, ownProps) => {
+        const iAction = {};
+        prototype.$outputMethods_.forEach(method => {
+          if(method.literal){
+            iAction[method.name] = method.value;
+          }else{
+            iAction[method.name] = method.value.call(this, dispatch, ownProps);
+          }
+        })
+        return iAction;
+      }
+    }
+  })
+} 
+
+export const initialState = (prototype, property, obj) => {
+  prototype.$propMethods_ = prototype.$propMethods_ || [];
+  prototype.$propMethods_.push({
+    name: property,
+    value: obj.initializer()
+  });
+  Object.assign(prototype, {
+    get properties(){
+      const properties = {};
+      prototype.$propMethods_.forEach(prop => {
+        properties[prop.name] = prop.value;
+      });
+      return properties;
+    }
+  })
+} 
+
+export const dispatch = (prototype, method) => {
+  const func = prototype.method;
+  prototype.method = (...args) => {
+    return func.apply(this, args)(prototype.dispatch);
+  }
+} 
+
+export const View = component;

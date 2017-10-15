@@ -4,7 +4,6 @@ import { Router, Route, Redirect, hashHistory, Link } from 'react-router';
 import { connect, Provider } from 'react-redux';
 import { configureStore, autoLoadScenesRoutes, BaseSelector, component } from '../src/index';
 import { IntlProvider } from 'react-intl';
-import { StarterDevTool } from '@ali/naza-react-devtool'
 
 /**
  * ----------------------------------------------------------------------------

@@ -1,8 +1,7 @@
-import Mocky from '@ali/aliyun-naza-mocky';
 import path from 'path';
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { component, BaseSelector, BaseModel, changeOperators } from '../../src/index'; // #! @ali/naza-react-starter
+import { component, BaseSelector, BaseModel, changeOperators } from '../../src/index'; // #! damo-core
 
 /**
  * ----------------------------------------------------------------------------

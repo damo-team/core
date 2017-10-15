@@ -10,11 +10,12 @@ import { Poller } from './poller';
 import cuid from 'cuid';
 import {ucfirst} from './core';
 import { EventEmitter } from 'events';
+import {resourceCRUD} from '../resource/resourceCRUD';
 
 const defaultProccessData = function (res) { return res.data };
 export class BaseModel extends EventEmitter{
   static appStore = null;
-  
+  static ASSIGN_METHODS = resourceCRUD;
   /**
    * ### actionType, actionCreator和创建action的逻辑
    * 

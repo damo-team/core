@@ -52,7 +52,7 @@ function checkStatus(response, errorNotification) {
  * + mock数据
  * 1. 在生产环境，直接抛弃mock逻辑
  * 2. 在日常环境，当地址栏参数debug=true或者window.DEBUG=true，同时接口url包含proxy=true参数时，触发mock数据逻辑
- * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`@ali/naza-aliyun-mocky`模块提供
+ * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`damo-mocker`模块提供
  */
 let doFetch;
 if (process.env.NODE_ENV === 'production') {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { BaseModel, changeOperators } from '../../../src/index'; // #! @ali/naza-react-starter
+import { BaseModel, changeOperators, initialState} from '../../../src/index'; // #! damo-core
 
 /**
  * ----------------------------------------------------------------------------
@@ -17,11 +17,8 @@ class SimpleModel extends BaseModel {
     return 'id';
   }
 
-  get properties() {
-    return {
-      list: []
-    };
-  }
+  @initialState
+  list = [];
 
   fetch(params) {
     return this.getQuery({

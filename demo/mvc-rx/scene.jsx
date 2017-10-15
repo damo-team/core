@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { component, RxSelector, BaseModel, changeOperators } from '../../src/index'; // #! @ali/naza-react-starter
+import { component, RxSelector, BaseModel, changeOperators } from '../../src/index'; // #! damo-core
 
 /**
  * ----------------------------------------------------------------------------

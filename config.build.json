@@ -27,7 +27,6 @@
     "redux",
     "redux-logger",
     "redux-thunk",
-    "redux-crud",
     "react-intl",
     "react-mixin",
     "cuid",

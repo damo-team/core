@@ -7,7 +7,7 @@
     "host": "http://localhost:8009"
   },
   "output": {
-    "path": "dist/dev"
+    "path": "demo/build"
   },
   "jsx": true,
   "vendors": [
@@ -22,7 +22,6 @@
     "react-router-redux",
     "redux-logger",
     "redux-thunk",
-    "redux-crud",
     "react-intl",
     "react-mixin",
     "cuid",

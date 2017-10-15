@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { component, BaseSelector, BaseModel, changeOperators } from '../../../src/index'; // #! @ali/naza-react-starter
+import { component, BaseSelector, BaseModel, changeOperators, initialState, dispatch, Input, Output, View} from '../../../src/index'; // #! damo-core
 
 /**
  * ----------------------------------------------------------------------------
@@ -16,12 +16,10 @@ class StateModel extends BaseModel {
     return 'id';
   }
 
-  get properties() {
-    return {
-      list: []
-    };
-  }
+  @initialState
+  list = [];
 
+  @dispatch
   fetch(params) {
     return this.getQuery({
       uri: 'demo/mocks/list.json',
@@ -51,18 +49,15 @@ class StateSelector extends BaseSelector {
     this.getAppStore().addModel(StateModel)
   }
 
-  get inputs() {
-    return (state, ownProps) => {
-      return {
-        ptitle: this.parentSelector.parentSelector.title
-      }
-    }
+  @Input()
+  ptitle(state, ownProps){
+    return this.parentSelector.parentSelector.title
   }
 
-  get outputs() {
-    return (dispatch, ownProps) => ({
-      doFetch: () => this.getModel('stateModel').fetch()(this.dispatch)
-    });
+
+  @Output()
+  doFetch(){
+    return this.getModel('stateModel').fetch();
   }
 }
 
@@ -74,7 +69,7 @@ class StateSelector extends BaseSelector {
  * 所有DB数据都会冻结变更，除非调用asMutable才可变更。
  * ----------------------------------------------------------------------------
  */
-@component({
+@View({
   selector: StateSelector,
   props: {
     title: {
