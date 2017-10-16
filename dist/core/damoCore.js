@@ -7203,14 +7203,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return service || getParantService.call(this, name);
 	};
 
-	var Input = exports.Input = function Input() {
-	  var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	var Input = exports.Input = function Input(model) {
 	  return function (prototype, method, obj) {
 	    prototype.$inputMethods_ = prototype.$inputMethods_ || [];
 	    prototype.$inputMethods_.push({
 	      name: method,
-	      value: option.literal ? obj.initializer() : obj.value,
-	      literal: option.literal
+	      value: obj.initializer ? obj.initializer() : obj.value,
+	      model: model
 	    });
 	    if (prototype.propertyIsEnumerable('inputs')) return;
 	    Object.defineProperty(prototype, 'inputs', {
@@ -7221,10 +7220,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function (state, ownProps) {
 	          var iState = {};
 	          prototype.$inputMethods_.forEach(function (method) {
-	            if (method.literal) {
-	              iState[method.name] = method.value;
-	            } else {
+	            if (method.model) {
+	              iState[method.name] = state[method.model][method.name];
+	            } else if (method.model === false) {
 	              iState[method.name] = method.value.call(_this3, state, ownProps);
+	            } else {
+	              iState[method.name] = method.value;
 	            }
 	          });
 	          return iState;
@@ -7234,14 +7235,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	};
 
-	var Output = exports.Output = function Output() {
-	  var option = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	var Output = exports.Output = function Output(model) {
 	  return function (prototype, method, obj) {
 	    prototype.$outputMethods_ = prototype.$outputMethods_ || [];
 	    prototype.$outputMethods_.push({
 	      name: method,
 	      value: obj.value,
-	      literal: option.literal
+	      model: model
 	    });
 	    if (prototype.propertyIsEnumerable('outputs')) return;
 	    Object.defineProperty(prototype, 'outputs', {
@@ -7252,10 +7252,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function (dispatch, ownProps) {
 	          var iAction = {};
 	          prototype.$outputMethods_.forEach(function (method) {
-	            if (method.literal) {
-	              iAction[method.name] = method.value;
-	            } else {
+	            if (method.model) {
+	              iAction[method.name] = function () {
+	                for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	                  args[_key2] = arguments[_key2];
+	                }
+
+	                return _this4.getModel(method.model)[method.name](args);
+	              };
+	            } else if (method.model === false) {
 	              iAction[method.name] = method.value.call(_this4, dispatch, ownProps);
+	            } else {
+	              iAction[method.name] = method.value;
 	            }
 	          });
 	          return iAction;
@@ -7286,8 +7294,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dispatch = exports.dispatch = function dispatch(prototype, method, obj) {
 	  var func = obj.value;
 	  obj.initializer = function () {
-	    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	      args[_key2] = arguments[_key2];
+	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+	      args[_key3] = arguments[_key3];
 	    }
 
 	    return function () {

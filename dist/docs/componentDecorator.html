@@ -489,12 +489,12 @@
 };
 
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Input = <span class="hljs-function">(<span class="hljs-params">option = {}</span>) =&gt;</span> (prototype, method, obj) =&gt; {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Input = <span class="hljs-function">(<span class="hljs-params">model</span>) =&gt;</span> (prototype, method, obj) =&gt; {
   prototype.$inputMethods_ = prototype.$inputMethods_ || [];
   prototype.$inputMethods_.push({
     <span class="hljs-attr">name</span>: method,
-    <span class="hljs-attr">value</span>: option.literal ? obj.initializer() : obj.value,
-    <span class="hljs-attr">literal</span>: option.literal
+    <span class="hljs-attr">value</span>: obj.initializer? obj.initializer() : obj.value,
+    <span class="hljs-attr">model</span>: model
   });
   <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'inputs'</span>)) <span class="hljs-keyword">return</span>;
   <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'inputs'</span>, {
@@ -503,10 +503,12 @@
       <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> iState = {};
         prototype.$inputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-          <span class="hljs-keyword">if</span>(method.literal){
-            iState[method.name] = method.value;
-          }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">if</span>(method.model){
+            iState[method.name] = state[method.model][method.name];
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
             iState[method.name] = method.value.call(<span class="hljs-keyword">this</span>, state, ownProps);
+          }<span class="hljs-keyword">else</span>{
+            iState[method.name] = method.value;
           }
         })
         <span class="hljs-keyword">return</span> iState;
@@ -515,12 +517,12 @@
   })
 } 
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Output = <span class="hljs-function">(<span class="hljs-params">option = {}</span>) =&gt;</span> (prototype, method, obj) =&gt; {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Output = <span class="hljs-function">(<span class="hljs-params">model</span>) =&gt;</span> (prototype, method, obj) =&gt; {
   prototype.$outputMethods_ = prototype.$outputMethods_ || [];
   prototype.$outputMethods_.push({
     <span class="hljs-attr">name</span>: method,
     <span class="hljs-attr">value</span>: obj.value,
-    <span class="hljs-attr">literal</span>: option.literal
+    <span class="hljs-attr">model</span>: model
   });
   <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'outputs'</span>)) <span class="hljs-keyword">return</span>;
   <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'outputs'</span>, {
@@ -529,10 +531,14 @@
       <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> iAction = {};
         prototype.$outputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-          <span class="hljs-keyword">if</span>(method.literal){
-            iAction[method.name] = method.value;
-          }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">if</span>(method.model){
+            iAction[method.name] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+              <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getModel(method.model)[method.name](args);
+            };
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
             iAction[method.name] = method.value.call(<span class="hljs-keyword">this</span>, dispatch, ownProps);
+          }<span class="hljs-keyword">else</span>{
+            iAction[method.name] = method.value;
           }
         })
         <span class="hljs-keyword">return</span> iAction;
