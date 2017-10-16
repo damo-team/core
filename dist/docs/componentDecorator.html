@@ -503,12 +503,21 @@
       <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> iState = {};
         prototype.$inputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-          <span class="hljs-keyword">if</span>(method.model){
-            iState[method.name] = state[method.model][method.name];
-          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
-            iState[method.name] = method.value.call(<span class="hljs-keyword">this</span>, state, ownProps);
-          }<span class="hljs-keyword">else</span>{
-            iState[method.name] = method.value;
+          <span class="hljs-keyword">try</span>{
+            <span class="hljs-keyword">if</span>(method.model){
+              <span class="hljs-keyword">if</span>(method.model.indexOf(<span class="hljs-string">'.'</span>) &gt; <span class="hljs-number">-1</span>){
+                iState[method.name] = <span class="hljs-keyword">this</span>.getModel(method.model).select(method.name, <span class="hljs-literal">true</span>);
+              }<span class="hljs-keyword">else</span>{
+                iState[method.name] = state[method.model][method.name];
+              }
+              
+            }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
+              iState[method.name] = method.value;
+            }<span class="hljs-keyword">else</span>{
+              iState[method.name] = method.value.call(<span class="hljs-keyword">this</span>, state, ownProps);
+            }
+          }<span class="hljs-keyword">catch</span>(e){
+            <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'[Selector Error]'</span> + e.stack);
           }
         })
         <span class="hljs-keyword">return</span> iState;
@@ -536,9 +545,9 @@
               <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getModel(method.model)[method.name](args);
             };
           }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
-            iAction[method.name] = method.value.call(<span class="hljs-keyword">this</span>, dispatch, ownProps);
-          }<span class="hljs-keyword">else</span>{
             iAction[method.name] = method.value;
+          }<span class="hljs-keyword">else</span>{
+            iAction[method.name] = method.value.call(<span class="hljs-keyword">this</span>, dispatch, ownProps);
           }
         })
         <span class="hljs-keyword">return</span> iAction;
@@ -574,6 +583,7 @@
   };
 } 
 
+<span class="hljs-keyword">export</span> {PropTypes};
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> View = component;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       

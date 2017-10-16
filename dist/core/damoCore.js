@@ -6972,7 +6972,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.View = exports.dispatch = exports.initialState = exports.Output = exports.Input = exports.component = undefined;
+	exports.View = exports.PropTypes = exports.dispatch = exports.initialState = exports.Output = exports.Input = exports.component = undefined;
 
 	var _react = __webpack_require__(4);
 
@@ -7220,12 +7220,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function (state, ownProps) {
 	          var iState = {};
 	          prototype.$inputMethods_.forEach(function (method) {
-	            if (method.model) {
-	              iState[method.name] = state[method.model][method.name];
-	            } else if (method.model === false) {
-	              iState[method.name] = method.value.call(_this3, state, ownProps);
-	            } else {
-	              iState[method.name] = method.value;
+	            try {
+	              if (method.model) {
+	                if (method.model.indexOf('.') > -1) {
+	                  iState[method.name] = _this3.getModel(method.model).select(method.name, true);
+	                } else {
+	                  iState[method.name] = state[method.model][method.name];
+	                }
+	              } else if (method.model === false) {
+	                iState[method.name] = method.value;
+	              } else {
+	                iState[method.name] = method.value.call(_this3, state, ownProps);
+	              }
+	            } catch (e) {
+	              console.error('[Selector Error]' + e.stack);
 	            }
 	          });
 	          return iState;
@@ -7261,9 +7269,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return _this4.getModel(method.model)[method.name](args);
 	              };
 	            } else if (method.model === false) {
-	              iAction[method.name] = method.value.call(_this4, dispatch, ownProps);
-	            } else {
 	              iAction[method.name] = method.value;
+	            } else {
+	              iAction[method.name] = method.value.call(_this4, dispatch, ownProps);
 	            }
 	          });
 	          return iAction;
@@ -7304,6 +7312,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	};
 
+	exports.PropTypes = _react.PropTypes;
 	var View = exports.View = component;
 
 /***/ },

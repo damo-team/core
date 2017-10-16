@@ -221,12 +221,21 @@ export const Input = (model) => (prototype, method, obj) => {
       return (state, ownProps) => {
         const iState = {};
         prototype.$inputMethods_.forEach(method => {
-          if(method.model){
-            iState[method.name] = state[method.model][method.name];
-          }else if(method.model === false){
-            iState[method.name] = method.value.call(this, state, ownProps);
-          }else{
-            iState[method.name] = method.value;
+          try{
+            if(method.model){
+              if(method.model.indexOf('.') > -1){
+                iState[method.name] = this.getModel(method.model).select(method.name, true);
+              }else{
+                iState[method.name] = state[method.model][method.name];
+              }
+              
+            }else if(method.model === false){
+              iState[method.name] = method.value;
+            }else{
+              iState[method.name] = method.value.call(this, state, ownProps);
+            }
+          }catch(e){
+            console.error('[Selector Error]' + e.stack);
           }
         })
         return iState;
@@ -254,9 +263,9 @@ export const Output = (model) => (prototype, method, obj) => {
               return this.getModel(method.model)[method.name](args);
             };
           }else if(method.model === false){
-            iAction[method.name] = method.value.call(this, dispatch, ownProps);
-          }else{
             iAction[method.name] = method.value;
+          }else{
+            iAction[method.name] = method.value.call(this, dispatch, ownProps);
           }
         })
         return iAction;
@@ -292,4 +301,5 @@ export const dispatch = (prototype, method, obj) => {
   };
 } 
 
+export {PropTypes};
 export const View = component;
