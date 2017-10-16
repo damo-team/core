@@ -207,12 +207,12 @@ function getService(name) {
 };
 
 
-export const Input = (option = {}) => (prototype, method, obj) => {
+export const Input = (model) => (prototype, method, obj) => {
   prototype.$inputMethods_ = prototype.$inputMethods_ || [];
   prototype.$inputMethods_.push({
     name: method,
-    value: option.literal ? obj.initializer() : obj.value,
-    literal: option.literal
+    value: obj.initializer? obj.initializer() : obj.value,
+    model: model
   });
   if(prototype.propertyIsEnumerable('inputs')) return;
   Object.defineProperty(prototype, 'inputs', {
@@ -221,10 +221,12 @@ export const Input = (option = {}) => (prototype, method, obj) => {
       return (state, ownProps) => {
         const iState = {};
         prototype.$inputMethods_.forEach(method => {
-          if(method.literal){
-            iState[method.name] = method.value;
-          }else{
+          if(method.model){
+            iState[method.name] = state[method.model][method.name];
+          }else if(method.model === false){
             iState[method.name] = method.value.call(this, state, ownProps);
+          }else{
+            iState[method.name] = method.value;
           }
         })
         return iState;
@@ -233,12 +235,12 @@ export const Input = (option = {}) => (prototype, method, obj) => {
   })
 } 
 
-export const Output = (option = {}) => (prototype, method, obj) => {
+export const Output = (model) => (prototype, method, obj) => {
   prototype.$outputMethods_ = prototype.$outputMethods_ || [];
   prototype.$outputMethods_.push({
     name: method,
     value: obj.value,
-    literal: option.literal
+    model: model
   });
   if(prototype.propertyIsEnumerable('outputs')) return;
   Object.defineProperty(prototype, 'outputs', {
@@ -247,10 +249,14 @@ export const Output = (option = {}) => (prototype, method, obj) => {
       return (dispatch, ownProps) => {
         const iAction = {};
         prototype.$outputMethods_.forEach(method => {
-          if(method.literal){
-            iAction[method.name] = method.value;
-          }else{
+          if(method.model){
+            iAction[method.name] = (...args) => {
+              return this.getModel(method.model)[method.name](args);
+            };
+          }else if(method.model === false){
             iAction[method.name] = method.value.call(this, dispatch, ownProps);
+          }else{
+            iAction[method.name] = method.value;
           }
         })
         return iAction;
