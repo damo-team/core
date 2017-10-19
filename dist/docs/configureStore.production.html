@@ -371,6 +371,17 @@
 
   enhanceStore(appStore, models, reducers);
   <span class="hljs-keyword">return</span> appStore;
+}
+
+configureStore.replace = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">appStore, Models</span>)</span>{
+  <span class="hljs-keyword">let</span> { reducers, models } = createReducerAndModels({<span class="hljs-attr">routing</span>: routerReducer, <span class="hljs-attr">loadingBar</span>: loadingBarReducer}, Models);
+  
+  <span class="hljs-keyword">const</span> rootReducer = combineReducers(reducers);
+  
+  appStore.replaceReducer(rootReducer);
+  
+  <span class="hljs-comment">// #! 重新赋值models</span>
+  appStore.models = models;
 }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       

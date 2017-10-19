@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-redux-loading-bar"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-dom"), require("react-redux"), require("react-router"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux-loading-bar"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-redux"), require("react-router"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "seamless-immutable", "events", "rxjs", "cuid", "react-redux-loading-bar", "recompose", "hoist-non-react-statics", "isomorphic-fetch", "react-dom", "react-redux", "react-router", "react-router-redux", "redux-promise-middleware", "redux-thunk"], factory);
+		define(["react", "seamless-immutable", "events", "rxjs", "cuid", "react-dom", "react-redux-loading-bar", "recompose", "hoist-non-react-statics", "isomorphic-fetch", "react-redux", "react-router", "react-router-redux", "redux-promise-middleware", "redux-thunk"], factory);
 	else if(typeof exports === 'object')
-		exports["damoCore"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-redux-loading-bar"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-dom"), require("react-redux"), require("react-router"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux-loading-bar"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-redux"), require("react-router"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
-		root["damoCore"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-redux-loading-bar"], root["recompose"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-dom"], root["react-redux"], root["react-router"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_33__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_74__, __WEBPACK_EXTERNAL_MODULE_75__, __WEBPACK_EXTERNAL_MODULE_76__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__) {
+		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux-loading-bar"], root["recompose"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-redux"], root["react-router"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_33__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_36__, __WEBPACK_EXTERNAL_MODULE_75__, __WEBPACK_EXTERNAL_MODULE_76__, __WEBPACK_EXTERNAL_MODULE_77__, __WEBPACK_EXTERNAL_MODULE_78__, __WEBPACK_EXTERNAL_MODULE_79__, __WEBPACK_EXTERNAL_MODULE_80__, __WEBPACK_EXTERNAL_MODULE_81__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
+	exports.damo = exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
 
 	var _inject = __webpack_require__(15);
 
@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _componentDecorator = __webpack_require__(69);
+	var _componentDecorator = __webpack_require__(70);
 
 	Object.keys(_componentDecorator).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -109,7 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _baseModel = __webpack_require__(7);
+	var _baseModel = __webpack_require__(8);
 
 	Object.keys(_baseModel).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -133,7 +133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _baseSelector = __webpack_require__(8);
+	var _baseSelector = __webpack_require__(5);
 
 	Object.keys(_baseSelector).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -157,7 +157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resource = __webpack_require__(63);
+	var _resource = __webpack_require__(64);
 
 	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -169,30 +169,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 	exports.autoLoadStore = autoLoadStore;
-	exports.autoLoadServices = autoLoadServices;
 	exports.autoLoadScenesRoutes = autoLoadScenesRoutes;
 
-	var _path = __webpack_require__(72);
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _path = __webpack_require__(73);
 
 	var _path2 = _interopRequireDefault(_path);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var configureStore = exports.configureStore = __webpack_require__(65); /**
-	                                                                                  * # starter入口
-	                                                                                  *  - baseSelector.js - Selector基类
-	                                                                                  *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
-	                                                                                  *  - core.js - 核心工具方法
-	                                                                                  *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
-	                                                                                  *  - fetch.js - 接口调用模块
-	                                                                                  *  - baseModel.js - Model基类 
-	                                                                                  *  - configureStore.development.js - 日常构建store
-	                                                                                  *  - configureStore.production.js - 生产构建store
-	                                                                                  *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
-	                                                                                  *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
-	                                                                                  * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
-	                                                                                  */
-	var RxSelector = exports.RxSelector = __webpack_require__(70);
+	/**
+	 * # starter入口
+	 *  - baseSelector.js - Selector基类
+	 *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
+	 *  - core.js - 核心工具方法
+	 *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
+	 *  - fetch.js - 接口调用模块
+	 *  - baseModel.js - Model基类 
+	 *  - configureStore.development.js - 日常构建store
+	 *  - configureStore.production.js - 生产构建store
+	 *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
+	 *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
+	 * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
+	 */
+	var configureStore = exports.configureStore = __webpack_require__(66);
+	var RxSelector = exports.RxSelector = __webpack_require__(71);
 	var RxComponent = exports.RxComponent = __webpack_require__(32);
 
 	// #! require.context('./models', false, /\.js$/);
@@ -203,7 +211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var getInitReducers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
 
 	  if (!context) {
-	    throw new Error('需要提供model的require.context的遍历列表！');
+	    throw new Error('需要提供require.context的遍历列表！');
 	  }
 	  return configureStore(initialState, middlewares, function (hot) {
 	    var Models = getInitReducers() || {};
@@ -232,9 +240,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	}
 
-	function autoLoadServices(context) {
+	function _autoLoadServices(context) {
 	  if (!context) {
-	    throw new Error('需要提供service的require.context的遍历列表！');
+	    throw new Error('需要提供require.context的遍历列表！');
 	  }
 	  var Services = {};
 	  context.keys().forEach(function (key) {
@@ -244,11 +252,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	// #! require.context('./scenes', true, /index\.jsx$/)
+	exports.autoLoadServices = _autoLoadServices;
 	function autoLoadScenesRoutes(context) {
 	  var routeCallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
 
 	  if (!context) {
-	    throw new Error('需要提供scene的require.context的遍历列表！');
+	    throw new Error('需要提供require.context的遍历列表！');
 	  }
 
 	  var routes = [];
@@ -313,6 +322,140 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return routes;
 	}
 
+	var damo = {
+	  $$routes__: [],
+	  $$defaultModels__: {},
+	  $$store__: null,
+	  init: function init() {
+	    var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	    var defaultModels = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	    var middlewares = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+	    damo.$$defaultModels__ = defaultModels;
+	    damo.$$store__ = configureStore(initialState, middlewares, function (hot) {
+	      return {
+	        defaultModels: defaultModels
+	      };
+	    });
+	  },
+	  model: function model(Models) {
+	    if (!damo.$$store__) {
+	      throw new Error('需要调用damo.init初始化！');
+	    }
+	    damo.$$store__.addModel(Models);
+	  },
+	  service: function service(Services) {
+	    _inject.rcInject.setService(Services);
+	  },
+	  toselect: function toselect(Model, prop) {
+	    return function (state, ownProps) {
+	      if (typeof Model === 'function' && !Model.displayName) {
+	        return Model(state, ownProps);
+	      } else {
+	        return damo.select(Model, prop);
+	      }
+	    };
+	  },
+	  select: function select(modelName, prop) {
+	    if (!damo.$$store__) {
+	      throw new Error('需要调用damo.init初始化！');
+	    }
+	    if (Object(modelName) === modelName) {
+	      modelName = modelName.displayName;
+	    }
+	    return damo.$$store__.getModel(modelName).select(prop, true);
+	  },
+	  route: function route(path, RouteComponent, option) {
+	    if (Object(path) === path) {
+	      option = RouteComponent;
+	      RouteComponent = path;
+	      path = RouteComponent.routePath;
+	    }
+	    var routeConfig = Object.assign({
+	      path: path,
+	      component: RouteComponent,
+	      onLeave: RouteComponent.onLeave,
+	      onEnter: RouteComponent.onEnter,
+	      indexRoute: RouteComponent.indexRoute
+	    }, option);
+
+	    damo.$$routes__.push(routeConfig);
+
+	    return {
+	      route: function route(path, RouteComponent, option) {
+	        routeConfig.childRoutes = routeConfig.childRoutes || [];
+	        if (Object(path) === path) {
+	          option = RouteComponent;
+	          RouteComponent = path;
+	          path = RouteComponent.routePath;
+	        }
+	        var _routeConfig = Object.assign({
+	          path: path,
+	          component: RouteComponent,
+	          onLeave: RouteComponent.onLeave,
+	          onEnter: RouteComponent.onEnter,
+	          indexRoute: RouteComponent.indexRoute
+	        }, option);
+
+	        _routeConfig.childRoutes.push(routeConfig);
+	      }
+	    };
+	  },
+	  autoLoadModels: function autoLoadModels(context, noHot) {
+	    if (!damo.$$store__) {
+	      throw new Error('需要调用damo.init初始化！');
+	    }
+	    if (!context) {
+	      throw new Error('需要提供require.context的遍历列表！');
+	    }
+
+	    var defaultModels = Object.assign({}, damo.$$defaultModels__);
+
+	    context.keys().forEach(function (key) {
+	      defaultModels[key.split('/').pop().split('.')[0]] = context(key);
+	    });
+
+	    configureStore.replace(defaultModels);
+
+	    if (false) {
+	      module.hot.accept(context.id, function () {
+	        damo.autoLoadModels(context, true);
+	      });
+	    }
+	  },
+	  autoLoadServices: function autoLoadServices(context) {
+	    _autoLoadServices(context);
+	  },
+	  autoLoadRoutes: function autoLoadRoutes(context, routeCallback) {
+	    autoLoadScenesRoutes(context, routeCallback);
+	  },
+	  view: function view(Selector, SceneComponent, providers) {
+	    if (Selector.prototype instanceof _react.Component) {
+	      providers = SceneComponent;
+	      SceneComponent = Selector;
+	    }
+	    return (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent);
+	  },
+	  start: function start(RootComponent, DOM) {
+	    if (!damo.$$store__) {
+	      throw new Error('需要调用damo.init初始化！');
+	    }
+	    if (!_react2.default.isValidElement(RootComponent)) {
+	      RootComponent = _react2.default.createElement(RootComponent, null);
+	    }
+	    if (DOM) {
+	      if (typeof DOM === 'string') {
+	        DOM = document.getElementById(DOM);
+	      }
+	    } else {
+	      DOM = document.body;
+	    }
+	    _reactDom2.default.render(RootComponent, DOM);
+	  }
+	};
+
+	exports.damo = damo;
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -324,7 +467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var isFunction_1 = __webpack_require__(23);
-	var Subscription_1 = __webpack_require__(6);
+	var Subscription_1 = __webpack_require__(7);
 	var Observer_1 = __webpack_require__(18);
 	var rxSubscriber_1 = __webpack_require__(12);
 	/**
@@ -714,9 +857,161 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.BaseSelector = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp; /**
+	                    * # Selector基类
+	                    * 1. Selector把store数据和改变store的执行方法赋予组件，这一点和`redux.connect`的作用是等同的。
+	                    * 2. 通过selector可以获取组件的props和context, 甚至可以拿到父级组件的selector实例
+	                    * 3. 内部集成了rxjs，rxjs好处不多说，用过自然知道。
+	                    * 
+	                    * > see: https://chentsulin.github.io/redux/docs/recipes/ComputingDerivedData.html
+	                    * > see: https://github.com/reactjs/redux/issues/1171
+	                    */
+
+
+	var _events = __webpack_require__(16);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var BaseSelector = exports.BaseSelector = (_temp = _class = function (_EventEmitter) {
+	  _inherits(BaseSelector, _EventEmitter);
+
+	  function BaseSelector() {
+	    _classCallCheck(this, BaseSelector);
+
+	    var _this = _possibleConstructorReturn(this, (BaseSelector.__proto__ || Object.getPrototypeOf(BaseSelector)).call(this));
+
+	    _this.setMaxListeners(Number.MAX_VALUE);
+	    return _this;
+	  }
+
+	  _createClass(BaseSelector, [{
+	    key: 'ready',
+	    value: function ready(fn) {
+	      if (this.getAppStore()) {
+	        fn && fn();
+	      } else {
+	        BaseSelector.emitter.once('ready', fn);
+	      }
+	    }
+
+	    // 当组件初始化时，initialize会触发，用于取代componentWillMount获取初始化数据的行为。
+
+	  }, {
+	    key: 'initialize',
+	    value: function initialize(props, selector) {}
+	    /**
+	     * ### Selector特性属性
+	     * 
+	     * |        属性名         |          描述          |
+	     * |:       ------        |         ------        |
+	     * | inputs: Function | 相当于connect第一个参数，不同点为this指向selector实例    |
+	     * | outputs: Function | 相当于connect第二个参数，不同点为this指向selector实例  |
+	     * | dispatch: Function | 获取store实例的dispatch方法 |
+	     * | parentSelector | 获取父级组件的selector实例，如果存在的话 |
+	     */
+
+	  }, {
+	    key: 'getService',
+
+
+	    /**
+	     * ### Selector方法
+	     * 
+	     * |     方法名   |          描述          |       参数        |    默认参数      |
+	     * |     ------  |         ------        |       ------      |        ------   |
+	     * | getAppStore | 获取redux的store实例    |       NA          |         NA      |
+	     * | getModel | 获取挂在store的指定model实例 | {name: String}  |          NA      |
+	     * | getService | 获取组件的context     | NA  |          NA      |
+	     */
+	    // #! abstract
+	    value: function getService(name) {}
+	  }, {
+	    key: 'getAppStore',
+	    value: function getAppStore() {
+	      return BaseSelector.appStore;
+	    }
+	  }, {
+	    key: 'getModel',
+	    value: function getModel(modelName) {
+	      if (Object(modelName) === modelName) {
+	        modelName = modelName.displayName;
+	      }
+	      return this.getAppStore().models[modelName];
+	    }
+	  }, {
+	    key: 'select',
+	    value: function select(name) {
+	      var currentState = this.getAppStore().getState();
+	      if (name) {
+	        var keys = name.split('.');
+	        var state = currentState;
+	        for (var i = 0, len = keys.length; i < len; i++) {
+	          if (!(state = state[keys[i]])) {
+	            return state;
+	          }
+	        }
+	        return state;
+	      } else {
+	        return currentState;
+	      }
+	    }
+	  }, {
+	    key: 'destroy',
+	    value: function destroy() {
+	      this.removeAllListeners();
+	    }
+	  }, {
+	    key: 'inputs',
+	    get: function get() {
+	      return function (state, ownProps) {
+	        return {};
+	      };
+	    }
+	  }, {
+	    key: 'outputs',
+	    get: function get() {
+	      return function (dispatch, ownProps) {
+	        return {};
+	      };
+	    }
+	  }, {
+	    key: 'dispatch',
+	    get: function get() {
+	      return this.getAppStore().dispatch;
+	    }
+	  }, {
+	    key: 'parentSelector',
+	    set: function set(parentSelector) {
+	      this.$parentSelector_ = parentSelector;
+	    },
+	    get: function get() {
+	      return this.$parentSelector_;
+	    }
+	  }]);
+
+	  return BaseSelector;
+	}(_events.EventEmitter), _class.appStore = null, _class.emitter = new _events.EventEmitter(), _temp);
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	var root_1 = __webpack_require__(3);
-	var toSubscriber_1 = __webpack_require__(62);
+	var toSubscriber_1 = __webpack_require__(63);
 	var observable_1 = __webpack_require__(20);
 	/**
 	 * A representation of any set of values over any amount of time. This the most basic building block
@@ -856,16 +1151,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Observable.js.map
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var isArray_1 = __webpack_require__(22);
-	var isObject_1 = __webpack_require__(59);
+	var isObject_1 = __webpack_require__(60);
 	var isFunction_1 = __webpack_require__(23);
 	var tryCatch_1 = __webpack_require__(24);
 	var errorObject_1 = __webpack_require__(13);
-	var UnsubscriptionError_1 = __webpack_require__(58);
+	var UnsubscriptionError_1 = __webpack_require__(59);
 	/**
 	 * Represents a disposable resource, such as the execution of an Observable. A
 	 * Subscription has one important method, `unsubscribe`, that takes no argument
@@ -1014,7 +1309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Subscription.js.map
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1054,7 +1349,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var defaultProccessData = function defaultProccessData(res) {
+	var defaultProcessData = function defaultProcessData(res) {
 	  return res.data;
 	};
 	var BaseModel = exports.BaseModel = (_temp = _class = function (_EventEmitter) {
@@ -1153,7 +1448,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  }]);
 
-	  function BaseModel(name) {
+	  function BaseModel(name, initialState) {
 	    _classCallCheck(this, BaseModel);
 
 	    var _this = _possibleConstructorReturn(this, (BaseModel.__proto__ || Object.getPrototypeOf(BaseModel)).call(this));
@@ -1165,6 +1460,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _this.defineActionTypes = {};
 	    _this.defineActionCreators = {};
 	    _this.$pollers_ = [];
+
+	    if (!_this.properties) {
+	      _this.properties = initialState;
+	    }
 
 	    _this.setMaxListeners(Number.MAX_VALUE);
 	    return _this;
@@ -1202,7 +1501,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'select',
 	    value: function select(name) {
 	      var currentState = this.getAppStore().getState();
-	      return currentState[this.name][name];
+	      var state = currentState[this.name];
+	      var keys = name.split('.');
+
+	      for (var i = 0, len = keys.length; i < len; i++) {
+	        if (!(state = state[keys[i]])) {
+	          return state;
+	        }
+	      }
+	      return state;
 	    }
 	  }, {
 	    key: 'execQuery',
@@ -1304,7 +1611,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        actionReducer = function actionReducer(dispatch) {
 	          var extraOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	          var processData = extraOption.processData || opt.processData || defaultProccessData;
+	          var processData = extraOption.processData || opt.processData || defaultProcessData;
 	          var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	          var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -1370,7 +1677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var actionReducer = function actionReducer(dispatch) {
 	        var extraOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	        var processData = extraOption.processData || opt.processData || defaultProccessData;
+	        var processData = extraOption.processData || opt.processData || defaultProcessData;
 	        var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	        var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -1471,155 +1778,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  return BaseModel;
 	}(_events.EventEmitter), _class.appStore = null, _class.ASSIGN_TYPES = _createCrud.changeOperators, _temp);
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.BaseSelector = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _class, _temp; /**
-	                    * # Selector基类
-	                    * 1. Selector把store数据和改变store的执行方法赋予组件，这一点和`redux.connect`的作用是等同的。
-	                    * 2. 通过selector可以获取组件的props和context, 甚至可以拿到父级组件的selector实例
-	                    * 3. 内部集成了rxjs，rxjs好处不多说，用过自然知道。
-	                    * 
-	                    * > see: https://chentsulin.github.io/redux/docs/recipes/ComputingDerivedData.html
-	                    * > see: https://github.com/reactjs/redux/issues/1171
-	                    */
-
-
-	var _events = __webpack_require__(16);
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var BaseSelector = exports.BaseSelector = (_temp = _class = function (_EventEmitter) {
-	  _inherits(BaseSelector, _EventEmitter);
-
-	  function BaseSelector() {
-	    _classCallCheck(this, BaseSelector);
-
-	    var _this = _possibleConstructorReturn(this, (BaseSelector.__proto__ || Object.getPrototypeOf(BaseSelector)).call(this));
-
-	    _this.setMaxListeners(Number.MAX_VALUE);
-	    return _this;
-	  }
-
-	  _createClass(BaseSelector, [{
-	    key: 'ready',
-	    value: function ready(fn) {
-	      if (this.getAppStore()) {
-	        fn && fn();
-	      } else {
-	        BaseSelector.emitter.once('ready', fn);
-	      }
-	    }
-
-	    // 当组件初始化时，initialize会触发，用于取代componentWillMount获取初始化数据的行为。
-
-	  }, {
-	    key: 'initialize',
-	    value: function initialize(props, selector) {}
-	    /**
-	     * ### Selector特性属性
-	     * 
-	     * |        属性名         |          描述          |
-	     * |:       ------        |         ------        |
-	     * | inputs: Function | 相当于connect第一个参数，不同点为this指向selector实例    |
-	     * | outputs: Function | 相当于connect第二个参数，不同点为this指向selector实例  |
-	     * | dispatch: Function | 获取store实例的dispatch方法 |
-	     * | parentSelector | 获取父级组件的selector实例，如果存在的话 |
-	     */
-
-	  }, {
-	    key: 'getService',
-
-
-	    /**
-	     * ### Selector方法
-	     * 
-	     * |     方法名   |          描述          |       参数        |    默认参数      |
-	     * |     ------  |         ------        |       ------      |        ------   |
-	     * | getAppStore | 获取redux的store实例    |       NA          |         NA      |
-	     * | getModel | 获取挂在store的指定model实例 | {name: String}  |          NA      |
-	     * | getService | 获取组件的context     | NA  |          NA      |
-	     */
-	    // #! abstract
-	    value: function getService(name) {}
-	  }, {
-	    key: 'getAppStore',
-	    value: function getAppStore() {
-	      return BaseSelector.appStore;
-	    }
-	  }, {
-	    key: 'getModel',
-	    value: function getModel(modelName) {
-	      return this.getAppStore().models[modelName];
-	    }
-	  }, {
-	    key: 'select',
-	    value: function select(name) {
-	      var currentState = this.getAppStore().getState();
-	      if (name) {
-	        var keys = name.split('.');
-	        var state = currentState;
-	        for (var i = 0, len = keys.length; i < len; i++) {
-	          if (!(state = state[keys[i]])) {
-	            return state;
-	          }
-	        }
-	        return state;
-	      } else {
-	        return currentState;
-	      }
-	    }
-	  }, {
-	    key: 'destroy',
-	    value: function destroy() {
-	      this.removeAllListeners();
-	    }
-	  }, {
-	    key: 'inputs',
-	    get: function get() {
-	      return function (state, ownProps) {
-	        return {};
-	      };
-	    }
-	  }, {
-	    key: 'outputs',
-	    get: function get() {
-	      return function (dispatch, ownProps) {
-	        return {};
-	      };
-	    }
-	  }, {
-	    key: 'dispatch',
-	    get: function get() {
-	      return this.getAppStore().dispatch;
-	    }
-	  }, {
-	    key: 'parentSelector',
-	    set: function set(parentSelector) {
-	      this.$parentSelector_ = parentSelector;
-	    },
-	    get: function get() {
-	      return this.$parentSelector_;
-	    }
-	  }]);
-
-	  return BaseSelector;
-	}(_events.EventEmitter), _class.appStore = null, _class.emitter = new _events.EventEmitter(), _temp);
 
 /***/ },
 /* 9 */
@@ -1910,7 +2068,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.Api = Api;
 
-	var _isomorphicFetch = __webpack_require__(75);
+	var _isomorphicFetch = __webpack_require__(76);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -3535,7 +3693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _inject = __webpack_require__(15);
 
-	var _baseSelector = __webpack_require__(8);
+	var _baseSelector = __webpack_require__(5);
 
 	var _seamlessImmutable = __webpack_require__(11);
 
@@ -3550,6 +3708,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	_baseSelector.BaseSelector.prototype.getModel = function (modelName) {
+	  if (Object(modelName) === modelName) {
+	    modelName = modelName.displayName;
+	  }
+
 	  var model = this.getAppStore().models[modelName];
 	  if (!this.$subscribersMap_) {
 	    this.$subscribersMap_ = {};
@@ -3673,13 +3835,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }]);
 
-	      function NewModel(name) {
+	      function NewModel(name, initialState) {
 	        _classCallCheck(this, NewModel);
 
 	        var _this2 = _possibleConstructorReturn(this, (NewModel.__proto__ || Object.getPrototypeOf(NewModel)).call(this, name));
 
 	        _this2.$resources_ = {};
-	        _this2.$properties_ = _get(NewModel.prototype.__proto__ || Object.getPrototypeOf(NewModel.prototype), 'properties', _this2) || {};
+	        _this2.$properties_ = initialState || _get(NewModel.prototype.__proto__ || Object.getPrototypeOf(NewModel.prototype), 'properties', _this2) || {};
 
 	        if (options.prototype instanceof _resource.BaseResource) {
 	          (function () {
@@ -3810,7 +3972,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createCrud = __webpack_require__(9);
 
-	var _baseModel = __webpack_require__(7);
+	var _baseModel = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3863,7 +4025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (Model.prototype instanceof _baseModel.BaseModel) {
 	        name = Model.displayName;
 	        if (name) {
-	          models[name] = new Model(name);
+	          models[name] = new Model(name, Model.initialState);
 	          // models[name].setName(name);
 	          reducers[name] = createReducerFactory(models[name]);
 	        } else {
@@ -3883,7 +4045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var Model = Models[name];
 	      if (Model.prototype instanceof _baseModel.BaseModel) {
 	        name = Model.displayName || name;
-	        models[name] = new Model(name);
+	        models[name] = new Model(name, Model.initialState);
 	        // models[name].setName(name);
 	        reducers[name] = createReducerFactory(models[name]);
 	      } else {
@@ -4041,7 +4203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	if (true) {
-	  module.exports = __webpack_require__(36);
+	  module.exports = __webpack_require__(37);
 	} else {
 	  module.exports = require('redux');
 	}
@@ -4160,11 +4322,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 36 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_36__;
+
+/***/ },
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(38), __webpack_require__(5), __webpack_require__(18), __webpack_require__(41), __webpack_require__(1), __webpack_require__(46), __webpack_require__(19), __webpack_require__(47), __webpack_require__(48), __webpack_require__(49), __webpack_require__(50), __webpack_require__(56));
+			module.exports = factory(__webpack_require__(39), __webpack_require__(6), __webpack_require__(18), __webpack_require__(42), __webpack_require__(1), __webpack_require__(47), __webpack_require__(19), __webpack_require__(48), __webpack_require__(49), __webpack_require__(50), __webpack_require__(51), __webpack_require__(57));
 		else if(typeof define === 'function' && define.amd)
 			define(["rxjs/BehaviorSubject", "rxjs/Observable", "rxjs/Observer", "rxjs/Operator", "rxjs/Subscriber", "rxjs/operator/distinctUntilChanged", "rxjs/operator/map", "rxjs/operator/observeOn", "rxjs/operator/pluck", "rxjs/operator/scan", "rxjs/operator/withLatestFrom", "rxjs/scheduler/queue"], factory);
 		else if(typeof exports === 'object')
@@ -4849,7 +5017,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4906,7 +5074,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = createHelper;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4915,7 +5083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subject_1 = __webpack_require__(44);
+	var Subject_1 = __webpack_require__(45);
 	var ObjectUnsubscribedError_1 = __webpack_require__(21);
 	/**
 	 * @class BehaviorSubject<T>
@@ -4960,7 +5128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=BehaviorSubject.js.map
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5001,11 +5169,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=InnerSubscriber.js.map
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var Observable_1 = __webpack_require__(5);
+	var Observable_1 = __webpack_require__(6);
 	/**
 	 * Represents a push-based event or value that an {@link Observable} can emit.
 	 * This class is particularly useful for operators that manage notifications,
@@ -5133,14 +5301,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Notification.js.map
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	"use strict";
 	//# sourceMappingURL=Operator.js.map
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5175,7 +5343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=OuterSubscriber.js.map
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5229,7 +5397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Scheduler.js.map
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5238,11 +5406,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Observable_1 = __webpack_require__(5);
+	var Observable_1 = __webpack_require__(6);
 	var Subscriber_1 = __webpack_require__(1);
-	var Subscription_1 = __webpack_require__(6);
+	var Subscription_1 = __webpack_require__(7);
 	var ObjectUnsubscribedError_1 = __webpack_require__(21);
-	var SubjectSubscription_1 = __webpack_require__(45);
+	var SubjectSubscription_1 = __webpack_require__(46);
 	var rxSubscriber_1 = __webpack_require__(12);
 	/**
 	 * @class SubjectSubscriber<T>
@@ -5394,7 +5562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Subject.js.map
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5403,7 +5571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subscription_1 = __webpack_require__(6);
+	var Subscription_1 = __webpack_require__(7);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
 	 * @ignore
@@ -5439,7 +5607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=SubjectSubscription.js.map
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5521,7 +5689,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=distinctUntilChanged.js.map
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5531,7 +5699,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var Subscriber_1 = __webpack_require__(1);
-	var Notification_1 = __webpack_require__(40);
+	var Notification_1 = __webpack_require__(41);
 	/**
 	 * @see {@link Notification}
 	 *
@@ -5601,7 +5769,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=observeOn.js.map
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5664,7 +5832,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=pluck.js.map
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5777,7 +5945,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=scan.js.map
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5786,8 +5954,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var OuterSubscriber_1 = __webpack_require__(42);
-	var subscribeToResult_1 = __webpack_require__(61);
+	var OuterSubscriber_1 = __webpack_require__(43);
+	var subscribeToResult_1 = __webpack_require__(62);
 	/**
 	 * Combines the source Observable with other Observables to create an Observable
 	 * whose values are calculated from the latest values of each, only when the
@@ -5912,7 +6080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=withLatestFrom.js.map
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5921,7 +6089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subscription_1 = __webpack_require__(6);
+	var Subscription_1 = __webpack_require__(7);
 	/**
 	 * A unit of work to be executed in a {@link Scheduler}. An action is typically
 	 * created from within a Scheduler and an RxJS user does not need to concern
@@ -5961,7 +6129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=Action.js.map
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5971,7 +6139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var root_1 = __webpack_require__(3);
-	var Action_1 = __webpack_require__(51);
+	var Action_1 = __webpack_require__(52);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
 	 * @ignore
@@ -6108,7 +6276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=AsyncAction.js.map
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6117,7 +6285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Scheduler_1 = __webpack_require__(43);
+	var Scheduler_1 = __webpack_require__(44);
 	var AsyncScheduler = (function (_super) {
 	    __extends(AsyncScheduler, _super);
 	    function AsyncScheduler() {
@@ -6164,7 +6332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=AsyncScheduler.js.map
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6173,7 +6341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var AsyncAction_1 = __webpack_require__(52);
+	var AsyncAction_1 = __webpack_require__(53);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
 	 * @ignore
@@ -6216,7 +6384,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=QueueAction.js.map
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6225,7 +6393,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var AsyncScheduler_1 = __webpack_require__(53);
+	var AsyncScheduler_1 = __webpack_require__(54);
 	var QueueScheduler = (function (_super) {
 	    __extends(QueueScheduler, _super);
 	    function QueueScheduler() {
@@ -6237,17 +6405,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=QueueScheduler.js.map
 
 /***/ },
-/* 56 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var QueueAction_1 = __webpack_require__(54);
-	var QueueScheduler_1 = __webpack_require__(55);
+	var QueueAction_1 = __webpack_require__(55);
+	var QueueScheduler_1 = __webpack_require__(56);
 	exports.queue = new QueueScheduler_1.QueueScheduler(QueueAction_1.QueueAction);
 	//# sourceMappingURL=queue.js.map
 
 /***/ },
-/* 57 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6284,7 +6452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=iterator.js.map
 
 /***/ },
-/* 58 */
+/* 59 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -6314,7 +6482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=UnsubscriptionError.js.map
 
 /***/ },
-/* 59 */
+/* 60 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -6325,7 +6493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=isObject.js.map
 
 /***/ },
-/* 60 */
+/* 61 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -6336,16 +6504,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=isPromise.js.map
 
 /***/ },
-/* 61 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	var root_1 = __webpack_require__(3);
 	var isArray_1 = __webpack_require__(22);
-	var isPromise_1 = __webpack_require__(60);
-	var Observable_1 = __webpack_require__(5);
-	var iterator_1 = __webpack_require__(57);
-	var InnerSubscriber_1 = __webpack_require__(39);
+	var isPromise_1 = __webpack_require__(61);
+	var Observable_1 = __webpack_require__(6);
+	var iterator_1 = __webpack_require__(58);
+	var InnerSubscriber_1 = __webpack_require__(40);
 	var observable_1 = __webpack_require__(20);
 	function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 	    var destination = new InnerSubscriber_1.InnerSubscriber(outerSubscriber, outerValue, outerIndex);
@@ -6415,7 +6583,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=subscribeToResult.js.map
 
 /***/ },
-/* 62 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6439,7 +6607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//# sourceMappingURL=toSubscriber.js.map
 
 /***/ },
-/* 63 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6472,7 +6640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceAction = __webpack_require__(64);
+	var _resourceAction = __webpack_require__(65);
 
 	Object.keys(_resourceAction).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -6558,7 +6726,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 64 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6577,7 +6745,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(76);
+	var _reactDom = __webpack_require__(34);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -6587,7 +6755,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _hotStaticResource = __webpack_require__(25);
 
-	var _baseModel = __webpack_require__(7);
+	var _baseModel = __webpack_require__(8);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6717,7 +6885,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 65 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6727,13 +6895,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * 详情请查看对应的文件
 	 */
 	if (true) {
-	  module.exports = __webpack_require__(66);
+	  module.exports = __webpack_require__(67);
 	} else {
 	  module.exports = require('./configureStore.development');
 	}
 
 /***/ },
-/* 66 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6757,13 +6925,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 
-	var _reactReduxLoadingBar = __webpack_require__(34);
+	var _reactReduxLoadingBar = __webpack_require__(35);
 
-	var _loadingBarMiddleware = __webpack_require__(68);
+	var _loadingBarMiddleware = __webpack_require__(69);
 
 	var _createReducerFactory = __webpack_require__(29);
 
-	var _enhanceStore = __webpack_require__(67);
+	var _enhanceStore = __webpack_require__(68);
 
 	var _enhanceStore2 = _interopRequireDefault(_enhanceStore);
 
@@ -6825,10 +6993,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _enhanceStore2.default)(appStore, models, reducers);
 	  return appStore;
 	}
+
+	configureStore.replace = function (appStore, Models) {
+	  var _createReducerAndMode2 = (0, _createReducerFactory.createReducerAndModels)({ routing: _reactRouterRedux.routerReducer, loadingBar: _reactReduxLoadingBar.loadingBarReducer }, Models),
+	      reducers = _createReducerAndMode2.reducers,
+	      models = _createReducerAndMode2.models;
+
+	  var rootReducer = (0, _rx.combineReducers)(reducers);
+
+	  appStore.replaceReducer(rootReducer);
+
+	  // #! 重新赋值models
+	  appStore.models = models;
+	};
 	module.exports = exports['default'];
 
 /***/ },
-/* 67 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6838,9 +7019,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = enhanceStore;
 
-	var _baseModel = __webpack_require__(7);
+	var _baseModel = __webpack_require__(8);
 
-	var _baseSelector = __webpack_require__(8);
+	var _baseSelector = __webpack_require__(5);
 
 	var _core = __webpack_require__(2);
 
@@ -6868,7 +7049,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (Array.isArray(Models)) {
 	      var newModels = {};
 	      Models.forEach(function (Model) {
-	        newModels[(0, _core.lcfirst)(Model.displayName || Model.name)] = Model;
+	        if (!Model.displayName) {
+	          Model.displayName = (0, _core.lcfirst)(Model.name);
+	        }
+	        newModels[Model.displayName] = Model;
 	      });
 	      Models = newModels;
 	    }
@@ -6909,7 +7093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 68 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6926,7 +7110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.loadingBarMiddleware = loadingBarMiddleware;
 
-	var _reactReduxLoadingBar = __webpack_require__(34);
+	var _reactReduxLoadingBar = __webpack_require__(35);
 
 	var defaultTypeSuffixes = ['PENDING', 'FULFILLED', 'REJECTED'];
 
@@ -6964,7 +7148,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6978,24 +7162,32 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactRedux = __webpack_require__(77);
 
-	var _recompose = __webpack_require__(35);
+	var _recompose = __webpack_require__(36);
 
 	var _cuid = __webpack_require__(33);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _withState2 = __webpack_require__(71);
+	var _withState2 = __webpack_require__(72);
 
 	var _withState3 = _interopRequireDefault(_withState2);
 
 	var _inject = __webpack_require__(15);
 
-	var _hoistNonReactStatics = __webpack_require__(74);
+	var _baseSelector = __webpack_require__(5);
+
+	var _hoistNonReactStatics = __webpack_require__(75);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * # 组件装饰器
+	 * 1. 同connect，实际上connect也是React组件装饰器，不同的是component需要完成更多的封装。
+	 * 2. component希望把外部的state和context也能装饰到React组件中
+	 * 3. 内部通过recompose库来实现(hoc by recompose)
+	 */
 	var _withState = function _withState() {
 	  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	    args[_key] = arguments[_key];
@@ -7021,12 +7213,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * + Copies non-react specific statics from a child component to a parent component
 	 * > see: https://www.npmjs.com/package/hoist-non-react-statics
 	 */
-	/**
-	 * # 组件装饰器
-	 * 1. 同connect，实际上connect也是React组件装饰器，不同的是component需要完成更多的封装。
-	 * 2. component希望把外部的state和context也能装饰到React组件中
-	 * 3. 内部通过recompose库来实现(hoc by recompose)
-	 */
 	var component = exports.component = function component(_ref) {
 	  var elementFactory = _ref.elementFactory,
 	      inputs = _ref.inputs,
@@ -7047,6 +7233,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    selectorInstance.name = selector.displayName;
 	    inputs = selectorInstance.inputs;
 	    outputs = selectorInstance.outputs;
+
+	    if (inputs.toString() === _baseSelector.BaseSelector.prototype.inputs.toString() && selector.dataBindings) {
+	      inputs = function inputs() {
+	        return function (state, ownProps) {
+	          var iState = {};
+	          for (var key in selector.dataBindings) {
+	            if (typeof selector.dataBindings[key] === 'function') {
+	              iState[key] = selector.dataBindings[key](state, ownProps);
+	            } else {
+	              iState[key] = selector.dataBindings[key];
+	            }
+	          }
+	          return iState;
+	        };
+	      };
+	    }
+
+	    if (outputs.toString() === _baseSelector.BaseSelector.prototype.outputs.toString() && selector.eventBindings) {
+	      outputs = function outputs() {
+	        return function (dispatch, ownProps) {
+	          var iActions = {};
+	          for (var key in selector.eventBindings) {
+	            iActions[key] = selector.eventBindings[key](dispatch, ownProps);
+	          }
+	          return iActions;
+	        };
+	      };
+	    }
 	  }
 
 	  composeArgs.push(function (BaseComponent) {
@@ -7316,7 +7530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var View = exports.View = component;
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7325,7 +7539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-	var _baseSelector = __webpack_require__(8);
+	var _baseSelector = __webpack_require__(5);
 
 	var _core = __webpack_require__(2);
 
@@ -7564,7 +7778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7579,11 +7793,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(4);
 
-	var _createHelper = __webpack_require__(37);
+	var _createHelper = __webpack_require__(38);
 
 	var _createHelper2 = _interopRequireDefault(_createHelper);
 
-	var _recompose = __webpack_require__(35);
+	var _recompose = __webpack_require__(36);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7642,7 +7856,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7870,10 +8084,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(73)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74)))
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -8061,12 +8275,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	process.umask = function() { return 0; };
 
-
-/***/ },
-/* 74 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_74__;
 
 /***/ },
 /* 75 */

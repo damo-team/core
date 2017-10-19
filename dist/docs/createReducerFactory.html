@@ -304,7 +304,7 @@ modelInstance = {
       <span class="hljs-keyword">if</span>(Model.prototype <span class="hljs-keyword">instanceof</span> BaseModel){
         name = Model.displayName;
         <span class="hljs-keyword">if</span>(name){
-          models[name] = <span class="hljs-keyword">new</span> Model(name);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+          models[name] = <span class="hljs-keyword">new</span> Model(name, Model.initialState);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
@@ -339,7 +339,7 @@ modelInstance = {
       <span class="hljs-keyword">let</span> Model = Models[name];
       <span class="hljs-keyword">if</span>(Model.prototype <span class="hljs-keyword">instanceof</span> BaseModel){
         name = Model.displayName || name;
-        models[name] = <span class="hljs-keyword">new</span> Model(name);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+        models[name] = <span class="hljs-keyword">new</span> Model(name, Model.initialState);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>

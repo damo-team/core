@@ -239,7 +239,8 @@
 <span class="hljs-keyword">import</span> {compose} <span class="hljs-keyword">from</span> <span class="hljs-string">'recompose'</span>;
 <span class="hljs-keyword">import</span> cuid <span class="hljs-keyword">from</span> <span class="hljs-string">'cuid'</span>;
 <span class="hljs-keyword">import</span> withState <span class="hljs-keyword">from</span> <span class="hljs-string">'./withState'</span>;
-<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./inject'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./inject'</span>;
+<span class="hljs-keyword">import</span> {BaseSelector} <span class="hljs-keyword">from</span> <span class="hljs-string">'./baseSelector'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
@@ -318,6 +319,34 @@
     selectorInstance.name = selector.displayName;
     inputs = selectorInstance.inputs;
     outputs = selectorInstance.outputs;
+
+    <span class="hljs-keyword">if</span>(inputs.toString() === BaseSelector.prototype.inputs.toString() &amp;&amp; selector.dataBindings){
+      inputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
+          <span class="hljs-keyword">const</span> iState = {};
+          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.dataBindings){
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> selector.dataBindings[key] === <span class="hljs-string">'function'</span>){
+              iState[key] = selector.dataBindings[key](state, ownProps);
+            }<span class="hljs-keyword">else</span>{
+              iState[key] = selector.dataBindings[key];
+            }
+          }
+          <span class="hljs-keyword">return</span> iState;
+        }
+      }
+    }
+
+    <span class="hljs-keyword">if</span>(outputs.toString() === BaseSelector.prototype.outputs.toString() &amp;&amp; selector.eventBindings){
+      outputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
+          <span class="hljs-keyword">const</span> iActions = {};
+          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.eventBindings){
+            iActions[key] = selector.eventBindings[key](dispatch, ownProps);
+          }
+          <span class="hljs-keyword">return</span> iActions;
+        }
+      }
+    }
   }
 
   composeArgs.push(<span class="hljs-function"><span class="hljs-params">BaseComponent</span> =&gt;</span> {

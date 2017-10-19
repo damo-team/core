@@ -391,6 +391,9 @@ see: <a href="https://github.com/reactjs/redux/issues/1171">https://github.com/r
   }
 
   getModel(modelName){
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().models[modelName]; 
   }
 
