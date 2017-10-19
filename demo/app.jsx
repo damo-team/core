@@ -34,6 +34,7 @@ const codeSourcesMap = {
  '/mvc-rx/mvc-rx-polling': require('!!raw!./mvc-rx/mvc-rx-polling/scene.jsx'),
  '/mvc-sync': require('!!raw!./mvc-sync/scene.jsx'),
  '/mvc-context': require('!!raw!./mvc-context/scene.jsx'),
+ '/mini-app': require('!!raw!./mini-app/scene.jsx'),
 };
 
 class AppSelector extends BaseSelector{

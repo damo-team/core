@@ -48,7 +48,7 @@ export function createReducerAndModels(reducers, Models){
       if(Model.prototype instanceof BaseModel){
         name = Model.displayName;
         if(name){
-          models[name] = new Model(name);
+          models[name] = new Model(name, Model.initialState);
           // models[name].setName(name);
           reducers[name] = createReducerFactory(models[name]);
         }else{
@@ -68,7 +68,7 @@ export function createReducerAndModels(reducers, Models){
       let Model = Models[name];
       if(Model.prototype instanceof BaseModel){
         name = Model.displayName || name;
-        models[name] = new Model(name);
+        models[name] = new Model(name, Model.initialState);
         // models[name].setName(name);
         reducers[name] = createReducerFactory(models[name]);
       }else{

@@ -6,6 +6,10 @@ import {BaseSelector} from '../utils/baseSelector';
 import SI from 'seamless-immutable';
 
 BaseSelector.prototype.getModel = function(modelName){
+  if(Object(modelName) === modelName){
+    modelName = modelName.displayName;
+  }
+
   const model = this.getAppStore().models[modelName];
   if(!this.$subscribersMap_){
     this.$subscribersMap_ = {};
@@ -109,10 +113,10 @@ export function resource(options = {}, actionState) {
         return subcriptions;
       }
 
-      constructor(name) {
+      constructor(name, initialState) {
         super(name);
         this.$resources_ = {};
-        this.$properties_ = super.properties || {};
+        this.$properties_ = initialState || super.properties || {};
 
         if(options.prototype instanceof BaseResource){
           this.$transfer_ = true;

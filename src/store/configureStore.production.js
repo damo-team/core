@@ -58,3 +58,14 @@ export default function configureStore(initialState, storeMiddlewares, createRed
   enhanceStore(appStore, models, reducers);
   return appStore;
 }
+
+configureStore.replace = function(appStore, Models){
+  let { reducers, models } = createReducerAndModels({routing: routerReducer, loadingBar: loadingBarReducer}, Models);
+  
+  const rootReducer = combineReducers(reducers);
+  
+  appStore.replaceReducer(rootReducer);
+  
+  // #! 重新赋值models
+  appStore.models = models;
+}

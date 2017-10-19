@@ -12,6 +12,8 @@
  *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
  * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
  */
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import path from 'path';
 import {rcInject} from './utils/inject';
 
@@ -25,6 +27,7 @@ export * from './utils/baseSelector';
 export * from './utils/fetch';
 export * from './resource';
 
+import {View} from './utils/componentDecorator';
 export const configureStore = require('./store/configureStore'); 
 export const RxSelector = require('./utils/rxSelector');
 export const RxComponent = require('./utils/rxComponent');
@@ -32,7 +35,7 @@ export const RxComponent = require('./utils/rxComponent');
 // #! require.context('./models', false, /\.js$/);
 export function autoLoadStore(initialState = {}, middlewares = [], context, getInitReducers = function(){}){
   if(!context){
-    throw new Error('需要提供model的require.context的遍历列表！');
+    throw new Error('需要提供require.context的遍历列表！');
   }
   return configureStore(initialState, middlewares, hot => {
     const Models = getInitReducers() || {};
@@ -63,7 +66,7 @@ export function autoLoadStore(initialState = {}, middlewares = [], context, getI
 
 export function autoLoadServices(context){
   if(!context){
-    throw new Error('需要提供service的require.context的遍历列表！');
+    throw new Error('需要提供require.context的遍历列表！');
   }
   const Services = {};
   context.keys().forEach(key => {
@@ -75,7 +78,7 @@ export function autoLoadServices(context){
 // #! require.context('./scenes', true, /index\.jsx$/)
 export function autoLoadScenesRoutes(context, routeCallback = function(){}) {
   if(!context){
-    throw new Error('需要提供scene的require.context的遍历列表！');
+    throw new Error('需要提供require.context的遍历列表！');
   }
   
   const routes = [];
@@ -131,3 +134,134 @@ export function autoLoadScenesRoutes(context, routeCallback = function(){}) {
   });
   return routes;
 }
+
+
+const damo = {
+  $$routes__: [],
+  $$defaultModels__: {},
+  $$store__: null,
+  init(initialState={}, defaultModels = {}, middlewares = []){
+    damo.$$defaultModels__ = defaultModels;
+    damo.$$store__ = configureStore(initialState, middlewares, hot => {
+      return {
+        defaultModels
+      };
+    });
+  },
+  model(Models){
+    if(!damo.$$store__){
+      throw new Error('需要调用damo.init初始化！');
+    }
+    damo.$$store__.addModel(Models);
+  },
+  service(Services){
+    rcInject.setService(Services);
+  },
+  toselect(Model, prop){
+    return (state, ownProps) => {
+      if(typeof Model === 'function' && !Model.displayName){
+        return Model(state, ownProps);
+      }else{
+        return damo.select(Model, prop); 
+      }
+    }
+  },
+  select(modelName, prop){
+    if(!damo.$$store__){
+      throw new Error('需要调用damo.init初始化！');
+    }
+    if(Object(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
+    return damo.$$store__.getModel(modelName).select(prop, true);
+  },
+  route(path, RouteComponent, option){
+    if(Object(path) === path){
+      option = RouteComponent;
+      RouteComponent = path;
+      path = RouteComponent.routePath;
+    }
+    const routeConfig = Object.assign({
+      path: path,
+      component: RouteComponent,
+      onLeave: RouteComponent.onLeave,
+      onEnter: RouteComponent.onEnter,
+      indexRoute: RouteComponent.indexRoute
+    }, option);
+    
+    damo.$$routes__.push(routeConfig);
+    
+    return {
+      route: (path, RouteComponent, option) => {
+        routeConfig.childRoutes = routeConfig.childRoutes || [];
+        if(Object(path) === path){
+          option = RouteComponent;
+          RouteComponent = path;
+          path = RouteComponent.routePath;
+        }
+        const _routeConfig = Object.assign({
+          path: path,
+          component: RouteComponent,
+          onLeave: RouteComponent.onLeave,
+          onEnter: RouteComponent.onEnter,
+          indexRoute: RouteComponent.indexRoute
+        }, option);
+        
+        _routeConfig.childRoutes.push(routeConfig);
+      }
+    }
+  },
+  autoLoadModels(context, noHot){
+    if(!damo.$$store__){
+      throw new Error('需要调用damo.init初始化！');
+    }
+    if(!context){
+      throw new Error('需要提供require.context的遍历列表！');
+    }
+
+    const defaultModels = Object.assign({}, damo.$$defaultModels__);
+
+    context.keys().forEach(key => {
+      defaultModels[key.split('/').pop().split('.')[0]] = context(key);
+    });
+    
+    configureStore.replace(defaultModels);
+    
+    if (module.hot && !noHot) {
+      module.hot.accept(context.id, () => {
+        damo.autoLoadModels(context, true);
+      });
+    }
+  },
+  autoLoadServices(context){
+    autoLoadServices(context);
+  },
+  autoLoadRoutes(context, routeCallback){
+    autoLoadScenesRoutes(context, routeCallback);
+  },
+  view(Selector, SceneComponent, providers){
+    if(Selector.prototype instanceof Component){
+      providers = SceneComponent;
+      SceneComponent = Selector;
+    }
+    return View({selector: Selector, providers: providers})(SceneComponent);
+  },
+  start(RootComponent, DOM){
+    if(!damo.$$store__){
+      throw new Error('需要调用damo.init初始化！');
+    }
+    if(!React.isValidElement(RootComponent)){
+      RootComponent = (<RootComponent/>);
+    }
+    if(DOM){
+      if(typeof DOM === 'string'){
+        DOM = document.getElementById(DOM);
+      }
+    }else{
+      DOM = document.body;
+    }
+    ReactDOM.render(RootComponent, DOM);
+  }
+}
+
+export {damo};

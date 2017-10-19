@@ -78,6 +78,9 @@ export class BaseSelector extends EventEmitter{
   }
 
   getModel(modelName){
+    if(Object(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
     return this.getAppStore().models[modelName]; 
   }
 

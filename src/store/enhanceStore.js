@@ -19,7 +19,10 @@ export default function enhanceStore(appStore, models, reducers){
     if(Array.isArray(Models)){
       const newModels = {};
       Models.forEach(Model => {
-        newModels[lcfirst(Model.displayName || Model.name)] = Model;
+        if(!Model.displayName){
+          Model.displayName = lcfirst(Model.name);
+        }
+        newModels[Model.displayName] = Model;
       });
       Models = newModels;
     }

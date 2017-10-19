@@ -65,7 +65,7 @@ export default function configureStore(initialState, storeMiddlewares, createRed
   const rootReducer = combineReducers(reducers);
 
   appStore = createStore(rootReducer, initialState, enhancer);
-
+  
   enhanceStore(appStore, models, reducers);
 
   // #! 集成到chrome插件redux
@@ -82,17 +82,21 @@ export default function configureStore(initialState, storeMiddlewares, createRed
       
       const Models = hotModelsFeedback();
 
-      const { reducers, models } = createReducerAndModels({routing: routerReducer, loadingBar: loadingBarReducer}, Models);
-
-      const rootReducer = combineReducers(reducers);
-      
-      appStore.replaceReducer(rootReducer);
-      
-      // #! 重新赋值models
-      appStore.models = models;
+      configureStore.replace(Models);
     });
   }
 
   return appStore;
 }
 
+
+configureStore.replace = function(appStore, Models){
+  const { reducers, models } = createReducerAndModels({routing: routerReducer, loadingBar: loadingBarReducer}, Models);
+  
+  const rootReducer = combineReducers(reducers);
+  
+  appStore.replaceReducer(rootReducer);
+  
+  // #! 重新赋值models
+  appStore.models = models;
+}

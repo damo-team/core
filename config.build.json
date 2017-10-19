@@ -7,7 +7,7 @@
     "version": "",
     "path": "dist/core",
     "app": "damoCore",
-    "library": "damoCore",
+    "library": "damo",
     "libraryTarget": "umd"
   },
   "docco": {

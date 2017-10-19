@@ -11,7 +11,7 @@ import cuid from 'cuid';
 import {ucfirst} from './core';
 import { EventEmitter } from 'events';
 
-const defaultProccessData = function (res) { return res.data };
+const defaultProcessData = function (res) { return res.data };
 export class BaseModel extends EventEmitter{
   static appStore = null;
   
@@ -94,7 +94,7 @@ export class BaseModel extends EventEmitter{
    * | properties: Object   | Model的数据域的数据结构  |
    * | dispatch: Function | 获取store实例的dispatch方法 | 
    */
-  constructor(name) {
+  constructor(name, initialState) {
     super();
 
     this.setName(name);
@@ -104,6 +104,10 @@ export class BaseModel extends EventEmitter{
     this.defineActionTypes = {};
     this.defineActionCreators = {};
     this.$pollers_ = [];
+
+    if(!this.properties){
+      this.properties = initialState;
+    }
 
     this.setMaxListeners(Number.MAX_VALUE);
   }
@@ -133,7 +137,15 @@ export class BaseModel extends EventEmitter{
 
   select(name){
     const currentState = this.getAppStore().getState();
-    return currentState[this.name][name];
+    let state = currentState[this.name];
+    const keys = name.split('.');
+    
+    for(let i = 0, len = keys.length; i < len; i++){
+      if(!(state = state[keys[i]])){
+        return state;
+      }
+    }
+    return state;
   }
 
   get dispatch(){
@@ -229,7 +241,7 @@ export class BaseModel extends EventEmitter{
       const ucOperate = ucfirst(operate);
       const needToOperate = operate && (opt.change || opt.changes);
       actionReducer = (dispatch, extraOption = {}) => {
-        const processData = extraOption.processData || opt.processData || defaultProccessData;
+        const processData = extraOption.processData || opt.processData || defaultProcessData;
         const suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
         const suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -290,7 +302,7 @@ export class BaseModel extends EventEmitter{
     needToOperate && this.createActionCreator([this.createActionName(ucOperate)], []);
 
     const actionReducer = (dispatch, extraOption = {}) => {
-      const processData = extraOption.processData || opt.processData || defaultProccessData;
+      const processData = extraOption.processData || opt.processData || defaultProcessData;
       const suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
       const suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 

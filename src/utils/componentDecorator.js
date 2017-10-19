@@ -10,6 +10,7 @@ import {compose} from 'recompose';
 import cuid from 'cuid';
 import withState from './withState';
 import {rcInject} from './inject';
+import {BaseSelector} from './baseSelector';
 
 /**
  * + Copies non-react specific statics from a child component to a parent component
@@ -52,6 +53,34 @@ export const component = ({
     selectorInstance.name = selector.displayName;
     inputs = selectorInstance.inputs;
     outputs = selectorInstance.outputs;
+
+    if(inputs.toString() === BaseSelector.prototype.inputs.toString() && selector.dataBindings){
+      inputs = () => {
+        return (state, ownProps) => {
+          const iState = {};
+          for(let key in selector.dataBindings){
+            if(typeof selector.dataBindings[key] === 'function'){
+              iState[key] = selector.dataBindings[key](state, ownProps);
+            }else{
+              iState[key] = selector.dataBindings[key];
+            }
+          }
+          return iState;
+        }
+      }
+    }
+
+    if(outputs.toString() === BaseSelector.prototype.outputs.toString() && selector.eventBindings){
+      outputs = () => {
+        return (dispatch, ownProps) => {
+          const iActions = {};
+          for(let key in selector.eventBindings){
+            iActions[key] = selector.eventBindings[key](dispatch, ownProps);
+          }
+          return iActions;
+        }
+      }
+    }
   }
 
   composeArgs.push(BaseComponent => {
