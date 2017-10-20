@@ -269,7 +269,7 @@ const damo = {
       DOM = RootComponent;
       RootComponent = null;
     }else if(!React.isValidElement(RootComponent)){
-      RootComponent = (<RootComponent/>);
+      RootComponent = React.createElement(RootComponent, null);
     }
     if(DOM){
       if(typeof DOM === 'string'){
@@ -283,9 +283,11 @@ const damo = {
       routes = RootComponent;
     }
     if(routes.length && dirname !== false){
-      RootComponent = (<Provider store={damo.$$store__}>
-        <Router history={dirname ? withBasename(browserHistory, dirname) : browserHistory} routes={routes}/>
-      </Provider>)
+      RootComponent = React.createElement(
+          Provider,
+          { store: damo.$$store__ },
+          React.createElement(Router, { history: dirname ? withBasename(browserHistory, dirname) : browserHistory, routes: routes })
+        );
     }
 
     ReactDOM.render(RootComponent, DOM);
