@@ -431,7 +431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      defaultModels[key.split('/').pop().split('.')[0]] = context(key);
 	    });
 
-	    configureStore.replace(defaultModels);
+	    configureStore.replace(damo.$$store__, defaultModels);
 
 	    if (false) {
 	      module.hot.accept(context.id, function () {

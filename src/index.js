@@ -238,7 +238,7 @@ const damo = {
       defaultModels[key.split('/').pop().split('.')[0]] = context(key);
     });
     
-    configureStore.replace(defaultModels);
+    configureStore.replace(damo.$$store__, defaultModels);
     
     if (module.hot && !noHot) {
       module.hot.accept(context.id, () => {

@@ -82,7 +82,7 @@ export default function configureStore(initialState, storeMiddlewares, createRed
       
       const Models = hotModelsFeedback();
 
-      configureStore.replace(Models);
+      configureStore.replace(appStore, Models);
     });
   }
 
