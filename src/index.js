@@ -27,6 +27,10 @@ export * from './utils/baseSelector';
 export * from './utils/fetch';
 export * from './resource';
 
+import {Provider} from 'react-redux';
+import {Router, browserHistory} from 'react-router';
+import useBasename from 'history/lib/useBasename';
+
 import {View} from './utils/componentDecorator';
 export const configureStore = require('./store/configureStore'); 
 export const RxSelector = require('./utils/rxSelector');
@@ -176,18 +180,26 @@ const damo = {
     return damo.$$store__.getModel(modelName).select(prop, true);
   },
   route(path, RouteComponent, option){
+    let routeConfig;
     if(Object(path) === path){
-      option = RouteComponent;
-      RouteComponent = path;
-      path = RouteComponent.routePath;
+      if(path.path && path.component){
+        routeConfig = path;
+      }else{
+        option = RouteComponent;
+        RouteComponent = path;
+        path = RouteComponent.routePath;
+      }
     }
-    const routeConfig = Object.assign({
-      path: path,
-      component: RouteComponent,
-      onLeave: RouteComponent.onLeave,
-      onEnter: RouteComponent.onEnter,
-      indexRoute: RouteComponent.indexRoute
-    }, option);
+    if(!routeConfig){
+      routeConfig = Object.assign({
+        path: path,
+        component: RouteComponent,
+        onLeave: RouteComponent.onLeave,
+        onEnter: RouteComponent.onEnter,
+        indexRoute: RouteComponent.indexRoute,
+        childRoutes: RouteComponent.childRoutes
+      }, option);
+    }
     
     damo.$$routes__.push(routeConfig);
     
@@ -204,10 +216,11 @@ const damo = {
           component: RouteComponent,
           onLeave: RouteComponent.onLeave,
           onEnter: RouteComponent.onEnter,
-          indexRoute: RouteComponent.indexRoute
+          indexRoute: RouteComponent.indexRoute,
+          childRoutes: RouteComponent.childRoutes
         }, option);
         
-        _routeConfig.childRoutes.push(routeConfig);
+        routeConfig.childRoutes.push(_routeConfig);
       }
     }
   },
@@ -237,20 +250,25 @@ const damo = {
     autoLoadServices(context);
   },
   autoLoadRoutes(context, routeCallback){
-    autoLoadScenesRoutes(context, routeCallback);
+    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback);
   },
   view(Selector, SceneComponent, providers){
     if(Selector.prototype instanceof Component){
       providers = SceneComponent;
       SceneComponent = Selector;
+      Selector = null;
     }
     return View({selector: Selector, providers: providers})(SceneComponent);
   },
-  start(RootComponent, DOM){
+  bootstrap(RootComponent, DOM, dirname){
     if(!damo.$$store__){
       throw new Error('需要调用damo.init初始化！');
     }
-    if(!React.isValidElement(RootComponent)){
+    if(RootComponent.tagName || typeof RootComponent === 'string'){
+      dirname = DOM;
+      DOM = RootComponent;
+      RootComponent = null;
+    }else if(!React.isValidElement(RootComponent)){
       RootComponent = (<RootComponent/>);
     }
     if(DOM){
@@ -260,8 +278,26 @@ const damo = {
     }else{
       DOM = document.body;
     }
+    let routes = damo.$$routes__;
+    if(Array.isArray(RootComponent)){
+      routes = RootComponent;
+    }
+    if(routes.length && dirname !== false){
+      RootComponent = (<Provider store={damo.$$store__}>
+        <Router history={dirname ? withBasename(browserHistory, dirname) : browserHistory} routes={routes}/>
+      </Provider>)
+    }
+
     ReactDOM.render(RootComponent, DOM);
   }
 }
 
 export {damo};
+
+function withBasename(history, dirname) {
+  if(dirname){
+    return useBasename(() => history)({ basename: `/${dirname}` })
+  }else{
+    return history;
+  }
+}
