@@ -294,7 +294,7 @@ const damo = {
   }
 }
 
-export {damo};
+export default damo;
 
 function withBasename(history, dirname) {
   if(dirname){

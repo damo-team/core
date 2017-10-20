@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.damo = exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
+	exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
 
 	var _inject = __webpack_require__(16);
 
@@ -476,18 +476,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      routes = RootComponent;
 	    }
 	    if (routes.length && dirname !== false) {
-	      RootComponent = _react2.default.createElement(
-	        _reactRedux.Provider,
-	        { store: damo.$$store__ },
-	        _react2.default.createElement(_reactRouter.Router, { history: dirname ? withBasename(_reactRouter.browserHistory, dirname) : _reactRouter.browserHistory, routes: routes })
-	      );
+	      RootComponent = _react2.default.createElement(_reactRedux.Provider, { store: damo.$$store__ }, _react2.default.createElement(_reactRouter.Router, { history: dirname ? withBasename(_reactRouter.browserHistory, dirname) : _reactRouter.browserHistory, routes: routes }));
 	    }
 
 	    _reactDom2.default.render(RootComponent, DOM);
 	  }
 	};
 
-	exports.damo = damo;
+	exports.default = damo;
 
 
 	function withBasename(history, dirname) {
