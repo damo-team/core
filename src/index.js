@@ -288,6 +288,12 @@ const damo = {
           { store: damo.$$store__ },
           React.createElement(Router, { history: dirname ? withBasename(browserHistory, dirname) : browserHistory, routes: routes })
         );
+    }else if(damo.$$store__ && RootComponent){
+      RootComponent = React.createElement(
+        Provider,
+        { store: damo.$$store__ },
+        RootComponent
+      );
     }
 
     ReactDOM.render(RootComponent, DOM);

@@ -477,6 +477,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    if (routes.length && dirname !== false) {
 	      RootComponent = _react2.default.createElement(_reactRedux.Provider, { store: damo.$$store__ }, _react2.default.createElement(_reactRouter.Router, { history: dirname ? withBasename(_reactRouter.browserHistory, dirname) : _reactRouter.browserHistory, routes: routes }));
+	    } else if (damo.$$store__ && RootComponent) {
+	      RootComponent = _react2.default.createElement(_reactRedux.Provider, { store: damo.$$store__ }, RootComponent);
 	    }
 
 	    _reactDom2.default.render(RootComponent, DOM);
