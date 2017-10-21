@@ -392,6 +392,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        indexRoute: RouteComponent.indexRoute,
 	        childRoutes: RouteComponent.childRoutes
 	      }, option);
+	      if (option.onDestroy) {
+	        delete routeConfig.onDestroy;
+	        var componentWillMount = RouteComponent.prototype.componentWillMount;
+	        RouteComponent.prototype.componentWillMount = function () {
+	          componentWillMount && componentWillMount.call(this);
+	          this.context.router.setRouteLeaveHook(this.props.route, option.onDestroy);
+	        };
+	      }
 	    }
 
 	    damo.$$routes__.push(routeConfig);
