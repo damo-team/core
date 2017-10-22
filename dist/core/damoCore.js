@@ -392,7 +392,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        indexRoute: RouteComponent.indexRoute,
 	        childRoutes: RouteComponent.childRoutes
 	      }, option);
-	      if (option.onDestroy) {
+	      if (option && option.onDestroy) {
 	        delete routeConfig.onDestroy;
 	        var componentWillMount = RouteComponent.prototype.componentWillMount;
 	        RouteComponent.prototype.componentWillMount = function () {

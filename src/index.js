@@ -199,7 +199,7 @@ const damo = {
         indexRoute: RouteComponent.indexRoute,
         childRoutes: RouteComponent.childRoutes
       }, option);
-      if(option.onDestroy){
+      if(option && option.onDestroy){
         delete routeConfig.onDestroy;
         const componentWillMount = RouteComponent.prototype.componentWillMount;
         RouteComponent.prototype.componentWillMount = function(){
