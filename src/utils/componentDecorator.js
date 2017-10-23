@@ -86,6 +86,13 @@ export const component = ({
   composeArgs.push(BaseComponent => {
     const contextTypes = {};
     const services = {};
+
+    for(let key in BaseComponent.contextTypes){
+      contextTypes[key] = BaseComponent.contextTypes[key];
+      services[key] = rcInject.getService(key)
+    }
+    delete services.selector;
+    
     if (selectorInstance) {
       contextTypes.selector = PropTypes.object.isRequired;
     }
@@ -123,7 +130,6 @@ export const component = ({
           .selector
           .emit('afterInitialize');
       }
-
       return services;
     }
 

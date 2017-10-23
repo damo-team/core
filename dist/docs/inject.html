@@ -455,11 +455,18 @@ function(renamed$window) {}]);  &gt; Object creation:
       })
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-comment">// #! json</span>
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> Services) {
-        <span class="hljs-keyword">let</span> Service = Services[name];
-        <span class="hljs-keyword">let</span> name = Service.displayName || key;
-        <span class="hljs-keyword">if</span> (!rcInject.Service) {
-          rcInject.Service = rcInject.instantiate(Service, name, getService);
+      <span class="hljs-keyword">if</span>(Services.constructor === <span class="hljs-built_in">Object</span>){
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> Services) {
+          <span class="hljs-keyword">let</span> Service = Services[name];
+          <span class="hljs-keyword">let</span> name = Service.displayName || key;
+          <span class="hljs-keyword">if</span> (!rcInject.services[name]) {
+            rcInject.services[name] = rcInject.instantiate(Service, name, getService);
+          }
+        }
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">let</span> name = Services.displayName || Services.name;
+        <span class="hljs-keyword">if</span> (name &amp;&amp; !rcInject.services[name]) {
+          rcInject.services[name] = rcInject.instantiate(Services, name, getService);
         }
       }
     }

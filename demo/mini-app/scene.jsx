@@ -1,7 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import ReactDOM from 'react-dom';
-import {
-  damo,
+import damo, {
   View,
   BaseModel,
   BaseSelector,

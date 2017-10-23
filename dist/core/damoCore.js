@@ -2758,11 +2758,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    } else {
 	      // #! json
-	      for (var key in Services) {
-	        var Service = Services[name];
-	        var name = Service.displayName || key;
-	        if (!rcInject.Service) {
-	          rcInject.Service = rcInject.instantiate(Service, name, getService);
+	      if (Services.constructor === Object) {
+	        for (var key in Services) {
+	          var Service = Services[name];
+	          var name = Service.displayName || key;
+	          if (!rcInject.services[name]) {
+	            rcInject.services[name] = rcInject.instantiate(Service, name, getService);
+	          }
+	        }
+	      } else {
+	        var _name = Services.displayName || Services.name;
+	        if (_name && !rcInject.services[_name]) {
+	          rcInject.services[_name] = rcInject.instantiate(Services, _name, getService);
 	        }
 	      }
 	    }
@@ -7672,6 +7679,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  composeArgs.push(function (BaseComponent) {
 	    var contextTypes = {};
 	    var services = {};
+
+	    for (var key in BaseComponent.contextTypes) {
+	      contextTypes[key] = BaseComponent.contextTypes[key];
+	      services[key] = _inject.rcInject.getService(key);
+	    }
+	    delete services.selector;
+
 	    if (selectorInstance) {
 	      contextTypes.selector = _react.PropTypes.object.isRequired;
 	    }
@@ -7709,7 +7723,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (services.selector) {
 	        services.selector.emit('afterInitialize');
 	      }
-
 	      return services;
 	    };
 
@@ -7751,14 +7764,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    Component.prototype.componentWillUnmount = function () {
 	      var services = this.$services_;
-	      for (var key in services) {
-	        if (services[key].destroy) {
-	          services[key].destroy();
+	      for (var _key2 in services) {
+	        if (services[_key2].destroy) {
+	          services[_key2].destroy();
 	        }
-	        if (services[key].dispose) {
-	          services[key].dispose();
+	        if (services[_key2].dispose) {
+	          services[_key2].dispose();
 	        }
-	        delete services[key];
+	        delete services[_key2];
 	      }
 	      _unmount.call(this);
 	    };
@@ -7882,8 +7895,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          prototype.$outputMethods_.forEach(function (method) {
 	            if (method.model) {
 	              iAction[method.name] = function () {
-	                for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	                  args[_key2] = arguments[_key2];
+	                for (var _len2 = arguments.length, args = Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+	                  args[_key3] = arguments[_key3];
 	                }
 
 	                return _this4.getModel(method.model)[method.name](args);
@@ -7922,8 +7935,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dispatch = exports.dispatch = function dispatch(prototype, method, obj) {
 	  var func = obj.value;
 	  obj.initializer = function () {
-	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-	      args[_key3] = arguments[_key3];
+	    for (var _len3 = arguments.length, args = Array(_len3), _key4 = 0; _key4 < _len3; _key4++) {
+	      args[_key4] = arguments[_key4];
 	    }
 
 	    return function () {

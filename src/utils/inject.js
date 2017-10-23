@@ -149,11 +149,18 @@ export const rcInject = {
       })
     } else {
       // #! json
-      for (let key in Services) {
-        let Service = Services[name];
-        let name = Service.displayName || key;
-        if (!rcInject.Service) {
-          rcInject.Service = rcInject.instantiate(Service, name, getService);
+      if(Services.constructor === Object){
+        for (let key in Services) {
+          let Service = Services[name];
+          let name = Service.displayName || key;
+          if (!rcInject.services[name]) {
+            rcInject.services[name] = rcInject.instantiate(Service, name, getService);
+          }
+        }
+      }else{
+        let name = Services.displayName || Services.name;
+        if (name && !rcInject.services[name]) {
+          rcInject.services[name] = rcInject.instantiate(Services, name, getService);
         }
       }
     }
