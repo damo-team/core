@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>rxComponent.js-document</title>
+  <title>index.js-document</title>
   <link rel="stylesheet" type="text/css" href="docco.css">
   <style>
     .code .highlight{
@@ -74,132 +74,132 @@
       <div id="jump_page">
         
           
-          <a class="source" href="index.html">
+          <a class="source" href="src_index.html">
             ./src/index.js
           </a>
         
           
-          <a class="source" href="hotStaticResource.html">
+          <a class="source" href="resource_hotStaticResource.html">
             ./src/resource/hotStaticResource.js
           </a>
         
           
-          <a class="source" href="index.html">
+          <a class="source" href="resource_index.html">
             ./src/resource/index.js
           </a>
         
           
-          <a class="source" href="resource.html">
+          <a class="source" href="resource_resource.html">
             ./src/resource/resource.js
           </a>
         
           
-          <a class="source" href="resourceAction.html">
+          <a class="source" href="resource_resourceAction.html">
             ./src/resource/resourceAction.js
           </a>
         
           
-          <a class="source" href="resourceCRUD.html">
+          <a class="source" href="resource_resourceCRUD.html">
             ./src/resource/resourceCRUD.js
           </a>
         
           
-          <a class="source" href="resourceDecorator.html">
+          <a class="source" href="resource_resourceDecorator.html">
             ./src/resource/resourceDecorator.js
           </a>
         
           
-          <a class="source" href="resourceModel.html">
+          <a class="source" href="resource_resourceModel.html">
             ./src/resource/resourceModel.js
           </a>
         
           
-          <a class="source" href="configureStore.development.html">
+          <a class="source" href="store_configureStore.development.html">
             ./src/store/configureStore.development.js
           </a>
         
           
-          <a class="source" href="configureStore.html">
+          <a class="source" href="store_configureStore.html">
             ./src/store/configureStore.js
           </a>
         
           
-          <a class="source" href="configureStore.production.html">
+          <a class="source" href="store_configureStore.production.html">
             ./src/store/configureStore.production.js
           </a>
         
           
-          <a class="source" href="createReducerFactory.html">
+          <a class="source" href="store_createReducerFactory.html">
             ./src/store/createReducerFactory.js
           </a>
         
           
-          <a class="source" href="enhanceStore.html">
+          <a class="source" href="store_enhanceStore.html">
             ./src/store/enhanceStore.js
           </a>
         
           
-          <a class="source" href="loadingBarMiddleware.html">
+          <a class="source" href="store_loadingBarMiddleware.html">
             ./src/store/loadingBarMiddleware.js
           </a>
         
           
-          <a class="source" href="baseModel.html">
+          <a class="source" href="utils_baseModel.html">
             ./src/utils/baseModel.js
           </a>
         
           
-          <a class="source" href="baseSelector.html">
+          <a class="source" href="utils_baseSelector.html">
             ./src/utils/baseSelector.js
           </a>
         
           
-          <a class="source" href="componentDecorator.html">
+          <a class="source" href="utils_componentDecorator.html">
             ./src/utils/componentDecorator.js
           </a>
         
           
-          <a class="source" href="core.html">
+          <a class="source" href="utils_core.html">
             ./src/utils/core.js
           </a>
         
           
-          <a class="source" href="createCrud.html">
+          <a class="source" href="utils_createCrud.html">
             ./src/utils/createCrud.js
           </a>
         
           
-          <a class="source" href="fetch.html">
+          <a class="source" href="utils_fetch.html">
             ./src/utils/fetch.js
           </a>
         
           
-          <a class="source" href="inject.html">
+          <a class="source" href="utils_inject.html">
             ./src/utils/inject.js
           </a>
         
           
-          <a class="source" href="poller.html">
+          <a class="source" href="utils_poller.html">
             ./src/utils/poller.js
           </a>
         
           
-          <a class="source" href="rx.html">
+          <a class="source" href="utils_rx.html">
             ./src/utils/rx.js
           </a>
         
           
-          <a class="source" href="rxComponent.html">
+          <a class="source" href="utils_rxComponent.html">
             ./src/utils/rxComponent.js
           </a>
         
           
-          <a class="source" href="rxSelector.html">
+          <a class="source" href="utils_rxSelector.html">
             ./src/utils/rxSelector.js
           </a>
         
           
-          <a class="source" href="withState.html">
+          <a class="source" href="utils_withState.html">
             ./src/utils/withState.js
           </a>
         
@@ -210,7 +210,7 @@
   <table cellspacing=0 cellpadding=0>
   <thead>
     <tr>
-      <th class="docs" colspan="2"><h1>rxComponent.js <a href="javascript:;" id="J_demo">demo</a>
+      <th class="docs" colspan="2"><h1>index.js <a href="javascript:;" id="J_demo">demo</a>
         <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
       </th>
     </tr>
@@ -228,57 +228,58 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> React, {Component, PropTypes} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {PropTypes} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 
-<span class="hljs-keyword">if</span> (process.env.RXJS) {
-  <span class="hljs-keyword">const</span> Rx = <span class="hljs-built_in">require</span>(<span class="hljs-string">'rxjs'</span>);
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resource'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceCRUD'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceAction'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceDecorator'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceModel'</span>;
 
-  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mergeToRender</span>(<span class="hljs-params">ob</span>)</span>{
-    ob.render = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">callback</span>) </span>{
-      ob = ob.map(callback);
-      <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">RxComponent</span> <span class="hljs-attr">observable</span>=<span class="hljs-string">{ob}</span> /&gt;</span>);
-    }
-    const lift = ob.lift;
-    ob.lift = function(operator){
-      const newOb = lift.call(this, operator);
-      mergeToRender(newOb);
-      return newOb;
-    }
-    return ob;
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">shallowCopy</span>(<span class="hljs-params">obj, extra</span>)</span>{
+  <span class="hljs-keyword">const</span> newObj = {};
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> obj){
+    newObj[key] = obj[key];
   }
-
-  class RxComponent extends Component{
-    static selectable = function(ob){
-      return mergeToRender(Rx.Observable.from(ob));
-    }
-
-    static propsType = {
-      observable: PropTypes.object.isRequired
-    }
-
-    state = {
-      children: null
-    }
-
-    componentWillMount(){
-      this.$subscription = this.props.observable.subscribe(children =&gt; {
-        this.setState({children: children});
-      });
-    }
-    
-    componentWillUnMount(){
-      this.$subscription.unsubscribe();
-    }
-
-    render(){
-      return (<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{this.state.children}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>);
-    }
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> extra){
+    newObj[key] = extra[key];
   }
-
-  module.exports = RxComponent;
+  <span class="hljs-keyword">return</span> newObj;
 }
 
-</span></pre></div></pre><a href="javascript:;" class="link close"></a></div>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extractCopy</span>(<span class="hljs-params">obj, extract, extra</span>)</span>{
+  <span class="hljs-keyword">const</span> newObj = {};
+  <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(extract)){
+    extract.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      newObj[key] = obj[key];
+    });
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> extract){
+      <span class="hljs-keyword">if</span>(extract[key]){
+        newObj[key] = obj[key] &amp;&amp; obj[key].isRequired;
+      }<span class="hljs-keyword">else</span>{
+        newObj[key] = obj[key];
+      }
+    }
+  }
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> extra){
+    newObj[key] = extra[key];
+  }
+  <span class="hljs-keyword">return</span> newObj;
+}
+
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validateParameters</span>(<span class="hljs-params">propTypes, value</span>)</span>{
+  <span class="hljs-keyword">const</span> newPropTypes = {};
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> propTypes){
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> propTypes[key] === <span class="hljs-string">'function'</span>){
+      newPropTypes[key] = propTypes[key];
+    }<span class="hljs-keyword">else</span>{
+      newPropTypes[key] = propTypes[key].type;
+    }
+  }
+  <span class="hljs-keyword">return</span> PropTypes.shape(newPropTypes).isRequired({<span class="hljs-attr">parameters</span>: value}, <span class="hljs-string">'parameters'</span>, <span class="hljs-string">'action'</span>);
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
