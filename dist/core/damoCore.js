@@ -338,6 +338,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaultModels = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	    var middlewares = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
+	    if (damo.$$store__) {
+	      console.warn('Application initialized！');
+	    }
 	    damo.$$defaultModels__ = defaultModels;
 	    damo.$$store__ = configureStore(initialState, middlewares, function (hot) {
 	      return {
@@ -347,7 +350,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  model: function model(Models) {
 	    if (!damo.$$store__) {
-	      throw new Error('需要调用damo.init初始化！');
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
 	    damo.$$store__.addModel(Models);
 	  },
@@ -365,7 +368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  select: function select(modelName, prop) {
 	    if (!damo.$$store__) {
-	      throw new Error('需要调用damo.init初始化！');
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
 	    if (Object(modelName) === modelName) {
 	      modelName = modelName.displayName;
@@ -427,7 +430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  autoLoadModels: function autoLoadModels(context, noHot) {
 	    if (!damo.$$store__) {
-	      throw new Error('需要调用damo.init初始化！');
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
 	    if (!context) {
 	      throw new Error('需要提供require.context的遍历列表！');
@@ -463,7 +466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  bootstrap: function bootstrap(RootComponent, DOM, dirname) {
 	    if (!damo.$$store__) {
-	      throw new Error('需要调用damo.init初始化！');
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
 	    if (RootComponent.tagName || typeof RootComponent === 'string') {
 	      dirname = DOM;
@@ -7653,7 +7656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var iState = {};
 	          for (var key in selector.dataBindings) {
 	            if (typeof selector.dataBindings[key] === 'function') {
-	              iState[key] = selector.dataBindings[key](state, ownProps);
+	              iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
 	            } else {
 	              iState[key] = selector.dataBindings[key];
 	            }
@@ -7668,7 +7671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function (dispatch, ownProps) {
 	          var iActions = {};
 	          for (var key in selector.eventBindings) {
-	            iActions[key] = selector.eventBindings[key](dispatch, ownProps);
+	            iActions[key] = selector.eventBindings[key].call(selectorInstance, dispatch, ownProps);
 	          }
 	          return iActions;
 	        };

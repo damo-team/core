@@ -60,7 +60,7 @@ export const component = ({
           const iState = {};
           for(let key in selector.dataBindings){
             if(typeof selector.dataBindings[key] === 'function'){
-              iState[key] = selector.dataBindings[key](state, ownProps);
+              iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
             }else{
               iState[key] = selector.dataBindings[key];
             }
@@ -75,7 +75,7 @@ export const component = ({
         return (dispatch, ownProps) => {
           const iActions = {};
           for(let key in selector.eventBindings){
-            iActions[key] = selector.eventBindings[key](dispatch, ownProps);
+            iActions[key] = selector.eventBindings[key].call(selectorInstance, dispatch, ownProps);
           }
           return iActions;
         }

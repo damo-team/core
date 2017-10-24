@@ -145,6 +145,9 @@ const damo = {
   $$defaultModels__: {},
   $$store__: null,
   init(initialState={}, defaultModels = {}, middlewares = []){
+    if(damo.$$store__){
+      console.warn('Application initialized！')
+    }
     damo.$$defaultModels__ = defaultModels;
     damo.$$store__ = configureStore(initialState, middlewares, hot => {
       return {
@@ -154,7 +157,7 @@ const damo = {
   },
   model(Models){
     if(!damo.$$store__){
-      throw new Error('需要调用damo.init初始化！');
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
     damo.$$store__.addModel(Models);
   },
@@ -172,7 +175,7 @@ const damo = {
   },
   select(modelName, prop){
     if(!damo.$$store__){
-      throw new Error('需要调用damo.init初始化！');
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
     if(Object(modelName) === modelName){
       modelName = modelName.displayName;
@@ -237,7 +240,7 @@ const damo = {
   },
   autoLoadModels(context, noHot){
     if(!damo.$$store__){
-      throw new Error('需要调用damo.init初始化！');
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
     if(!context){
       throw new Error('需要提供require.context的遍历列表！');
@@ -273,7 +276,7 @@ const damo = {
   },
   bootstrap(RootComponent, DOM, dirname){
     if(!damo.$$store__){
-      throw new Error('需要调用damo.init初始化！');
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
     if(RootComponent.tagName || typeof RootComponent === 'string'){
       dirname = DOM;
