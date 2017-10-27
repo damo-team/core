@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>createReducerFactory.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>createReducerFactory.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> SI         <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
+<span class="hljs-keyword">import</span> { applyCrudReducer, changeOperators } <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/createCrud'</span>;
+<span class="hljs-keyword">import</span> { BaseModel } <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/baseModel'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <h3 id="-model-reducer">通过Model实例生成Reducer</h3>
+<ul>
+<li>通过 model.mapToStore -&gt; state[model.name]初始化值</li>
+<li>当Reducer触发时，通过model.defineActionTypes判断是否匹配到actionType, 否则直接跳过</li>
+<li>对于Model要求的属性包括：
+```
+modelInstance = {
+ mapToStore,
+ name,
+ defineActionTypes
+}</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createReducerFactory</span>(<span class="hljs-params">modelInstance</span>)</span>{
+  <span class="hljs-keyword">const</span> initialState = SI(modelInstance.properties);
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">reducer</span>(<span class="hljs-params">state = initialState, action</span>)</span>{
+    <span class="hljs-keyword">if</span>(modelInstance.defineActionTypes[action.type]){
+      <span class="hljs-keyword">if</span>(action.state){
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> action.state === <span class="hljs-string">'function'</span>){
+          <span class="hljs-keyword">return</span> action.state(state);
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">return</span> action.state;
+        }
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> applyCrudReducer(state, action.payload, initialState);
+      }
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> state;
+    }
+  }
+  reducer.$initialState = initialState;
+  <span class="hljs-keyword">return</span> reducer;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <h3 id="-models-reducer">把多个Models分别转换为对应的reducer</h3>
+<p>针对每个Model通过<code>createReducerFactory</code>调用转成对应的Reducer</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createReducerAndModels</span>(<span class="hljs-params">reducers, Models</span>)</span>{
+  <span class="hljs-keyword">const</span> models = {};
+  <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(Models)){
+    Models.forEach(<span class="hljs-function"><span class="hljs-params">Model</span> =&gt;</span> {
+      <span class="hljs-keyword">let</span> name = Model.displayName;
+      <span class="hljs-keyword">if</span>(Model.prototype <span class="hljs-keyword">instanceof</span> BaseModel){
+        name = Model.displayName;
+        <span class="hljs-keyword">if</span>(name){
+          models[name] = <span class="hljs-keyword">new</span> Model(name, Model.initialState);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>models[name].setName(name);</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          reducers[name] = createReducerFactory(models[name]);
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'数据模型${Model.name}：displayName静态属性不能为空！'</span>);
+        }
+      }<span class="hljs-keyword">else</span>{
+        models[name] = Model;
+        <span class="hljs-keyword">if</span>(models[name].mapToStore){
+          reducers[name] = createReducerFactory(models[name]);
+        }<span class="hljs-keyword">else</span>{
+          reducers[name] = models[name];
+        }
+      }
+    })
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> Models){
+      <span class="hljs-keyword">let</span> Model = Models[name];
+      <span class="hljs-keyword">if</span>(Model.prototype <span class="hljs-keyword">instanceof</span> BaseModel){
+        name = Model.displayName || name;
+        models[name] = <span class="hljs-keyword">new</span> Model(name, Model.initialState);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>models[name].setName(name);</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>        reducers[name] = createReducerFactory(models[name]);
+      }<span class="hljs-keyword">else</span>{
+        models[name] = Model;
+        <span class="hljs-keyword">if</span>(models[name].mapToStore){
+          reducers[name] = createReducerFactory(models[name]);
+        }<span class="hljs-keyword">else</span>{
+          reducers[name] = models[name];
+        }
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">reducers</span>: reducers,
+    <span class="hljs-attr">models</span>: models
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <h3 id="seamless-immutable-">seamless-immutable 知识点</h3>
+<p>不可变的数据结构，目的是保证整个store的所有state只能通过reducer来改变</p>
+<ul>
+<li>flatMap 平铺扩展</li>
+<li>asObject 数组转成对象</li>
+<li>asMutable 复制出一个可变对象</li>
+<li>merge 扩展对象属性</li>
+<li>set, setIn 变更对象属性</li>
+<li>update, updateIn 更新对象属性</li>
+<li>without 开放指定对象属性，使其可变<blockquote>
+<p>see: <a href="https://github.com/rtfeldman/seamless-immutable">https://github.com/rtfeldman/seamless-immutable</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

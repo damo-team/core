@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>核心的工具方法-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>核心的工具方法 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <h1 id="-">核心的工具方法</h1>
+<ul>
+<li>Substitutes keywords in a string using an object/array.
+Removes undef keywords and ignores escaped keywords.<blockquote>
+<p>see: <a href="https://g.alicdn.com/??kissy/k/6.2.4/seed.js">https://g.alicdn.com/??kissy/k/6.2.4/seed.js</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">const</span> SUBSTITUTE_REG = <span class="hljs-regexp">/\\?\{([^{}]+)\}/g</span>,
+  EMPTY = <span class="hljs-string">''</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">substitute</span>(<span class="hljs-params">str, o, del</span>) </span>{
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> str !== <span class="hljs-string">'string'</span> || !o) {
+    <span class="hljs-keyword">return</span> str;
+  }
+  <span class="hljs-keyword">const</span> arr = [];
+  <span class="hljs-keyword">const</span> newStr = str.replace(SUBSTITUTE_REG, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">match, name</span>) </span>{
+    <span class="hljs-keyword">if</span> (match.charAt(<span class="hljs-number">0</span>) === <span class="hljs-string">'\\'</span>) {
+      <span class="hljs-keyword">return</span> match.slice(<span class="hljs-number">1</span>);
+    }
+    <span class="hljs-keyword">if</span>( (o[name] === <span class="hljs-literal">undefined</span>)){
+      <span class="hljs-keyword">return</span> EMPTY;
+    }<span class="hljs-keyword">else</span>{
+      arr.push(name);
+      <span class="hljs-keyword">return</span> o[name];
+    }
+  });
+  <span class="hljs-keyword">if</span>(del){
+    arr.forEach(<span class="hljs-function"><span class="hljs-params">a</span> =&gt;</span> <span class="hljs-keyword">delete</span> o[a]);
+  }
+  <span class="hljs-keyword">return</span> newStr;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>camel Case to Snake Case<blockquote>
+<p>see: <a href="http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/">http://jamesroberts.name/blog/2010/02/22/string-functions-for-javascript-trim-to-camel-case-to-dashed-and-to-underscore/</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toSnakeCase</span>(<span class="hljs-params">str</span>)</span>{
+  <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/([A-Z])/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$<span class="hljs-number">1</span></span>)</span>{<span class="hljs-keyword">return</span> <span class="hljs-string">"_"</span>+$<span class="hljs-number">1.</span>toLowerCase();}).toLocaleUpperCase();
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toCamlCase</span>(<span class="hljs-params">str</span>)</span>{
+  <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/_([^_]*)/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$<span class="hljs-number">0</span>, $<span class="hljs-number">1</span></span>)</span>{<span class="hljs-keyword">return</span> $<span class="hljs-number">1</span> &amp;&amp; ucfirst($<span class="hljs-number">1</span>) || <span class="hljs-string">''</span>});
+}
+
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ucfirst</span> (<span class="hljs-params">str</span>) </span>{
+  <span class="hljs-keyword">return</span> str.charAt(<span class="hljs-number">0</span>).toUpperCase() + str.substring(<span class="hljs-number">1</span>);
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">lcfirst</span> (<span class="hljs-params">str</span>) </span>{
+  <span class="hljs-keyword">return</span> str.charAt(<span class="hljs-number">0</span>).toLowerCase() + str.substring(<span class="hljs-number">1</span>);
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <ul>
+<li>把promise封装成Deferred，参考jQuery.Deffered<blockquote>
+<p>see: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred">https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Deferred</span>(<span class="hljs-params"></span>) </span>{
+	<span class="hljs-comment">// #! update 062115 for typeof</span>
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(<span class="hljs-built_in">Promise</span>) != <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-built_in">Promise</span>.defer) {
+		<span class="hljs-comment">//#! need import of Promise.jsm for example: Cu.import('resource:/gree/modules/Promise.jsm');</span>
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.defer();
+	} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(PromiseUtils) != <span class="hljs-string">'undefined'</span>  &amp;&amp; PromiseUtils.defer) {
+		<span class="hljs-comment">//#! need import of PromiseUtils.jsm for example: Cu.import('resource:/gree/modules/PromiseUtils.jsm');</span>
+		<span class="hljs-keyword">return</span> PromiseUtils.defer();
+	} <span class="hljs-keyword">else</span> {
+		<span class="hljs-comment">/* A method to resolve the associated Promise with the value passed.
+		 * If the promise is already settled it does nothing.
+		 *
+		 * @param {anything} value : This value is used to resolve the promise
+		 * If the value is a Promise then the associated promise assumes the state
+		 * of Promise passed as value.
+		 */</span>
+		<span class="hljs-keyword">this</span>.resolve = <span class="hljs-literal">null</span>;
+
+		<span class="hljs-comment">/* A method to reject the assocaited Promise with the value passed.
+		 * If the promise is already settled it does nothing.
+		 *
+		 * @param {anything} reason: The reason for the rejection of the Promise.
+		 * Generally its an Error object. If however a Promise is passed, then the Promise
+		 * itself will be the reason for rejection no matter the state of the Promise.
+		 */</span>
+		<span class="hljs-keyword">this</span>.reject = <span class="hljs-literal">null</span>;
+
+		<span class="hljs-comment">/* A newly created Pomise object.
+		 * Initially in pending state.
+		 */</span>
+		<span class="hljs-keyword">this</span>.promise = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>{
+			<span class="hljs-keyword">this</span>.resolve = resolve;
+			<span class="hljs-keyword">this</span>.reject = reject;
+		}.bind(<span class="hljs-keyword">this</span>));
+		<span class="hljs-built_in">Object</span>.freeze(<span class="hljs-keyword">this</span>);
+	}
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

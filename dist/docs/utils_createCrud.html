@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>系统提供的change策略和actionType-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>系统提供的change策略和actionType <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="-change-actiontype">系统提供的change策略和actionType</h1>
+<ol>
+<li>model.getQuery的changeOption中，type属性指定change策略</li>
+<li>通过actionName创建同步或者异步的actionType</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { toSnakeCase, ucfirst } <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> changeOperators = {
+  <span class="hljs-attr">ADD</span>: <span class="hljs-string">'add'</span>,
+  <span class="hljs-attr">UPDATE</span>: <span class="hljs-string">'update'</span>,
+  <span class="hljs-attr">DELETE</span>: <span class="hljs-string">'delete'</span>,
+  <span class="hljs-attr">RECONFIGURE</span>: <span class="hljs-string">'reconfigure'</span>,
+  <span class="hljs-attr">SETPROPERTY</span>: <span class="hljs-string">'setProperty'</span>
+}
+
+<span class="hljs-keyword">const</span> statuses = [<span class="hljs-string">'start'</span>, <span class="hljs-string">'success'</span>, <span class="hljs-string">'error'</span>];
+<span class="hljs-keyword">const</span> propNames = {
+  <span class="hljs-attr">start</span>: <span class="hljs-string">'record'</span>,
+  <span class="hljs-attr">success</span>: <span class="hljs-string">'record'</span>,
+  <span class="hljs-attr">error</span>: <span class="hljs-string">''</span>
+};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <ul>
+<li>根据async来指定异步action<ol>
+<li>同步的action: resourceName -&gt; <code>${resourceName}Action</code></li>
+<li>异步的action: resourceName -&gt; <code>${resourceName}Start</code>,  <code>${resourceName}Success</code> 和  <code>${resourceName}Error</code></li>
+</ol>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createActionTypes</span>(<span class="hljs-params">resourceName, async</span>)</span>{
+  <span class="hljs-keyword">let</span> actionTypes = {};
+  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">async</span>){
+    statuses.forEach(<span class="hljs-function"><span class="hljs-params">st</span> =&gt;</span> {
+      <span class="hljs-keyword">let</span> type = resourceName + ucfirst(st);
+      actionTypes[toSnakeCase(type)] = {
+        type,
+        <span class="hljs-attr">status</span>: st
+      }
+    })
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">let</span> type = resourceName + ucfirst(<span class="hljs-string">'action'</span>);
+    actionTypes[toSnakeCase(type)] = {
+      type,
+      <span class="hljs-attr">status</span>: <span class="hljs-string">'action'</span>
+    }
+  }
+  
+  <span class="hljs-keyword">return</span> actionTypes;
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>创建actionCreator，用于给到model实例调用</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createActionCreators</span>(<span class="hljs-params">resourceName, actionTypes</span>)</span>{
+  actionTypes = actionTypes || createActionTypes(resourceName);
+  <span class="hljs-keyword">const</span> actionCreators = {};
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> type <span class="hljs-keyword">in</span> actionTypes){
+    <span class="hljs-keyword">let</span> obj = actionTypes[type];
+    <span class="hljs-keyword">if</span>(propNames[obj.status]){
+      actionCreators[<span class="hljs-string">'$'</span> + obj.type] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: type, <span class="hljs-attr">payload</span>: {[propNames[obj.status]]: args[<span class="hljs-number">0</span>], <span class="hljs-attr">status</span>: obj.status} };
+      }
+    }<span class="hljs-keyword">else</span>{
+      actionCreators[<span class="hljs-string">'$'</span> + obj.type] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: type, <span class="hljs-attr">payload</span>: {<span class="hljs-attr">record</span>: args[<span class="hljs-number">0</span>], <span class="hljs-attr">status</span>: obj.status} };
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> actionCreators;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">merge</span>(<span class="hljs-params">o, t, attrs</span>)</span>{
+  o = o.asMutable ? o.asMutable() : o;
+  <span class="hljs-keyword">if</span>(attrs){
+    attrs.forEach(<span class="hljs-function"><span class="hljs-params">attr</span> =&gt;</span> o[attr] = t[attr]);
+    <span class="hljs-keyword">return</span> o;
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign(o, t);
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extra</span>(<span class="hljs-params">o, attrs</span>)</span>{
+  <span class="hljs-keyword">if</span>(attrs){
+    <span class="hljs-keyword">const</span> newO = {};
+    attrs.forEach(<span class="hljs-function"><span class="hljs-params">attr</span> =&gt;</span> o[attr] = t[attr]);
+    <span class="hljs-keyword">return</span> newO;
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> o;
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <h3 id="change-">change策略</h3>
+<p>参考redux减少样本代码</p>
+<ol>
+<li>change类型：[“add”, “update”, “delete”, “reconfigure”, “setProperty”]<blockquote>
+<p>see: <a href="http://cn.redux.js.org//docs/recipes/ReducingBoilerplate.html">http://cn.redux.js.org//docs/recipes/ReducingBoilerplate.html</a></p>
+</blockquote>
+</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyCrudReducer</span>(<span class="hljs-params">immutableState, payload, initialState</span>)</span>{
+  <span class="hljs-keyword">if</span>(payload.changes){
+    <span class="hljs-keyword">let</span> _records = payload.record === <span class="hljs-literal">undefined</span> ? payload.records : payload.record;
+    <span class="hljs-keyword">let</span> generatorKey = payload.cid;
+    
+    payload.changes.forEach(<span class="hljs-function"><span class="hljs-params">change</span> =&gt;</span> {
+      <span class="hljs-keyword">switch</span>(change.type){
+        <span class="hljs-keyword">case</span> changeOperators.ADD:</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>必须是对象</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(_records) === _records){
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(immutableState[change.name])){</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>push</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>              immutableState = immutableState.update(change.name, (records) =&gt; {
+                <span class="hljs-keyword">let</span> recordMap = {};
+                <span class="hljs-keyword">let</span> _recordArr = [].concat(_records);
+                _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
+                records = records.asMutable().map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> {
+                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]]){ <span class="hljs-comment">//发现存在，则merge</span>
+                    _recordArr.splice(_recordArr.indexOf(recordMap[r[generatorKey]]), <span class="hljs-number">1</span>);
+                    <span class="hljs-keyword">return</span> merge(r, recordMap[r[generatorKey]], change.attrs);
+                  }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">return</span> r;
+                  }
+                });
+                
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = _recordArr.length; i--;){
+                  records.unshift(_recordArr[i]); 
+                }
+                <span class="hljs-keyword">return</span> records;
+              });
+            }<span class="hljs-keyword">else</span>{
+              <span class="hljs-comment">// #! 此时应该是reconfigure</span>
+              immutableState = immutableState.set(change.name, _records);
+            }
+          }
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> changeOperators.UPDATE:</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-7'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>必须是对象</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(_records) === _records){
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(immutableState[change.name])){
+              immutableState = immutableState.update(change.name, (records) =&gt; {
+                <span class="hljs-keyword">let</span> recordMap = {};
+                <span class="hljs-keyword">let</span> _recordArr = [].concat(_records);
+                _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
+
+                records = records.asMutable().map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> {
+                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]]){
+                    <span class="hljs-keyword">return</span> merge(r, recordMap[r[generatorKey]], change.attrs);
+                  }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">return</span> r;
+                  }
+                });
+                
+                <span class="hljs-keyword">return</span> records;
+              });
+            }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(immutableState[change.name][generatorKey] == _records[generatorKey]){</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-8'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-8">&#182;</a>
+        </div>
+        <p>set</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>              immutableState = immutableState.set(change.name, extra(_records, change.attrs));
+            }
+          }
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> changeOperators.DELETE:</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-9'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>必须是对象</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>          <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(_records) === _records){
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(immutableState[change.name])){
+              immutableState = immutableState.update(change.name, (records) =&gt; {
+                <span class="hljs-keyword">let</span> recordMap = {};
+                <span class="hljs-keyword">let</span> _recordArr = [].concat(_records);
+                _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
+                <span class="hljs-keyword">return</span> records.filter(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> !recordMap[r[generatorKey]]);
+              });
+            }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(immutableState[change.name][generatorKey] == _records[generatorKey]){
+              immutableState = immutableState.set(change.name, <span class="hljs-literal">null</span>);
+            }
+          }
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> changeOperators.RECONFIGURE:
+          immutableState = immutableState.set(change.name, _records || immutableState[change.name]);
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> changeOperators.SETPROPERTY:
+          immutableState = immutableState.set(change.name, change.getData(_records, immutableState[change.name]) || immutableState[change.name]);
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+          <span class="hljs-comment">// #! 支持函数</span>
+          <span class="hljs-keyword">let</span> newState;
+          <span class="hljs-keyword">if</span>(change.callback){
+            newState = change.callback(_records, immutableState[change.name], payload.params, immutableState, initialState);
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(change[payload.status]){ <span class="hljs-comment">// #! 符合status的对应callback</span>
+            newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
+          }
+          <span class="hljs-keyword">if</span>(change.name){
+            immutableState = immutableState.set(change.name, newState || immutableState[change.name]);
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(newState){
+            immutableState = newState;
+          }
+          <span class="hljs-keyword">break</span>;
+      }
+    });
+    <span class="hljs-keyword">return</span> immutableState;
+  }<span class="hljs-keyword">else</span>{</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-10'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-10">&#182;</a>
+        </div>
+        <ul>
+<li>在状态不变时，需要返回defaultState; 在状态改变时，每次返回新的state<blockquote>
+<p>see: <a href="http://cn.redux.js.org/docs/basics/Reducers.html">http://cn.redux.js.org/docs/basics/Reducers.html</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>    <span class="hljs-keyword">return</span> immutableState;
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-11'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-11">&#182;</a>
+        </div>
+        <ul>
+<li>创建actionTypes和actionCreators</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createActions</span>(<span class="hljs-params">crudResourceNames, resourceNames</span>)</span>{
+  <span class="hljs-keyword">let</span> map = {};
+  crudResourceNames.forEach(<span class="hljs-function"><span class="hljs-params">resourceName</span> =&gt;</span> {
+    map[resourceName] = createActionTypes(resourceName, <span class="hljs-literal">true</span>);
+  });
+  resourceNames.forEach(<span class="hljs-function"><span class="hljs-params">resourceName</span> =&gt;</span> {
+    map[resourceName] = createActionTypes(resourceName);
+  });
+
+  <span class="hljs-keyword">return</span> {
+    getActionTypes(){
+      <span class="hljs-keyword">let</span> actionsMap = {};
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> map){
+        <span class="hljs-built_in">Object</span>.assign(actionsMap, map[key]);
+      }
+      <span class="hljs-keyword">return</span> actionsMap;
+    },
+    getActionCreators(){
+      <span class="hljs-keyword">let</span> creatorsMap = {};
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> map){
+        <span class="hljs-built_in">Object</span>.assign(creatorsMap, createActionCreators(key, map[key]));
+      }
+      <span class="hljs-keyword">return</span> creatorsMap;
+    }
+  }  
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

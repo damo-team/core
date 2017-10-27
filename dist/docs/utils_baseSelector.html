@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Selector基类-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>Selector基类 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="selector-">Selector基类</h1>
+<ol>
+<li>Selector把store数据和改变store的执行方法赋予组件，这一点和<code>redux.connect</code>的作用是等同的。</li>
+<li>通过selector可以获取组件的props和context, 甚至可以拿到父级组件的selector实例</li>
+<li>内部集成了rxjs，rxjs好处不多说，用过自然知道。</li>
+</ol>
+<blockquote>
+<p>see: <a href="https://chentsulin.github.io/redux/docs/recipes/ComputingDerivedData.html">https://chentsulin.github.io/redux/docs/recipes/ComputingDerivedData.html</a>
+see: <a href="https://github.com/reactjs/redux/issues/1171">https://github.com/reactjs/redux/issues/1171</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseSelector</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
+  <span class="hljs-keyword">static</span> appStore = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">static</span> emitter = <span class="hljs-keyword">new</span> EventEmitter();
+
+  <span class="hljs-keyword">constructor</span>(){
+    <span class="hljs-keyword">super</span>();
+
+    <span class="hljs-keyword">this</span>.setMaxListeners(<span class="hljs-built_in">Number</span>.MAX_VALUE);
+  }
+
+  ready(fn){
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.getAppStore()){
+      fn &amp;&amp; fn();
+    }<span class="hljs-keyword">else</span>{
+      BaseSelector.emitter.once(<span class="hljs-string">'ready'</span>, fn);
+    }
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>当组件初始化时，initialize会触发，用于取代componentWillMount获取初始化数据的行为。</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  initialize(props, selector){
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <h3 id="selector-">Selector特性属性</h3>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>inputs: Function</td>
+<td>相当于connect第一个参数，不同点为this指向selector实例</td>
+</tr>
+<tr>
+<td>outputs: Function</td>
+<td>相当于connect第二个参数，不同点为this指向selector实例</td>
+</tr>
+<tr>
+<td>dispatch: Function</td>
+<td>获取store实例的dispatch方法</td>
+</tr>
+<tr>
+<td>parentSelector</td>
+<td>获取父级组件的selector实例，如果存在的话</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  get inputs(){
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> ({})
+  }
+
+  get outputs(){
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> ({})
+  }
+
+  get dispatch(){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().dispatch;
+  }
+
+  set parentSelector(parentSelector){
+    <span class="hljs-keyword">this</span>.$parentSelector_  = parentSelector;
+  }
+
+  get parentSelector(){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$parentSelector_;
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <h3 id="selector-">Selector方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+<th>参数</th>
+<th>默认参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getAppStore</td>
+<td>获取redux的store实例</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getModel</td>
+<td>获取挂在store的指定model实例</td>
+<td>{name: String}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getService</td>
+<td>获取组件的context</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  <span class="hljs-comment">// #! abstract</span>
+  getService(name){
+  }
+
+  getAppStore(){
+    <span class="hljs-keyword">return</span> BaseSelector.appStore; 
+  }
+
+  getModel(modelName){
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().models[modelName]; 
+  }
+
+  select(name){
+    <span class="hljs-keyword">const</span> currentState = <span class="hljs-keyword">this</span>.getAppStore().getState();
+    <span class="hljs-keyword">if</span>(name){
+      <span class="hljs-keyword">const</span> keys = name.split(<span class="hljs-string">'.'</span>);
+      <span class="hljs-keyword">let</span> state = currentState;
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, len = keys.length; i &lt; len; i++){
+        <span class="hljs-keyword">if</span>(!(state = state[keys[i]])){
+          <span class="hljs-keyword">return</span> state;
+        }
+      }
+      <span class="hljs-keyword">return</span> state;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> currentState;
+    }
+  }
+  
+  destroy(){
+    <span class="hljs-keyword">this</span>.removeAllListeners();
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

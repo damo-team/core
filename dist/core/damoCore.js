@@ -366,6 +366,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    };
 	  },
+	  invoke: function invoke(Model, prop) {
+	    return function () {
+	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      if (typeof Model === 'function' && !Model.displayName) {
+	        return Model(state, ownProps);
+	      } else {
+	        if (!damo.$$store__) {
+	          throw new Error('Application uninitialized，initliaze Application by damo.init');
+	        }
+	        var modelName = Object(Model) === Model ? Model.displayName : Model;
+	        var model = damo.$$store__.getModel(modelName);
+	        if (model && model[prop]) {
+	          model[prop].apply(model, args);
+	        } else {
+	          throw new Error('Model or Method is undefined');
+	        }
+	      }
+	    };
+	  },
 	  select: function select(modelName, prop) {
 	    if (!damo.$$store__) {
 	      throw new Error('Application uninitialized，initliaze Application by damo.init');
@@ -7671,7 +7693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return function (dispatch, ownProps) {
 	          var iActions = {};
 	          for (var key in selector.eventBindings) {
-	            iActions[key] = selector.eventBindings[key].call(selectorInstance, dispatch, ownProps);
+	            iActions[key] = selector.eventBindings[key].bind(selectorInstance);
 	          }
 	          return iActions;
 	        };

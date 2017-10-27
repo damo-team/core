@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>starter入口-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>starter入口 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="starter-">starter入口</h1>
+<ul>
+<li>baseSelector.js - Selector基类</li>
+<li>componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)</li>
+<li>core.js - 核心工具方法</li>
+<li>createCrud.js - 创建actionType和actionCreator等工厂方法 </li>
+<li>fetch.js - 接口调用模块</li>
+<li>baseModel.js - Model基类 </li>
+<li>configureStore.development.js - 日常构建store</li>
+<li>configureStore.production.js - 生产构建store</li>
+<li>createReducerFactory.js - 基于Model生成reducer的工厂方法</li>
+<li>loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar<blockquote>
+<p>demo: <a href="http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html">http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html</a></p>
+</blockquote>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> React, {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">'path'</span>;
+<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
+
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/core'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/componentDecorator'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/createCrud'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseModel'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/poller'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseSelector'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/fetch'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resource'</span>;
+
+<span class="hljs-keyword">import</span> {Provider} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
+<span class="hljs-keyword">import</span> {Router, browserHistory} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
+<span class="hljs-keyword">import</span> useBasename <span class="hljs-keyword">from</span> <span class="hljs-string">'history/lib/useBasename'</span>;
+
+<span class="hljs-keyword">import</span> {View} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/componentDecorator'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./store/configureStore'</span>); 
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxSelector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxSelector'</span>);
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxComponent'</span>);
+
+<span class="hljs-comment">// #! require.context('./models', false, /\.js$/);</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadStore</span>(<span class="hljs-params">initialState = {}, middlewares = [], context, getInitReducers = function(</span>)</span>{}){
+  <span class="hljs-keyword">if</span>(!context){
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
+  }
+  <span class="hljs-keyword">return</span> configureStore(initialState, middlewares, hot =&gt; {
+    <span class="hljs-keyword">const</span> Models = getInitReducers() || {};
+    context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      Models[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
+    });
+    <span class="hljs-keyword">const</span> hotAcceptId = context.id;
+    <span class="hljs-keyword">let</span> hotModelsFeedback;
+    <span class="hljs-keyword">if</span>(hot){
+      hotModelsFeedback = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>const reloadedContext = require.context(‘./models’, false, /.js$/);</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>        <span class="hljs-keyword">const</span> reloadedModels = getInitReducers() || {};
+        context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+          reloadedModels[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
+        });
+        <span class="hljs-keyword">return</span> {
+          <span class="hljs-attr">Models</span>: reloadedModels
+        };
+      }
+    }
+    <span class="hljs-keyword">return</span> {
+      Models,
+      hotAcceptId,
+      hotModelsFeedback
+    };
+  });
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadServices</span>(<span class="hljs-params">context</span>)</span>{
+  <span class="hljs-keyword">if</span>(!context){
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
+  }
+  <span class="hljs-keyword">const</span> Services = {};
+  context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+    Services[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
+  });
+  rcInject.setService(Services)
+}
+
+<span class="hljs-comment">// #! require.context('./scenes', true, /index\.jsx$/)</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, routeCallback = function(</span>)</span>{}) {
+  <span class="hljs-keyword">if</span>(!context){
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
+  }
+  
+  <span class="hljs-keyword">const</span> routes = [];
+  context.keys().sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length).forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> keys = relativePath.slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>).split(path.sep);
+    <span class="hljs-keyword">const</span> Comp = context(relativePath);
+    <span class="hljs-keyword">let</span> key, childRoute, temp, name, children;
+    <span class="hljs-keyword">if</span>(keys.length === <span class="hljs-number">1</span>){
+      childRoute = {
+        <span class="hljs-attr">name</span>: keys[<span class="hljs-number">0</span>],
+        <span class="hljs-attr">path</span>: Comp.routePath,
+        <span class="hljs-attr">component</span>: Comp,
+        <span class="hljs-attr">onLeave</span>: Comp.onLeave,
+        <span class="hljs-attr">onEnter</span>: Comp.onEnter
+      };
+      <span class="hljs-keyword">if</span>(routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>){
+        routes.push(childRoute);
+      };
+    }<span class="hljs-keyword">else</span>{
+      name = keys.pop();
+      children = routes;
+      <span class="hljs-keyword">let</span> route;
+      <span class="hljs-keyword">while</span>((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))){
+        route = temp;
+        children = route.childRoutes || [];
+      }
+      <span class="hljs-keyword">if</span>(route){
+        route.childRoutes = route.childRoutes || [];
+        childRoute = {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">path</span>: Comp.routePath,
+          <span class="hljs-attr">component</span>: Comp,
+          <span class="hljs-attr">onLeave</span>: Comp.onLeave,
+          <span class="hljs-attr">onEnter</span>: Comp.onEnter
+        };
+        <span class="hljs-keyword">if</span>(routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>){
+          route.childRoutes.push(childRoute);
+        }
+      }<span class="hljs-keyword">else</span>{
+        childRoute = {
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">navKey</span>: key,
+          <span class="hljs-attr">path</span>: Comp.routePath,
+          <span class="hljs-attr">component</span>: Comp,
+          <span class="hljs-attr">onLeave</span>: Comp.onLeave,
+          <span class="hljs-attr">onEnter</span>: Comp.onEnter
+        };
+        <span class="hljs-keyword">if</span> (routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
+          routes.push(childRoute);
+        };
+      }
+    }
+  });
+  <span class="hljs-keyword">return</span> routes;
+}
+
+
+<span class="hljs-keyword">const</span> damo = {
+  <span class="hljs-attr">$$routes__</span>: [],
+  <span class="hljs-attr">$$defaultModels__</span>: {},
+  <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
+  init(initialState={}, defaultModels = {}, middlewares = []){
+    <span class="hljs-keyword">if</span>(damo.$$store__){
+      <span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'Application initialized！'</span>)
+    }
+    damo.$$defaultModels__ = defaultModels;
+    damo.$$store__ = configureStore(initialState, middlewares, hot =&gt; {
+      <span class="hljs-keyword">return</span> {
+        defaultModels
+      };
+    });
+  },
+  model(Models){
+    <span class="hljs-keyword">if</span>(!damo.$$store__){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
+    damo.$$store__.addModel(Models);
+  },
+  service(Services){
+    rcInject.setService(Services);
+  },
+  toselect(Model, prop){
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName){
+        <span class="hljs-keyword">return</span> Model(state, ownProps);
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> damo.select(Model, prop); 
+      }
+    }
+  },
+  invoke(Model, prop){
+    <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName){
+        <span class="hljs-keyword">return</span> Model(state, ownProps);
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">if</span>(!damo.$$store__){
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+        }
+        <span class="hljs-keyword">const</span> modelName = <span class="hljs-built_in">Object</span>(Model) === Model ? Model.displayName : Model;
+        <span class="hljs-keyword">const</span> model =  damo.$$store__.getModel(modelName);
+        <span class="hljs-keyword">if</span>(model &amp;&amp; model[prop]){
+          model[prop].apply(model, args);
+        }<span class="hljs-keyword">else</span>{
+          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Model or Method is undefined'</span>);
+        }
+      }
+    }
+  },
+  select(modelName, prop){
+    <span class="hljs-keyword">if</span>(!damo.$$store__){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
+    <span class="hljs-keyword">return</span> damo.$$store__.getModel(modelName).select(prop, <span class="hljs-literal">true</span>);
+  },
+  route(path, RouteComponent, option){
+    <span class="hljs-keyword">let</span> routeConfig;
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(path) === path){
+      <span class="hljs-keyword">if</span>(path.path &amp;&amp; path.component){
+        routeConfig = path;
+      }<span class="hljs-keyword">else</span>{
+        option = RouteComponent;
+        RouteComponent = path;
+        path = RouteComponent.routePath;
+      }
+    }
+    <span class="hljs-keyword">if</span>(!routeConfig){
+      routeConfig = <span class="hljs-built_in">Object</span>.assign({
+        <span class="hljs-attr">path</span>: path,
+        <span class="hljs-attr">component</span>: RouteComponent,
+        <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
+        <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
+        <span class="hljs-attr">indexRoute</span>: RouteComponent.indexRoute,
+        <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes
+      }, option);
+      <span class="hljs-keyword">if</span>(option &amp;&amp; option.onDestroy){
+        <span class="hljs-keyword">delete</span> routeConfig.onDestroy;
+        <span class="hljs-keyword">const</span> componentWillMount = RouteComponent.prototype.componentWillMount;
+        RouteComponent.prototype.componentWillMount = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+          componentWillMount &amp;&amp; componentWillMount.call(<span class="hljs-keyword">this</span>);
+          <span class="hljs-keyword">this</span>.context.router.setRouteLeaveHook(
+            <span class="hljs-keyword">this</span>.props.route,
+            option.onDestroy
+          )
+        }
+      }
+    }
+    
+    damo.$$routes__.push(routeConfig);
+    
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option</span>) =&gt;</span> {
+        routeConfig.childRoutes = routeConfig.childRoutes || [];
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(path) === path){
+          option = RouteComponent;
+          RouteComponent = path;
+          path = RouteComponent.routePath;
+        }
+        <span class="hljs-keyword">const</span> _routeConfig = <span class="hljs-built_in">Object</span>.assign({
+          <span class="hljs-attr">path</span>: path,
+          <span class="hljs-attr">component</span>: RouteComponent,
+          <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
+          <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
+          <span class="hljs-attr">indexRoute</span>: RouteComponent.indexRoute,
+          <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes
+        }, option);
+        
+        routeConfig.childRoutes.push(_routeConfig);
+      }
+    }
+  },
+  autoLoadModels(context, noHot){
+    <span class="hljs-keyword">if</span>(!damo.$$store__){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
+    <span class="hljs-keyword">if</span>(!context){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
+    }
+
+    <span class="hljs-keyword">const</span> defaultModels = <span class="hljs-built_in">Object</span>.assign({}, damo.$$defaultModels__);
+
+    context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      defaultModels[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
+    });
+    
+    configureStore.replace(damo.$$store__, defaultModels);
+    
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; !noHot) {
+      <span class="hljs-built_in">module</span>.hot.accept(context.id, () =&gt; {
+        damo.autoLoadModels(context, <span class="hljs-literal">true</span>);
+      });
+    }
+  },
+  autoLoadServices(context){
+    autoLoadServices(context);
+  },
+  autoLoadRoutes(context, routeCallback){
+    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback);
+  },
+  view(Selector, SceneComponent, providers){
+    <span class="hljs-keyword">if</span>(Selector.prototype <span class="hljs-keyword">instanceof</span> Component){
+      providers = SceneComponent;
+      SceneComponent = Selector;
+      Selector = <span class="hljs-literal">null</span>;
+    }
+    <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
+  },
+  bootstrap(RootComponent, DOM, dirname){
+    <span class="hljs-keyword">if</span>(!damo.$$store__){
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
+    <span class="hljs-keyword">if</span>(RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>){
+      dirname = DOM;
+      DOM = RootComponent;
+      RootComponent = <span class="hljs-literal">null</span>;
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!React.isValidElement(RootComponent)){
+      RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);
+    }
+    <span class="hljs-keyword">if</span>(DOM){
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> DOM === <span class="hljs-string">'string'</span>){
+        DOM = <span class="hljs-built_in">document</span>.getElementById(DOM);
+      }
+    }<span class="hljs-keyword">else</span>{
+      DOM = <span class="hljs-built_in">document</span>.body;
+    }
+    <span class="hljs-keyword">let</span> routes = damo.$$routes__;
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(RootComponent)){
+      routes = RootComponent;
+    }
+    <span class="hljs-keyword">if</span>(routes.length &amp;&amp; dirname !== <span class="hljs-literal">false</span>){
+      RootComponent = React.createElement(
+          Provider,
+          { <span class="hljs-attr">store</span>: damo.$$store__ },
+          React.createElement(Router, { <span class="hljs-attr">history</span>: dirname ? withBasename(browserHistory, dirname) : browserHistory, <span class="hljs-attr">routes</span>: routes })
+        );
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(damo.$$store__ &amp;&amp; RootComponent){
+      RootComponent = React.createElement(
+        Provider,
+        { <span class="hljs-attr">store</span>: damo.$$store__ },
+        RootComponent
+      );
+    }
+
+    ReactDOM.render(RootComponent, DOM);
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> damo;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withBasename</span>(<span class="hljs-params">history, dirname</span>) </span>{
+  <span class="hljs-keyword">if</span>(dirname){
+    <span class="hljs-keyword">return</span> useBasename(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> history)({ <span class="hljs-attr">basename</span>: <span class="hljs-string">`/<span class="hljs-subst">${dirname}</span>`</span> })
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> history;
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Model基类-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>Model基类 <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <h1 id="model-">Model基类</h1>
+<ol>
+<li>每个Model在Store中都存在modelName所对应的数据域，即通过state.modelName返回Model所对应的所有数据。</li>
+<li>Model的实现基于事件机制，方便绑定自定义事件</li>
+</ol>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>
+<span class="hljs-keyword">import</span> { Api } <span class="hljs-keyword">from</span> <span class="hljs-string">'./fetch'</span>;
+<span class="hljs-keyword">import</span> { createActions, createActionCreators, changeOperators } <span class="hljs-keyword">from</span> <span class="hljs-string">'./createCrud'</span>;
+<span class="hljs-keyword">import</span> { Poller } <span class="hljs-keyword">from</span> <span class="hljs-string">'./poller'</span>;
+<span class="hljs-keyword">import</span> cuid <span class="hljs-keyword">from</span> <span class="hljs-string">'cuid'</span>;
+<span class="hljs-keyword">import</span> {ucfirst} <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
+<span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
+
+<span class="hljs-keyword">const</span> defaultProcessData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res.data };
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
+  <span class="hljs-keyword">static</span> appStore = <span class="hljs-literal">null</span>;
+  
+  <span class="hljs-keyword">static</span> ASSIGN_TYPES = changeOperators;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <h3 id="actiontype-actioncreator-action-">actionType, actionCreator和创建action的逻辑</h3>
+<ul>
+<li>同步的action，以’actionName’来创建，得到<ul>
+<li>actionType: <code>ACTION_NAME_ACTION</code></li>
+<li>actionCreator的key：<code>$actionNameAction</code></li>
+</ul>
+</li>
+<li>异步的action，以’actionName’来创建，得到<ul>
+<li>actionType: <code>ACTION_NAME_START</code>, <code>ACTION_NAME_SUCCESS</code>和<code>ACTION_NAME_ERROR</code>,</li>
+<li>actionCreator的key：<code>$actionNameStart</code>, <code>$actionNameSuccess</code>和<code>$actionNameError</code></li>
+</ul>
+</li>
+<li>所有的actionTypes存于defineActionTypes属性中。</li>
+<li>所有的actionCreators存于defineActionCreators属性中。</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  createActionCreator(crudActions, actions){
+    <span class="hljs-keyword">const</span> defineAction = createActions(crudActions, actions);
+    <span class="hljs-comment">// #! 自定义的actionType</span>
+    <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.defineActionTypes, defineAction.getActionTypes());
+    <span class="hljs-comment">// #! 自定义的actionCreator</span>
+    <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.defineActionCreators, defineAction.getActionCreators());
+  }
+
+  <span class="hljs-comment">// #! 获取actionCreator的key</span>
+  createActionName(operate, status = <span class="hljs-string">''</span>){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name + operate + ucfirst(status);
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <ul>
+<li>通过制定的actionCreator和配置项生成action, 一般来说我们不需要关心action，有model自动生成，格式为：<pre><code>{
+ type,                           <span class="hljs-comment">// actionType</span>
+ payload: {
+   cid,                            <span class="hljs-comment">// 键名</span>
+   data,                           <span class="hljs-comment">// 未处理的数据</span>
+   record,                         <span class="hljs-comment">// 已处理的数据</span>
+   records,                        <span class="hljs-comment">// 同record</span>
+   change,                         <span class="hljs-comment">// 同步到store的change配置</span>
+   changes,                        <span class="hljs-comment">// 同change，不同点在于changes支持多个change</span>
+ },
+ error,                          <span class="hljs-comment">// 错误信息， 一般在异步action的error时才有</span>
+ suppressGlobalErrorNotification,<span class="hljs-comment">// 在error存在有效，用于指定是否忽略error</span>
+ suppressGlobalProgress          <span class="hljs-comment">// 指定是否不走processbar提示</span>
+}
+</code></pre></li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  createAction(actionName, data, payloadOption, actionOption) {
+    <span class="hljs-keyword">if</span> (!payloadOption.changes) {
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> payloadOption.change === <span class="hljs-string">'function'</span>){
+        payloadOption.changes = [{
+          <span class="hljs-attr">name</span>: payloadOption.name,
+          <span class="hljs-attr">type</span>: changeOperators[<span class="hljs-string">'SETPROPERTY'</span>],
+          <span class="hljs-attr">getData</span>: payloadOption.change
+        }];
+      }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>.assign(payloadOption.change) === payloadOption.change) {
+        payloadOption.changes = [payloadOption.change];
+      } <span class="hljs-keyword">else</span> {
+        payloadOption.changes = [{
+          <span class="hljs-attr">name</span>: payloadOption.name,
+          <span class="hljs-attr">type</span>: payloadOption.change || changeOperators[<span class="hljs-string">'RECONFIGURE'</span>]
+        }]
+      }
+    }
+    <span class="hljs-keyword">const</span> action = <span class="hljs-keyword">this</span>.defineActionCreators[<span class="hljs-string">'$'</span> + actionName](data);
+    <span class="hljs-built_in">Object</span>.assign(action.payload, payloadOption, { <span class="hljs-attr">cid</span>: <span class="hljs-keyword">this</span>.generatorKey });
+    <span class="hljs-built_in">Object</span>.assign(action, actionOption);
+    <span class="hljs-keyword">return</span> action;
+  }
+
+  get generatorKey(){
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'id'</span>;
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <h3 id="model-">Model特性属性</h3>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>generatorKey: String</td>
+<td>Model的唯一键名</td>
+</tr>
+<tr>
+<td>properties: Object</td>
+<td>Model的数据域的数据结构</td>
+</tr>
+<tr>
+<td>dispatch: Function</td>
+<td>获取store实例的dispatch方法</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  <span class="hljs-keyword">constructor</span>(name, initialState) {
+    <span class="hljs-keyword">super</span>();
+
+    <span class="hljs-keyword">this</span>.setName(name);
+    
+    <span class="hljs-keyword">this</span>.mapToStore = {};
+    
+    <span class="hljs-keyword">this</span>.defineActionTypes = {};
+    <span class="hljs-keyword">this</span>.defineActionCreators = {};
+    <span class="hljs-keyword">this</span>.$pollers_ = [];
+
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.properties){
+      <span class="hljs-keyword">this</span>.properties = initialState;
+    }
+
+    <span class="hljs-keyword">this</span>.setMaxListeners(<span class="hljs-built_in">Number</span>.MAX_VALUE);
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <h3 id="model-">Model方法</h3>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+<th>参数</th>
+<th>默认参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getAppStore</td>
+<td>获取redux的store实例</td>
+<td>NA</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getModel</td>
+<td>获取挂在store的指定model实例</td>
+<td>{name: String}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>getQuery</td>
+<td>获取更新store的执行函数</td>
+<td>{ajax: Object, changes: Object / Array, dispatch: Function}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>execQuery</td>
+<td>通过getQuery并且传递dispatch参数，达到直接执行更新store的作用</td>
+<td>{ajax: Object, changes: Object / Array}</td>
+<td>NA</td>
+</tr>
+<tr>
+<td>pollingQuery</td>
+<td>轮询调用getQuery或者execQuery循环调用接口，并且更新数据</td>
+<td>{ajax: Object, changes: Object / Array}</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  getAppStore(){
+    <span class="hljs-keyword">return</span> BaseModel.appStore; 
+  }
+
+  setName(modelName){
+    <span class="hljs-keyword">this</span>.name = modelName;
+  }
+
+  getModel(modelName){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().models[modelName]; 
+  }
+
+  select(name){
+    <span class="hljs-keyword">const</span> currentState = <span class="hljs-keyword">this</span>.getAppStore().getState();
+    <span class="hljs-keyword">let</span> state = currentState[<span class="hljs-keyword">this</span>.name];
+    <span class="hljs-keyword">const</span> keys = name.split(<span class="hljs-string">'.'</span>);
+    
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, len = keys.length; i &lt; len; i++){
+      <span class="hljs-keyword">if</span>(!(state = state[keys[i]])){
+        <span class="hljs-keyword">return</span> state;
+      }
+    }
+    <span class="hljs-keyword">return</span> state;
+  }
+
+  get dispatch(){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().dispatch;
+  }
+
+  execQuery(ajaxOption, changeOption){
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery(ajaxOption, changeOption, <span class="hljs-keyword">this</span>.dispatch);
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <h3 id="-store-">更新store的执行方法</h3>
+<ul>
+<li>ajaxOption配置，用于发ajax请求获取到接口数据<pre><code>{
+  uri,            <span class="hljs-comment">// 接口地址</span>
+  method,         <span class="hljs-comment">// 请求方式['get', 'post', 'put', 'delete']</span>
+  body,           <span class="hljs-comment">// 请求参数</span>
+  params,         <span class="hljs-comment">// 同body</span>
+  processData     <span class="hljs-comment">// 获取到接口数据进行预处理，得到的数据进行change</span>
+}
+</code></pre><ul>
+<li>系统存在默认的<code>processData=res=&gt;res.data</code>，即拿到接口数据的data作为处理数据</li>
+<li>当不想走接口，而是通过静态数据做change时，可以配置<code>ajaxOption={response: 数据}</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>changeOption配置, 用于把获取到的数据更新到store。</p>
+<pre><code> {
+   <span class="hljs-attr">change</span>: {
+     name,         <span class="hljs-comment">// 更新Model数据域的属性名，参考properties</span>
+     callback,     <span class="hljs-comment">// 获取的数据经过callback处理后，返回的数据才会存到store</span>
+     type,         <span class="hljs-comment">// 系统提供的多个callback的行为，和callback二选一</span>
+   }
+   [changes: <span class="hljs-built_in">Array</span>]<span class="hljs-comment">// 每次change做一次更新操作，而changes是可以进行多项更新操作。</span>
+ }
+</code></pre><ul>
+<li>实际上type值为其一：[“add”, “update”, “delete”, “reconfigure”: ‘setProperty’]<blockquote>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/observe">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/observe</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>更简单的方式，ajaxOption和changeOption可以合成一个参数, 举个例子</p>
+<pre><code> {
+   <span class="hljs-attr">response</span>: {
+     <span class="hljs-attr">data</span>: [{<span class="hljs-attr">id</span>: <span class="hljs-number">1</span>}, {<span class="hljs-attr">id</span>: <span class="hljs-number">2</span>}]
+   },
+   <span class="hljs-attr">name</span>: <span class="hljs-string">'list'</span>,
+   <span class="hljs-attr">type</span>: <span class="hljs-string">'reconfigure'</span>
+ }
+</code></pre><ul>
+<li>当change只有一项时，可以平铺出来，当然也可以通过change属性来配，多个change仍可以用changes</li>
+<li>通过type来配置时，实际上依赖于Model的generatorKey，用来识别数据是否已存在。 </li>
+</ul>
+</li>
+</ul>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  getQuery(ajaxOption, changeOption, appDispatch){
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> changeOption === <span class="hljs-string">'function'</span>){
+      appDispatch = changeOption;
+      changeOption = {};
+    }
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(changeOption)){
+      changeOption = {
+        <span class="hljs-attr">changes</span>: changeOption
+      }
+    }
+
+    <span class="hljs-keyword">let</span> actionReducer;
+    <span class="hljs-keyword">const</span> opt = <span class="hljs-built_in">Object</span>.assign({}, ajaxOption, changeOption);
+    <span class="hljs-keyword">if</span>(!opt.operate){
+      opt.operate = opt.name || cuid()
+    }
+    <span class="hljs-keyword">if</span>(opt.uri){
+      actionReducer = <span class="hljs-keyword">this</span>.createCrudFor(opt);
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> opt.request === <span class="hljs-string">'function'</span>){
+      actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData;
+        <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
+        <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
+        <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+
+        <span class="hljs-keyword">const</span> promise = opt.request(opt.params || opt.body, {<span class="hljs-attr">dispatch</span>: dispatch, <span class="hljs-attr">processData</span>: processData, <span class="hljs-attr">action</span>: actionOption, <span class="hljs-attr">changes</span>: opt.changes, <span class="hljs-attr">callback</span>: extraOption.callback, <span class="hljs-attr">errorNotification</span>: extraOption.errorNotification});
+
+        promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span>(callback){
+            promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+              callback(<span class="hljs-literal">null</span>, res);
+            }, callback);
+          }
+          <span class="hljs-keyword">return</span> promise;
+        }
+
+        <span class="hljs-keyword">return</span> promise;
+      }
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(opt.response){
+      <span class="hljs-keyword">const</span> operate = opt.operate;
+      <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
+      <span class="hljs-keyword">const</span> needToOperate = operate &amp;&amp; (opt.change || opt.changes);
+      actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || defaultProcessData;
+        <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
+        <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
+
+        needToOperate &amp;&amp; <span class="hljs-keyword">this</span>.createActionCreator([], [<span class="hljs-keyword">this</span>.createActionName(ucOperate)]);
+
+        <span class="hljs-keyword">const</span> payloadOption = { <span class="hljs-attr">name</span>: opt.name || operate, <span class="hljs-attr">params</span>: opt.params || opt.body, <span class="hljs-attr">change</span>: opt.change, <span class="hljs-attr">changes</span>: opt.changes };
+        <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+        <span class="hljs-keyword">const</span> isPromise = opt.response &amp;&amp; opt.response.then;
+        <span class="hljs-keyword">const</span> promise = isPromise ? opt.response : <span class="hljs-built_in">Promise</span>.resolve(opt.response);
+
+        <span class="hljs-keyword">if</span>(needToOperate){
+          <span class="hljs-keyword">if</span>(!isPromise){
+            <span class="hljs-keyword">const</span> data = processData(opt.response);
+            dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
+          }
+          <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'before'</span> + ucOperate, opt)
+        }
+
+        promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
+          <span class="hljs-keyword">if</span>(callback){
+            promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+              callback(<span class="hljs-literal">null</span>, res);
+            }, callback);
+          }
+          <span class="hljs-keyword">return</span> promise;
+        }
+        promise.fromSubscribe(extraOption.callback);
+
+        promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+          <span class="hljs-keyword">const</span> data = processData(res);
+        
+          <span class="hljs-keyword">if</span>(needToOperate){
+            <span class="hljs-keyword">if</span>(isPromise){
+              dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
+            }
+            <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, <span class="hljs-literal">null</span>, data);
+          }
+
+          <span class="hljs-keyword">return</span> data;
+        });
+
+        <span class="hljs-keyword">return</span> promise;
+      }
+    }
+    
+    <span class="hljs-keyword">if</span>(appDispatch){
+      <span class="hljs-keyword">return</span> actionReducer(appDispatch);
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> actionReducer;
+    }
+  }
+  
+  createCrudFor(opt) {
+    <span class="hljs-keyword">const</span> operate = opt.operate;
+    <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
+    <span class="hljs-keyword">const</span> needToOperate = operate &amp;&amp; (opt.change || opt.changes);
+
+    needToOperate &amp;&amp; <span class="hljs-keyword">this</span>.createActionCreator([<span class="hljs-keyword">this</span>.createActionName(ucOperate)], []);
+
+    <span class="hljs-keyword">const</span> actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || defaultProcessData;
+      <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
+      <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
+
+      <span class="hljs-keyword">const</span> payloadOption = { <span class="hljs-attr">name</span>: opt.name || operate, <span class="hljs-attr">params</span>: opt.params || opt.body, <span class="hljs-attr">change</span>: opt.change, <span class="hljs-attr">changes</span>: opt.changes };
+      <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+
+      <span class="hljs-keyword">if</span>(needToOperate){
+        dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'start'</span>), opt.initialValue, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: promise }), actionOption));
+        <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'before'</span> + ucOperate, opt);
+      }
+
+      <span class="hljs-keyword">const</span> promise = Api({
+        <span class="hljs-attr">url</span>: opt.uri,
+        <span class="hljs-attr">method</span>: opt.method,
+        <span class="hljs-attr">data</span>: opt.body,
+        <span class="hljs-attr">headers</span>: opt.headers,
+        <span class="hljs-attr">errorNotification</span>: opt.errorNotification
+      });
+
+      promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span>(callback){
+          promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            callback(<span class="hljs-literal">null</span>, res);
+          }, callback);
+        }
+        <span class="hljs-keyword">return</span> promise;
+      }
+      promise.fromSubscribe(extraOption.callback);
+
+      promise.then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-keyword">let</span> data = processData(response, dispatch);
+        <span class="hljs-keyword">if</span>(needToOperate){
+          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'success'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: response }), actionOption));
+          <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, <span class="hljs-literal">null</span>, data);
+        }
+        <span class="hljs-keyword">return</span> data;
+      }, (err) =&gt; {
+        <span class="hljs-keyword">if</span>(needToOperate){
+          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'error'</span>), <span class="hljs-literal">null</span>, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: err }), <span class="hljs-built_in">Object</span>.assign(actionOption, {<span class="hljs-attr">error</span>: err})));
+          <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, err);
+        }
+        <span class="hljs-keyword">return</span> err;
+      });
+      
+      <span class="hljs-keyword">return</span> promise;
+    }
+    <span class="hljs-keyword">return</span> actionReducer;
+  }
+  
+  <span class="hljs-comment">// #! 结合Poller模块实现轮询功能</span>
+  pollingQuery(ajaxOption, changeOption, appDispatch){
+    <span class="hljs-keyword">const</span> actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> poller = <span class="hljs-keyword">new</span> Poller({
+        <span class="hljs-attr">catchError</span>: ajaxOption.catchError,
+        <span class="hljs-attr">smart</span>: ajaxOption.smart,
+        <span class="hljs-attr">delay</span>: ajaxOption.delay,
+        <span class="hljs-attr">action</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery(ajaxOption, changeOption)(dispatch, extraOption);
+        }
+      });
+
+      <span class="hljs-keyword">this</span>.$pollers_.push(poller);
+
+      <span class="hljs-keyword">return</span> poller;
+    }
+    <span class="hljs-keyword">if</span>(appDispatch){
+      <span class="hljs-keyword">return</span> actionReducer(appDispatch);
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> actionReducer;
+    }
+  }
+
+  clearPolling(){
+    <span class="hljs-keyword">this</span>.$pollers_.forEach(<span class="hljs-function"><span class="hljs-params">poller</span> =&gt;</span> {
+      poller.remove();
+    });
+  }
+
+  destroy(){
+    <span class="hljs-keyword">this</span>.removeAllListeners();
+    <span class="hljs-keyword">this</span>.clearPolling();
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>

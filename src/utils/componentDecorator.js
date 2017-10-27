@@ -75,7 +75,7 @@ export const component = ({
         return (dispatch, ownProps) => {
           const iActions = {};
           for(let key in selector.eventBindings){
-            iActions[key] = selector.eventBindings[key].call(selectorInstance, dispatch, ownProps);
+            iActions[key] = selector.eventBindings[key].bind(selectorInstance);
           }
           return iActions;
         }

@@ -173,6 +173,24 @@ const damo = {
       }
     }
   },
+  invoke(Model, prop){
+    return (...args) => {
+      if(typeof Model === 'function' && !Model.displayName){
+        return Model(state, ownProps);
+      }else{
+        if(!damo.$$store__){
+          throw new Error('Application uninitialized，initliaze Application by damo.init');
+        }
+        const modelName = Object(Model) === Model ? Model.displayName : Model;
+        const model =  damo.$$store__.getModel(modelName);
+        if(model && model[prop]){
+          model[prop].apply(model, args);
+        }else{
+          throw new Error('Model or Method is undefined');
+        }
+      }
+    }
+  },
   select(modelName, prop){
     if(!damo.$$store__){
       throw new Error('Application uninitialized，initliaze Application by damo.init');

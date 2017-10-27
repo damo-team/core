@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>resource.js-document</title>
+  <link rel="stylesheet" type="text/css" href="docco.css">
+  <style>
+    .code .highlight{
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+    .code .highlight pre{
+      width: 98%;
+    }
+    .code .highlight .link{
+      position: absolute;
+      top: 6px;
+      left: -6px;
+      text-decoration: none;
+      padding: 2px 4px;
+      border: 1px solid #0088cc;
+      background: #6666ff;
+      color: white;
+      line-height: 5px;
+      border-radius: 1px;
+    }
+    .code .highlight .link.open{
+      padding: 4px 4px 2px;
+    }
+    .code .highlight .link:hover{
+      background: #0088cc
+    }
+    .code .highlight .close:after{
+      font-family: "fleurons";
+      content: "-";
+    }
+    .code .highlight .open:after{
+      font-family: "fleurons";
+      content: "+";
+    }
+    .code .highlight pre.narrow{
+      overflow: hidden;
+      height: 34px;
+    }
+    pre.narrow:before{
+      position: absolute;
+      margin-top: -4px;
+      color: #f50;
+      content: '...';
+    }
+    #J_iframe{
+      width: 1000px;
+      height: 80%;
+      max-height: 600px;
+      position: absolute;
+      background: white;
+      top: 70px;
+      left: 240px;
+      visibility: hidden;
+      border: 1px solid gray;
+      z-index: 100000;
+    }
+    
+  </style>
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        
+          
+          <a class="source" href="src_index.html">
+            ./src/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_hotStaticResource.html">
+            ./src/resource/hotStaticResource.js
+          </a>
+        
+          
+          <a class="source" href="resource_index.html">
+            ./src/resource/index.js
+          </a>
+        
+          
+          <a class="source" href="resource_resource.html">
+            ./src/resource/resource.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceAction.html">
+            ./src/resource/resourceAction.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceCRUD.html">
+            ./src/resource/resourceCRUD.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceDecorator.html">
+            ./src/resource/resourceDecorator.js
+          </a>
+        
+          
+          <a class="source" href="resource_resourceModel.html">
+            ./src/resource/resourceModel.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.development.html">
+            ./src/store/configureStore.development.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.html">
+            ./src/store/configureStore.js
+          </a>
+        
+          
+          <a class="source" href="store_configureStore.production.html">
+            ./src/store/configureStore.production.js
+          </a>
+        
+          
+          <a class="source" href="store_createReducerFactory.html">
+            ./src/store/createReducerFactory.js
+          </a>
+        
+          
+          <a class="source" href="store_enhanceStore.html">
+            ./src/store/enhanceStore.js
+          </a>
+        
+          
+          <a class="source" href="store_loadingBarMiddleware.html">
+            ./src/store/loadingBarMiddleware.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseModel.html">
+            ./src/utils/baseModel.js
+          </a>
+        
+          
+          <a class="source" href="utils_baseSelector.html">
+            ./src/utils/baseSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_componentDecorator.html">
+            ./src/utils/componentDecorator.js
+          </a>
+        
+          
+          <a class="source" href="utils_core.html">
+            ./src/utils/core.js
+          </a>
+        
+          
+          <a class="source" href="utils_createCrud.html">
+            ./src/utils/createCrud.js
+          </a>
+        
+          
+          <a class="source" href="utils_fetch.html">
+            ./src/utils/fetch.js
+          </a>
+        
+          
+          <a class="source" href="utils_inject.html">
+            ./src/utils/inject.js
+          </a>
+        
+          
+          <a class="source" href="utils_poller.html">
+            ./src/utils/poller.js
+          </a>
+        
+          
+          <a class="source" href="utils_rx.html">
+            ./src/utils/rx.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxComponent.html">
+            ./src/utils/rxComponent.js
+          </a>
+        
+          
+          <a class="source" href="utils_rxSelector.html">
+            ./src/utils/rxSelector.js
+          </a>
+        
+          
+          <a class="source" href="utils_withState.html">
+            ./src/utils/withState.js
+          </a>
+        
+      </div>
+    </div>
+  </div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class="docs" colspan="2"><h1>resource.js <a href="javascript:;" id="J_demo">demo</a>
+        <iframe id="J_iframe" src="" frameborder="0" scrolling="auto" ></iframe></h1>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr id='section-1'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-1">&#182;</a>
+        </div>
+        <blockquote>
+<p>see: <a href="https://github.com/troyanskiy/ng2-resource-rest">https://github.com/troyanskiy/ng2-resource-rest</a></p>
+</blockquote>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> Rx <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> {ResourceModel} <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceModel'</span>;
+<span class="hljs-keyword">import</span> {applyCrudReducer} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/createCrud'</span>;
+<span class="hljs-keyword">import</span> {Api} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/fetch'</span>;
+<span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
+<span class="hljs-keyword">import</span> {resourceCRUD} <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceCRUD'</span>;
+
+<span class="hljs-keyword">const</span> noop = <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d;
+<span class="hljs-keyword">const</span> defaultProcessData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{
+  <span class="hljs-keyword">return</span> res.data
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseResource</span> </span>{
+  <span class="hljs-keyword">static</span> validate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{};
+  <span class="hljs-keyword">static</span> ASSIGN_METHODS = resourceCRUD;
+
+  <span class="hljs-keyword">constructor</span>(resourceName, option = {}, initialState) {
+
+    <span class="hljs-keyword">this</span>._sync(resourceName, option, initialState || option.initialState || {});
+
+    <span class="hljs-keyword">this</span>.$model_ = <span class="hljs-keyword">this</span>.defer();
+
+    <span class="hljs-comment">// #! 对于get和query接口需要判断cache和终止之前请求</span>
+    <span class="hljs-keyword">this</span>.$cacheHttps_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>();
+
+    <span class="hljs-comment">// #! 所有接口都走subject_发射</span>
+    <span class="hljs-keyword">this</span>.$subject_ = <span class="hljs-keyword">new</span> Rx.Subject();
+    <span class="hljs-keyword">this</span>.$subscripers_ = [];
+  }
+
+  getState() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$state_;
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-2'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-2">&#182;</a>
+        </div>
+        <p>option = {
+ url,</p>
+<p> cid,
+ cache,</p>
+<p> addTimestamp,
+ removeTrailingSlash,
+ actions,
+}</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  _sync(resourceName, option, initialState) {
+    <span class="hljs-keyword">const</span> defaultActions = {
+      <span class="hljs-attr">query</span>: {
+        <span class="hljs-attr">path</span>: <span class="hljs-string">'/list'</span>,
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'get'</span>,
+        <span class="hljs-attr">state</span>: {
+          <span class="hljs-attr">list</span>: resourceCRUD.QUERY
+        }
+      },
+      <span class="hljs-attr">get</span>: {
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'get'</span>,
+        <span class="hljs-attr">state</span>: {
+          <span class="hljs-attr">item</span>: resourceCRUD.GET
+        }
+      },
+      <span class="hljs-attr">create</span>: {
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'post'</span>,
+        <span class="hljs-attr">state</span>: {
+          <span class="hljs-attr">list</span>: resourceCRUD.ADD
+        }
+      },
+      <span class="hljs-attr">update</span>: {
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'put'</span>,
+        <span class="hljs-attr">state</span>: {
+          <span class="hljs-attr">list</span>: resourceCRUD.UPDATE
+        }
+      },
+      <span class="hljs-attr">delete</span>: {
+        <span class="hljs-attr">method</span>: <span class="hljs-string">'delete'</span>,
+        <span class="hljs-attr">state</span>: {
+          <span class="hljs-attr">list</span>: resourceCRUD.DELETE
+        }
+      }
+    }
+
+    option.actions = option.actions || defaultActions;
+    <span class="hljs-keyword">const</span> actions = {};
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> option.actions) {
+      <span class="hljs-keyword">let</span> action;
+      <span class="hljs-comment">// #! 获取最新的cid</span>
+      <span class="hljs-keyword">let</span> cid = option.actions[key].cid || option.cid;
+      <span class="hljs-comment">// #! 默认的CRUD</span>
+      <span class="hljs-keyword">if</span> (defaultActions[key]) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> option.actions[key] === <span class="hljs-string">'string'</span>) {
+          action = <span class="hljs-built_in">Object</span>.assign({
+            <span class="hljs-attr">uri</span>: option.actions[key]
+          }, defaultActions[key]);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (option.actions[key] === <span class="hljs-literal">true</span>) {
+          action = <span class="hljs-built_in">Object</span>.assign({
+            <span class="hljs-attr">path</span>: <span class="hljs-string">'/{${cid}}'</span>
+          }, defaultActions[key]);
+        } <span class="hljs-keyword">else</span> {
+          action = <span class="hljs-built_in">Object</span>.assign({
+            <span class="hljs-attr">path</span>: <span class="hljs-string">'/{${cid}}'</span>
+          }, defaultActions[key], {<span class="hljs-attr">state</span>: <span class="hljs-literal">null</span>}, option.actions[key]);
+        }
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>[key]) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'actionName不能覆盖Resource已有的方法'</span>);
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// #! 自定义的方法和action</span>
+        action = <span class="hljs-built_in">Object</span>.assign({}, option.actions[key]);
+      }
+
+      <span class="hljs-comment">// #! 合并初始化数据</span>
+      <span class="hljs-keyword">if</span> (action.initialState) {
+        <span class="hljs-built_in">Object</span>.assign(initialState, action.initialState);
+      }
+
+      action.cid = cid;
+      action.changes = action.changes || [];
+      actions[key] = action;
+
+      <span class="hljs-comment">// #! 获取到最新的changes策略</span>
+      <span class="hljs-keyword">let</span> state = action.state;
+      <span class="hljs-keyword">if</span> (state) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> state) {
+          <span class="hljs-keyword">let</span> func = state[name];
+          <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> func === <span class="hljs-string">'string'</span>){
+            func = resourceCRUD[func]
+          }
+          <span class="hljs-keyword">let</span> changes = func(name, action, initialState);
+          <span class="hljs-keyword">if</span> (changes) {
+            action.changes = action
+              .changes
+              .concat(changes);
+          }
+        }
+      }
+
+      <span class="hljs-keyword">const</span> processData = action.processData
+      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> processData === <span class="hljs-string">'object'</span>){
+        action.processData = <span class="hljs-function">(<span class="hljs-params">res, params</span>) =&gt;</span> {
+          <span class="hljs-keyword">const</span> data = {};
+          <span class="hljs-keyword">let</span> n;
+          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> processData){
+            <span class="hljs-keyword">let</span> d = res;
+            <span class="hljs-keyword">let</span> tmp = processData[key].split(<span class="hljs-string">'.'</span>);
+            <span class="hljs-keyword">while</span>(n = tmp.shift()){
+              d = d[n];
+            }
+            data[key] = d;
+          }
+          <span class="hljs-keyword">return</span> data;
+        }
+      }
+
+      <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>[key]) {
+        <span class="hljs-keyword">this</span>[key] = <span class="hljs-function">(<span class="hljs-params">params, callback</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.request(key, params, callback)
+        }
+      }
+    }
+
+    <span class="hljs-comment">// #! 初始化数据</span>
+    <span class="hljs-keyword">this</span>.$state_ = SI(initialState);
+    <span class="hljs-keyword">this</span>.$cid_ = option.cid;
+
+    <span class="hljs-keyword">this</span>.$options_ = {
+      <span class="hljs-attr">resourcePath</span>: option.resourcePath || <span class="hljs-string">''</span>,
+      <span class="hljs-attr">addTimestamp</span>: option.addTimestamp,
+      <span class="hljs-attr">removeTrailingSlash</span>: option.removeTrailingSlash,
+      <span class="hljs-attr">actions</span>: actions,</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-3'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>payload = {
+ name,
+ status,
+ ajaxOption,
+ data,
+ error,
+ state
+}</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>      requestInterceptor: <span class="hljs-function">(<span class="hljs-params">ajaxOption</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> actionName = ajaxOption.name;
+        <span class="hljs-keyword">const</span> action = <span class="hljs-keyword">this</span>.$options_.actions[actionName];
+        <span class="hljs-comment">// #! 获取缓存的http实例</span>
+        <span class="hljs-keyword">const</span> http = <span class="hljs-keyword">this</span>
+          .$cacheHttps_
+          .get(actionName);
+        
+
+        <span class="hljs-keyword">let</span> promise;
+        <span class="hljs-keyword">let</span> isSame = <span class="hljs-literal">false</span>;
+        <span class="hljs-comment">// #! 存在缓存，则从cache中拿</span>
+        <span class="hljs-keyword">if</span> ((action.cache || action.distinct) &amp;&amp; ajaxOption.method.toLocaleLowerCase() === <span class="hljs-string">'get'</span>) {
+          <span class="hljs-keyword">if</span>(http){
+            <span class="hljs-keyword">if</span>(http.params == ajaxOption.params){
+              isSame = <span class="hljs-literal">true</span>;
+            }<span class="hljs-keyword">else</span>{
+              <span class="hljs-keyword">const</span> _params = ajaxOption.params || {};
+              <span class="hljs-keyword">const</span> params = http.params || {};
+              <span class="hljs-keyword">const</span> keys = <span class="hljs-built_in">Object</span>.keys(_params);
+              <span class="hljs-keyword">if</span> (keys.length == <span class="hljs-built_in">Object</span>.keys(_params) &amp;&amp; keys.length == keys.filter(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> params[key] === _params[key]).length) {
+                isSame = <span class="hljs-literal">true</span>;
+              }
+            }
+            <span class="hljs-keyword">if</span>(isSame &amp;&amp; action.cache){
+              <span class="hljs-keyword">if</span>(http.resolved){
+                http.resolved = <span class="hljs-literal">false</span>;
+                promise = http.$observable.toPromise();
+              }<span class="hljs-keyword">else</span>{
+                http.abort();
+                http.release();
+              }
+            }
+          }
+        }
+
+        <span class="hljs-keyword">if</span> (!promise) {
+          <span class="hljs-comment">// #! 创建新的缓存http</span>
+          <span class="hljs-keyword">const</span> newHttp = <span class="hljs-keyword">this</span>.createHttp(ajaxOption.params, () =&gt; {
+            <span class="hljs-comment">// #! 请求前发送</span>
+            <span class="hljs-keyword">this</span>
+              .$subject_
+              .next({
+                <span class="hljs-attr">name</span>: actionName,
+                <span class="hljs-attr">status</span>: <span class="hljs-string">'start'</span>,
+                <span class="hljs-attr">ajaxOption</span>: ajaxOption,
+                <span class="hljs-attr">dispatch</span>: newHttp.extraOption.dispatch,
+                <span class="hljs-attr">state</span>: <span class="hljs-keyword">this</span>.applyState({
+                  <span class="hljs-attr">status</span>: <span class="hljs-string">'start'</span>,
+                  <span class="hljs-attr">record</span>: {},
+                  <span class="hljs-attr">params</span>: ajaxOption.params,
+                  <span class="hljs-attr">changes</span>: action.changes.concat(newHttp.extraOption.changes || [])
+                }),
+                <span class="hljs-attr">stateAction</span>: newHttp.extraOption.action
+              });
+          });
+
+          <span class="hljs-comment">// #! 保存新的</span>
+          <span class="hljs-keyword">this</span>
+            .$cacheHttps_
+            .set(actionName, newHttp);
+
+          promise = <span class="hljs-built_in">Promise</span>
+            .resolve(ajaxOption)
+            .then(<span class="hljs-function"><span class="hljs-params">opt</span> =&gt;</span> {
+              <span class="hljs-keyword">let</span> promise;
+              <span class="hljs-comment">// #! 之前的请求未完成时，则终止和关闭掉</span>
+              <span class="hljs-keyword">if</span> (http) {
+                <span class="hljs-keyword">if</span> (action.distinct &amp;&amp; isSame &amp;&amp; !http.resolved) {
+                  http.abort();
+                  promise = Api.error(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Request is stoped'</span>));
+                }
+                <span class="hljs-keyword">if</span>(!action.cache){
+                  http.release();
+                }
+              }
+              <span class="hljs-keyword">if</span>(!promise){
+                <span class="hljs-keyword">let</span> err;
+                <span class="hljs-comment">// #! 校验参数是否合法</span>
+                <span class="hljs-keyword">if</span>(err = BaseResource.validate(opt.params, action)){
+                  promise = Api.error(err);
+                }<span class="hljs-keyword">else</span>{
+                  opt.errorNotification = opt.errorNotification || newHttp.extraOption.errorNotification;
+                  promise = Api(opt);
+                }
+              }
+
+              <span class="hljs-keyword">return</span> promise;
+            });
+        }
+        <span class="hljs-keyword">return</span> promise;
+      },
+      <span class="hljs-attr">responseInterceptor</span>: <span class="hljs-function">(<span class="hljs-params">promise, ajaxOption</span>) =&gt;</span> {
+        <span class="hljs-keyword">const</span> newHttp = <span class="hljs-keyword">this</span>
+          .$cacheHttps_
+          .get(ajaxOption.name);
+        <span class="hljs-keyword">const</span> action = actions[ajaxOption.name];
+        <span class="hljs-comment">// #! 在返回结果发现resolved为true，说明中途被终止掉了</span>
+        <span class="hljs-keyword">if</span> (!newHttp.resolved) {
+          <span class="hljs-keyword">if</span>(newHttp.extraOption.callback){
+            promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> newHttp.extraOption.callback(<span class="hljs-literal">null</span>, res), err =&gt; newHttp.extraOption.callback(err));
+          }
+          
+          promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            <span class="hljs-keyword">const</span> processData = newHttp.extraOption.processData || action.processData || defaultProcessData;
+            <span class="hljs-keyword">const</span> data = processData(res, ajaxOption.params);
+
+            <span class="hljs-keyword">const</span> state = <span class="hljs-keyword">this</span>.applyState({
+              <span class="hljs-attr">record</span>: data, 
+              <span class="hljs-attr">status</span>: <span class="hljs-string">'success'</span>, 
+              <span class="hljs-attr">params</span>: ajaxOption.params, 
+              <span class="hljs-attr">changes</span>: action.changes.concat(newHttp.extraOption.changes || [])
+            });
+
+            <span class="hljs-keyword">this</span>
+              .$subject_
+              .next({
+                <span class="hljs-attr">name</span>: ajaxOption.name,
+                <span class="hljs-attr">status</span>: <span class="hljs-string">'success'</span>,
+                <span class="hljs-attr">data</span>: data,
+                <span class="hljs-attr">dispatch</span>: newHttp.extraOption.dispatch,
+                <span class="hljs-attr">stateAction</span>: newHttp.extraOption.action,
+                <span class="hljs-attr">state</span>: state
+              });
+            <span class="hljs-keyword">return</span> data;
+          }, err =&gt; {
+            <span class="hljs-keyword">this</span>
+              .$subject_
+              .next({<span class="hljs-attr">name</span>: ajaxOption.name, <span class="hljs-attr">status</span>: <span class="hljs-string">'error'</span>, <span class="hljs-attr">dispatch</span>: newHttp.extraOption.dispatch, <span class="hljs-attr">stateAction</span>: newHttp.extraOption.action, <span class="hljs-attr">state</span>: <span class="hljs-keyword">this</span>.$state_, <span class="hljs-attr">error</span>: err});
+            <span class="hljs-keyword">throw</span> err;
+          });
+
+        }
+        <span class="hljs-comment">// #! 关闭并执行callback</span>
+        <span class="hljs-keyword">if</span>(!action.cache){
+          newHttp.release();
+        }
+        <span class="hljs-keyword">return</span> promise;
+      }
+    }
+  }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
+        </div>
+        <p>payload = {
+ cid,
+ status,
+ params,
+ changes,
+ record
+}</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>  applyState(payload) {
+    <span class="hljs-keyword">if</span>(payload.changes.length){
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$state_ = applyCrudReducer(<span class="hljs-keyword">this</span>.$state_, payload);
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+  }
+
+  defer() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResourceModel(<span class="hljs-keyword">this</span>.$options_);
+  }
+
+  createHttp(params, preCallback) {
+    <span class="hljs-keyword">const</span> http = {
+      <span class="hljs-attr">extraOption</span>: {},
+      <span class="hljs-attr">params</span>: params,
+      <span class="hljs-comment">// #! 默认是未完成的</span>
+      resolved: <span class="hljs-literal">false</span>,
+      <span class="hljs-comment">// #! 终止掉，清理掉订阅实例</span>
+      abort: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (http.resolved) 
+          <span class="hljs-keyword">return</span>;
+        http
+          .$subscription
+          .unsubscribe();
+        http.resolved = <span class="hljs-literal">true</span>;
+      },
+      <span class="hljs-attr">subscriber</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">observable</span>: Rx
+        .Observable
+        .create(<span class="hljs-function"><span class="hljs-params">subscriber</span> =&gt;</span> {
+          http.subscriber = subscriber;
+        })
+        .flatMap(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> http.$observable),
+
+      <span class="hljs-attr">$observable</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-attr">$subscription</span>: <span class="hljs-literal">null</span>,
+      <span class="hljs-comment">// #! 开始运行</span>
+      start: <span class="hljs-function">(<span class="hljs-params">promise, callback</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (http.resolved) 
+          <span class="hljs-keyword">return</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-5'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-5">&#182;</a>
+        </div>
+        <p>在此处加入extraOption</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>        <span class="hljs-keyword">let</span> extraOption;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> callback === <span class="hljs-string">'object'</span>) {
+          extraOption = callback;
+          callback = extraOption.callback;
+          <span class="hljs-keyword">delete</span> extraOption.callback;
+          http.extraOption = extraOption;
+        }
+
+        callback = callback || noop;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-6'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-6">&#182;</a>
+        </div>
+        <p>预先执行</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>        preCallback();
+
+        <span class="hljs-comment">// #! promise 转换为 observable</span>
+        http.$observable = Rx
+          .Observable
+          .fromPromise(promise);
+        <span class="hljs-comment">// #! callback执行时在observable的订阅中</span>
+        http.$subscription = http
+          .$observable
+          .subscribe(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (res <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Error</span>) {
+              callback(res)
+            } <span class="hljs-keyword">else</span> {
+              callback(<span class="hljs-literal">null</span>, res);
+            }
+          }, err =&gt; callback(err), () =&gt; http.resolved = <span class="hljs-literal">true</span>);</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-7'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-7">&#182;</a>
+        </div>
+        <p>observable换换为connectObserver</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>        http.observable = http
+          .observable
+          .publish();
+        http
+          .observable
+          .connect();
+      },
+      <span class="hljs-comment">// #! 关闭，清理掉本次观察者，此时callback的实行才会开始</span>
+      release: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-keyword">if</span> (http.subscriber) {
+          http
+            .subscriber
+            .next();
+          http
+            .subscriber
+            .complete();
+          http.subscriber = <span class="hljs-literal">null</span>;
+        }
+      }
+    }
+
+    <span class="hljs-keyword">return</span> http;
+  }
+
+  request(actionName, params, callback) {
+    <span class="hljs-keyword">const</span> action = <span class="hljs-keyword">this</span>.$options_.actions[actionName];
+    <span class="hljs-keyword">if</span> (!action) {
+      <span class="hljs-keyword">return</span> Api.error(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Request is null'</span>));
+    }
+
+    <span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">this</span>
+      .$model_
+      .request(actionName, params);
+
+    <span class="hljs-keyword">const</span> http = <span class="hljs-keyword">this</span>
+      .$cacheHttps_
+      .get(actionName);
+
+    <span class="hljs-comment">// #! 通过promise的cancel方法可终止掉</span>
+    promise.cancel = http
+      .abort
+      .bind(http);
+    <span class="hljs-comment">// #! 开始运行</span>
+    http.start(promise, callback);
+
+    <span class="hljs-keyword">return</span> promise;
+  }
+
+  subscribe(callback) {
+    <span class="hljs-keyword">var</span> subscription = <span class="hljs-keyword">this</span>.$subject_.subscribe(callback);
+    <span class="hljs-keyword">this</span>
+      .$subscripers_
+      .push(subscription);
+    <span class="hljs-keyword">return</span> subscription;
+  }
+
+  unsubscribe() {
+    <span class="hljs-keyword">this</span>
+      .$subscripers_
+      .forEach(<span class="hljs-function"><span class="hljs-params">subscription</span> =&gt;</span> {
+        subscription.unsubscribe();
+      })
+  }
+
+  destroy() {
+    <span class="hljs-keyword">this</span>.unsubscribe();
+    <span class="hljs-keyword">this</span>
+      .$subject_
+      .complete();
+  }
+}</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+  </table>
+</div>
+</body>
+<script>
+  (function(win){
+    
+    var addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0, len = el.length; i < len; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
+    })();
+    
+    if(document.getElementsByClassName){
+      var links = document.getElementsByClassName('link');
+      for(var i = links.length; i--;){
+        (function(link){
+          addEvent(link, 'click', function(ev){
+            var pre = link.previousSibling;
+            if(link.className.indexOf('open') > -1){
+              link.className = link.className.replace('open', '') + ' close';
+              pre.className = '';
+            }else{
+              link.className = link.className.replace('close', '') + ' open';
+              pre.className = 'narrow';
+            }
+          });
+        })(links[i]);
+      }
+    }
+    
+    var demo = document.getElementById('J_demo');
+    var iframe = document.getElementById('J_iframe');
+    addEvent(demo, 'click', function(ev){
+      if(iframe.style.visibility === 'visible'){
+        iframe.style.visibility = 'hidden'
+      }else{
+        iframe.style.visibility = 'visible'
+      }
+    });
+  })(window);
+</script>
+</html>
