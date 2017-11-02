@@ -31,7 +31,7 @@ class Selector extends BaseSelector {
   static dataBindings = {
     title: damo.toselect(User, 'profile.login')
   }
-
+  
   initialize() {
     this
       .getModel(User)
@@ -42,11 +42,18 @@ class Selector extends BaseSelector {
 // 组件的代码定义
 class Root extends Component {
   static routePath = '/mini-app';
+  
+  static contextTypes = {
+    user: PropTypes.object.isRequired,
+    user1: PropTypes.object.isRequired
+  }
 
   static defaultProps = {
     title: 'My First React App!!'
   }
   render() {
+    console.log(this.context.user);
+    console.log(this.context.user1);
     return (
       <div>
         <h1>Welcome to {this.props.title}</h1>
@@ -60,7 +67,8 @@ class Root extends Component {
 
 damo.init(); // 初始化
 damo.model(User); // 添加数据模型
-const ViewComponent = damo.view(Selector, Root); // 给组件加入数据绑定
+damo.service({user: User});
+const ViewComponent = damo.view(Selector, Root, {user1: User}); // 给组件加入数据绑定
 damo.route('/demo', ViewComponent); // 建立路由
 // damo.start(ViewComponent); // 执行入口，根组件
 

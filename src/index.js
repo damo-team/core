@@ -16,6 +16,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import path from 'path';
 import {rcInject} from './utils/inject';
+import router from './utils/router';
 
 export * from './utils/inject';
 export * from './utils/core';
@@ -80,7 +81,7 @@ export function autoLoadServices(context){
 }
 
 // #! require.context('./scenes', true, /index\.jsx$/)
-export function autoLoadScenesRoutes(context, routeCallback = function(){}) {
+export function autoLoadScenesRoutes(context, routeCallback = function(){}, byName) {
   if(!context){
     throw new Error('需要提供require.context的遍历列表！');
   }
@@ -93,7 +94,7 @@ export function autoLoadScenesRoutes(context, routeCallback = function(){}) {
     if(keys.length === 1){
       childRoute = {
         name: keys[0],
-        path: Comp.routePath,
+        path: Comp.routePath || byName && keys[0],
         component: Comp,
         onLeave: Comp.onLeave,
         onEnter: Comp.onEnter
@@ -113,7 +114,7 @@ export function autoLoadScenesRoutes(context, routeCallback = function(){}) {
         route.childRoutes = route.childRoutes || [];
         childRoute = {
           name: name,
-          path: Comp.routePath,
+          path: Comp.routePath  || byName && name,
           component: Comp,
           onLeave: Comp.onLeave,
           onEnter: Comp.onEnter
@@ -201,58 +202,13 @@ const damo = {
     return damo.$$store__.getModel(modelName).select(prop, true);
   },
   route(path, RouteComponent, option){
-    let routeConfig;
-    if(Object(path) === path){
-      if(path.path && path.component){
-        routeConfig = path;
-      }else{
-        option = RouteComponent;
-        RouteComponent = path;
-        path = RouteComponent.routePath;
-      }
-    }
-    if(!routeConfig){
-      routeConfig = Object.assign({
-        path: path,
-        component: RouteComponent,
-        onLeave: RouteComponent.onLeave,
-        onEnter: RouteComponent.onEnter,
-        indexRoute: RouteComponent.indexRoute,
-        childRoutes: RouteComponent.childRoutes
-      }, option);
-      if(option && option.onDestroy){
-        delete routeConfig.onDestroy;
-        const componentWillMount = RouteComponent.prototype.componentWillMount;
-        RouteComponent.prototype.componentWillMount = function(){
-          componentWillMount && componentWillMount.call(this);
-          this.context.router.setRouteLeaveHook(
-            this.props.route,
-            option.onDestroy
-          )
-        }
-      }
-    }
-    
+    const routeConfig = router(path, RouteComponent, option);
     damo.$$routes__.push(routeConfig);
     
     return {
       route: (path, RouteComponent, option) => {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
-        if(Object(path) === path){
-          option = RouteComponent;
-          RouteComponent = path;
-          path = RouteComponent.routePath;
-        }
-        const _routeConfig = Object.assign({
-          path: path,
-          component: RouteComponent,
-          onLeave: RouteComponent.onLeave,
-          onEnter: RouteComponent.onEnter,
-          indexRoute: RouteComponent.indexRoute,
-          childRoutes: RouteComponent.childRoutes
-        }, option);
-        
-        routeConfig.childRoutes.push(_routeConfig);
+        routeConfig.childRoutes.push(router(path, RouteComponent, option));
       }
     }
   },

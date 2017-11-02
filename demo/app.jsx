@@ -84,7 +84,10 @@ const rootRoute = {
   childRoutes: [{
     path: '/',
     component: Application,
-    childRoutes: autoLoadScenesRoutes(require.context('.', true, /scene\.jsx$/))
+    childRoutes: autoLoadScenesRoutes(require.context('.', true, /scene\.jsx$/)),
+    indexRoute: {
+      component: require('./mini-app/scene.jsx')
+    }
   }]
 }
 

@@ -7,7 +7,7 @@
 		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("react-router"), require("recompose"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
 		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["react-router"], root["recompose"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_18__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_36__, __WEBPACK_EXTERNAL_MODULE_37__, __WEBPACK_EXTERNAL_MODULE_38__, __WEBPACK_EXTERNAL_MODULE_39__, __WEBPACK_EXTERNAL_MODULE_83__, __WEBPACK_EXTERNAL_MODULE_84__, __WEBPACK_EXTERNAL_MODULE_85__, __WEBPACK_EXTERNAL_MODULE_86__, __WEBPACK_EXTERNAL_MODULE_87__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_18__, __WEBPACK_EXTERNAL_MODULE_34__, __WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_36__, __WEBPACK_EXTERNAL_MODULE_37__, __WEBPACK_EXTERNAL_MODULE_38__, __WEBPACK_EXTERNAL_MODULE_39__, __WEBPACK_EXTERNAL_MODULE_84__, __WEBPACK_EXTERNAL_MODULE_85__, __WEBPACK_EXTERNAL_MODULE_86__, __WEBPACK_EXTERNAL_MODULE_87__, __WEBPACK_EXTERNAL_MODULE_88__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -171,7 +171,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.autoLoadStore = autoLoadStore;
 	exports.autoLoadScenesRoutes = autoLoadScenesRoutes;
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -179,9 +179,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _path = __webpack_require__(81);
+	var _path = __webpack_require__(82);
 
 	var _path2 = _interopRequireDefault(_path);
+
+	var _router = __webpack_require__(79);
+
+	var _router2 = _interopRequireDefault(_router);
 
 	var _reactRedux = __webpack_require__(36);
 
@@ -193,21 +197,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var configureStore = exports.configureStore = __webpack_require__(74); /**
-	                                                                                  * # starter入口
-	                                                                                  *  - baseSelector.js - Selector基类
-	                                                                                  *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
-	                                                                                  *  - core.js - 核心工具方法
-	                                                                                  *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
-	                                                                                  *  - fetch.js - 接口调用模块
-	                                                                                  *  - baseModel.js - Model基类 
-	                                                                                  *  - configureStore.development.js - 日常构建store
-	                                                                                  *  - configureStore.production.js - 生产构建store
-	                                                                                  *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
-	                                                                                  *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
-	                                                                                  * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
-	                                                                                  */
-	var RxSelector = exports.RxSelector = __webpack_require__(79);
+	/**
+	 * # starter入口
+	 *  - baseSelector.js - Selector基类
+	 *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
+	 *  - core.js - 核心工具方法
+	 *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
+	 *  - fetch.js - 接口调用模块
+	 *  - baseModel.js - Model基类 
+	 *  - configureStore.development.js - 日常构建store
+	 *  - configureStore.production.js - 生产构建store
+	 *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
+	 *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
+	 * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
+	 */
+	var configureStore = exports.configureStore = __webpack_require__(74);
+	var RxSelector = exports.RxSelector = __webpack_require__(80);
 	var RxComponent = exports.RxComponent = __webpack_require__(33);
 
 	// #! require.context('./models', false, /\.js$/);
@@ -262,6 +267,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.autoLoadServices = _autoLoadServices;
 	function autoLoadScenesRoutes(context) {
 	  var routeCallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+	  var byName = arguments[2];
 
 	  if (!context) {
 	    throw new Error('需要提供require.context的遍历列表！');
@@ -281,7 +287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (keys.length === 1) {
 	      childRoute = {
 	        name: keys[0],
-	        path: Comp.routePath,
+	        path: Comp.routePath || byName && keys[0],
 	        component: Comp,
 	        onLeave: Comp.onLeave,
 	        onEnter: Comp.onEnter
@@ -303,7 +309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        route.childRoutes = route.childRoutes || [];
 	        childRoute = {
 	          name: name,
-	          path: Comp.routePath,
+	          path: Comp.routePath || byName && name,
 	          component: Comp,
 	          onLeave: Comp.onLeave,
 	          onEnter: Comp.onEnter
@@ -398,55 +404,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return damo.$$store__.getModel(modelName).select(prop, true);
 	  },
 	  route: function route(path, RouteComponent, option) {
-	    var routeConfig = void 0;
-	    if (Object(path) === path) {
-	      if (path.path && path.component) {
-	        routeConfig = path;
-	      } else {
-	        option = RouteComponent;
-	        RouteComponent = path;
-	        path = RouteComponent.routePath;
-	      }
-	    }
-	    if (!routeConfig) {
-	      routeConfig = Object.assign({
-	        path: path,
-	        component: RouteComponent,
-	        onLeave: RouteComponent.onLeave,
-	        onEnter: RouteComponent.onEnter,
-	        indexRoute: RouteComponent.indexRoute,
-	        childRoutes: RouteComponent.childRoutes
-	      }, option);
-	      if (option && option.onDestroy) {
-	        delete routeConfig.onDestroy;
-	        var componentWillMount = RouteComponent.prototype.componentWillMount;
-	        RouteComponent.prototype.componentWillMount = function () {
-	          componentWillMount && componentWillMount.call(this);
-	          this.context.router.setRouteLeaveHook(this.props.route, option.onDestroy);
-	        };
-	      }
-	    }
-
+	    var routeConfig = (0, _router2.default)(path, RouteComponent, option);
 	    damo.$$routes__.push(routeConfig);
 
 	    return {
 	      route: function route(path, RouteComponent, option) {
 	        routeConfig.childRoutes = routeConfig.childRoutes || [];
-	        if (Object(path) === path) {
-	          option = RouteComponent;
-	          RouteComponent = path;
-	          path = RouteComponent.routePath;
-	        }
-	        var _routeConfig = Object.assign({
-	          path: path,
-	          component: RouteComponent,
-	          onLeave: RouteComponent.onLeave,
-	          onEnter: RouteComponent.onEnter,
-	          indexRoute: RouteComponent.indexRoute,
-	          childRoutes: RouteComponent.childRoutes
-	        }, option);
-
-	        routeConfig.childRoutes.push(_routeConfig);
+	        routeConfig.childRoutes.push((0, _router2.default)(path, RouteComponent, option));
 	      }
 	    };
 	  },
@@ -905,6 +869,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports) {
 
+	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 	var objectTypes = {
 	    'boolean': false,
@@ -921,12 +891,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	//# sourceMappingURL=root.js.map
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
 
 /***/ },
 /* 5 */
@@ -1151,7 +1115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	var toSubscriber_1 = __webpack_require__(71);
 	var observable_1 = __webpack_require__(21);
 	/**
@@ -2209,7 +2173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.Api = Api;
 
-	var _isomorphicFetch = __webpack_require__(84);
+	var _isomorphicFetch = __webpack_require__(85);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -2466,7 +2430,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	var Symbol = root_1.root.Symbol;
 	exports.$$rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
 	    Symbol.for('rxSubscriber') : '@@rxSubscriber';
@@ -2785,8 +2749,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // #! json
 	      if (Services.constructor === Object) {
 	        for (var key in Services) {
-	          var Service = Services[name];
-	          var name = Service.displayName || key;
+	          var Service = Services[key];
+	          var name = key || Service.displayName;
 	          if (!rcInject.services[name]) {
 	            rcInject.services[name] = rcInject.instantiate(Service, name, getService);
 	          }
@@ -2949,7 +2913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	function getSymbolObservable(context) {
 	    var $$observable;
 	    var Symbol = context.Symbol;
@@ -4364,7 +4328,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -6576,7 +6540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	var Action_1 = __webpack_require__(60);
 	/**
 	 * We need this JSDoc comment for affecting ESDoc.
@@ -6857,7 +6821,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	var Symbol = root_1.root.Symbol;
 	if (typeof Symbol === 'function') {
 	    if (Symbol.iterator) {
@@ -6946,7 +6910,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var root_1 = __webpack_require__(3);
+	var root_1 = __webpack_require__(4);
 	var isArray_1 = __webpack_require__(23);
 	var isPromise_1 = __webpack_require__(69);
 	var Observable_1 = __webpack_require__(7);
@@ -7117,7 +7081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.extractCopy = extractCopy;
 	exports.validateParameters = validateParameters;
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	function shallowCopy(obj, extra) {
 	  var newObj = {};
@@ -7179,7 +7143,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.resourceAction = resourceAction;
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -7351,15 +7315,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rx = __webpack_require__(32);
 
-	var _reduxThunk = __webpack_require__(87);
+	var _reduxThunk = __webpack_require__(88);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 	var _reactRouter = __webpack_require__(38);
 
-	var _reactRouterRedux = __webpack_require__(85);
+	var _reactRouterRedux = __webpack_require__(86);
 
-	var _reduxPromiseMiddleware = __webpack_require__(86);
+	var _reduxPromiseMiddleware = __webpack_require__(87);
 
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 
@@ -7596,7 +7560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.View = exports.PropTypes = exports.dispatch = exports.initialState = exports.Output = exports.Input = exports.component = undefined;
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	var _reactRedux = __webpack_require__(36);
 
@@ -7606,7 +7570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _withState2 = __webpack_require__(80);
+	var _withState2 = __webpack_require__(81);
 
 	var _withState3 = _interopRequireDefault(_withState2);
 
@@ -7614,7 +7578,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseSelector = __webpack_require__(5);
 
-	var _hoistNonReactStatics = __webpack_require__(83);
+	var _hoistNonReactStatics = __webpack_require__(84);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
@@ -7715,7 +7679,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      contextTypes.selector = _react.PropTypes.object.isRequired;
 	    }
 	    eachProvider(providers, function (Provider, key) {
-	      var name = Provider.displayName || key;
+	      var name = key || Provider.displayName;
 	      if (name) {
 	        contextTypes[name] = _react.PropTypes.any.isRequired;
 	      } else {
@@ -7741,7 +7705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      // #! 初始化所有的context
 	      eachProvider(providers, function (Provider, key) {
-	        var name = Provider.displayName || key;
+	        var name = key || Provider.displayName;
 	        services[name] = getService.call(_this, name) || _inject.rcInject.instantiate(Provider, name, getService.bind(_this));
 	      });
 
@@ -7975,6 +7939,64 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = router;
+
+	var _react = __webpack_require__(3);
+
+	function router(path, RouteComponent, option) {
+	  var routeConfig = void 0;
+	  if (Object(path) === path) {
+	    if (path.path && path.component) {
+	      routeConfig = path;
+	    } else {
+	      option = RouteComponent;
+	      RouteComponent = path;
+	      path = RouteComponent.routePath;
+	    }
+	  }
+	  if (!routeConfig) {
+	    routeConfig = Object.assign({
+	      path: path,
+	      onLeave: RouteComponent.onLeave,
+	      onEnter: RouteComponent.onEnter,
+	      childRoutes: RouteComponent.childRoutes
+	    }, option);
+	    if (RouteComponent.indexRoute) {
+	      if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
+	        routeConfig.indexRoute = RouteComponent.indexRoute;
+	      } else {
+	        routeConfig.indexRoute = {
+	          component: RouteComponent.indexRoute
+	        };
+	      }
+	    }
+	    if (RouteComponent.prototype instanceof _react.Component) {
+	      routeConfig.component = RouteComponent;
+	    } else {
+	      routeConfig.getComponent = RouteComponent;
+	    }
+	    if (option && option.onDestroy) {
+	      delete routeConfig.onDestroy;
+	      var componentWillMount = RouteComponent.prototype.componentWillMount;
+	      RouteComponent.prototype.componentWillMount = function () {
+	        componentWillMount && componentWillMount.call(this);
+	        this.context.router.setRouteLeaveHook(this.props.route, option.onDestroy);
+	      };
+	    }
+	  }
+	  return routeConfig;
+	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8222,7 +8244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8235,7 +8257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(3);
 
 	var _createHelper = __webpack_require__(46);
 
@@ -8300,7 +8322,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -8528,10 +8550,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(82)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(83)))
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -8721,12 +8743,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 83 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_83__;
-
-/***/ },
 /* 84 */
 /***/ function(module, exports) {
 
@@ -8749,6 +8765,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_87__;
+
+/***/ },
+/* 88 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_88__;
 
 /***/ }
 /******/ ])

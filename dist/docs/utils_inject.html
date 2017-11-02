@@ -184,6 +184,11 @@
           </a>
         
           
+          <a class="source" href="utils_router.html">
+            ./src/utils/router.js
+          </a>
+        
+          
           <a class="source" href="utils_rx.html">
             ./src/utils/rx.js
           </a>
@@ -457,8 +462,8 @@ function(renamed$window) {}]);  &gt; Object creation:
       <span class="hljs-comment">// #! json</span>
       <span class="hljs-keyword">if</span>(Services.constructor === <span class="hljs-built_in">Object</span>){
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> Services) {
-          <span class="hljs-keyword">let</span> Service = Services[name];
-          <span class="hljs-keyword">let</span> name = Service.displayName || key;
+          <span class="hljs-keyword">let</span> Service = Services[key];
+          <span class="hljs-keyword">let</span> name = key || Service.displayName;
           <span class="hljs-keyword">if</span> (!rcInject.services[name]) {
             rcInject.services[name] = rcInject.instantiate(Service, name, getService);
           }

@@ -97,7 +97,7 @@ export const component = ({
       contextTypes.selector = PropTypes.object.isRequired;
     }
     eachProvider(providers, (Provider, key) => {
-      let name = Provider.displayName || key;
+      let name = key || Provider.displayName;
       if (name) {
         contextTypes[name] = PropTypes.any.isRequired;
       } else {
@@ -121,7 +121,7 @@ export const component = ({
 
       // #! 初始化所有的context
       eachProvider(providers, (Provider, key) => {
-        let name = Provider.displayName || key;
+        let name = key || Provider.displayName;
         services[name] = getService.call(this, name) || rcInject.instantiate(Provider, name, getService.bind(this));
       });
 

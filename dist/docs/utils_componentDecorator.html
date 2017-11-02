@@ -184,6 +184,11 @@
           </a>
         
           
+          <a class="source" href="utils_router.html">
+            ./src/utils/router.js
+          </a>
+        
+          
           <a class="source" href="utils_rx.html">
             ./src/utils/rx.js
           </a>
@@ -363,7 +368,7 @@
       contextTypes.selector = PropTypes.object.isRequired;
     }
     eachProvider(providers, (Provider, key) =&gt; {
-      <span class="hljs-keyword">let</span> name = Provider.displayName || key;
+      <span class="hljs-keyword">let</span> name = key || Provider.displayName;
       <span class="hljs-keyword">if</span> (name) {
         contextTypes[name] = PropTypes.any.isRequired;
       } <span class="hljs-keyword">else</span> {
@@ -387,7 +392,7 @@
 
       <span class="hljs-comment">// #! 初始化所有的context</span>
       eachProvider(providers, (Provider, key) =&gt; {
-        <span class="hljs-keyword">let</span> name = Provider.displayName || key;
+        <span class="hljs-keyword">let</span> name = key || Provider.displayName;
         services[name] = getService.call(<span class="hljs-keyword">this</span>, name) || rcInject.instantiate(Provider, name, getService.bind(<span class="hljs-keyword">this</span>));
       });
 

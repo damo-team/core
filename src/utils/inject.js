@@ -151,8 +151,8 @@ export const rcInject = {
       // #! json
       if(Services.constructor === Object){
         for (let key in Services) {
-          let Service = Services[name];
-          let name = Service.displayName || key;
+          let Service = Services[key];
+          let name = key || Service.displayName;
           if (!rcInject.services[name]) {
             rcInject.services[name] = rcInject.instantiate(Service, name, getService);
           }
