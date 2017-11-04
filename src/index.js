@@ -3,9 +3,9 @@
  *  - baseSelector.js - Selector基类
  *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
  *  - core.js - 核心工具方法
- *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
+ *  - createCrud.js - 创建actionType和actionCreator等工厂方法
  *  - fetch.js - 接口调用模块
- *  - baseModel.js - Model基类 
+ *  - baseModel.js - Model基类
  *  - configureStore.development.js - 日常构建store
  *  - configureStore.production.js - 生产构建store
  *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
@@ -33,100 +33,92 @@ import {Router, browserHistory} from 'react-router';
 import useBasename from 'history/lib/useBasename';
 
 import {View} from './utils/componentDecorator';
-export const configureStore = require('./store/configureStore'); 
+export const configureStore = require('./store/configureStore');
 export const RxSelector = require('./utils/rxSelector');
 export const RxComponent = require('./utils/rxComponent');
 
 // #! require.context('./models', false, /\.js$/);
-export function autoLoadStore(initialState = {}, middlewares = [], context, getInitReducers = function(){}){
-  if(!context){
+export function autoLoadStore(initialState = {}, middlewares = [], context, getInitReducers = function () {}) {
+  if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
   return configureStore(initialState, middlewares, hot => {
     const Models = getInitReducers() || {};
-    context.keys().forEach(key => {
-      Models[key.split('/').pop().split('.')[0]] = context(key);
-    });
+    context
+      .keys()
+      .forEach(key => {
+        Models[
+          key
+            .split('/')
+            .pop()
+            .split('.')[0]
+        ] = context(key);
+      });
     const hotAcceptId = context.id;
     let hotModelsFeedback;
-    if(hot){
+    if (hot) {
       hotModelsFeedback = () => {
         // const reloadedContext = require.context('./models', false, /\.js$/);
         const reloadedModels = getInitReducers() || {};
-        context.keys().forEach(key => {
-          reloadedModels[key.split('/').pop().split('.')[0]] = context(key);
-        });
-        return {
-          Models: reloadedModels
-        };
+        context
+          .keys()
+          .forEach(key => {
+            reloadedModels[
+              key
+                .split('/')
+                .pop()
+                .split('.')[0]
+            ] = context(key);
+          });
+        return {Models: reloadedModels};
       }
     }
-    return {
-      Models,
-      hotAcceptId,
-      hotModelsFeedback
-    };
+    return {Models, hotAcceptId, hotModelsFeedback};
   });
 }
 
-export function autoLoadServices(context){
-  if(!context){
+export function autoLoadServices(context) {
+  if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
   const Services = {};
-  context.keys().forEach(key => {
-    Services[key.split('/').pop().split('.')[0]] = context(key);
-  });
+  context
+    .keys()
+    .forEach(key => {
+      Services[
+        key
+          .split('/')
+          .pop()
+          .split('.')[0]
+      ] = context(key);
+    });
   rcInject.setService(Services)
 }
 
 // #! require.context('./scenes', true, /index\.jsx$/)
-export function autoLoadScenesRoutes(context, routeCallback = function(){}, byName) {
-  if(!context){
+export function autoLoadScenesRoutes(context, routeCallback = function () {}, byName) {
+  if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
-  
+
   const routes = [];
-  context.keys().sort((a, b) => a.split('/').length > b.split('/').length).forEach(relativePath => {
-    const keys = relativePath.slice(2, -10).split(path.sep);
-    const Comp = context(relativePath);
-    let key, childRoute, temp, name, children;
-    if(keys.length === 1){
-      childRoute = {
-        name: keys[0],
-        path: Comp.routePath || byName && keys[0],
-        component: Comp,
-        onLeave: Comp.onLeave,
-        onEnter: Comp.onEnter
-      };
-      if(routeCallback(childRoute, relativePath) !== false){
-        routes.push(childRoute);
-      };
-    }else{
-      name = keys.pop();
-      children = routes;
-      let route;
-      while((key = keys.shift()) && (temp = children.find(route => route.name === key))){
-        route = temp;
-        children = route.childRoutes || [];
-      }
-      if(route){
-        route.childRoutes = route.childRoutes || [];
+  context
+    .keys()
+    .sort((a, b) => a.split('/').length > b.split('/').length)
+    .forEach(relativePath => {
+      const keys = relativePath
+        .slice(2, -10)
+        .split(path.sep);
+      const Comp = context(relativePath);
+      let key,
+        childRoute,
+        temp,
+        name,
+        children;
+      if (keys.length === 1) {
         childRoute = {
-          name: name,
-          path: Comp.routePath  || byName && name,
-          component: Comp,
-          onLeave: Comp.onLeave,
-          onEnter: Comp.onEnter
-        };
-        if(routeCallback(childRoute, relativePath) !== false){
-          route.childRoutes.push(childRoute);
-        }
-      }else{
-        childRoute = {
-          name: name,
-          navKey: key,
-          path: Comp.routePath,
+          name: keys[0],
+          path: Comp.routePath || byName && keys[0],
           component: Comp,
           onLeave: Comp.onLeave,
           onEnter: Comp.onEnter
@@ -134,154 +126,208 @@ export function autoLoadScenesRoutes(context, routeCallback = function(){}, byNa
         if (routeCallback(childRoute, relativePath) !== false) {
           routes.push(childRoute);
         };
+      } else {
+        name = keys.pop();
+        children = routes;
+        let route;
+        while ((key = keys.shift()) && (temp = children.find(route => route.name === key))) {
+          route = temp;
+          children = route.childRoutes || [];
+        }
+        if (route) {
+          route.childRoutes = route.childRoutes || [];
+          childRoute = {
+            name: name,
+            path: Comp.routePath || byName && name,
+            component: Comp,
+            onLeave: Comp.onLeave,
+            onEnter: Comp.onEnter
+          };
+          if (routeCallback(childRoute, relativePath) !== false) {
+            route
+              .childRoutes
+              .push(childRoute);
+          }
+        } else {
+          childRoute = {
+            name: name,
+            navKey: key,
+            path: Comp.routePath,
+            component: Comp,
+            onLeave: Comp.onLeave,
+            onEnter: Comp.onEnter
+          };
+          if (routeCallback(childRoute, relativePath) !== false) {
+            routes.push(childRoute);
+          };
+        }
       }
-    }
-  });
+    });
   return routes;
 }
-
 
 const damo = {
   $$routes__: [],
   $$defaultModels__: {},
   $$store__: null,
-  init(initialState={}, defaultModels = {}, middlewares = []){
-    if(damo.$$store__){
+  init(initialState = {}, defaultModels = {}, middlewares = []) {
+    if (damo.$$store__) {
       console.warn('Application initialized！')
     }
     damo.$$defaultModels__ = defaultModels;
     damo.$$store__ = configureStore(initialState, middlewares, hot => {
-      return {
-        defaultModels
-      };
+      return {defaultModels};
     });
   },
-  model(Models){
-    if(!damo.$$store__){
+  model(Models) {
+    if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    damo.$$store__.addModel(Models);
+    damo
+      .$$store__
+      .addModel(Models);
   },
-  service(Services){
+  service(Services) {
     rcInject.setService(Services);
   },
-  toselect(Model, prop){
+  toselect(Model, prop) {
     return (state, ownProps) => {
-      if(typeof Model === 'function' && !Model.displayName){
+      if (typeof Model === 'function' && !Model.displayName) {
         return Model(state, ownProps);
-      }else{
-        return damo.select(Model, prop); 
+      } else {
+        return damo.select(Model, prop);
       }
     }
   },
-  invoke(Model, prop){
+  invoke(Model, prop) {
     return (...args) => {
-      if(typeof Model === 'function' && !Model.displayName){
+      if (typeof Model === 'function' && !Model.displayName) {
         return Model(state, ownProps);
-      }else{
-        if(!damo.$$store__){
+      } else {
+        if (!damo.$$store__) {
           throw new Error('Application uninitialized，initliaze Application by damo.init');
         }
-        const modelName = Object(Model) === Model ? Model.displayName : Model;
-        const model =  damo.$$store__.getModel(modelName);
-        if(model && model[prop]){
+        const modelName = Object(Model) === Model
+          ? Model.displayName
+          : Model;
+        const model = damo
+          .$$store__
+          .getModel(modelName);
+        if (model && model[prop]) {
           model[prop].apply(model, args);
-        }else{
+        } else {
           throw new Error('Model or Method is undefined');
         }
       }
     }
   },
-  select(modelName, prop){
-    if(!damo.$$store__){
+  select(modelName, prop) {
+    if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    if(Object(modelName) === modelName){
+    if (Object(modelName) === modelName) {
       modelName = modelName.displayName;
     }
-    return damo.$$store__.getModel(modelName).select(prop, true);
+    return damo
+      .$$store__
+      .getModel(modelName)
+      .select(prop, true);
   },
-  route(path, RouteComponent, option){
+  route(path, RouteComponent, option) {
     const routeConfig = router(path, RouteComponent, option);
-    damo.$$routes__.push(routeConfig);
-    
+    damo
+      .$$routes__
+      .push(routeConfig);
+
     return {
       route: (path, RouteComponent, option) => {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
-        routeConfig.childRoutes.push(router(path, RouteComponent, option));
+        routeConfig
+          .childRoutes
+          .push(router(path, RouteComponent, option));
       }
     }
   },
-  autoLoadModels(context, noHot){
-    if(!damo.$$store__){
+  autoLoadModels(context, noHot) {
+    if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    if(!context){
+    if (!context) {
       throw new Error('需要提供require.context的遍历列表！');
     }
 
     const defaultModels = Object.assign({}, damo.$$defaultModels__);
 
-    context.keys().forEach(key => {
-      defaultModels[key.split('/').pop().split('.')[0]] = context(key);
-    });
-    
-    configureStore.replace(damo.$$store__, defaultModels);
-    
-    if (module.hot && !noHot) {
-      module.hot.accept(context.id, () => {
-        damo.autoLoadModels(context, true);
+    context
+      .keys()
+      .forEach(key => {
+        defaultModels[
+          key
+            .split('/')
+            .pop()
+            .split('.')[0]
+        ] = context(key);
       });
+
+    configureStore.replace(damo.$$store__, defaultModels);
+
+    if (module.hot && !noHot) {
+      module
+        .hot
+        .accept(context.id, () => {
+          damo.autoLoadModels(context, true);
+        });
     }
   },
-  autoLoadServices(context){
+  autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, routeCallback){
-    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback);
+  autoLoadRoutes(context, routeCallback, byName) {
+    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
   },
-  view(Selector, SceneComponent, providers){
-    if(Selector.prototype instanceof Component){
+  view(Selector, SceneComponent, providers) {
+    if (Selector.prototype instanceof Component) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = null;
     }
     return View({selector: Selector, providers: providers})(SceneComponent);
   },
-  bootstrap(RootComponent, DOM, dirname){
-    if(!damo.$$store__){
+  bootstrap(RootComponent, DOM, dirname) {
+    if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    if(RootComponent.tagName || typeof RootComponent === 'string'){
+    if (RootComponent.tagName || typeof RootComponent === 'string') {
       dirname = DOM;
       DOM = RootComponent;
       RootComponent = null;
-    }else if(!React.isValidElement(RootComponent)){
+    } else if (!React.isValidElement(RootComponent)) {
       RootComponent = React.createElement(RootComponent, null);
     }
-    if(DOM){
-      if(typeof DOM === 'string'){
+    if (DOM) {
+      if (typeof DOM === 'string') {
         DOM = document.getElementById(DOM);
       }
-    }else{
+    } else {
       DOM = document.body;
     }
     let routes = damo.$$routes__;
-    if(Array.isArray(RootComponent)){
+    if (Array.isArray(RootComponent)) {
       routes = RootComponent;
     }
-    if(routes.length && dirname !== false){
-      RootComponent = React.createElement(
-          Provider,
-          { store: damo.$$store__ },
-          React.createElement(Router, { history: dirname ? withBasename(browserHistory, dirname) : browserHistory, routes: routes })
-        );
-    }else if(damo.$$store__ && RootComponent){
-      RootComponent = React.createElement(
-        Provider,
-        { store: damo.$$store__ },
-        RootComponent
-      );
+    if (routes.length && dirname !== false) {
+      RootComponent = React.createElement(Provider, {
+        store: damo.$$store__
+      }, React.createElement(Router, {
+        history: dirname
+          ? withBasename(browserHistory, dirname)
+          : browserHistory,
+        routes: routes
+      }));
+    } else if (damo.$$store__ && RootComponent) {
+      RootComponent = React.createElement(Provider, {
+        store: damo.$$store__
+      }, RootComponent);
     }
 
     ReactDOM.render(RootComponent, DOM);
@@ -291,9 +337,9 @@ const damo = {
 export default damo;
 
 function withBasename(history, dirname) {
-  if(dirname){
-    return useBasename(() => history)({ basename: `/${dirname}` })
-  }else{
+  if (dirname) {
+    return useBasename(() => history)({basename: `/${dirname}`})
+  } else {
     return history;
   }
 }

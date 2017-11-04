@@ -234,9 +234,9 @@
 <li>baseSelector.js - Selector基类</li>
 <li>componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)</li>
 <li>core.js - 核心工具方法</li>
-<li>createCrud.js - 创建actionType和actionCreator等工厂方法 </li>
+<li>createCrud.js - 创建actionType和actionCreator等工厂方法</li>
 <li>fetch.js - 接口调用模块</li>
-<li>baseModel.js - Model基类 </li>
+<li>baseModel.js - Model基类</li>
 <li>configureStore.development.js - 日常构建store</li>
 <li>configureStore.production.js - 生产构建store</li>
 <li>createReducerFactory.js - 基于Model生成reducer的工厂方法</li>
@@ -270,23 +270,30 @@
 <span class="hljs-keyword">import</span> useBasename <span class="hljs-keyword">from</span> <span class="hljs-string">'history/lib/useBasename'</span>;
 
 <span class="hljs-keyword">import</span> {View} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/componentDecorator'</span>;
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./store/configureStore'</span>); 
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./store/configureStore'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxSelector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxSelector'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxComponent'</span>);
 
 <span class="hljs-comment">// #! require.context('./models', false, /\.js$/);</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadStore</span>(<span class="hljs-params">initialState = {}, middlewares = [], context, getInitReducers = function(</span>)</span>{}){
-  <span class="hljs-keyword">if</span>(!context){
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadStore</span>(<span class="hljs-params">initialState = {}, middlewares = [], context, getInitReducers = function (</span>) </span>{}) {
+  <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
   <span class="hljs-keyword">return</span> configureStore(initialState, middlewares, hot =&gt; {
     <span class="hljs-keyword">const</span> Models = getInitReducers() || {};
-    context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-      Models[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
-    });
+    context
+      .keys()
+      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+        Models[
+          key
+            .split(<span class="hljs-string">'/'</span>)
+            .pop()
+            .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
+        ] = context(key);
+      });
     <span class="hljs-keyword">const</span> hotAcceptId = context.id;
     <span class="hljs-keyword">let</span> hotModelsFeedback;
-    <span class="hljs-keyword">if</span>(hot){
+    <span class="hljs-keyword">if</span> (hot) {
       hotModelsFeedback = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
@@ -305,80 +312,65 @@
       
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre>        <span class="hljs-keyword">const</span> reloadedModels = getInitReducers() || {};
-        context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-          reloadedModels[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
-        });
-        <span class="hljs-keyword">return</span> {
-          <span class="hljs-attr">Models</span>: reloadedModels
-        };
+        context
+          .keys()
+          .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+            reloadedModels[
+              key
+                .split(<span class="hljs-string">'/'</span>)
+                .pop()
+                .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
+            ] = context(key);
+          });
+        <span class="hljs-keyword">return</span> {<span class="hljs-attr">Models</span>: reloadedModels};
       }
     }
-    <span class="hljs-keyword">return</span> {
-      Models,
-      hotAcceptId,
-      hotModelsFeedback
-    };
+    <span class="hljs-keyword">return</span> {Models, hotAcceptId, hotModelsFeedback};
   });
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadServices</span>(<span class="hljs-params">context</span>)</span>{
-  <span class="hljs-keyword">if</span>(!context){
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadServices</span>(<span class="hljs-params">context</span>) </span>{
+  <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
   <span class="hljs-keyword">const</span> Services = {};
-  context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-    Services[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
-  });
+  context
+    .keys()
+    .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      Services[
+        key
+          .split(<span class="hljs-string">'/'</span>)
+          .pop()
+          .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
+      ] = context(key);
+    });
   rcInject.setService(Services)
 }
 
 <span class="hljs-comment">// #! require.context('./scenes', true, /index\.jsx$/)</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, routeCallback = function(</span>)</span>{}, byName) {
-  <span class="hljs-keyword">if</span>(!context){
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, routeCallback = function (</span>) </span>{}, byName) {
+  <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
-  
+
   <span class="hljs-keyword">const</span> routes = [];
-  context.keys().sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length).forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> keys = relativePath.slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>).split(path.sep);
-    <span class="hljs-keyword">const</span> Comp = context(relativePath);
-    <span class="hljs-keyword">let</span> key, childRoute, temp, name, children;
-    <span class="hljs-keyword">if</span>(keys.length === <span class="hljs-number">1</span>){
-      childRoute = {
-        <span class="hljs-attr">name</span>: keys[<span class="hljs-number">0</span>],
-        <span class="hljs-attr">path</span>: Comp.routePath || byName &amp;&amp; keys[<span class="hljs-number">0</span>],
-        <span class="hljs-attr">component</span>: Comp,
-        <span class="hljs-attr">onLeave</span>: Comp.onLeave,
-        <span class="hljs-attr">onEnter</span>: Comp.onEnter
-      };
-      <span class="hljs-keyword">if</span>(routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>){
-        routes.push(childRoute);
-      };
-    }<span class="hljs-keyword">else</span>{
-      name = keys.pop();
-      children = routes;
-      <span class="hljs-keyword">let</span> route;
-      <span class="hljs-keyword">while</span>((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))){
-        route = temp;
-        children = route.childRoutes || [];
-      }
-      <span class="hljs-keyword">if</span>(route){
-        route.childRoutes = route.childRoutes || [];
+  context
+    .keys()
+    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length)
+    .forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> keys = relativePath
+        .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)
+        .split(path.sep);
+      <span class="hljs-keyword">const</span> Comp = context(relativePath);
+      <span class="hljs-keyword">let</span> key,
+        childRoute,
+        temp,
+        name,
+        children;
+      <span class="hljs-keyword">if</span> (keys.length === <span class="hljs-number">1</span>) {
         childRoute = {
-          <span class="hljs-attr">name</span>: name,
-          <span class="hljs-attr">path</span>: Comp.routePath  || byName &amp;&amp; name,
-          <span class="hljs-attr">component</span>: Comp,
-          <span class="hljs-attr">onLeave</span>: Comp.onLeave,
-          <span class="hljs-attr">onEnter</span>: Comp.onEnter
-        };
-        <span class="hljs-keyword">if</span>(routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>){
-          route.childRoutes.push(childRoute);
-        }
-      }<span class="hljs-keyword">else</span>{
-        childRoute = {
-          <span class="hljs-attr">name</span>: name,
-          <span class="hljs-attr">navKey</span>: key,
-          <span class="hljs-attr">path</span>: Comp.routePath,
+          <span class="hljs-attr">name</span>: keys[<span class="hljs-number">0</span>],
+          <span class="hljs-attr">path</span>: Comp.routePath || byName &amp;&amp; keys[<span class="hljs-number">0</span>],
           <span class="hljs-attr">component</span>: Comp,
           <span class="hljs-attr">onLeave</span>: Comp.onLeave,
           <span class="hljs-attr">onEnter</span>: Comp.onEnter
@@ -386,154 +378,208 @@
         <span class="hljs-keyword">if</span> (routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
           routes.push(childRoute);
         };
+      } <span class="hljs-keyword">else</span> {
+        name = keys.pop();
+        children = routes;
+        <span class="hljs-keyword">let</span> route;
+        <span class="hljs-keyword">while</span> ((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))) {
+          route = temp;
+          children = route.childRoutes || [];
+        }
+        <span class="hljs-keyword">if</span> (route) {
+          route.childRoutes = route.childRoutes || [];
+          childRoute = {
+            <span class="hljs-attr">name</span>: name,
+            <span class="hljs-attr">path</span>: Comp.routePath || byName &amp;&amp; name,
+            <span class="hljs-attr">component</span>: Comp,
+            <span class="hljs-attr">onLeave</span>: Comp.onLeave,
+            <span class="hljs-attr">onEnter</span>: Comp.onEnter
+          };
+          <span class="hljs-keyword">if</span> (routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
+            route
+              .childRoutes
+              .push(childRoute);
+          }
+        } <span class="hljs-keyword">else</span> {
+          childRoute = {
+            <span class="hljs-attr">name</span>: name,
+            <span class="hljs-attr">navKey</span>: key,
+            <span class="hljs-attr">path</span>: Comp.routePath,
+            <span class="hljs-attr">component</span>: Comp,
+            <span class="hljs-attr">onLeave</span>: Comp.onLeave,
+            <span class="hljs-attr">onEnter</span>: Comp.onEnter
+          };
+          <span class="hljs-keyword">if</span> (routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
+            routes.push(childRoute);
+          };
+        }
       }
-    }
-  });
+    });
   <span class="hljs-keyword">return</span> routes;
 }
-
 
 <span class="hljs-keyword">const</span> damo = {
   <span class="hljs-attr">$$routes__</span>: [],
   <span class="hljs-attr">$$defaultModels__</span>: {},
   <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
-  init(initialState={}, defaultModels = {}, middlewares = []){
-    <span class="hljs-keyword">if</span>(damo.$$store__){
+  init(initialState = {}, defaultModels = {}, middlewares = []) {
+    <span class="hljs-keyword">if</span> (damo.$$store__) {
       <span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'Application initialized！'</span>)
     }
     damo.$$defaultModels__ = defaultModels;
     damo.$$store__ = configureStore(initialState, middlewares, hot =&gt; {
-      <span class="hljs-keyword">return</span> {
-        defaultModels
-      };
+      <span class="hljs-keyword">return</span> {defaultModels};
     });
   },
-  model(Models){
-    <span class="hljs-keyword">if</span>(!damo.$$store__){
+  model(Models) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    damo.$$store__.addModel(Models);
+    damo
+      .$$store__
+      .addModel(Models);
   },
-  service(Services){
+  service(Services) {
     rcInject.setService(Services);
   },
-  toselect(Model, prop){
+  toselect(Model, prop) {
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName){
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName) {
         <span class="hljs-keyword">return</span> Model(state, ownProps);
-      }<span class="hljs-keyword">else</span>{
-        <span class="hljs-keyword">return</span> damo.select(Model, prop); 
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> damo.select(Model, prop);
       }
     }
   },
-  invoke(Model, prop){
+  invoke(Model, prop) {
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName){
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> Model === <span class="hljs-string">'function'</span> &amp;&amp; !Model.displayName) {
         <span class="hljs-keyword">return</span> Model(state, ownProps);
-      }<span class="hljs-keyword">else</span>{
-        <span class="hljs-keyword">if</span>(!damo.$$store__){
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (!damo.$$store__) {
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
         }
-        <span class="hljs-keyword">const</span> modelName = <span class="hljs-built_in">Object</span>(Model) === Model ? Model.displayName : Model;
-        <span class="hljs-keyword">const</span> model =  damo.$$store__.getModel(modelName);
-        <span class="hljs-keyword">if</span>(model &amp;&amp; model[prop]){
+        <span class="hljs-keyword">const</span> modelName = <span class="hljs-built_in">Object</span>(Model) === Model
+          ? Model.displayName
+          : Model;
+        <span class="hljs-keyword">const</span> model = damo
+          .$$store__
+          .getModel(modelName);
+        <span class="hljs-keyword">if</span> (model &amp;&amp; model[prop]) {
           model[prop].apply(model, args);
-        }<span class="hljs-keyword">else</span>{
+        } <span class="hljs-keyword">else</span> {
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Model or Method is undefined'</span>);
         }
       }
     }
   },
-  select(modelName, prop){
-    <span class="hljs-keyword">if</span>(!damo.$$store__){
+  select(modelName, prop) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(modelName) === modelName){
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(modelName) === modelName) {
       modelName = modelName.displayName;
     }
-    <span class="hljs-keyword">return</span> damo.$$store__.getModel(modelName).select(prop, <span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">return</span> damo
+      .$$store__
+      .getModel(modelName)
+      .select(prop, <span class="hljs-literal">true</span>);
   },
-  route(path, RouteComponent, option){
+  route(path, RouteComponent, option) {
     <span class="hljs-keyword">const</span> routeConfig = router(path, RouteComponent, option);
-    damo.$$routes__.push(routeConfig);
-    
+    damo
+      .$$routes__
+      .push(routeConfig);
+
     <span class="hljs-keyword">return</span> {
       <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option</span>) =&gt;</span> {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
-        routeConfig.childRoutes.push(router(path, RouteComponent, option));
+        routeConfig
+          .childRoutes
+          .push(router(path, RouteComponent, option));
       }
     }
   },
-  autoLoadModels(context, noHot){
-    <span class="hljs-keyword">if</span>(!damo.$$store__){
+  autoLoadModels(context, noHot) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    <span class="hljs-keyword">if</span>(!context){
+    <span class="hljs-keyword">if</span> (!context) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
     }
 
     <span class="hljs-keyword">const</span> defaultModels = <span class="hljs-built_in">Object</span>.assign({}, damo.$$defaultModels__);
 
-    context.keys().forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-      defaultModels[key.split(<span class="hljs-string">'/'</span>).pop().split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]] = context(key);
-    });
-    
-    configureStore.replace(damo.$$store__, defaultModels);
-    
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; !noHot) {
-      <span class="hljs-built_in">module</span>.hot.accept(context.id, () =&gt; {
-        damo.autoLoadModels(context, <span class="hljs-literal">true</span>);
+    context
+      .keys()
+      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+        defaultModels[
+          key
+            .split(<span class="hljs-string">'/'</span>)
+            .pop()
+            .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
+        ] = context(key);
       });
+
+    configureStore.replace(damo.$$store__, defaultModels);
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; !noHot) {
+      <span class="hljs-built_in">module</span>
+        .hot
+        .accept(context.id, () =&gt; {
+          damo.autoLoadModels(context, <span class="hljs-literal">true</span>);
+        });
     }
   },
-  autoLoadServices(context){
+  autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, routeCallback){
-    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback);
+  autoLoadRoutes(context, routeCallback, byName) {
+    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
   },
-  view(Selector, SceneComponent, providers){
-    <span class="hljs-keyword">if</span>(Selector.prototype <span class="hljs-keyword">instanceof</span> Component){
+  view(Selector, SceneComponent, providers) {
+    <span class="hljs-keyword">if</span> (Selector.prototype <span class="hljs-keyword">instanceof</span> Component) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = <span class="hljs-literal">null</span>;
     }
     <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
   },
-  bootstrap(RootComponent, DOM, dirname){
-    <span class="hljs-keyword">if</span>(!damo.$$store__){
+  bootstrap(RootComponent, DOM, dirname) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    <span class="hljs-keyword">if</span>(RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>){
+    <span class="hljs-keyword">if</span> (RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>) {
       dirname = DOM;
       DOM = RootComponent;
       RootComponent = <span class="hljs-literal">null</span>;
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!React.isValidElement(RootComponent)){
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
       RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);
     }
-    <span class="hljs-keyword">if</span>(DOM){
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> DOM === <span class="hljs-string">'string'</span>){
+    <span class="hljs-keyword">if</span> (DOM) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> DOM === <span class="hljs-string">'string'</span>) {
         DOM = <span class="hljs-built_in">document</span>.getElementById(DOM);
       }
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       DOM = <span class="hljs-built_in">document</span>.body;
     }
     <span class="hljs-keyword">let</span> routes = damo.$$routes__;
-    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(RootComponent)){
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
       routes = RootComponent;
     }
-    <span class="hljs-keyword">if</span>(routes.length &amp;&amp; dirname !== <span class="hljs-literal">false</span>){
-      RootComponent = React.createElement(
-          Provider,
-          { <span class="hljs-attr">store</span>: damo.$$store__ },
-          React.createElement(Router, { <span class="hljs-attr">history</span>: dirname ? withBasename(browserHistory, dirname) : browserHistory, <span class="hljs-attr">routes</span>: routes })
-        );
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(damo.$$store__ &amp;&amp; RootComponent){
-      RootComponent = React.createElement(
-        Provider,
-        { <span class="hljs-attr">store</span>: damo.$$store__ },
-        RootComponent
-      );
+    <span class="hljs-keyword">if</span> (routes.length &amp;&amp; dirname !== <span class="hljs-literal">false</span>) {
+      RootComponent = React.createElement(Provider, {
+        <span class="hljs-attr">store</span>: damo.$$store__
+      }, React.createElement(Router, {
+        <span class="hljs-attr">history</span>: dirname
+          ? withBasename(browserHistory, dirname)
+          : browserHistory,
+        <span class="hljs-attr">routes</span>: routes
+      }));
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (damo.$$store__ &amp;&amp; RootComponent) {
+      RootComponent = React.createElement(Provider, {
+        <span class="hljs-attr">store</span>: damo.$$store__
+      }, RootComponent);
     }
 
     ReactDOM.render(RootComponent, DOM);
@@ -543,9 +589,9 @@
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> damo;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withBasename</span>(<span class="hljs-params">history, dirname</span>) </span>{
-  <span class="hljs-keyword">if</span>(dirname){
-    <span class="hljs-keyword">return</span> useBasename(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> history)({ <span class="hljs-attr">basename</span>: <span class="hljs-string">`/<span class="hljs-subst">${dirname}</span>`</span> })
-  }<span class="hljs-keyword">else</span>{
+  <span class="hljs-keyword">if</span> (dirname) {
+    <span class="hljs-keyword">return</span> useBasename(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> history)({<span class="hljs-attr">basename</span>: <span class="hljs-string">`/<span class="hljs-subst">${dirname}</span>`</span>})
+  } <span class="hljs-keyword">else</span> {
     <span class="hljs-keyword">return</span> history;
   }
 }</pre></div></pre><a href="javascript:;" class="link close"></a></div>

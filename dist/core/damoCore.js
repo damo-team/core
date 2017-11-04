@@ -202,9 +202,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *  - baseSelector.js - Selector基类
 	 *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
 	 *  - core.js - 核心工具方法
-	 *  - createCrud.js - 创建actionType和actionCreator等工厂方法 
+	 *  - createCrud.js - 创建actionType和actionCreator等工厂方法
 	 *  - fetch.js - 接口调用模块
-	 *  - baseModel.js - Model基类 
+	 *  - baseModel.js - Model基类
 	 *  - configureStore.development.js - 日常构建store
 	 *  - configureStore.production.js - 生产构建store
 	 *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
@@ -239,16 +239,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        context.keys().forEach(function (key) {
 	          reloadedModels[key.split('/').pop().split('.')[0]] = context(key);
 	        });
-	        return {
-	          Models: reloadedModels
-	        };
+	        return { Models: reloadedModels };
 	      };
 	    }
-	    return {
-	      Models: Models,
-	      hotAcceptId: hotAcceptId,
-	      hotModelsFeedback: hotModelsFeedback
-	    };
+	    return { Models: Models, hotAcceptId: hotAcceptId, hotModelsFeedback: hotModelsFeedback };
 	  });
 	}
 
@@ -349,9 +343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    damo.$$defaultModels__ = defaultModels;
 	    damo.$$store__ = configureStore(initialState, middlewares, function (hot) {
-	      return {
-	        defaultModels: defaultModels
-	      };
+	      return { defaultModels: defaultModels };
 	    });
 	  },
 	  model: function model(Models) {
@@ -439,8 +431,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  autoLoadServices: function autoLoadServices(context) {
 	    _autoLoadServices(context);
 	  },
-	  autoLoadRoutes: function autoLoadRoutes(context, routeCallback) {
-	    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback);
+	  autoLoadRoutes: function autoLoadRoutes(context, routeCallback, byName) {
+	    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
 	    if (Selector.prototype instanceof _react.Component) {
@@ -473,9 +465,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      routes = RootComponent;
 	    }
 	    if (routes.length && dirname !== false) {
-	      RootComponent = _react2.default.createElement(_reactRedux.Provider, { store: damo.$$store__ }, _react2.default.createElement(_reactRouter.Router, { history: dirname ? withBasename(_reactRouter.browserHistory, dirname) : _reactRouter.browserHistory, routes: routes }));
+	      RootComponent = _react2.default.createElement(_reactRedux.Provider, {
+	        store: damo.$$store__
+	      }, _react2.default.createElement(_reactRouter.Router, {
+	        history: dirname ? withBasename(_reactRouter.browserHistory, dirname) : _reactRouter.browserHistory,
+	        routes: routes
+	      }));
 	    } else if (damo.$$store__ && RootComponent) {
-	      RootComponent = _react2.default.createElement(_reactRedux.Provider, { store: damo.$$store__ }, RootComponent);
+	      RootComponent = _react2.default.createElement(_reactRedux.Provider, {
+	        store: damo.$$store__
+	      }, RootComponent);
 	    }
 
 	    _reactDom2.default.render(RootComponent, DOM);
