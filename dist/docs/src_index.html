@@ -348,11 +348,17 @@
 }
 
 <span class="hljs-comment">// #! require.context('./scenes', true, /index\.jsx$/)</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, routeCallback = function (</span>) </span>{}, byName) {
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, option = {}</span>) </span>{
   <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
-
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> option === <span class="hljs-string">'function'</span>) {
+    option = {
+      <span class="hljs-attr">callback</span>: option
+    };
+  }
+  <span class="hljs-keyword">const</span> routeCallback = option.callback || <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
+  <span class="hljs-keyword">const</span> level = option.level || <span class="hljs-number">1</span>;
   <span class="hljs-keyword">const</span> routes = [];
   context
     .keys()
@@ -367,10 +373,11 @@
         temp,
         name,
         children;
-      <span class="hljs-keyword">if</span> (keys.length === <span class="hljs-number">1</span>) {
+      <span class="hljs-keyword">if</span> (keys.length &lt;= level) {
+        name = keys.pop() || <span class="hljs-string">'root'</span>;
         childRoute = {
-          <span class="hljs-attr">name</span>: keys[<span class="hljs-number">0</span>],
-          <span class="hljs-attr">path</span>: Comp.routePath || byName &amp;&amp; keys[<span class="hljs-number">0</span>],
+          <span class="hljs-attr">name</span>: name,
+          <span class="hljs-attr">path</span>: Comp.routePath || name,
           <span class="hljs-attr">component</span>: Comp,
           <span class="hljs-attr">onLeave</span>: Comp.onLeave,
           <span class="hljs-attr">onEnter</span>: Comp.onEnter
@@ -382,15 +389,19 @@
         name = keys.pop();
         children = routes;
         <span class="hljs-keyword">let</span> route;
-        <span class="hljs-keyword">while</span> ((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))) {
-          route = temp;
-          children = route.childRoutes || [];
+        <span class="hljs-keyword">if</span> (keys.length) {
+          <span class="hljs-keyword">while</span> ((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))) {
+            route = temp;
+            children = route.childRoutes || [];
+          }
+        } <span class="hljs-keyword">else</span> {
+          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'root'</span>)
         }
         <span class="hljs-keyword">if</span> (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = {
             <span class="hljs-attr">name</span>: name,
-            <span class="hljs-attr">path</span>: Comp.routePath || byName &amp;&amp; name,
+            <span class="hljs-attr">path</span>: Comp.routePath || name,
             <span class="hljs-attr">component</span>: Comp,
             <span class="hljs-attr">onLeave</span>: Comp.onLeave,
             <span class="hljs-attr">onEnter</span>: Comp.onEnter
@@ -534,8 +545,8 @@
   autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, routeCallback, byName) {
-    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
+  autoLoadRoutes(context, option) {
+    damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
     <span class="hljs-keyword">if</span> (Selector.prototype <span class="hljs-keyword">instanceof</span> Component) {

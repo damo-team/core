@@ -260,13 +260,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	// #! require.context('./scenes', true, /index\.jsx$/)
 	exports.autoLoadServices = _autoLoadServices;
 	function autoLoadScenesRoutes(context) {
-	  var routeCallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-	  var byName = arguments[2];
+	  var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	  if (!context) {
 	    throw new Error('需要提供require.context的遍历列表！');
 	  }
-
+	  if (typeof option === 'function') {
+	    option = {
+	      callback: option
+	    };
+	  }
+	  var routeCallback = option.callback || function () {};
+	  var level = option.level || 1;
 	  var routes = [];
 	  context.keys().sort(function (a, b) {
 	    return a.split('/').length > b.split('/').length;
@@ -278,10 +283,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        temp = void 0,
 	        name = void 0,
 	        children = void 0;
-	    if (keys.length === 1) {
+	    if (keys.length <= level) {
+	      name = keys.pop() || 'root';
 	      childRoute = {
-	        name: keys[0],
-	        path: Comp.routePath || byName && keys[0],
+	        name: name,
+	        path: Comp.routePath || name,
 	        component: Comp,
 	        onLeave: Comp.onLeave,
 	        onEnter: Comp.onEnter
@@ -293,17 +299,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	      name = keys.pop();
 	      children = routes;
 	      var route = void 0;
-	      while ((key = keys.shift()) && (temp = children.find(function (route) {
-	        return route.name === key;
-	      }))) {
-	        route = temp;
-	        children = route.childRoutes || [];
+	      if (keys.length) {
+	        while ((key = keys.shift()) && (temp = children.find(function (route) {
+	          return route.name === key;
+	        }))) {
+	          route = temp;
+	          children = route.childRoutes || [];
+	        }
+	      } else {
+	        route = children.find(function (route) {
+	          return route.name === 'root';
+	        });
 	      }
 	      if (route) {
 	        route.childRoutes = route.childRoutes || [];
 	        childRoute = {
 	          name: name,
-	          path: Comp.routePath || byName && name,
+	          path: Comp.routePath || name,
 	          component: Comp,
 	          onLeave: Comp.onLeave,
 	          onEnter: Comp.onEnter
@@ -431,8 +443,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  autoLoadServices: function autoLoadServices(context) {
 	    _autoLoadServices(context);
 	  },
-	  autoLoadRoutes: function autoLoadRoutes(context, routeCallback, byName) {
-	    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
+	  autoLoadRoutes: function autoLoadRoutes(context, option) {
+	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
 	    if (Selector.prototype instanceof _react.Component) {

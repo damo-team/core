@@ -96,11 +96,17 @@ export function autoLoadServices(context) {
 }
 
 // #! require.context('./scenes', true, /index\.jsx$/)
-export function autoLoadScenesRoutes(context, routeCallback = function () {}, byName) {
+export function autoLoadScenesRoutes(context, option = {}) {
   if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
-
+  if (typeof option === 'function') {
+    option = {
+      callback: option
+    };
+  }
+  const routeCallback = option.callback || function () {};
+  const level = option.level || 1;
   const routes = [];
   context
     .keys()
@@ -115,10 +121,11 @@ export function autoLoadScenesRoutes(context, routeCallback = function () {}, by
         temp,
         name,
         children;
-      if (keys.length === 1) {
+      if (keys.length <= level) {
+        name = keys.pop() || 'root';
         childRoute = {
-          name: keys[0],
-          path: Comp.routePath || byName && keys[0],
+          name: name,
+          path: Comp.routePath || name,
           component: Comp,
           onLeave: Comp.onLeave,
           onEnter: Comp.onEnter
@@ -130,15 +137,19 @@ export function autoLoadScenesRoutes(context, routeCallback = function () {}, by
         name = keys.pop();
         children = routes;
         let route;
-        while ((key = keys.shift()) && (temp = children.find(route => route.name === key))) {
-          route = temp;
-          children = route.childRoutes || [];
+        if (keys.length) {
+          while ((key = keys.shift()) && (temp = children.find(route => route.name === key))) {
+            route = temp;
+            children = route.childRoutes || [];
+          }
+        } else {
+          route = children.find(route => route.name === 'root')
         }
         if (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = {
             name: name,
-            path: Comp.routePath || byName && name,
+            path: Comp.routePath || name,
             component: Comp,
             onLeave: Comp.onLeave,
             onEnter: Comp.onEnter
@@ -282,8 +293,8 @@ const damo = {
   autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, routeCallback, byName) {
-    damo.$$routes__ = autoLoadScenesRoutes(context, routeCallback, byName);
+  autoLoadRoutes(context, option) {
+    damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
     if (Selector.prototype instanceof Component) {
