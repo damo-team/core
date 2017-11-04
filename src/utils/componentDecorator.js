@@ -173,15 +173,17 @@ export const component = ({
     }
     Component.prototype.componentWillUnmount = function () {
       const services = this.$services_;
-      for (let key in services) {
-        if (services[key].destroy) {
-          services[key].destroy();
+      eachProvider(providers, (Provider, key) => {
+        if (services[key]) {
+          if (services[key].destroy) {
+            services[key].destroy();
+          }
+          if (services[key].dispose) {
+            services[key].dispose();
+          }
+          delete services[key];
         }
-        if (services[key].dispose) {
-          services[key].dispose();
-        }
-        delete services[key];
-      }
+      });
       _unmount.call(this);
     }
 
