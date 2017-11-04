@@ -116,12 +116,15 @@ export function autoLoadScenesRoutes(context, option = {}) {
         .slice(2, -10)
         .split(path.sep);
       const Comp = context(relativePath);
+      if (keys[0] === '') {
+        keys.shift();
+      }
       let key,
         childRoute,
         temp,
         name,
         children;
-      if (keys.length <= level) {
+      if (keys.length < level) {
         name = keys.pop() || 'root';
         childRoute = {
           name: name,

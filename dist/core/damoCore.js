@@ -278,12 +278,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }).forEach(function (relativePath) {
 	    var keys = relativePath.slice(2, -10).split(_path2.default.sep);
 	    var Comp = context(relativePath);
+	    if (keys[0] === '') {
+	      keys.shift();
+	    }
 	    var key = void 0,
 	        childRoute = void 0,
 	        temp = void 0,
 	        name = void 0,
 	        children = void 0;
-	    if (keys.length <= level) {
+	    if (keys.length < level) {
 	      name = keys.pop() || 'root';
 	      childRoute = {
 	        name: name,

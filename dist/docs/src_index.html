@@ -368,12 +368,15 @@
         .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)
         .split(path.sep);
       <span class="hljs-keyword">const</span> Comp = context(relativePath);
+      <span class="hljs-keyword">if</span> (keys[<span class="hljs-number">0</span>] === <span class="hljs-string">''</span>) {
+        keys.shift();
+      }
       <span class="hljs-keyword">let</span> key,
         childRoute,
         temp,
         name,
         children;
-      <span class="hljs-keyword">if</span> (keys.length &lt;= level) {
+      <span class="hljs-keyword">if</span> (keys.length &lt; level) {
         name = keys.pop() || <span class="hljs-string">'root'</span>;
         childRoute = {
           <span class="hljs-attr">name</span>: name,
