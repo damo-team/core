@@ -14,7 +14,7 @@ export class ResourceModel {
     this.$props_ = props;
   }
 
-  setProps(props){
+  setProps(props) {
     this.$props_ = props;
   }
   /**
@@ -47,6 +47,7 @@ export class ResourceModel {
     const responseInterceptor = action.responseInterceptor || options.responseInterceptor || ResourceModel.responseInterceptor;
 
     const resourcePath = ResourceModel.resourcePath || options.resourcePath || '';
+    action.uri = action.uri || action.url;
     if (!action.uri) {
       let url = resourcePath + action.path;
       // Removing double slashed from final url

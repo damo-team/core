@@ -249,7 +249,7 @@
     <span class="hljs-keyword">this</span>.$props_ = props;
   }
 
-  setProps(props){
+  setProps(props) {
     <span class="hljs-keyword">this</span>.$props_ = props;
   }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
@@ -295,6 +295,7 @@ action = {
     <span class="hljs-keyword">const</span> responseInterceptor = action.responseInterceptor || options.responseInterceptor || ResourceModel.responseInterceptor;
 
     <span class="hljs-keyword">const</span> resourcePath = ResourceModel.resourcePath || options.resourcePath || <span class="hljs-string">''</span>;
+    action.uri = action.uri || action.url;
     <span class="hljs-keyword">if</span> (!action.uri) {
       <span class="hljs-keyword">let</span> url = resourcePath + action.path;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>

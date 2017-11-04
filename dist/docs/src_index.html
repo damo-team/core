@@ -552,7 +552,7 @@
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    <span class="hljs-keyword">if</span> (Selector.prototype <span class="hljs-keyword">instanceof</span> Component) {
+    <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = <span class="hljs-literal">null</span>;

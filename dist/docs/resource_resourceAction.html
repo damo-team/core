@@ -254,60 +254,75 @@
       } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Model的静态displayName属性不能为空'</span>)
       }
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ModelorResource.prototype <span class="hljs-keyword">instanceof</span> Component) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ModelorResource.prototype.isReactComponent) {
 
-      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">newComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span></span>{
+      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">newComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
         <span class="hljs-keyword">static</span> childContextTypes = {
           <span class="hljs-attr">dataModel</span>: PropTypes.object.isRequired
         };
 
-        <span class="hljs-keyword">constructor</span>(props){
+        <span class="hljs-keyword">constructor</span>(props) {
           <span class="hljs-keyword">super</span>(props);
 
           <span class="hljs-keyword">this</span>.state = {}
         }
-        
-        getChildContext(){
-          <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.$dataModel_){
-            <span class="hljs-keyword">this</span>.$dataModel_.setProps(<span class="hljs-keyword">this</span>.props);
-          }<span class="hljs-keyword">else</span>{
+
+        getChildContext() {
+          <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.$dataModel_) {
+            <span class="hljs-keyword">this</span>
+              .$dataModel_
+              .setProps(<span class="hljs-keyword">this</span>.props);
+          } <span class="hljs-keyword">else</span> {
             <span class="hljs-keyword">this</span>.$dataModel_ = <span class="hljs-keyword">new</span> ResourceModel(option, <span class="hljs-keyword">this</span>.props);
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> option.actions){
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> option.actions) {
               <span class="hljs-keyword">this</span>.$dataModel_[name] = <span class="hljs-function">(<span class="hljs-params">params, callback</span>) =&gt;</span> {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$dataModel_.request(name, params, callback);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>
+                  .$dataModel_
+                  .request(name, params, callback);
               }
-              <span class="hljs-keyword">if</span>(option.actions[name].updater){
-                <span class="hljs-keyword">this</span>.$dataModel_.request(name, {}, (err, res) =&gt; {
-                  <span class="hljs-keyword">const</span> nextState = option.actions[name].updater(err, res, <span class="hljs-keyword">this</span>.props);
-                  <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(nextState) === nextState){
-                    <span class="hljs-keyword">this</span>.setState(nextState);
-                  }
-                });
+              <span class="hljs-keyword">if</span> (option.actions[name].updater) {
+                <span class="hljs-keyword">this</span>
+                  .$dataModel_
+                  .request(name, {}, (err, res) =&gt; {
+                    <span class="hljs-keyword">const</span> nextState = option
+                      .actions[name]
+                      .updater(err, res, <span class="hljs-keyword">this</span>.props);
+                    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(nextState) === nextState) {
+                      <span class="hljs-keyword">this</span>.setState(nextState);
+                    }
+                  });
               }
             }
           }
           <span class="hljs-keyword">return</span> {<span class="hljs-attr">dataModel</span>: <span class="hljs-keyword">this</span>.$dataModel_};
         }
 
-        getRealInstance(){
+        getRealInstance() {
           <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$instance_;
         }
 
-        request(name, params){
+        request(name, params) {
           <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.context.dataModel[name](params, (err, res) =&gt; {
-            <span class="hljs-keyword">const</span> nextState = option.actions[name].updater(err, res, <span class="hljs-keyword">this</span>.props);
-            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(nextState) === nextState){
+            <span class="hljs-keyword">const</span> nextState = option
+              .actions[name]
+              .updater(err, res, <span class="hljs-keyword">this</span>.props);
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(nextState) === nextState) {
               <span class="hljs-keyword">this</span>.setState(nextState);
             }
           });
         }
 
-        render(){
-          <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ModelorResource</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{instance</span> =&gt;</span> this.$instance_ = instance} {...this.props} {...this.state}&gt;{this.props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">ModelorResource</span>&gt;</span></span>);
+        render() {
+          <span class="hljs-keyword">return</span> (
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ModelorResource</span>
+              <span class="hljs-attr">ref</span>=<span class="hljs-string">{instance</span> =&gt;</span> this.$instance_ = instance}
+              {...this.props}
+              {...this.state}&gt;{this.props.children}<span class="hljs-tag">&lt;/<span class="hljs-name">ModelorResource</span>&gt;</span></span>
+          );
         }
       }
       <span class="hljs-keyword">return</span> newComponent;
-    }<span class="hljs-keyword">else</span> {
+    } <span class="hljs-keyword">else</span> {
       <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NewResource</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ModelorResource</span> </span>{
         <span class="hljs-keyword">constructor</span>(resourceName, opt) {
           <span class="hljs-keyword">super</span>(resourceName, <span class="hljs-built_in">Object</span>.assign(option, opt), ModelorResource.initialState);

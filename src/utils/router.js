@@ -1,48 +1,48 @@
 import {Component} from 'react';
 
-export default function router(path, RouteComponent, option){
-    let routeConfig;
-    if(Object(path) === path){
-      if(path.path && path.component){
-        routeConfig = path;
-      }else{
-        option = RouteComponent;
-        RouteComponent = path;
-        path = RouteComponent.routePath;
-      }
+export default function router(path, RouteComponent, option) {
+  let routeConfig;
+  if (Object(path) === path) {
+    if (path.path && path.component) {
+      routeConfig = path;
+    } else {
+      option = RouteComponent;
+      RouteComponent = path;
+      path = RouteComponent.routePath;
     }
-    if(!routeConfig){
-      routeConfig = Object.assign({
-        path: path,
-        onLeave: RouteComponent.onLeave,
-        onEnter: RouteComponent.onEnter,
-        childRoutes: RouteComponent.childRoutes
-      }, option);
-      if(RouteComponent.indexRoute){
-        if(Object(RouteComponent.indexRoute) ===  RouteComponent.indexRoute){
-          routeConfig.indexRoute = RouteComponent.indexRoute
-        }else{
-          routeConfig.indexRoute = {
-            component: RouteComponent.indexRoute
-          }
-        }
-      }
-      if(RouteComponent.prototype instanceof Component){
-        routeConfig.component = RouteComponent;
-      }else{
-        routeConfig.getComponent = RouteComponent;
-      }
-      if(option && option.onDestroy){
-        delete routeConfig.onDestroy;
-        const componentWillMount = RouteComponent.prototype.componentWillMount;
-        RouteComponent.prototype.componentWillMount = function(){
-          componentWillMount && componentWillMount.call(this);
-          this.context.router.setRouteLeaveHook(
-            this.props.route,
-            option.onDestroy
-          )
+  }
+  if (!routeConfig) {
+    routeConfig = Object.assign({
+      path: path,
+      onLeave: RouteComponent.onLeave,
+      onEnter: RouteComponent.onEnter,
+      childRoutes: RouteComponent.childRoutes
+    }, option);
+    if (RouteComponent.indexRoute) {
+      if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
+        routeConfig.indexRoute = RouteComponent.indexRoute
+      } else {
+        routeConfig.indexRoute = {
+          component: RouteComponent.indexRoute
         }
       }
     }
-    return routeConfig;
+    if (RouteComponent.prototype.isReactComponent) {
+      routeConfig.component = RouteComponent;
+    } else {
+      routeConfig.getComponent = RouteComponent;
+    }
+    if (option && option.onDestroy) {
+      delete routeConfig.onDestroy;
+      const componentWillMount = RouteComponent.prototype.componentWillMount;
+      RouteComponent.prototype.componentWillMount = function () {
+        componentWillMount && componentWillMount.call(this);
+        this
+          .context
+          .router
+          .setRouteLeaveHook(this.props.route, option.onDestroy)
+      }
+    }
+  }
+  return routeConfig;
 }

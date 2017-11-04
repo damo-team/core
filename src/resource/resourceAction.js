@@ -19,60 +19,75 @@ export function resourceAction(option) {
       } else {
         throw new Error('Model的静态displayName属性不能为空')
       }
-    } else if (ModelorResource.prototype instanceof Component) {
+    } else if (ModelorResource.prototype.isReactComponent) {
 
-      class newComponent extends Component{
+      class newComponent extends Component {
         static childContextTypes = {
           dataModel: PropTypes.object.isRequired
         };
 
-        constructor(props){
+        constructor(props) {
           super(props);
 
           this.state = {}
         }
-        
-        getChildContext(){
-          if(this.$dataModel_){
-            this.$dataModel_.setProps(this.props);
-          }else{
+
+        getChildContext() {
+          if (this.$dataModel_) {
+            this
+              .$dataModel_
+              .setProps(this.props);
+          } else {
             this.$dataModel_ = new ResourceModel(option, this.props);
-            for(let name in option.actions){
+            for (let name in option.actions) {
               this.$dataModel_[name] = (params, callback) => {
-                return this.$dataModel_.request(name, params, callback);
+                return this
+                  .$dataModel_
+                  .request(name, params, callback);
               }
-              if(option.actions[name].updater){
-                this.$dataModel_.request(name, {}, (err, res) => {
-                  const nextState = option.actions[name].updater(err, res, this.props);
-                  if(Object(nextState) === nextState){
-                    this.setState(nextState);
-                  }
-                });
+              if (option.actions[name].updater) {
+                this
+                  .$dataModel_
+                  .request(name, {}, (err, res) => {
+                    const nextState = option
+                      .actions[name]
+                      .updater(err, res, this.props);
+                    if (Object(nextState) === nextState) {
+                      this.setState(nextState);
+                    }
+                  });
               }
             }
           }
           return {dataModel: this.$dataModel_};
         }
 
-        getRealInstance(){
+        getRealInstance() {
           return this.$instance_;
         }
 
-        request(name, params){
+        request(name, params) {
           return this.context.dataModel[name](params, (err, res) => {
-            const nextState = option.actions[name].updater(err, res, this.props);
-            if(Object(nextState) === nextState){
+            const nextState = option
+              .actions[name]
+              .updater(err, res, this.props);
+            if (Object(nextState) === nextState) {
               this.setState(nextState);
             }
           });
         }
 
-        render(){
-          return (<ModelorResource ref={instance => this.$instance_ = instance} {...this.props} {...this.state}>{this.props.children}</ModelorResource>);
+        render() {
+          return (
+            <ModelorResource
+              ref={instance => this.$instance_ = instance}
+              {...this.props}
+              {...this.state}>{this.props.children}</ModelorResource>
+          );
         }
       }
       return newComponent;
-    }else {
+    } else {
       class NewResource extends ModelorResource {
         constructor(resourceName, opt) {
           super(resourceName, Object.assign(option, opt), ModelorResource.initialState);

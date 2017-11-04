@@ -300,7 +300,7 @@ const damo = {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    if (Selector.prototype instanceof Component) {
+    if (Selector.prototype.isReactComponent) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = null;

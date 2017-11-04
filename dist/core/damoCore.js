@@ -450,7 +450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
-	    if (Selector.prototype instanceof _react.Component) {
+	    if (Selector.prototype.isReactComponent) {
 	      providers = SceneComponent;
 	      SceneComponent = Selector;
 	      Selector = null;
@@ -1926,6 +1926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var responseInterceptor = action.responseInterceptor || options.responseInterceptor || ResourceModel.responseInterceptor;
 
 	      var resourcePath = ResourceModel.resourcePath || options.resourcePath || '';
+	      action.uri = action.uri || action.url;
 	      if (!action.uri) {
 	        var url = resourcePath + action.path;
 	        // Removing double slashed from final url
@@ -4167,7 +4168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        throw new Error('Model的静态displayName属性不能为空');
 	      }
-	    } else if (ModelorResource.prototype instanceof _react.Component) {
+	    } else if (ModelorResource.prototype.isReactComponent) {
 	      var _class, _temp;
 
 	      var newComponent = (_temp = _class = function (_Component) {
@@ -4236,9 +4237,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return _react2.default.createElement(
 	              ModelorResource,
-	              _extends({ ref: function ref(instance) {
+	              _extends({
+	                ref: function ref(instance) {
 	                  return _this4.$instance_ = instance;
-	                } }, this.props, this.state),
+	                }
+	              }, this.props, this.state),
 	              this.props.children
 	            );
 	          }
@@ -4965,7 +4968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	      }
 	    }
-	    if (RouteComponent.prototype instanceof _react.Component) {
+	    if (RouteComponent.prototype.isReactComponent) {
 	      routeConfig.component = RouteComponent;
 	    } else {
 	      routeConfig.getComponent = RouteComponent;
