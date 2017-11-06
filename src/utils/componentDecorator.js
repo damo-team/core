@@ -110,6 +110,17 @@ export const component = ({
 
     const Component = connect(inputs, outputs)(BaseComponent);
 
+    const handleChange = Component.prototype.handleChange;
+
+    Component.prototype.handleChange = function(){
+      handleChange.call(this);
+
+      var storeState = this.store.getState();
+      for(let name in this.store.models){
+        this.store.models[name].state = storeState[name];
+      }
+    }
+
     Component.childContextTypes = contextTypes;
 
     Component.prototype.getChildContext = function () {

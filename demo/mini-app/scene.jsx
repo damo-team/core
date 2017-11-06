@@ -28,12 +28,20 @@ class User extends BaseModel {
 
 // selector负责从状态容器中取数据，注入到组件
 class Selector extends BaseSelector {
+  getState(){
+    return {
+      title: damo.getModel(User).state.profile.login
+    }
+  }
   static dataBindings = {
     title: damo.toselect(User, 'profile.login')
   }
+  get inputs(){
+    return 
+  }
   
   initialize() {
-    this
+    damo
       .getModel(User)
       .getUser();
   }

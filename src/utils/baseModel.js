@@ -10,6 +10,7 @@ import { Poller } from './poller';
 import cuid from 'cuid';
 import {ucfirst} from './core';
 import { EventEmitter } from 'events';
+import SI from 'seamless-immutable';
 
 const defaultProcessData = function (res) { return res.data };
 export class BaseModel extends EventEmitter{
@@ -110,6 +111,8 @@ export class BaseModel extends EventEmitter{
     }
 
     this.setMaxListeners(Number.MAX_VALUE);
+
+    this.state = SI(initialState);
   }
 
   /**
