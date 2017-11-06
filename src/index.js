@@ -126,14 +126,10 @@ export function autoLoadScenesRoutes(context, option = {}) {
         children;
       if (keys.length < level) {
         name = keys.pop() || 'root';
-        childRoute = {
-          name: name,
-          path: Comp.routePath || name,
-          component: Comp,
-          onLeave: Comp.onLeave,
-          onEnter: Comp.onEnter
-        };
-        if (routeCallback(childRoute, relativePath) !== false) {
+        childRoute = router(Comp.routePath || name, Comp, {
+          name: name
+        });
+        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
           routes.push(childRoute);
         };
       } else {
@@ -150,28 +146,20 @@ export function autoLoadScenesRoutes(context, option = {}) {
         }
         if (route) {
           route.childRoutes = route.childRoutes || [];
-          childRoute = {
-            name: name,
-            path: Comp.routePath || name,
-            component: Comp,
-            onLeave: Comp.onLeave,
-            onEnter: Comp.onEnter
-          };
-          if (routeCallback(childRoute, relativePath) !== false) {
+          childRoute = router(Comp.routePath || name, Comp, {
+            name: name
+          });
+          if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             route
               .childRoutes
               .push(childRoute);
           }
         } else {
-          childRoute = {
+          childRoute = router(Comp.routePath || name, Comp, {
             name: name,
-            navKey: key,
-            path: Comp.routePath,
-            component: Comp,
-            onLeave: Comp.onLeave,
-            onEnter: Comp.onEnter
-          };
-          if (routeCallback(childRoute, relativePath) !== false) {
+            navKey: key
+          });
+          if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             routes.push(childRoute);
           };
         }
@@ -203,6 +191,15 @@ const damo = {
   },
   service(Services) {
     rcInject.setService(Services);
+  },
+  getModel(modelName){
+    if (!damo.$$store__) {
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
+    }
+    if(Object(modelName) === modelName){
+      modelName = modelName.displayName;
+    }
+    return damo.$$store__.models[modelName]; 
   },
   toselect(Model, prop) {
     return (state, ownProps) => {

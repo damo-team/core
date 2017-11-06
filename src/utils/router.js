@@ -11,6 +11,9 @@ export default function router(path, RouteComponent, option) {
       path = RouteComponent.routePath;
     }
   }
+  if(RouteComponent.prototype === undefined){
+    return null;
+  }
   if (!routeConfig) {
     routeConfig = Object.assign({
       path: path,
