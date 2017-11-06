@@ -17,6 +17,7 @@ import ReactDOM from 'react-dom';
 import path from 'path';
 import {rcInject} from './utils/inject';
 import router from './utils/router';
+import {BaseSelector} from './utils/baseSelector';
 
 export * from './utils/inject';
 export * from './utils/core';
@@ -297,7 +298,14 @@ const damo = {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    if (Selector.prototype.isReactComponent) {
+    if(Array.isArray(Selector)){
+      const moelds = Selector;
+      class SelectorClass extends BaseSelector{
+        static dataBindings = moelds;
+        static eventBindings = moelds;
+      }
+      Selector = SelectorClass;
+    }else if (Selector.prototype.isReactComponent) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = null;

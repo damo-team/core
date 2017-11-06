@@ -57,13 +57,26 @@ export const component = ({
     if(inputs.toString() === BaseSelector.prototype.inputs.toString() && selector.dataBindings){
       inputs = () => {
         return (state, ownProps) => {
-          const iState = {};
-          for(let key in selector.dataBindings){
-            if(typeof selector.dataBindings[key] === 'function'){
-              iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
-            }else{
-              iState[key] = selector.dataBindings[key];
-            }
+          let iState = {};
+          switch(true){
+            case typeof selector.dataBindings === 'function':
+              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
+              break;
+            case Array.isArray(selector.dataBindings):
+              selector.dataBindings.forEach(name => {
+                const model = BaseSelector.appStore.models[name];
+                Object.assign(iState, model.state);
+              });
+              break;
+            default:
+              for(let key in selector.dataBindings){
+                if(typeof selector.dataBindings[key] === 'function'){
+                  iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
+                }else{
+                  iState[key] = selector.dataBindings[key];
+                }
+              }
+              break;
           }
           return iState;
         }
@@ -73,9 +86,26 @@ export const component = ({
     if(outputs.toString() === BaseSelector.prototype.outputs.toString() && selector.eventBindings){
       outputs = () => {
         return (dispatch, ownProps) => {
-          const iActions = {};
-          for(let key in selector.eventBindings){
-            iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+          let iActions = {};
+          switch(true){
+            case typeof(selector.eventBindings) === 'function':
+              iActions = selector.eventBindings.call(selectorInstance, dispatch, ownProps);
+              break;
+            case Array.isArray(selector.eventBindings):
+              selector.dataBindings.forEach(name => {
+                const model = BaseSelector.appStore.models[name];
+                Object.getOwnPropertyNames(model.__proto__).forEach(method => {
+                  if(typeof model[method] === 'function' && method !== 'constructor'){
+                    iActions[method] = model[method].bind(model);
+                  }
+                })
+              });
+              break;
+            default:
+              for(let key in selector.eventBindings){
+                iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+              }
+              break;
           }
           return iActions;
         }
@@ -113,12 +143,11 @@ export const component = ({
     const handleChange = Component.prototype.handleChange;
 
     Component.prototype.handleChange = function(){
-      handleChange.call(this);
-
       var storeState = this.store.getState();
       for(let name in this.store.models){
         this.store.models[name].state = storeState[name];
       }
+      handleChange.call(this);
     }
 
     Component.childContextTypes = contextTypes;

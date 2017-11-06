@@ -7,7 +7,7 @@
 		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("react-router"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
 		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["react-router"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -97,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _createCrud = __webpack_require__(6);
+	var _createCrud = __webpack_require__(7);
 
 	Object.keys(_createCrud).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -109,7 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _baseModel = __webpack_require__(5);
+	var _baseModel = __webpack_require__(6);
 
 	Object.keys(_baseModel).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -145,7 +145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _fetch = __webpack_require__(7);
+	var _fetch = __webpack_require__(8);
 
 	Object.keys(_fetch).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -197,20 +197,26 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * # starter入口
-	 *  - baseSelector.js - Selector基类
-	 *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
-	 *  - core.js - 核心工具方法
-	 *  - createCrud.js - 创建actionType和actionCreator等工厂方法
-	 *  - fetch.js - 接口调用模块
-	 *  - baseModel.js - Model基类
-	 *  - configureStore.development.js - 日常构建store
-	 *  - configureStore.production.js - 生产构建store
-	 *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
-	 *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
-	 * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
-	 */
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * # starter入口
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - baseSelector.js - Selector基类
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - core.js - 核心工具方法
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - createCrud.js - 创建actionType和actionCreator等工厂方法
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - fetch.js - 接口调用模块
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - baseModel.js - Model基类
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - configureStore.development.js - 日常构建store
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - configureStore.production.js - 生产构建store
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+
 	var configureStore = exports.configureStore = __webpack_require__(35);
 	var RxSelector = exports.RxSelector = __webpack_require__(41);
 	var RxComponent = exports.RxComponent = __webpack_require__(20);
@@ -288,14 +294,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        children = void 0;
 	    if (keys.length < level) {
 	      name = keys.pop() || 'root';
-	      childRoute = {
-	        name: name,
-	        path: Comp.routePath || name,
-	        component: Comp,
-	        onLeave: Comp.onLeave,
-	        onEnter: Comp.onEnter
-	      };
-	      if (routeCallback(childRoute, relativePath) !== false) {
+	      childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
+	        name: name
+	      });
+	      if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	        routes.push(childRoute);
 	      };
 	    } else {
@@ -316,26 +318,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      if (route) {
 	        route.childRoutes = route.childRoutes || [];
-	        childRoute = {
-	          name: name,
-	          path: Comp.routePath || name,
-	          component: Comp,
-	          onLeave: Comp.onLeave,
-	          onEnter: Comp.onEnter
-	        };
-	        if (routeCallback(childRoute, relativePath) !== false) {
+	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
+	          name: name
+	        });
+	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          route.childRoutes.push(childRoute);
 	        }
 	      } else {
-	        childRoute = {
+	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
 	          name: name,
-	          navKey: key,
-	          path: Comp.routePath,
-	          component: Comp,
-	          onLeave: Comp.onLeave,
-	          onEnter: Comp.onEnter
-	        };
-	        if (routeCallback(childRoute, relativePath) !== false) {
+	          navKey: key
+	        });
+	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          routes.push(childRoute);
 	        };
 	      }
@@ -369,6 +363,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  service: function service(Services) {
 	    _inject.rcInject.setService(Services);
+	  },
+	  getModel: function getModel(modelName) {
+	    if (!damo.$$store__) {
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	    }
+	    if (Object(modelName) === modelName) {
+	      modelName = modelName.displayName;
+	    }
+	    return damo.$$store__.models[modelName];
 	  },
 	  toselect: function toselect(Model, prop) {
 	    return function (state, ownProps) {
@@ -450,7 +453,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
-	    if (Selector.prototype.isReactComponent) {
+	    if (Array.isArray(Selector)) {
+	      var _class, _temp;
+
+	      var moelds = Selector;
+	      var SelectorClass = (_temp = _class = function (_BaseSelector) {
+	        _inherits(SelectorClass, _BaseSelector);
+
+	        function SelectorClass() {
+	          _classCallCheck(this, SelectorClass);
+
+	          return _possibleConstructorReturn(this, (SelectorClass.__proto__ || Object.getPrototypeOf(SelectorClass)).apply(this, arguments));
+	        }
+
+	        return SelectorClass;
+	      }(_baseSelector.BaseSelector), _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
+
+	      Selector = SelectorClass;
+	    } else if (Selector.prototype.isReactComponent) {
 	      providers = SceneComponent;
 	      SceneComponent = Selector;
 	      Selector = null;
@@ -785,6 +805,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -850,7 +876,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -868,9 +894,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    * 2. Model的实现基于事件机制，方便绑定自定义事件
 	                    */
 
-	var _fetch = __webpack_require__(7);
+	var _fetch = __webpack_require__(8);
 
-	var _createCrud = __webpack_require__(6);
+	var _createCrud = __webpack_require__(7);
 
 	var _poller = __webpack_require__(18);
 
@@ -881,6 +907,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _core = __webpack_require__(1);
 
 	var _events = __webpack_require__(11);
+
+	var _seamlessImmutable = __webpack_require__(4);
+
+	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1007,6 +1037,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _this.setMaxListeners(Number.MAX_VALUE);
+
+	    _this.state = (0, _seamlessImmutable2.default)(initialState);
 	    return _this;
 	  }
 
@@ -1321,7 +1353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_events.EventEmitter), _class.appStore = null, _class.ASSIGN_TYPES = _createCrud.changeOperators, _temp);
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1590,7 +1622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1856,12 +1888,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	// }
 
 /***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
-
-/***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1876,7 +1902,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _class, _temp;
 
-	var _fetch = __webpack_require__(7);
+	var _fetch = __webpack_require__(8);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2269,11 +2295,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _resourceModel = __webpack_require__(9);
 
-	var _createCrud = __webpack_require__(6);
+	var _createCrud = __webpack_require__(7);
 
-	var _fetch = __webpack_require__(7);
+	var _fetch = __webpack_require__(8);
 
-	var _seamlessImmutable = __webpack_require__(8);
+	var _seamlessImmutable = __webpack_require__(4);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -3017,7 +3043,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseSelector = __webpack_require__(3);
 
-	var _seamlessImmutable = __webpack_require__(8);
+	var _seamlessImmutable = __webpack_require__(4);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -3288,13 +3314,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createReducerFactory = createReducerFactory;
 	exports.createReducerAndModels = createReducerAndModels;
 
-	var _seamlessImmutable = __webpack_require__(8);
+	var _seamlessImmutable = __webpack_require__(4);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
-	var _createCrud = __webpack_require__(6);
+	var _createCrud = __webpack_require__(7);
 
-	var _baseModel = __webpack_require__(5);
+	var _baseModel = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3682,7 +3708,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(4);
+	var _warning = __webpack_require__(5);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3732,7 +3758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(4);
+	var _warning = __webpack_require__(5);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3756,7 +3782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(4);
+	var _warning = __webpack_require__(5);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3787,7 +3813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(4);
+	var _warning = __webpack_require__(5);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -4144,7 +4170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _hotStaticResource = __webpack_require__(13);
 
-	var _baseModel = __webpack_require__(5);
+	var _baseModel = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4410,7 +4436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = enhanceStore;
 
-	var _baseModel = __webpack_require__(5);
+	var _baseModel = __webpack_require__(6);
 
 	var _baseSelector = __webpack_require__(3);
 
@@ -4420,7 +4446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rx = __webpack_require__(19);
 
-	var _seamlessImmutable = __webpack_require__(8);
+	var _seamlessImmutable = __webpack_require__(4);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -4629,12 +4655,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      inputs = function inputs() {
 	        return function (state, ownProps) {
 	          var iState = {};
-	          for (var key in selector.dataBindings) {
-	            if (typeof selector.dataBindings[key] === 'function') {
-	              iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
-	            } else {
-	              iState[key] = selector.dataBindings[key];
-	            }
+	          switch (true) {
+	            case typeof selector.dataBindings === 'function':
+	              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
+	              break;
+	            case Array.isArray(selector.dataBindings):
+	              selector.dataBindings.forEach(function (name) {
+	                var model = _baseSelector.BaseSelector.appStore.models[name];
+	                Object.assign(iState, model.state);
+	              });
+	              break;
+	            default:
+	              for (var key in selector.dataBindings) {
+	                if (typeof selector.dataBindings[key] === 'function') {
+	                  iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
+	                } else {
+	                  iState[key] = selector.dataBindings[key];
+	                }
+	              }
+	              break;
 	          }
 	          return iState;
 	        };
@@ -4645,8 +4684,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      outputs = function outputs() {
 	        return function (dispatch, ownProps) {
 	          var iActions = {};
-	          for (var key in selector.eventBindings) {
-	            iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+	          switch (true) {
+	            case typeof selector.eventBindings === 'function':
+	              iActions = selector.eventBindings.call(selectorInstance, dispatch, ownProps);
+	              break;
+	            case Array.isArray(selector.eventBindings):
+	              selector.dataBindings.forEach(function (name) {
+	                var model = _baseSelector.BaseSelector.appStore.models[name];
+	                Object.getOwnPropertyNames(model.__proto__).forEach(function (method) {
+	                  if (typeof model[method] === 'function' && method !== 'constructor') {
+	                    iActions[method] = model[method].bind(model);
+	                  }
+	                });
+	              });
+	              break;
+	            default:
+	              for (var key in selector.eventBindings) {
+	                iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+	              }
+	              break;
 	          }
 	          return iActions;
 	        };
@@ -4680,6 +4736,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var Component = (0, _reactRedux.connect)(inputs, outputs)(BaseComponent);
+
+	    var handleChange = Component.prototype.handleChange;
+
+	    Component.prototype.handleChange = function () {
+	      var storeState = this.store.getState();
+	      for (var name in this.store.models) {
+	        this.store.models[name].state = storeState[name];
+	      }
+	      handleChange.call(this);
+	    };
 
 	    Component.childContextTypes = contextTypes;
 
@@ -4951,6 +5017,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      RouteComponent = path;
 	      path = RouteComponent.routePath;
 	    }
+	  }
+	  if (RouteComponent.prototype === undefined) {
+	    return null;
 	  }
 	  if (!routeConfig) {
 	    routeConfig = Object.assign({

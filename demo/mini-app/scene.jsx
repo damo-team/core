@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import damo, {
   View,
   BaseModel,
+  Input,
   BaseSelector,
   Api,
   dispatch
@@ -15,36 +16,24 @@ class User extends BaseModel {
   }
 
   getUser() {
-    return this.getQuery({
+    return this.execQuery({
       response: Api.get('https://api.github.com/users/baqian'),
       processData: res => res,
       change: {
         name: 'profile',
         callback: data => data
       }
-    })(this.dispatch);
+    });
   }
 }
 
 // selector负责从状态容器中取数据，注入到组件
 class Selector extends BaseSelector {
-  getState(){
-    return {
-      title: damo.getModel(User).state.profile.login
-    }
-  }
-  static dataBindings = {
-    title: damo.toselect(User, 'profile.login')
-  }
-  get inputs(){
-    return 
-  }
   
-  initialize() {
-    damo
-      .getModel(User)
-      .getUser();
-  }
+  static dataBindings = ['user'];
+
+  static eventBindings = ['user'];
+
 }
 
 // 组件的代码定义
@@ -57,14 +46,21 @@ class Root extends Component {
   }
 
   static defaultProps = {
-    title: 'My First React App!!'
+    profile: {
+      login: 'My First React App!!'
+    }
   }
+
+  componentWillMount(){
+    this.props.getUser();
+  }
+
   render() {
     console.log(this.context.user);
     console.log(this.context.user1);
     return (
       <div>
-        <h1>Welcome to {this.props.title}</h1>
+        <h1>Welcome to {this.props.profile.login}</h1>
         <img src="/brand.png"/>
       </div>
     );
@@ -76,7 +72,7 @@ class Root extends Component {
 damo.init(); // 初始化
 damo.model(User); // 添加数据模型
 damo.service({user: User});
-const ViewComponent = damo.view(Selector, Root, {user1: User}); // 给组件加入数据绑定
+const ViewComponent = damo.view(['user'], Root, {user1: User}); // 给组件加入数据绑定
 damo.route('/demo', ViewComponent); // 建立路由
 // damo.start(ViewComponent); // 执行入口，根组件
 

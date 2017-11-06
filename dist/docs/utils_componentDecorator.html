@@ -328,13 +328,26 @@
     <span class="hljs-keyword">if</span>(inputs.toString() === BaseSelector.prototype.inputs.toString() &amp;&amp; selector.dataBindings){
       inputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
-          <span class="hljs-keyword">const</span> iState = {};
-          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.dataBindings){
-            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> selector.dataBindings[key] === <span class="hljs-string">'function'</span>){
-              iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
-            }<span class="hljs-keyword">else</span>{
-              iState[key] = selector.dataBindings[key];
-            }
+          <span class="hljs-keyword">let</span> iState = {};
+          <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+            <span class="hljs-keyword">case</span> <span class="hljs-keyword">typeof</span> selector.dataBindings === <span class="hljs-string">'function'</span>:
+              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
+              <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-built_in">Array</span>.isArray(selector.dataBindings):
+              selector.dataBindings.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+                <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
+                <span class="hljs-built_in">Object</span>.assign(iState, model.state);
+              });
+              <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.dataBindings){
+                <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> selector.dataBindings[key] === <span class="hljs-string">'function'</span>){
+                  iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
+                }<span class="hljs-keyword">else</span>{
+                  iState[key] = selector.dataBindings[key];
+                }
+              }
+              <span class="hljs-keyword">break</span>;
           }
           <span class="hljs-keyword">return</span> iState;
         }
@@ -344,9 +357,26 @@
     <span class="hljs-keyword">if</span>(outputs.toString() === BaseSelector.prototype.outputs.toString() &amp;&amp; selector.eventBindings){
       outputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
-          <span class="hljs-keyword">const</span> iActions = {};
-          <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.eventBindings){
-            iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+          <span class="hljs-keyword">let</span> iActions = {};
+          <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+            <span class="hljs-keyword">case</span> <span class="hljs-keyword">typeof</span>(selector.eventBindings) === <span class="hljs-string">'function'</span>:
+              iActions = selector.eventBindings.call(selectorInstance, dispatch, ownProps);
+              <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-built_in">Array</span>.isArray(selector.eventBindings):
+              selector.dataBindings.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+                <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
+                <span class="hljs-built_in">Object</span>.getOwnPropertyNames(model.__proto__).forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+                  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> model[method] === <span class="hljs-string">'function'</span> &amp;&amp; method !== <span class="hljs-string">'constructor'</span>){
+                    iActions[method] = model[method].bind(model);
+                  }
+                })
+              });
+              <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.eventBindings){
+                iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+              }
+              <span class="hljs-keyword">break</span>;
           }
           <span class="hljs-keyword">return</span> iActions;
         }
@@ -380,6 +410,16 @@
     }
 
     <span class="hljs-keyword">const</span> Component = connect(inputs, outputs)(BaseComponent);
+
+    <span class="hljs-keyword">const</span> handleChange = Component.prototype.handleChange;
+
+    Component.prototype.handleChange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">var</span> storeState = <span class="hljs-keyword">this</span>.store.getState();
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.store.models){
+        <span class="hljs-keyword">this</span>.store.models[name].state = storeState[name];
+      }
+      handleChange.call(<span class="hljs-keyword">this</span>);
+    }
 
     Component.childContextTypes = contextTypes;
 

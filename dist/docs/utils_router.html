@@ -246,6 +246,9 @@
       path = RouteComponent.routePath;
     }
   }
+  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span>){
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  }
   <span class="hljs-keyword">if</span> (!routeConfig) {
     routeConfig = <span class="hljs-built_in">Object</span>.assign({
       <span class="hljs-attr">path</span>: path,
