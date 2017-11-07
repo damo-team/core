@@ -3,6 +3,7 @@ import {HotStaticResource} from './hotStaticResource';
 import {ucfirst, toSnakeCase} from '../utils/core';
 import {rcInject} from '../utils/inject';
 import {BaseSelector} from '../utils/baseSelector';
+import {Api} from '../utils/fetch';
 import SI from 'seamless-immutable';
 
 BaseSelector.prototype.getModel = function(modelName){
@@ -51,6 +52,7 @@ BaseSelector.prototype.destroy = function(){
 export function resource(options = {}, actionState) {
 
   return function (Model) {
+    actionState = actionState || Model.actions
     class NewModel extends Model {
       get properties() {
         return this.$properties_;
@@ -125,7 +127,7 @@ export function resource(options = {}, actionState) {
             if(!this[actionName]){
               // #! 升级方法
               this[actionName] = (params) => {
-                return this.getQuery({
+                return this.execQuery({
                   params: params,
                   request: resource[actionName]
                 });
@@ -136,23 +138,48 @@ export function resource(options = {}, actionState) {
         }else{
           if(actionState){
             this.$transfer_ = true;
-            for(let key in options.actions){
-              Object.assign(options.actions[key], actionState[key]);
-            }
-            options.initialState = this.$properties_;
-            let resource = this.setResource(name, options);
-            for(let actionName in resource.$options_.actions){
-              if(!this[actionName]){
-                // #! 升级方法
-                this[actionName] = (params) => {
-                  return this.getQuery({
-                    params: params,
-                    request: resource[actionName]
-                  });
+            // swagger function
+            if(typeof options.actions === 'function'){
+              const inst = new options.actions();
+              const keys = Object.getOwnPropertyNames(inst.__proto__);
+              for(let i = 0, len = keys.length; i < len; i++){
+                this[keys[i]] = (...args) => {
+                  if(actionState[keys[i]] && actionState[keys[i]].state){
+                    const changes = [];
+                    for(let stateName in actionState[keys[i]].state){
+                      changes.push({
+                        name: stateName,
+                        callback: actionState[keys[i]].state[stateName]
+                      });
+                    }
+                    return this.execQuery({
+                      response: inst[keys[i]].apply(inst, args),
+                      changes: changes
+                    })
+                  }else{
+                    return inst[keys[i]].apply(inst, args);
+                  }
                 }
               }
+            }else{
+              for(let key in options.actions){
+                Object.assign(options.actions[key], actionState[key]);
+              }
+              options.initialState = this.$properties_;
+              let resource = this.setResource(name, options);
+              for(let actionName in resource.$options_.actions){
+                if(!this[actionName]){
+                  // #! 升级方法
+                  this[actionName] = (params) => {
+                    return this.execQuery({
+                      params: params,
+                      request: resource[actionName]
+                    });
+                  }
+                }
+              }
+              Object.assign(this.$properties_, resource.getState());
             }
-            Object.assign(this.$properties_, resource.getState());
           }else{
             Object
             .keys(options)

@@ -16,12 +16,12 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import path from 'path';
 import router from './utils/router';
-
 import {BaseSelector} from './utils/baseSelector';
 import {BaseModel} from './utils/baseModel';
 import {rcInject} from './utils/inject';
 import {Api} from './utils/fetch';
 import {Poller} from './utils/poller';
+import {resource} from './resource';
 
 export * from './utils/core';
 export * from './utils/componentDecorator';
@@ -189,15 +189,36 @@ const damo = {
       return {defaultModels};
     });
   },
-  model(Models) {
+  model(name, Models, entity) {
     if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
+    }
+    if(Models){
+      Models = {
+        [name]: Models
+      }
+      if(entity){
+        Models[name] = resource(entity)(Models[name]);
+      }
+    }else{
+      entity = Models;
+      Models = name;
+      if(entity){
+        Models = resource(entity)(Models);
+      }
     }
     damo
       .$$store__
       .addModel(Models);
   },
-  service(Services) {
+  service(name, Services) {
+    if(Services){
+      Services = {
+        [name]: Services
+      }
+    }else{
+      Services = name;
+    }
     rcInject.setService(Services);
   },
   getModel(modelName) {
@@ -270,34 +291,39 @@ const damo = {
       }
     }
   },
-  autoLoadModels(context, noHot) {
+  autoLoadModels(modelContext, resourceContext, noHot) {
     if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    if (!context) {
+    if (!modelContext) {
       throw new Error('需要提供require.context的遍历列表！');
     }
 
     const defaultModels = Object.assign({}, damo.$$defaultModels__);
 
-    context
+    modelContext
       .keys()
       .forEach(key => {
-        defaultModels[
-          key
-            .split('/')
-            .pop()
-            .split('.')[0]
-        ] = context(key);
+        const model = modelContext(key);
+        defaultModels[model.displayName || path.basename(key)] = model;
       });
-
+    resourceContext
+      .keys()
+      .forEach(key => {
+        const entity = modelContext(key);
+        const name = entity.displayName || path.basename(key);
+        if(defaultModels[name]){
+          defaultModels[name] = resource(entity)(defaultModels[name]);
+        };
+      });
+    
     configureStore.replace(damo.$$store__, defaultModels);
 
     if (module.hot && !noHot) {
       module
         .hot
-        .accept(context.id, () => {
-          damo.autoLoadModels(context, true);
+        .accept(modelContext.id, () => {
+          damo.autoLoadModels(modelContext, true);
         });
     }
   },
