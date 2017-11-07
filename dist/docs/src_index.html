@@ -430,12 +430,12 @@
   <span class="hljs-attr">$$defaultModels__</span>: {},
   <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-attr">$$callback__</span>: [],
-  getRoutes(){
+  getRoutes() {
     <span class="hljs-keyword">return</span> damo.$$routes__;
   },
-  fireReady(){
+  fireReady() {
     <span class="hljs-keyword">let</span> callback;
-    <span class="hljs-keyword">while</span>(callback = damo.$$callback__.pop()){
+    <span class="hljs-keyword">while</span> (callback = damo.$$callback__.pop()) {
       callback();
     }
   },
@@ -452,22 +452,24 @@
   },
   model(name, Models, entity) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-        damo.model(name, Models, entity);
-      });
+      damo
+        .$$callback__
+        .push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          damo.model(name, Models, entity);
+        });
       <span class="hljs-keyword">return</span>;
     }
-    <span class="hljs-keyword">if</span>(Models){
+    <span class="hljs-keyword">if</span> (Models) {
       Models = {
         [name]: Models
       }
-      <span class="hljs-keyword">if</span>(entity){
+      <span class="hljs-keyword">if</span> (entity) {
         Models[name] = resource(entity)(Models[name]);
       }
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       entity = Models;
       Models = name;
-      <span class="hljs-keyword">if</span>(entity){
+      <span class="hljs-keyword">if</span> (entity) {
         Models = resource(entity)(Models);
       }
     }
@@ -477,16 +479,18 @@
   },
   service(name, Services) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-        damo.service(name, Services);
-      });
+      damo
+        .$$callback__
+        .push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          damo.service(name, Services);
+        });
       <span class="hljs-keyword">return</span>;
     }
-    <span class="hljs-keyword">if</span>(Services){
+    <span class="hljs-keyword">if</span> (Services) {
       Services = {
         [name]: Services
       }
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       Services = name;
     }
     rcInject.setService(Services);
@@ -562,10 +566,12 @@
     }
   },
   autoLoadModels(modelContext, resourceContext, noHot) {
-    <span class="hljs-keyword">if</span>(!damo.$$store__){
-      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-        damo.autoLoadModels(modelContext, resourceContext, noHot);
-      });
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
+      damo
+        .$$callback__
+        .push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+          damo.autoLoadModels(modelContext, resourceContext, noHot);
+        });
       <span class="hljs-keyword">return</span>;
     }
     <span class="hljs-keyword">if</span> (!modelContext) {
@@ -580,16 +586,18 @@
         <span class="hljs-keyword">const</span> model = modelContext(key);
         defaultModels[model.displayName || path.basename(key)] = model;
       });
-    resourceContext
-      .keys()
-      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        <span class="hljs-keyword">const</span> entity = modelContext(key);
-        <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key);
-        <span class="hljs-keyword">if</span>(defaultModels[name]){
-          defaultModels[name] = resource(entity)(defaultModels[name]);
-        };
-      });
-    
+    <span class="hljs-keyword">if</span> (resourceContext) {
+      resourceContext
+        .keys()
+        .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+          <span class="hljs-keyword">const</span> entity = modelContext(key);
+          <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key);
+          <span class="hljs-keyword">if</span> (defaultModels[name]) {
+            defaultModels[name] = resource(entity)(defaultModels[name]);
+          };
+        });
+    }
+
     configureStore.replace(damo.$$store__, defaultModels);
 
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; !noHot) {

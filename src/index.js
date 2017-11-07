@@ -178,12 +178,12 @@ const damo = {
   $$defaultModels__: {},
   $$store__: null,
   $$callback__: [],
-  getRoutes(){
+  getRoutes() {
     return damo.$$routes__;
   },
-  fireReady(){
+  fireReady() {
     let callback;
-    while(callback = damo.$$callback__.pop()){
+    while (callback = damo.$$callback__.pop()) {
       callback();
     }
   },
@@ -200,22 +200,24 @@ const damo = {
   },
   model(name, Models, entity) {
     if (!damo.$$store__) {
-      damo.$$callback__.push(() => {
-        damo.model(name, Models, entity);
-      });
+      damo
+        .$$callback__
+        .push(() => {
+          damo.model(name, Models, entity);
+        });
       return;
     }
-    if(Models){
+    if (Models) {
       Models = {
         [name]: Models
       }
-      if(entity){
+      if (entity) {
         Models[name] = resource(entity)(Models[name]);
       }
-    }else{
+    } else {
       entity = Models;
       Models = name;
-      if(entity){
+      if (entity) {
         Models = resource(entity)(Models);
       }
     }
@@ -225,16 +227,18 @@ const damo = {
   },
   service(name, Services) {
     if (!damo.$$store__) {
-      damo.$$callback__.push(() => {
-        damo.service(name, Services);
-      });
+      damo
+        .$$callback__
+        .push(() => {
+          damo.service(name, Services);
+        });
       return;
     }
-    if(Services){
+    if (Services) {
       Services = {
         [name]: Services
       }
-    }else{
+    } else {
       Services = name;
     }
     rcInject.setService(Services);
@@ -310,10 +314,12 @@ const damo = {
     }
   },
   autoLoadModels(modelContext, resourceContext, noHot) {
-    if(!damo.$$store__){
-      damo.$$callback__.push(() => {
-        damo.autoLoadModels(modelContext, resourceContext, noHot);
-      });
+    if (!damo.$$store__) {
+      damo
+        .$$callback__
+        .push(() => {
+          damo.autoLoadModels(modelContext, resourceContext, noHot);
+        });
       return;
     }
     if (!modelContext) {
@@ -328,16 +334,18 @@ const damo = {
         const model = modelContext(key);
         defaultModels[model.displayName || path.basename(key)] = model;
       });
-    resourceContext
-      .keys()
-      .forEach(key => {
-        const entity = modelContext(key);
-        const name = entity.displayName || path.basename(key);
-        if(defaultModels[name]){
-          defaultModels[name] = resource(entity)(defaultModels[name]);
-        };
-      });
-    
+    if (resourceContext) {
+      resourceContext
+        .keys()
+        .forEach(key => {
+          const entity = modelContext(key);
+          const name = entity.displayName || path.basename(key);
+          if (defaultModels[name]) {
+            defaultModels[name] = resource(entity)(defaultModels[name]);
+          };
+        });
+    }
+
     configureStore.replace(damo.$$store__, defaultModels);
 
     if (module.hot && !noHot) {

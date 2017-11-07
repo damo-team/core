@@ -485,13 +485,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var model = modelContext(key);
 	      defaultModels[model.displayName || _path2.default.basename(key)] = model;
 	    });
-	    resourceContext.keys().forEach(function (key) {
-	      var entity = modelContext(key);
-	      var name = entity.displayName || _path2.default.basename(key);
-	      if (defaultModels[name]) {
-	        defaultModels[name] = (0, _resource.resource)(entity)(defaultModels[name]);
-	      };
-	    });
+	    if (resourceContext) {
+	      resourceContext.keys().forEach(function (key) {
+	        var entity = modelContext(key);
+	        var name = entity.displayName || _path2.default.basename(key);
+	        if (defaultModels[name]) {
+	          defaultModels[name] = (0, _resource.resource)(entity)(defaultModels[name]);
+	        };
+	      });
+	    }
 
 	    configureStore.replace(damo.$$store__, defaultModels);
 
