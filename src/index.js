@@ -356,7 +356,8 @@ const damo = {
     }
 
     ReactDOM.render(RootComponent, DOM);
-  }
+  },
+  run: damo.bootstrap
 }
 
 const exportObj = {

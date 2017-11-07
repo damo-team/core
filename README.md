@@ -96,6 +96,7 @@ Damo框架包括前端应用开发所用到的一系列库，有些是核心库�
 1. API直接挂在damo
 2. route支持视图才自动识别
 3. bootstrap == run
+5. 局部服务，不能丢失router等三方全局服务
 4. 继承react-router， 包括Link和 更新路由query
 5. Model的this.getQuery改为this.setState
 6. damo.model支持(name, Model)方式
