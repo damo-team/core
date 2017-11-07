@@ -41,6 +41,7 @@ class Root extends Component {
   static routePath = '/mini-app';
   
   static contextTypes = {
+    router: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     user1: PropTypes.object.isRequired
   }
@@ -56,6 +57,7 @@ class Root extends Component {
   }
 
   render() {
+    console.log(this.context.router);
     console.log(this.context.user);
     console.log(this.context.user1);
     return (

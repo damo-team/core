@@ -116,9 +116,11 @@ export const component = ({
   composeArgs.push(BaseComponent => {
     const contextTypes = {};
     const services = {};
+    const parentContextTypes = [];
 
     for(let key in BaseComponent.contextTypes){
       contextTypes[key] = BaseComponent.contextTypes[key];
+      parentContextTypes.push(key);
       services[key] = rcInject.getService(key)
     }
     delete services.selector;
@@ -160,6 +162,12 @@ export const component = ({
 
       this.$services_ = services;
 
+      parentContextTypes.forEach(name => {
+        // #! 如果全局没有这个服务，那么从父级继承下来
+        if(!services[name]){
+          services[name] = getParantService.call(this, name);
+        }
+      });
       // #! 初始化所有的context
       eachProvider(providers, (Provider, key) => {
         let name = key || Provider.displayName;

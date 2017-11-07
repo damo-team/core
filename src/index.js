@@ -356,11 +356,11 @@ const damo = {
     }
 
     ReactDOM.render(RootComponent, DOM);
-  },
-  run: damo.bootstrap
+  }
 }
 
 const exportObj = {
+  run: damo.bootstrap,
   BaseSelector: BaseSelector,
   BaseModel: BaseModel,
   injector: rcInject,
