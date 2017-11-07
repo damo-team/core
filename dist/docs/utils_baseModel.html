@@ -247,8 +247,9 @@
 <span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
 <span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
 
-<span class="hljs-keyword">const</span> defaultProcessData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res.data };
 <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
+  <span class="hljs-keyword">static</span> processData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res };
+
   <span class="hljs-keyword">static</span> appStore = <span class="hljs-literal">null</span>;
   
   <span class="hljs-keyword">static</span> ASSIGN_TYPES = changeOperators;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
@@ -498,6 +499,39 @@
 
   execQuery(ajaxOption, changeOption){
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery(ajaxOption, changeOption, <span class="hljs-keyword">this</span>.dispatch);
+  }
+
+  setState(options){
+    <span class="hljs-keyword">const</span> promises = [];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options){
+      <span class="hljs-keyword">if</span>(options[key].change){
+        options[key].change = {
+          <span class="hljs-attr">name</span>: key,
+          <span class="hljs-attr">callback</span>: options[key].change
+        }
+      }<span class="hljs-keyword">else</span>{
+        options[key].change = {
+          <span class="hljs-attr">name</span>: key,
+          <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+        }
+      }
+      promises.push(<span class="hljs-keyword">this</span>.execQuery(options[key]));
+    }
+    
+    <span class="hljs-keyword">if</span>(promises.length === <span class="hljs-number">1</span>){
+      <span class="hljs-keyword">return</span> promises[<span class="hljs-number">0</span>];
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">const</span> promise = <span class="hljs-built_in">Promise</span>.all[promises];
+      promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span>(callback){
+          promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
+            callback(<span class="hljs-literal">null</span>, res);
+          }, callback);
+        }
+        <span class="hljs-keyword">return</span> promise;
+      }
+      <span class="hljs-keyword">return</span> promise;
+    }
   }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
@@ -603,7 +637,7 @@
       <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
       <span class="hljs-keyword">const</span> needToOperate = operate &amp;&amp; (opt.change || opt.changes);
       actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
-        <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || defaultProcessData;
+        <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || BaseModel.processData;
         <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
         <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -664,7 +698,7 @@
     needToOperate &amp;&amp; <span class="hljs-keyword">this</span>.createActionCreator([<span class="hljs-keyword">this</span>.createActionName(ucOperate)], []);
 
     <span class="hljs-keyword">const</span> actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
-      <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || defaultProcessData;
+      <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData || BaseModel.processData;
       <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
       <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 

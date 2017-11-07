@@ -252,25 +252,31 @@
         <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> React, {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">'path'</span>;
-<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
 <span class="hljs-keyword">import</span> router <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/router'</span>;
 <span class="hljs-keyword">import</span> {BaseSelector} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseSelector'</span>;
+<span class="hljs-keyword">import</span> {BaseModel} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseModel'</span>;
+<span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
+<span class="hljs-keyword">import</span> {Api} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/fetch'</span>;
+<span class="hljs-keyword">import</span> {Poller} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/poller'</span>;
+<span class="hljs-keyword">import</span> {resource} <span class="hljs-keyword">from</span> <span class="hljs-string">'./resource'</span>;
 
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/core'</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/componentDecorator'</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/createCrud'</span>;
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseModel'</span>;
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/poller'</span>;
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseSelector'</span>;
-<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/fetch'</span>;
 <span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./resource'</span>;
+
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseSelector'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/baseModel'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/inject'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/fetch'</span>;
+<span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/poller'</span>;
 
 <span class="hljs-keyword">import</span> {Provider} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
 <span class="hljs-keyword">import</span> {Router, browserHistory} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
 <span class="hljs-keyword">import</span> useBasename <span class="hljs-keyword">from</span> <span class="hljs-string">'history/lib/useBasename'</span>;
 
 <span class="hljs-keyword">import</span> {View} <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/componentDecorator'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Link = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-router'</span>).Link;
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./store/configureStore'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxSelector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxSelector'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxComponent'</span>);
@@ -379,9 +385,7 @@
         children;
       <span class="hljs-keyword">if</span> (keys.length &lt; level) {
         name = keys.pop() || <span class="hljs-string">'root'</span>;
-        childRoute = router(Comp.routePath || name, Comp, {
-          <span class="hljs-attr">name</span>: name
-        });
+        childRoute = router(Comp.routePath || name, Comp, {<span class="hljs-attr">name</span>: name});
         <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
           routes.push(childRoute);
         };
@@ -401,7 +405,7 @@
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath || name, Comp, {
             <span class="hljs-attr">name</span>: name
-          });
+          }, option.strict);
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             route
               .childRoutes
@@ -411,7 +415,7 @@
           childRoute = router(Comp.routePath || name, Comp, {
             <span class="hljs-attr">name</span>: name,
             <span class="hljs-attr">navKey</span>: key
-          });
+          }, option.strict);
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             routes.push(childRoute);
           };
@@ -425,6 +429,9 @@
   <span class="hljs-attr">$$routes__</span>: [],
   <span class="hljs-attr">$$defaultModels__</span>: {},
   <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
+  getRoutes(){
+    <span class="hljs-keyword">return</span> damo.$$routes__;
+  },
   init(initialState = {}, defaultModels = {}, middlewares = []) {
     <span class="hljs-keyword">if</span> (damo.$$store__) {
       <span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'Application initialized！'</span>)
@@ -434,25 +441,46 @@
       <span class="hljs-keyword">return</span> {defaultModels};
     });
   },
-  model(Models) {
+  model(name, Models, entity) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
+    <span class="hljs-keyword">if</span>(Models){
+      Models = {
+        [name]: Models
+      }
+      <span class="hljs-keyword">if</span>(entity){
+        Models[name] = resource(entity)(Models[name]);
+      }
+    }<span class="hljs-keyword">else</span>{
+      entity = Models;
+      Models = name;
+      <span class="hljs-keyword">if</span>(entity){
+        Models = resource(entity)(Models);
+      }
     }
     damo
       .$$store__
       .addModel(Models);
   },
-  service(Services) {
+  service(name, Services) {
+    <span class="hljs-keyword">if</span>(Services){
+      Services = {
+        [name]: Services
+      }
+    }<span class="hljs-keyword">else</span>{
+      Services = name;
+    }
     rcInject.setService(Services);
   },
-  getModel(modelName){
+  getModel(modelName) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(modelName) === modelName){
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(modelName) === modelName) {
       modelName = modelName.displayName;
     }
-    <span class="hljs-keyword">return</span> damo.$$store__.models[modelName]; 
+    <span class="hljs-keyword">return</span> damo.$$store__.models[modelName];
   },
   toselect(Model, prop) {
     <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
@@ -497,8 +525,8 @@
       .getModel(modelName)
       .select(prop, <span class="hljs-literal">true</span>);
   },
-  route(path, RouteComponent, option) {
-    <span class="hljs-keyword">const</span> routeConfig = router(path, RouteComponent, option);
+  route(path, RouteComponent, option = {}) {
+    <span class="hljs-keyword">const</span> routeConfig = router(path, RouteComponent, option, option.strict);
     damo
       .$$routes__
       .push(routeConfig);
@@ -506,40 +534,48 @@
     <span class="hljs-keyword">return</span> {
       <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option</span>) =&gt;</span> {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
-        routeConfig
-          .childRoutes
-          .push(router(path, RouteComponent, option));
+        <span class="hljs-keyword">const</span> _routeConfig = router(path, RouteComponent, option, option.strict);
+        <span class="hljs-keyword">if</span> (_routeConfig) {
+          routeConfig
+            .childRoutes
+            .push(_routeConfig);
+        }
       }
     }
   },
-  autoLoadModels(context, noHot) {
+  autoLoadModels(modelContext, resourceContext, noHot) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
     }
-    <span class="hljs-keyword">if</span> (!context) {
+    <span class="hljs-keyword">if</span> (!modelContext) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
     }
 
     <span class="hljs-keyword">const</span> defaultModels = <span class="hljs-built_in">Object</span>.assign({}, damo.$$defaultModels__);
 
-    context
+    modelContext
       .keys()
       .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        defaultModels[
-          key
-            .split(<span class="hljs-string">'/'</span>)
-            .pop()
-            .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
-        ] = context(key);
+        <span class="hljs-keyword">const</span> model = modelContext(key);
+        defaultModels[model.displayName || path.basename(key)] = model;
       });
-
+    resourceContext
+      .keys()
+      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> entity = modelContext(key);
+        <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key);
+        <span class="hljs-keyword">if</span>(defaultModels[name]){
+          defaultModels[name] = resource(entity)(defaultModels[name]);
+        };
+      });
+    
     configureStore.replace(damo.$$store__, defaultModels);
 
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot &amp;&amp; !noHot) {
       <span class="hljs-built_in">module</span>
         .hot
-        .accept(context.id, () =&gt; {
-          damo.autoLoadModels(context, <span class="hljs-literal">true</span>);
+        .accept(modelContext.id, () =&gt; {
+          damo.autoLoadModels(modelContext, <span class="hljs-literal">true</span>);
         });
     }
   },
@@ -550,14 +586,14 @@
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(Selector)){
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
       <span class="hljs-keyword">const</span> moelds = Selector;
-      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span></span>{
+      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
         <span class="hljs-keyword">static</span> dataBindings = moelds;
         <span class="hljs-keyword">static</span> eventBindings = moelds;
       }
       Selector = SelectorClass;
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = <span class="hljs-literal">null</span>;
@@ -604,6 +640,17 @@
     ReactDOM.render(RootComponent, DOM);
   }
 }
+
+<span class="hljs-keyword">const</span> exportObj = {
+  <span class="hljs-attr">BaseSelector</span>: BaseSelector,
+  <span class="hljs-attr">BaseModel</span>: BaseModel,
+  <span class="hljs-attr">injector</span>: rcInject,
+  <span class="hljs-attr">Api</span>: Api,
+  <span class="hljs-attr">Poller</span>: Poller,
+  <span class="hljs-attr">run</span>: damo.bootstrap
+};
+
+<span class="hljs-built_in">Object</span>.assign(damo, exportObj);
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> damo;
 

@@ -238,6 +238,7 @@
 <span class="hljs-keyword">import</span> {ucfirst, toSnakeCase} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/core'</span>;
 <span class="hljs-keyword">import</span> {rcInject} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/inject'</span>;
 <span class="hljs-keyword">import</span> {BaseSelector} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/baseSelector'</span>;
+<span class="hljs-keyword">import</span> {Api} <span class="hljs-keyword">from</span> <span class="hljs-string">'../utils/fetch'</span>;
 <span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
 
 BaseSelector.prototype.getModel = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">modelName</span>)</span>{
@@ -286,6 +287,7 @@ BaseSelector.prototype.destroy = <span class="hljs-function"><span class="hljs-k
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resource</span>(<span class="hljs-params">options = {}, actionState</span>) </span>{
 
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">Model</span>) </span>{
+    actionState = actionState || Model.actions
     <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NewModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span> </span>{
       get properties() {
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.$properties_;
@@ -373,7 +375,7 @@ BaseSelector.prototype.destroy = <span class="hljs-function"><span class="hljs-k
             <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>[actionName]){
               <span class="hljs-comment">// #! 升级方法</span>
               <span class="hljs-keyword">this</span>[actionName] = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery({
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.execQuery({
                   <span class="hljs-attr">params</span>: params,
                   <span class="hljs-attr">request</span>: resource[actionName]
                 });
@@ -383,28 +385,7 @@ BaseSelector.prototype.destroy = <span class="hljs-function"><span class="hljs-k
           <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.$properties_, resource.getState());
         }<span class="hljs-keyword">else</span>{
           <span class="hljs-keyword">if</span>(actionState){
-            <span class="hljs-keyword">this</span>.$transfer_ = <span class="hljs-literal">true</span>;
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options.actions){
-              <span class="hljs-built_in">Object</span>.assign(options.actions[key], actionState[key]);
-            }
-            options.initialState = <span class="hljs-keyword">this</span>.$properties_;
-            <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.setResource(name, options);
-            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> actionName <span class="hljs-keyword">in</span> resource.$options_.actions){
-              <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>[actionName]){
-                <span class="hljs-comment">// #! 升级方法</span>
-                <span class="hljs-keyword">this</span>[actionName] = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
-                  <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery({
-                    <span class="hljs-attr">params</span>: params,
-                    <span class="hljs-attr">request</span>: resource[actionName]
-                  });
-                }
-              }
-            }
-            <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.$properties_, resource.getState());
-          }<span class="hljs-keyword">else</span>{
-            <span class="hljs-built_in">Object</span>
-            .keys(options)
-            .forEach(<span class="hljs-function"><span class="hljs-params">resourceName</span> =&gt;</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+            <span class="hljs-keyword">this</span>.$transfer_ = <span class="hljs-literal">true</span>;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
@@ -415,6 +396,67 @@ BaseSelector.prototype.destroy = <span class="hljs-function"><span class="hljs-k
       <td class="docs header-docs" colspan="2">
         <div class="pilwrap ">
           <a class="pilcrow" href="#section-3">&#182;</a>
+        </div>
+        <p>swagger function</p>
+
+      </td>
+      
+      <td class="code">
+        <div class='highlight'><pre><div class='highlight'><pre>            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> options.actions === <span class="hljs-string">'function'</span>){
+              <span class="hljs-keyword">const</span> inst = <span class="hljs-keyword">new</span> options.actions();
+              <span class="hljs-keyword">const</span> keys = <span class="hljs-built_in">Object</span>.getOwnPropertyNames(inst.__proto__);
+              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, len = keys.length; i &lt; len; i++){
+                <span class="hljs-keyword">this</span>[keys[i]] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+                  <span class="hljs-keyword">if</span>(actionState[keys[i]] &amp;&amp; actionState[keys[i]].state){
+                    <span class="hljs-keyword">const</span> changes = [];
+                    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> stateName <span class="hljs-keyword">in</span> actionState[keys[i]].state){
+                      changes.push({
+                        <span class="hljs-attr">name</span>: stateName,
+                        <span class="hljs-attr">callback</span>: actionState[keys[i]].state[stateName]
+                      });
+                    }
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.execQuery({
+                      <span class="hljs-attr">response</span>: inst[keys[i]].apply(inst, args),
+                      <span class="hljs-attr">changes</span>: changes
+                    })
+                  }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">return</span> inst[keys[i]].apply(inst, args);
+                  }
+                }
+              }
+            }<span class="hljs-keyword">else</span>{
+              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options.actions){
+                <span class="hljs-built_in">Object</span>.assign(options.actions[key], actionState[key]);
+              }
+              options.initialState = <span class="hljs-keyword">this</span>.$properties_;
+              <span class="hljs-keyword">let</span> resource = <span class="hljs-keyword">this</span>.setResource(name, options);
+              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> actionName <span class="hljs-keyword">in</span> resource.$options_.actions){
+                <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>[actionName]){
+                  <span class="hljs-comment">// #! 升级方法</span>
+                  <span class="hljs-keyword">this</span>[actionName] = <span class="hljs-function">(<span class="hljs-params">params</span>) =&gt;</span> {
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.execQuery({
+                      <span class="hljs-attr">params</span>: params,
+                      <span class="hljs-attr">request</span>: resource[actionName]
+                    });
+                  }
+                }
+              }
+              <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.$properties_, resource.getState());
+            }
+          }<span class="hljs-keyword">else</span>{
+            <span class="hljs-built_in">Object</span>
+            .keys(options)
+            .forEach(<span class="hljs-function"><span class="hljs-params">resourceName</span> =&gt;</span> {</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+      </td>
+      
+    </tr>
+    
+    
+    <tr id='section-4'>
+      
+      <td class="docs header-docs" colspan="2">
+        <div class="pilwrap ">
+          <a class="pilcrow" href="#section-4">&#182;</a>
         </div>
         <p>resource = {
  getState,

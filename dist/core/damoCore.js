@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("react-router"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "seamless-immutable", "events", "rxjs", "cuid", "react-dom", "react-redux", "react-redux-loading-bar", "react-router", "recompose", "damo-redux", "hoist-non-react-statics", "isomorphic-fetch", "react-router-redux", "redux-promise-middleware", "redux-thunk"], factory);
+		define(["react", "seamless-immutable", "events", "react-router", "rxjs", "cuid", "react-dom", "react-redux", "react-redux-loading-bar", "recompose", "damo-redux", "hoist-non-react-statics", "isomorphic-fetch", "react-router-redux", "redux-promise-middleware", "redux-thunk"], factory);
 	else if(typeof exports === 'object')
-		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("react-router"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
-		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["react-router"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
+		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -59,19 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = undefined;
-
-	var _inject = __webpack_require__(10);
-
-	Object.keys(_inject).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _inject[key];
-	    }
-	  });
-	});
+	exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = exports.Link = undefined;
 
 	var _core = __webpack_require__(1);
 
@@ -97,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _createCrud = __webpack_require__(7);
+	var _createCrud = __webpack_require__(8);
 
 	Object.keys(_createCrud).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -109,26 +97,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _baseModel = __webpack_require__(6);
+	var _resource = __webpack_require__(33);
 
-	Object.keys(_baseModel).forEach(function (key) {
+	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
 	  Object.defineProperty(exports, key, {
 	    enumerable: true,
 	    get: function get() {
-	      return _baseModel[key];
-	    }
-	  });
-	});
-
-	var _poller = __webpack_require__(18);
-
-	Object.keys(_poller).forEach(function (key) {
-	  if (key === "default" || key === "__esModule") return;
-	  Object.defineProperty(exports, key, {
-	    enumerable: true,
-	    get: function get() {
-	      return _poller[key];
+	      return _resource[key];
 	    }
 	  });
 	});
@@ -145,7 +121,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _fetch = __webpack_require__(8);
+	var _baseModel = __webpack_require__(7);
+
+	Object.keys(_baseModel).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _baseModel[key];
+	    }
+	  });
+	});
+
+	var _inject = __webpack_require__(10);
+
+	Object.keys(_inject).forEach(function (key) {
+	  if (key === "default" || key === "__esModule") return;
+	  Object.defineProperty(exports, key, {
+	    enumerable: true,
+	    get: function get() {
+	      return _inject[key];
+	    }
+	  });
+	});
+
+	var _fetch = __webpack_require__(4);
 
 	Object.keys(_fetch).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -157,14 +157,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resource = __webpack_require__(33);
+	var _poller = __webpack_require__(19);
 
-	Object.keys(_resource).forEach(function (key) {
+	Object.keys(_poller).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
 	  Object.defineProperty(exports, key, {
 	    enumerable: true,
 	    get: function get() {
-	      return _resource[key];
+	      return _poller[key];
 	    }
 	  });
 	});
@@ -175,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(22);
+	var _reactDom = __webpack_require__(23);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -187,9 +187,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _router2 = _interopRequireDefault(_router);
 
-	var _reactRedux = __webpack_require__(23);
+	var _reactRedux = __webpack_require__(24);
 
-	var _reactRouter = __webpack_require__(25);
+	var _reactRouter = __webpack_require__(12);
 
 	var _useBasename = __webpack_require__(31);
 
@@ -201,25 +201,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * # starter入口
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - baseSelector.js - Selector基类
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - core.js - 核心工具方法
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - createCrud.js - 创建actionType和actionCreator等工厂方法
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - fetch.js - 接口调用模块
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - baseModel.js - Model基类
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - configureStore.development.js - 日常构建store
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - configureStore.production.js - 生产构建store
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; } /**
+	                                                                                                                                                                                                                   * # starter入口
+	                                                                                                                                                                                                                   *  - baseSelector.js - Selector基类
+	                                                                                                                                                                                                                   *  - componentDecorator.js - 组件装饰器(recompose的封装，涵盖redux.connect)
+	                                                                                                                                                                                                                   *  - core.js - 核心工具方法
+	                                                                                                                                                                                                                   *  - createCrud.js - 创建actionType和actionCreator等工厂方法
+	                                                                                                                                                                                                                   *  - fetch.js - 接口调用模块
+	                                                                                                                                                                                                                   *  - baseModel.js - Model基类
+	                                                                                                                                                                                                                   *  - configureStore.development.js - 日常构建store
+	                                                                                                                                                                                                                   *  - configureStore.production.js - 生产构建store
+	                                                                                                                                                                                                                   *  - createReducerFactory.js - 基于Model生成reducer的工厂方法
+	                                                                                                                                                                                                                   *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
+	                                                                                                                                                                                                                   * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
+	                                                                                                                                                                                                                   */
 
 
+	var Link = exports.Link = __webpack_require__(12).Link;
 	var configureStore = exports.configureStore = __webpack_require__(35);
 	var RxSelector = exports.RxSelector = __webpack_require__(41);
-	var RxComponent = exports.RxComponent = __webpack_require__(20);
+	var RxComponent = exports.RxComponent = __webpack_require__(21);
 
 	// #! require.context('./models', false, /\.js$/);
 	function autoLoadStore() {
@@ -294,9 +297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        children = void 0;
 	    if (keys.length < level) {
 	      name = keys.pop() || 'root';
-	      childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
-	        name: name
-	      });
+	      childRoute = (0, _router2.default)(Comp.routePath || name, Comp, { name: name });
 	      if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	        routes.push(childRoute);
 	      };
@@ -320,7 +321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        route.childRoutes = route.childRoutes || [];
 	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
 	          name: name
-	        });
+	        }, option.strict);
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          route.childRoutes.push(childRoute);
 	        }
@@ -328,7 +329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
 	          name: name,
 	          navKey: key
-	        });
+	        }, option.strict);
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          routes.push(childRoute);
 	        };
@@ -342,6 +343,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $$routes__: [],
 	  $$defaultModels__: {},
 	  $$store__: null,
+	  getRoutes: function getRoutes() {
+	    return damo.$$routes__;
+	  },
 	  init: function init() {
 	    var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    var defaultModels = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -355,13 +359,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return { defaultModels: defaultModels };
 	    });
 	  },
-	  model: function model(Models) {
+	  model: function model(name, Models, entity) {
 	    if (!damo.$$store__) {
 	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
+	    if (Models) {
+	      Models = _defineProperty({}, name, Models);
+	      if (entity) {
+	        Models[name] = (0, _resource.resource)(entity)(Models[name]);
+	      }
+	    } else {
+	      entity = Models;
+	      Models = name;
+	      if (entity) {
+	        Models = (0, _resource.resource)(entity)(Models);
+	      }
+	    }
 	    damo.$$store__.addModel(Models);
 	  },
-	  service: function service(Services) {
+	  service: function service(name, Services) {
+	    if (Services) {
+	      Services = _defineProperty({}, name, Services);
+	    } else {
+	      Services = name;
+	    }
 	    _inject.rcInject.setService(Services);
 	  },
 	  getModel: function getModel(modelName) {
@@ -413,36 +434,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return damo.$$store__.getModel(modelName).select(prop, true);
 	  },
-	  route: function route(path, RouteComponent, option) {
-	    var routeConfig = (0, _router2.default)(path, RouteComponent, option);
+	  route: function route(path, RouteComponent) {
+	    var option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	    var routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
 	    damo.$$routes__.push(routeConfig);
 
 	    return {
 	      route: function route(path, RouteComponent, option) {
 	        routeConfig.childRoutes = routeConfig.childRoutes || [];
-	        routeConfig.childRoutes.push((0, _router2.default)(path, RouteComponent, option));
+	        var _routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
+	        if (_routeConfig) {
+	          routeConfig.childRoutes.push(_routeConfig);
+	        }
 	      }
 	    };
 	  },
-	  autoLoadModels: function autoLoadModels(context, noHot) {
+	  autoLoadModels: function autoLoadModels(modelContext, resourceContext, noHot) {
 	    if (!damo.$$store__) {
 	      throw new Error('Application uninitialized，initliaze Application by damo.init');
 	    }
-	    if (!context) {
+	    if (!modelContext) {
 	      throw new Error('需要提供require.context的遍历列表！');
 	    }
 
 	    var defaultModels = Object.assign({}, damo.$$defaultModels__);
 
-	    context.keys().forEach(function (key) {
-	      defaultModels[key.split('/').pop().split('.')[0]] = context(key);
+	    modelContext.keys().forEach(function (key) {
+	      var model = modelContext(key);
+	      defaultModels[model.displayName || _path2.default.basename(key)] = model;
+	    });
+	    resourceContext.keys().forEach(function (key) {
+	      var entity = modelContext(key);
+	      var name = entity.displayName || _path2.default.basename(key);
+	      if (defaultModels[name]) {
+	        defaultModels[name] = (0, _resource.resource)(entity)(defaultModels[name]);
+	      };
 	    });
 
 	    configureStore.replace(damo.$$store__, defaultModels);
 
 	    if (false) {
-	      module.hot.accept(context.id, function () {
-	        damo.autoLoadModels(context, true);
+	      module.hot.accept(modelContext.id, function () {
+	        damo.autoLoadModels(modelContext, true);
 	      });
 	    }
 	  },
@@ -515,6 +549,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _reactDom2.default.render(RootComponent, DOM);
 	  }
 	};
+
+	var exportObj = {
+	  BaseSelector: _baseSelector.BaseSelector,
+	  BaseModel: _baseModel.BaseModel,
+	  injector: _inject.rcInject,
+	  Api: _fetch.Api,
+	  Poller: _poller.Poller,
+	  run: damo.bootstrap
+	};
+
+	Object.assign(damo, exportObj);
 
 	exports.default = damo;
 
@@ -805,12 +850,278 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+	                                                                                                                                                                                                                                                                               * # 接口调用模块
+	                                                                                                                                                                                                                                                                               * 1. 封装ES7的fetch模块
+	                                                                                                                                                                                                                                                                               * 2. 对外提供get, post, delete, put静态方法，分别调用不同类型的接口
+	                                                                                                                                                                                                                                                                               * 3. 对外开发errorhandler和mock数据的接口
+	                                                                                                                                                                                                                                                                               */
+
+
+	exports.Api = Api;
+
+	var _isomorphicFetch = __webpack_require__(47);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _core = __webpack_require__(1);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HttpCodes = {
+	  OK: 200,
+	  ERROR: 301
+	};
+
+	var constants = {
+	  APP_JSON_HEADER: 'application/json',
+	  SAME_ORIGIN: 'same-origin',
+	  INCLUDE: 'include'
+
+	  /**
+	   * + 接口数据解析，所有的接口数据都会已json格式进行解析
+	   */
+	};function parseJSON(response, errorNotification, uri) {
+	  return response.json().then(function (res) {
+	    return Api.errorHandler(res, errorNotification, uri);
+	  });
+	}
+
+	Api.errorHandler = function (res, errorNotification) {
+	  return res;
+	};
+	Api.validateHandler = function (data, ajaxOption) {
+	  return Object.assign({}, data);
+	};
+	/**
+	 * + 错误处理处理
+	 * > see: see: http://php.net/manual/en/function.http-response-code.php
+	 * > see: https://stackoverflow.com/questions/34304335/redux-using-async-middlewares-vs-dispatching-actions-on-success-functions
+	 */
+	function checkStatus(response, errorNotification) {
+	  if (errorNotification && errorNotification.quiet) return response;
+
+	  if (response.status < HttpCodes.OK || response.status >= HttpCodes.ERROR) {
+	    var error = new Error(response.statusText);
+	    try {
+	      error.response = response.json();
+	    } catch (e) {
+	      error.response = response.text();
+	    }
+	    error.errorNotification = errorNotification;
+	    throw error;
+	  }
+	  return response;
+	}
+
+	/**
+	 * + mock数据
+	 * 1. 在生产环境，直接抛弃mock逻辑
+	 * 2. 在日常环境，当地址栏参数debug=true或者window.DEBUG=true，同时接口url包含proxy=true参数时，触发mock数据逻辑
+	 * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`damo-mocker`模块提供
+	 */
+	var doFetch = void 0;
+	if (true) {
+	  doFetch = _isomorphicFetch2.default;
+	} else {
+	  if (location.search.indexOf('debug=true') > -1 || window.DEBUG) {
+	    doFetch = function doFetch(uri, options) {
+	      if (Api.getMockUrl && uri.indexOf('proxy=true') > -1) {
+	        var tmp = uri.split('?');
+	        var url = tmp[0].replace(location.protocol + '//' + location.hostname, '').replace(/^[:\d]*/, '').replace(/\/\{[^\}]*\}/, '');
+	        var params = {};
+	        tmp[1].split('&').forEach(function (str) {
+	          var s = str.split('=');
+	          params[s[0]] = s[1];
+	        });
+	        uri = Api.getMockUrl(url, params, options);
+	      }
+	      return (0, _isomorphicFetch2.default)(uri, options);
+	    };
+	  } else {
+	    doFetch = _isomorphicFetch2.default;
+	  }
+	}
+
+	function isValidParamValue(val) {
+	  var t = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+	  // #! If the type of val is null, undefined, number, string, boolean, return TRUE.
+	  return val == null || t !== 'object' && t !== 'function';
+	}
+	/**
+	 * + 参数序列化，参考与kissy的param
+	 * > see: https://g.alicdn.com/??kissy/k/6.2.4/seed.js#stringify
+	 * > see: http://unixpapa.com/js/querystring.html
+	 */
+	var SEP = '&';
+	var EMPTY = '';
+	var undef;
+	var urlEncode = encodeURIComponent;
+	var toString = {}.toString;
+	var EQ = '=';
+	function param(o, sep, eq, serializeArray) {
+	  sep = sep || SEP;
+	  eq = eq || EQ;
+	  if (serializeArray === undef) {
+	    serializeArray = true;
+	  }
+	  var buf = [];
+	  var key;
+	  var i;
+	  var v;
+	  var len;
+	  var val;
+	  for (key in o) {
+	    val = o[key];
+	    var originalKey = key;
+	    key = urlEncode(key);
+
+	    //#! val is valid non-array value
+	    if (isValidParamValue(val)) {
+	      buf.push(key);
+	      if (val !== undef) {
+	        buf.push(eq, urlEncode(val + EMPTY));
+	      }
+	      buf.push(sep);
+	    } else if (Array.isArray(val)) {
+	      //#! val is not empty array
+	      for (i = 0, len = val.length; i < len; ++i) {
+	        v = val[i];
+	        if (isValidParamValue(v)) {
+	          buf.push(key, serializeArray && originalKey.slice(0 - 2) !== '[]' ? urlEncode('[]') : EMPTY);
+	          if (v !== undef) {
+	            buf.push(eq, urlEncode(v + EMPTY));
+	          }
+	          buf.push(sep);
+	        }
+	      }
+	    }
+	    //#! ignore other cases, including empty array, Function, RegExp, Date etc.
+	  }
+	  buf.pop();
+	  return buf.join(EMPTY);
+	}
+	/**
+	 * ### API Context
+	 * Api本身可以通过new来初始化，通过配置的method属性指定调用方法
+	 * 
+	 * |     方法名   |          描述          |       参数        |    默认参数      |
+	 * |:    ------  |         ------        |       ------      |        ------   |
+	 * | get | 调用get请求    | {uri: String, body: Object, params: Object, headers: Object } |         NA      |
+	 * | post | 调用post请求    | 同get |         NA      |
+	 * | put | 调用put请求    | 同get |         NA      |
+	 * | delete | 调用delete请求    | 同get |         NA      |
+	 * | errorHandler | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
+	 * | getMockUrl | 接口mock路径的开放接口    | {url: String, params: 接口参数, options: ajax配置} |         NA      |
+	 */
+	function Api(ajaxOption) {
+	  var method = ajaxOption.method.toLocaleUpperCase();
+	  var body = Api.validateHandler(ajaxOption.data || ajaxOption.params, ajaxOption);
+	  var headers = void 0;
+	  if (ajaxOption.headers) {
+	    if (ajaxOption.headers.target) {
+	      headers = Object.assign({}, ajaxOption.headers);
+	      headers.target = (0, _core.substitute)(headers.target, body, true);
+	    } else {
+	      headers = ajaxOption.headers;
+	    }
+	  }
+	  var credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
+	  var uri = (0, _core.substitute)(ajaxOption.url, body, true);
+
+	  switch (method) {
+	    case 'POST':
+	    case 'PUT':
+	      return Api.postput(uri, method, body, headers, credential, ajaxOption.errorNotification);
+	    case 'DELETE':
+	      return Api.delete((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), headers, credential, ajaxOption.errorNotification);
+	    case 'GET':
+	    default:
+	      return Api.get((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), headers, credential, ajaxOption.errorNotification);
+	  }
+	}
+
+	Api.headers = Object.assign(window.ajaxHeader || {}, {
+	  'Accept': constants.APP_JSON_HEADER,
+	  'Content-Type': constants.APP_JSON_HEADER
+	});
+	Api.doFetch = doFetch;
+
+	Object.assign(Api, {
+	  success: function success(res) {
+	    return Promise.resolve(res);
+	  },
+	  error: function error(err) {
+	    return Promise.reject(err);
+	  },
+	  get: function get(uri, headers, credential, errorNotification) {
+	    return doFetch(uri, {
+	      method: 'GET',
+	      credentials: constants[credential],
+	      headers: headers || Api.headers
+	    }).then(function (response) {
+	      return checkStatus(response, errorNotification);
+	    }).then(function (response) {
+	      return parseJSON(response, errorNotification, uri);
+	    });
+	  },
+	  delete: function _delete(uri, headers, credential, errorNotification) {
+	    return doFetch(uri, {
+	      method: 'DELETE',
+	      credentials: constants[credential],
+	      headers: headers || Api.headers
+	    }).then(function (response) {
+	      return checkStatus(response, errorNotification);
+	    }).then(function (response) {
+	      return parseJSON(response, errorNotification, uri);
+	    });
+	  },
+	  postput: function postput(uri, method, data, headers, credential, errorNotification) {
+	    return doFetch(uri, {
+	      method: method,
+	      credentials: constants[credential],
+	      headers: headers || Api.headers,
+	      body: JSON.stringify(data)
+	    }).then(function (response) {
+	      return checkStatus(response, errorNotification);
+	    }).then(function (response) {
+	      return parseJSON(response, errorNotification, uri);
+	    });
+	  },
+	  post: function post(uri, data, headers, credential, errorNotification) {
+	    return Api.postput(uri, 'POST', data, headers, credential, errorNotification);
+	  },
+	  put: function put(uri, data, headers, credential, errorNotification) {
+	    return Api.postput(uri, 'PUT', data, headers, credential, errorNotification);
+	  }
+	});
+
+	/**
+	 * + 需要在业务中实现这个方法来集成
+	 */
+	// Api.getMockUrl = function(url, params, options){
+	//   if(url.indexOf('.json') === -1){
+	//     url = url + '.json';
+	//   }
+	//   return '/mocks' + url;
+	// }
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -876,7 +1187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -894,13 +1205,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    * 2. Model的实现基于事件机制，方便绑定自定义事件
 	                    */
 
-	var _fetch = __webpack_require__(8);
+	var _fetch = __webpack_require__(4);
 
-	var _createCrud = __webpack_require__(7);
+	var _createCrud = __webpack_require__(8);
 
-	var _poller = __webpack_require__(18);
+	var _poller = __webpack_require__(19);
 
-	var _cuid = __webpack_require__(21);
+	var _cuid = __webpack_require__(22);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
@@ -908,7 +1219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _events = __webpack_require__(11);
 
-	var _seamlessImmutable = __webpack_require__(4);
+	var _seamlessImmutable = __webpack_require__(5);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -920,9 +1231,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var defaultProcessData = function defaultProcessData(res) {
-	  return res.data;
-	};
 	var BaseModel = exports.BaseModel = (_temp = _class = function (_EventEmitter) {
 	  _inherits(BaseModel, _EventEmitter);
 
@@ -1089,7 +1397,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function execQuery(ajaxOption, changeOption) {
 	      return this.getQuery(ajaxOption, changeOption, this.dispatch);
 	    }
+	  }, {
+	    key: 'setState',
+	    value: function setState(options) {
+	      var promises = [];
+	      for (var key in options) {
+	        if (options[key].change) {
+	          options[key].change = {
+	            name: key,
+	            callback: options[key].change
+	          };
+	        } else {
+	          options[key].change = {
+	            name: key,
+	            callback: function callback(data) {
+	              return data;
+	            }
+	          };
+	        }
+	        promises.push(this.execQuery(options[key]));
+	      }
 
+	      if (promises.length === 1) {
+	        return promises[0];
+	      } else {
+	        var _promise = Promise.all[promises];
+	        _promise.fromSubscribe = function (callback) {
+	          if (callback) {
+	            _promise.then(function (res) {
+	              callback(null, res);
+	            }, callback);
+	          }
+	          return _promise;
+	        };
+	        return _promise;
+	      }
+	    }
 	    /**
 	     * ### 更新store的执行方法
 	     *  + ajaxOption配置，用于发ajax请求获取到接口数据
@@ -1184,7 +1527,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        actionReducer = function actionReducer(dispatch) {
 	          var extraOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	          var processData = extraOption.processData || opt.processData || defaultProcessData;
+	          var processData = extraOption.processData || opt.processData || BaseModel.processData;
 	          var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	          var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -1250,7 +1593,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var actionReducer = function actionReducer(dispatch) {
 	        var extraOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	        var processData = extraOption.processData || opt.processData || defaultProcessData;
+	        var processData = extraOption.processData || opt.processData || BaseModel.processData;
 	        var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	        var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -1350,10 +1693,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return BaseModel;
-	}(_events.EventEmitter), _class.appStore = null, _class.ASSIGN_TYPES = _createCrud.changeOperators, _temp);
+	}(_events.EventEmitter), _class.processData = function (res) {
+	  return res;
+	}, _class.appStore = null, _class.ASSIGN_TYPES = _createCrud.changeOperators, _temp);
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1622,272 +1967,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
-	                                                                                                                                                                                                                                                                               * # 接口调用模块
-	                                                                                                                                                                                                                                                                               * 1. 封装ES7的fetch模块
-	                                                                                                                                                                                                                                                                               * 2. 对外提供get, post, delete, put静态方法，分别调用不同类型的接口
-	                                                                                                                                                                                                                                                                               * 3. 对外开发errorhandler和mock数据的接口
-	                                                                                                                                                                                                                                                                               */
-
-
-	exports.Api = Api;
-
-	var _isomorphicFetch = __webpack_require__(47);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _core = __webpack_require__(1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var HttpCodes = {
-	  OK: 200,
-	  ERROR: 301
-	};
-
-	var constants = {
-	  APP_JSON_HEADER: 'application/json',
-	  SAME_ORIGIN: 'same-origin',
-	  INCLUDE: 'include'
-
-	  /**
-	   * + 接口数据解析，所有的接口数据都会已json格式进行解析
-	   */
-	};function parseJSON(response, errorNotification, uri) {
-	  return response.json().then(function (res) {
-	    return Api.errorHandler(res, errorNotification, uri);
-	  });
-	}
-
-	Api.errorHandler = function (res, errorNotification) {
-	  return res;
-	};
-	Api.validateHandler = function (data, ajaxOption) {
-	  return Object.assign({}, data);
-	};
-	/**
-	 * + 错误处理处理
-	 * > see: see: http://php.net/manual/en/function.http-response-code.php
-	 * > see: https://stackoverflow.com/questions/34304335/redux-using-async-middlewares-vs-dispatching-actions-on-success-functions
-	 */
-	function checkStatus(response, errorNotification) {
-	  if (errorNotification && errorNotification.quiet) return response;
-
-	  if (response.status < HttpCodes.OK || response.status >= HttpCodes.ERROR) {
-	    var error = new Error(response.statusText);
-	    try {
-	      error.response = response.json();
-	    } catch (e) {
-	      error.response = response.text();
-	    }
-	    error.errorNotification = errorNotification;
-	    throw error;
-	  }
-	  return response;
-	}
-
-	/**
-	 * + mock数据
-	 * 1. 在生产环境，直接抛弃mock逻辑
-	 * 2. 在日常环境，当地址栏参数debug=true或者window.DEBUG=true，同时接口url包含proxy=true参数时，触发mock数据逻辑
-	 * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`damo-mocker`模块提供
-	 */
-	var doFetch = void 0;
-	if (true) {
-	  doFetch = _isomorphicFetch2.default;
-	} else {
-	  if (location.search.indexOf('debug=true') > -1 || window.DEBUG) {
-	    doFetch = function doFetch(uri, options) {
-	      if (Api.getMockUrl && uri.indexOf('proxy=true') > -1) {
-	        var tmp = uri.split('?');
-	        var url = tmp[0].replace(location.protocol + '//' + location.hostname, '').replace(/^[:\d]*/, '').replace(/\/\{[^\}]*\}/, '');
-	        var params = {};
-	        tmp[1].split('&').forEach(function (str) {
-	          var s = str.split('=');
-	          params[s[0]] = s[1];
-	        });
-	        uri = Api.getMockUrl(url, params, options);
-	      }
-	      return (0, _isomorphicFetch2.default)(uri, options);
-	    };
-	  } else {
-	    doFetch = _isomorphicFetch2.default;
-	  }
-	}
-
-	function isValidParamValue(val) {
-	  var t = typeof val === 'undefined' ? 'undefined' : _typeof(val);
-	  // #! If the type of val is null, undefined, number, string, boolean, return TRUE.
-	  return val == null || t !== 'object' && t !== 'function';
-	}
-	/**
-	 * + 参数序列化，参考与kissy的param
-	 * > see: https://g.alicdn.com/??kissy/k/6.2.4/seed.js#stringify
-	 * > see: http://unixpapa.com/js/querystring.html
-	 */
-	var SEP = '&';
-	var EMPTY = '';
-	var undef;
-	var urlEncode = encodeURIComponent;
-	var toString = {}.toString;
-	var EQ = '=';
-	function param(o, sep, eq, serializeArray) {
-	  sep = sep || SEP;
-	  eq = eq || EQ;
-	  if (serializeArray === undef) {
-	    serializeArray = true;
-	  }
-	  var buf = [];
-	  var key;
-	  var i;
-	  var v;
-	  var len;
-	  var val;
-	  for (key in o) {
-	    val = o[key];
-	    var originalKey = key;
-	    key = urlEncode(key);
-
-	    //#! val is valid non-array value
-	    if (isValidParamValue(val)) {
-	      buf.push(key);
-	      if (val !== undef) {
-	        buf.push(eq, urlEncode(val + EMPTY));
-	      }
-	      buf.push(sep);
-	    } else if (Array.isArray(val)) {
-	      //#! val is not empty array
-	      for (i = 0, len = val.length; i < len; ++i) {
-	        v = val[i];
-	        if (isValidParamValue(v)) {
-	          buf.push(key, serializeArray && originalKey.slice(0 - 2) !== '[]' ? urlEncode('[]') : EMPTY);
-	          if (v !== undef) {
-	            buf.push(eq, urlEncode(v + EMPTY));
-	          }
-	          buf.push(sep);
-	        }
-	      }
-	    }
-	    //#! ignore other cases, including empty array, Function, RegExp, Date etc.
-	  }
-	  buf.pop();
-	  return buf.join(EMPTY);
-	}
-	/**
-	 * ### API Context
-	 * Api本身可以通过new来初始化，通过配置的method属性指定调用方法
-	 * 
-	 * |     方法名   |          描述          |       参数        |    默认参数      |
-	 * |:    ------  |         ------        |       ------      |        ------   |
-	 * | get | 调用get请求    | {uri: String, body: Object, params: Object, headers: Object } |         NA      |
-	 * | post | 调用post请求    | 同get |         NA      |
-	 * | put | 调用put请求    | 同get |         NA      |
-	 * | delete | 调用delete请求    | 同get |         NA      |
-	 * | errorHandler | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
-	 * | getMockUrl | 接口mock路径的开放接口    | {url: String, params: 接口参数, options: ajax配置} |         NA      |
-	 */
-	function Api(ajaxOption) {
-	  var method = ajaxOption.method.toLocaleUpperCase();
-	  var body = Api.validateHandler(ajaxOption.data || ajaxOption.params, ajaxOption);
-	  var headers = void 0;
-	  if (ajaxOption.headers) {
-	    if (ajaxOption.headers.target) {
-	      headers = Object.assign({}, ajaxOption.headers);
-	      headers.target = (0, _core.substitute)(headers.target, body, true);
-	    } else {
-	      headers = ajaxOption.headers;
-	    }
-	  }
-	  var credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
-	  var uri = (0, _core.substitute)(ajaxOption.url, body, true);
-
-	  switch (method) {
-	    case 'POST':
-	    case 'PUT':
-	      return Api.postput(uri, method, body, ajaxOption.errorNotification, headers, credential);
-	    case 'DELETE':
-	      return Api.delete((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), ajaxOption.errorNotification, headers, credential);
-	    case 'GET':
-	    default:
-	      return Api.get((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), ajaxOption.errorNotification, headers, credential);
-	  }
-	}
-
-	Api.headers = Object.assign(window.ajaxHeader || {}, {
-	  'Accept': constants.APP_JSON_HEADER,
-	  'Content-Type': constants.APP_JSON_HEADER
-	});
-	Api.doFetch = doFetch;
-
-	Object.assign(Api, {
-	  success: function success(res) {
-	    return Promise.resolve(res);
-	  },
-	  error: function error(err) {
-	    return Promise.reject(err);
-	  },
-	  get: function get(uri, errorNotification, headers, credential) {
-	    return doFetch(uri, {
-	      method: 'GET',
-	      credentials: constants[credential],
-	      headers: headers || Api.headers
-	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
-	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
-	    });
-	  },
-	  delete: function _delete(uri, errorNotification, headers, credential) {
-	    return doFetch(uri, {
-	      method: 'DELETE',
-	      credentials: constants[credential],
-	      headers: headers || Api.headers
-	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
-	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
-	    });
-	  },
-	  postput: function postput(uri, method, data, errorNotification, headers, credential) {
-	    return doFetch(uri, {
-	      method: method,
-	      credentials: constants[credential],
-	      headers: headers || Api.headers,
-	      body: JSON.stringify(data)
-	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
-	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
-	    });
-	  },
-	  post: function post(uri, data, errorNotification, headers, credential) {
-	    return Api.postput(uri, 'POST', data, errorNotification, headers, credential);
-	  },
-	  put: function put(uri, data, errorNotification, headers, credential) {
-	    return Api.postput(uri, 'PUT', data, errorNotification, headers, credential);
-	  }
-	});
-
-	/**
-	 * + 需要在业务中实现这个方法来集成
-	 */
-	// Api.getMockUrl = function(url, params, options){
-	//   if(url.indexOf('.json') === -1){
-	//     url = url + '.json';
-	//   }
-	//   return '/mocks' + url;
-	// }
-
-/***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1902,7 +1981,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _class, _temp;
 
-	var _fetch = __webpack_require__(8);
+	var _fetch = __webpack_require__(4);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2250,6 +2329,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ function(module, exports) {
 
+	module.exports = __WEBPACK_EXTERNAL_MODULE_13__;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -2269,7 +2354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2289,21 +2374,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    */
 
 
-	var _rxjs = __webpack_require__(12);
+	var _rxjs = __webpack_require__(13);
 
 	var _rxjs2 = _interopRequireDefault(_rxjs);
 
 	var _resourceModel = __webpack_require__(9);
 
-	var _createCrud = __webpack_require__(7);
+	var _createCrud = __webpack_require__(8);
 
-	var _fetch = __webpack_require__(8);
+	var _fetch = __webpack_require__(4);
 
-	var _seamlessImmutable = __webpack_require__(4);
+	var _seamlessImmutable = __webpack_require__(5);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
-	var _resourceCRUD = __webpack_require__(15);
+	var _resourceCRUD = __webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2313,7 +2398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return d;
 	};
 	var defaultProcessData = function defaultProcessData(res) {
-	  return res.data;
+	  return res;
 	};
 
 	var BaseResource = exports.BaseResource = (_temp = _class = function () {
@@ -2766,7 +2851,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(), _class.validate = function () {}, _class.ASSIGN_METHODS = _resourceCRUD.resourceCRUD, _temp);
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3018,7 +3103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3033,9 +3118,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.resource = resource;
 
-	var _resource = __webpack_require__(14);
+	var _resource = __webpack_require__(15);
 
-	var _hotStaticResource = __webpack_require__(13);
+	var _hotStaticResource = __webpack_require__(14);
 
 	var _core = __webpack_require__(1);
 
@@ -3043,7 +3128,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseSelector = __webpack_require__(3);
 
-	var _seamlessImmutable = __webpack_require__(4);
+	var _fetch = __webpack_require__(4);
+
+	var _seamlessImmutable = __webpack_require__(5);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -3108,6 +3195,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  return function (Model) {
+	    actionState = actionState || Model.actions;
+
 	    var NewModel = function (_Model) {
 	      _inherits(NewModel, _Model);
 
@@ -3200,7 +3289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              if (!_this2[actionName]) {
 	                // #! 升级方法
 	                _this2[actionName] = function (params) {
-	                  return _this2.getQuery({
+	                  return _this2.execQuery({
 	                    params: params,
 	                    request: resource[actionName]
 	                  });
@@ -3215,31 +3304,67 @@ return /******/ (function(modules) { // webpackBootstrap
 	          })();
 	        } else {
 	          if (actionState) {
-	            (function () {
-	              _this2.$transfer_ = true;
-	              for (var key in options.actions) {
-	                Object.assign(options.actions[key], actionState[key]);
-	              }
-	              options.initialState = _this2.$properties_;
-	              var resource = _this2.setResource(name, options);
+	            _this2.$transfer_ = true;
+	            // swagger function
+	            if (typeof options.actions === 'function') {
+	              (function () {
+	                var inst = new options.actions();
+	                var keys = Object.getOwnPropertyNames(inst.__proto__);
 
-	              var _loop3 = function _loop3(actionName) {
-	                if (!_this2[actionName]) {
-	                  // #! 升级方法
-	                  _this2[actionName] = function (params) {
-	                    return _this2.getQuery({
-	                      params: params,
-	                      request: resource[actionName]
-	                    });
+	                var _loop3 = function _loop3(i, len) {
+	                  _this2[keys[i]] = function () {
+	                    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	                      args[_key] = arguments[_key];
+	                    }
+
+	                    if (actionState[keys[i]] && actionState[keys[i]].state) {
+	                      var changes = [];
+	                      for (var stateName in actionState[keys[i]].state) {
+	                        changes.push({
+	                          name: stateName,
+	                          callback: actionState[keys[i]].state[stateName]
+	                        });
+	                      }
+	                      return _this2.execQuery({
+	                        response: inst[keys[i]].apply(inst, args),
+	                        changes: changes
+	                      });
+	                    } else {
+	                      return inst[keys[i]].apply(inst, args);
+	                    }
 	                  };
-	                }
-	              };
+	                };
 
-	              for (var actionName in resource.$options_.actions) {
-	                _loop3(actionName);
-	              }
-	              Object.assign(_this2.$properties_, resource.getState());
-	            })();
+	                for (var i = 0, len = keys.length; i < len; i++) {
+	                  _loop3(i, len);
+	                }
+	              })();
+	            } else {
+	              (function () {
+	                for (var key in options.actions) {
+	                  Object.assign(options.actions[key], actionState[key]);
+	                }
+	                options.initialState = _this2.$properties_;
+	                var resource = _this2.setResource(name, options);
+
+	                var _loop4 = function _loop4(actionName) {
+	                  if (!_this2[actionName]) {
+	                    // #! 升级方法
+	                    _this2[actionName] = function (params) {
+	                      return _this2.execQuery({
+	                        params: params,
+	                        request: resource[actionName]
+	                      });
+	                    };
+	                  }
+	                };
+
+	                for (var actionName in resource.$options_.actions) {
+	                  _loop4(actionName);
+	                }
+	                Object.assign(_this2.$properties_, resource.getState());
+	              })();
+	            }
 	          } else {
 	            Object.keys(options).forEach(function (resourceName) {
 	              /**
@@ -3303,7 +3428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3314,13 +3439,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createReducerFactory = createReducerFactory;
 	exports.createReducerAndModels = createReducerAndModels;
 
-	var _seamlessImmutable = __webpack_require__(4);
+	var _seamlessImmutable = __webpack_require__(5);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
-	var _createCrud = __webpack_require__(7);
+	var _createCrud = __webpack_require__(8);
 
-	var _baseModel = __webpack_require__(6);
+	var _baseModel = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3426,7 +3551,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3545,7 +3670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3557,7 +3682,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3593,7 +3718,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ob;
 	  };
 
-	  var Rx = __webpack_require__(12);
+	  var Rx = __webpack_require__(13);
 
 	  var RxComponent = (_temp2 = _class = function (_Component) {
 	    _inherits(RxComponent, _Component);
@@ -3651,12 +3776,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_21__;
-
-/***/ },
 /* 22 */
 /***/ function(module, exports) {
 
@@ -3708,7 +3827,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(5);
+	var _warning = __webpack_require__(6);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3758,7 +3877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(5);
+	var _warning = __webpack_require__(6);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3782,7 +3901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(5);
+	var _warning = __webpack_require__(6);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -3813,7 +3932,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _warning = __webpack_require__(5);
+	var _warning = __webpack_require__(6);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -4031,7 +4150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _resource = __webpack_require__(14);
+	var _resource = __webpack_require__(15);
 
 	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -4043,7 +4162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceCRUD = __webpack_require__(15);
+	var _resourceCRUD = __webpack_require__(16);
 
 	Object.keys(_resourceCRUD).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -4067,7 +4186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceDecorator = __webpack_require__(16);
+	var _resourceDecorator = __webpack_require__(17);
 
 	Object.keys(_resourceDecorator).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -4160,17 +4279,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(22);
+	var _reactDom = __webpack_require__(23);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _resourceDecorator = __webpack_require__(16);
+	var _resourceDecorator = __webpack_require__(17);
 
 	var _resourceModel = __webpack_require__(9);
 
-	var _hotStaticResource = __webpack_require__(13);
+	var _hotStaticResource = __webpack_require__(14);
 
-	var _baseModel = __webpack_require__(6);
+	var _baseModel = __webpack_require__(7);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4328,13 +4447,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = configureStore;
 
-	var _rx = __webpack_require__(19);
+	var _rx = __webpack_require__(20);
 
 	var _reduxThunk = __webpack_require__(50);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reactRouter = __webpack_require__(25);
+	var _reactRouter = __webpack_require__(12);
 
 	var _reactRouterRedux = __webpack_require__(48);
 
@@ -4342,11 +4461,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 
-	var _reactReduxLoadingBar = __webpack_require__(24);
+	var _reactReduxLoadingBar = __webpack_require__(25);
 
 	var _loadingBarMiddleware = __webpack_require__(38);
 
-	var _createReducerFactory = __webpack_require__(17);
+	var _createReducerFactory = __webpack_require__(18);
 
 	var _enhanceStore = __webpack_require__(37);
 
@@ -4436,17 +4555,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.default = enhanceStore;
 
-	var _baseModel = __webpack_require__(6);
+	var _baseModel = __webpack_require__(7);
 
 	var _baseSelector = __webpack_require__(3);
 
 	var _core = __webpack_require__(1);
 
-	var _createReducerFactory = __webpack_require__(17);
+	var _createReducerFactory = __webpack_require__(18);
 
-	var _rx = __webpack_require__(19);
+	var _rx = __webpack_require__(20);
 
-	var _seamlessImmutable = __webpack_require__(4);
+	var _seamlessImmutable = __webpack_require__(5);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -4527,7 +4646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.loadingBarMiddleware = loadingBarMiddleware;
 
-	var _reactReduxLoadingBar = __webpack_require__(24);
+	var _reactReduxLoadingBar = __webpack_require__(25);
 
 	var defaultTypeSuffixes = ['PENDING', 'FULFILLED', 'REJECTED'];
 
@@ -4577,11 +4696,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(2);
 
-	var _reactRedux = __webpack_require__(23);
+	var _reactRedux = __webpack_require__(24);
 
 	var _recompose = __webpack_require__(26);
 
-	var _cuid = __webpack_require__(21);
+	var _cuid = __webpack_require__(22);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
@@ -4713,9 +4832,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  composeArgs.push(function (BaseComponent) {
 	    var contextTypes = {};
 	    var services = {};
+	    var parentContextTypes = [];
 
 	    for (var key in BaseComponent.contextTypes) {
 	      contextTypes[key] = BaseComponent.contextTypes[key];
+	      parentContextTypes.push(key);
 	      services[key] = _inject.rcInject.getService(key);
 	    }
 	    delete services.selector;
@@ -4736,6 +4857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var Component = (0, _reactRedux.connect)(inputs, outputs)(BaseComponent);
+	    Component.__view__ = true;
 
 	    var handleChange = Component.prototype.handleChange;
 
@@ -4758,6 +4880,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.$services_ = services;
 
+	      parentContextTypes.forEach(function (name) {
+	        // #! 如果全局没有这个服务，那么从父级继承下来
+	        if (!services[name]) {
+	          services[name] = getParantService.call(_this, name);
+	        }
+	      });
 	      // #! 初始化所有的context
 	      eachProvider(providers, function (Provider, key) {
 	        var name = key || Provider.displayName;
@@ -5007,7 +5135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(2);
 
-	function router(path, RouteComponent, option) {
+	function router(path, RouteComponent, option, strict) {
 	  var routeConfig = void 0;
 	  if (Object(path) === path) {
 	    if (path.path && path.component) {
@@ -5018,7 +5146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path = RouteComponent.routePath;
 	    }
 	  }
-	  if (RouteComponent.prototype === undefined) {
+	  if (RouteComponent.prototype === undefined || strict && name !== 'root' && !RouteComponent.__view__) {
 	    return null;
 	  }
 	  if (!routeConfig) {
@@ -5078,8 +5206,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	if (true) {
-	  var Rx = __webpack_require__(12);
-	  var RxComponent = __webpack_require__(20);
+	  var Rx = __webpack_require__(13);
+	  var RxComponent = __webpack_require__(21);
 	  var SUBSCRIBE_NS = 'subscribe.';
 
 	  var RxSelector = function (_BaseSelector) {

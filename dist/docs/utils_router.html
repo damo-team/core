@@ -235,7 +235,7 @@
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">router</span>(<span class="hljs-params">path, RouteComponent, option</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">router</span>(<span class="hljs-params">path, RouteComponent, option, strict</span>) </span>{
   <span class="hljs-keyword">let</span> routeConfig;
   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(path) === path) {
     <span class="hljs-keyword">if</span> (path.path &amp;&amp; path.component) {
@@ -246,7 +246,7 @@
       path = RouteComponent.routePath;
     }
   }
-  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span>){
+  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; name !== <span class="hljs-string">'root'</span> &amp;&amp; !RouteComponent.__view__)){
     <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
   }
   <span class="hljs-keyword">if</span> (!routeConfig) {
