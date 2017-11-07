@@ -39,6 +39,7 @@ import {Router, browserHistory} from 'react-router';
 import useBasename from 'history/lib/useBasename';
 
 import {View} from './utils/componentDecorator';
+export const Link = require('react-router').Link;
 export const configureStore = require('./store/configureStore');
 export const RxSelector = require('./utils/rxSelector');
 export const RxComponent = require('./utils/rxComponent');
@@ -360,12 +361,12 @@ const damo = {
 }
 
 const exportObj = {
-  run: damo.bootstrap,
   BaseSelector: BaseSelector,
   BaseModel: BaseModel,
   injector: rcInject,
   Api: Api,
-  Poller: Poller
+  Poller: Poller,
+  run: damo.bootstrap
 };
 
 Object.assign(damo, exportObj);

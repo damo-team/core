@@ -6,7 +6,8 @@ import damo, {
   Input,
   BaseSelector,
   Api,
-  dispatch
+  dispatch,
+  Link
 } from '../../src/index'; // #! damo-core
 
 // User数据模型，负责把数据写入到状态容器
@@ -53,6 +54,10 @@ class Root extends Component {
   }
 
   componentWillMount(){
+    this.props.location.query = {
+      a: 1
+    };
+    this.context.router.replace(this.props.location)
     this.props.getUser();
   }
 
