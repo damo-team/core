@@ -166,12 +166,12 @@ export function Api(ajaxOption){
   switch(method){
     case 'POST':
     case 'PUT':
-      return Api.postput(uri, method, body, ajaxOption.errorNotification, headers, credential);
+      return Api.postput(uri, method, body, headers, credential, ajaxOption.errorNotification);
     case 'DELETE':
-      return Api.delete(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, ajaxOption.errorNotification, headers, credential)
+      return Api.delete(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, headers, credential, ajaxOption.errorNotification)
     case 'GET':
     default:
-      return Api.get(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, ajaxOption.errorNotification, headers, credential)
+      return Api.get(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, headers, credential, ajaxOption.errorNotification)
   }
 }
 
@@ -188,7 +188,7 @@ Object.assign(Api, {
   error(err){
     return Promise.reject(err);
   },
-  get(uri, errorNotification, headers, credential){
+  get(uri,  headers, credential, errorNotification){
     return doFetch(uri,
     {
       method: 'GET',
@@ -198,7 +198,7 @@ Object.assign(Api, {
     .then(response => checkStatus(response, errorNotification))
     .then(response => parseJSON(response, errorNotification, uri));
   },
-  delete(uri, errorNotification, headers, credential){
+  delete(uri, headers, credential, errorNotification){
     return doFetch(uri,
     {
       method: 'DELETE',
@@ -208,7 +208,7 @@ Object.assign(Api, {
     .then(response => checkStatus(response, errorNotification))
     .then(response => parseJSON(response, errorNotification, uri));
   },
-  postput(uri, method, data, errorNotification, headers, credential){
+  postput(uri, method, data, headers, credential, errorNotification){
     return doFetch(uri,
     {
       method: method,
@@ -219,11 +219,11 @@ Object.assign(Api, {
     .then(response => checkStatus(response, errorNotification))
     .then(response => parseJSON(response, errorNotification, uri));
   },
-  post(uri, data, errorNotification, headers, credential){
-    return Api.postput(uri, 'POST', data, errorNotification, headers, credential);
+  post(uri, data, headers, credential, errorNotification){
+    return Api.postput(uri, 'POST', data, headers, credential, errorNotification);
   },
-  put(uri, data, errorNotification, headers, credential){
-    return Api.postput(uri, 'PUT', data, errorNotification, headers, credential);
+  put(uri, data, headers, credential, errorNotification){
+    return Api.postput(uri, 'PUT', data, headers, credential, errorNotification);
   }
 });
 
