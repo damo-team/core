@@ -11,7 +11,7 @@ import {resourceCRUD} from './resourceCRUD';
 
 const noop = d => d;
 const defaultProcessData = function (res) {
-  return res.data
+  return res
 };
 
 export class BaseResource {

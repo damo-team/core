@@ -12,8 +12,9 @@ import {ucfirst} from './core';
 import { EventEmitter } from 'events';
 import SI from 'seamless-immutable';
 
-const defaultProcessData = function (res) { return res.data };
 export class BaseModel extends EventEmitter{
+  static processData = function (res) { return res };
+
   static appStore = null;
   
   static ASSIGN_TYPES = changeOperators;
@@ -159,6 +160,38 @@ export class BaseModel extends EventEmitter{
     return this.getQuery(ajaxOption, changeOption, this.dispatch);
   }
 
+  setState(options){
+    const promises = [];
+    for(let key in options){
+      if(options[key].change){
+        options[key].change = {
+          name: key,
+          callback: options[key].change
+        }
+      }else{
+        options[key].change = {
+          name: key,
+          callback: data => data
+        }
+      }
+      promises.push(this.execQuery(options[key]));
+    }
+    
+    if(promises.length === 1){
+      return promises[0];
+    }else{
+      const promise = Promise.all[promises];
+      promise.fromSubscribe = (callback) => {
+        if(callback){
+          promise.then(res => {
+            callback(null, res);
+          }, callback);
+        }
+        return promise;
+      }
+      return promise;
+    }
+  }
   /**
    * ### 更新store的执行方法
    *  + ajaxOption配置，用于发ajax请求获取到接口数据
@@ -244,7 +277,7 @@ export class BaseModel extends EventEmitter{
       const ucOperate = ucfirst(operate);
       const needToOperate = operate && (opt.change || opt.changes);
       actionReducer = (dispatch, extraOption = {}) => {
-        const processData = extraOption.processData || opt.processData || defaultProcessData;
+        const processData = extraOption.processData || opt.processData || BaseModel.processData;
         const suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
         const suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
@@ -305,7 +338,7 @@ export class BaseModel extends EventEmitter{
     needToOperate && this.createActionCreator([this.createActionName(ucOperate)], []);
 
     const actionReducer = (dispatch, extraOption = {}) => {
-      const processData = extraOption.processData || opt.processData || defaultProcessData;
+      const processData = extraOption.processData || opt.processData || BaseModel.processData;
       const suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
       const suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 

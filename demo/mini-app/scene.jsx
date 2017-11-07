@@ -17,12 +17,10 @@ class User extends BaseModel {
   }
 
   getUser() {
-    return this.execQuery({
-      response: Api.get('https://api.github.com/users/baqian'),
-      processData: res => res,
-      change: {
-        name: 'profile',
-        callback: data => data
+    return this.setState({
+      profile: {
+        response: Api.get('https://api.github.com/users/baqian'),
+        processData: data => data
       }
     });
   }

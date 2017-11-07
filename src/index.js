@@ -177,6 +177,9 @@ const damo = {
   $$routes__: [],
   $$defaultModels__: {},
   $$store__: null,
+  getRoutes(){
+    return damo.$$routes__;
+  },
   init(initialState = {}, defaultModels = {}, middlewares = []) {
     if (damo.$$store__) {
       console.warn('Application initialized！')
