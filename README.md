@@ -91,3 +91,14 @@ Damo框架包括前端应用开发所用到的一系列库，有些是核心库�
 10. [react-intl](https://www.npmjs.com/package/react-intl), 基于intl的国际化。
 11. [seamless-immutable](https://www.npmjs.com/package/seamless-immutable), 封装不可变的数据接口，使得Redux的状态数据更加可靠。
 12. [isomorphic-fetch](https://www.npmjs.com/package/isomorphic-fetch)），通过ES的fetch接口来调用接口，更加规范和高性能。
+
+
+1. API直接挂在damo
+2. route支持视图才自动识别
+3. bootstrap == run
+4. 继承react-router， 包括Link和 更新路由query
+5. Model的this.getQuery改为this.setState
+6. damo.model支持(name, Model)方式
+7. damo.model支持映射Resource方法
+8. fetch的headers在get|delete时去掉contentType，并且processData不要处理东西
+9. damo.init支持ready形式，可以提前注册model、view之类的

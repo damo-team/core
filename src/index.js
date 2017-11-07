@@ -15,19 +15,25 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import path from 'path';
-import {rcInject} from './utils/inject';
 import router from './utils/router';
-import {BaseSelector} from './utils/baseSelector';
 
-export * from './utils/inject';
+
+import {BaseSelector} from './utils/baseSelector';
+import {BaseModel} from './utils/baseModel';
+import {rcInject} from './utils/inject';
+import {Api} from './utils/fetch';
+import {Poller} from './utils/poller';
+
 export * from './utils/core';
 export * from './utils/componentDecorator';
 export * from './utils/createCrud';
-export * from './utils/baseModel';
-export * from './utils/poller';
-export * from './utils/baseSelector';
-export * from './utils/fetch';
 export * from './resource';
+
+export * from './utils/baseSelector';
+export * from './utils/baseModel';
+export * from './utils/inject';
+export * from './utils/fetch';
+export * from './utils/poller';
 
 import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
@@ -352,6 +358,17 @@ const damo = {
     ReactDOM.render(RootComponent, DOM);
   }
 }
+
+const exportObj = {
+  BaseSelector: BaseSelector,
+  BaseModel: BaseModel,
+  injector: rcInject,
+  Api: Api,
+  Poller: Poller
+};
+
+Object.assign(damo, exportObj);
+
 
 export default damo;
 
