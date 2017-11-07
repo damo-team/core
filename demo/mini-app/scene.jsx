@@ -73,7 +73,6 @@ class Root extends Component {
 };
 
 // app执行，关键的5个步骤
-
 damo.init(); // 初始化
 damo.model('user', User); // 添加数据模型
 damo.service('user', User);

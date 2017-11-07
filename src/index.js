@@ -177,21 +177,33 @@ const damo = {
   $$routes__: [],
   $$defaultModels__: {},
   $$store__: null,
+  $$callback__: [],
   getRoutes(){
     return damo.$$routes__;
   },
+  fireReady(){
+    let callback;
+    while(callback = damo.$$callback__.pop()){
+      callback();
+    }
+  },
   init(initialState = {}, defaultModels = {}, middlewares = []) {
     if (damo.$$store__) {
-      console.warn('Application initialized！')
+      console.warn('Application initialized！');
+      return;
     }
     damo.$$defaultModels__ = defaultModels;
     damo.$$store__ = configureStore(initialState, middlewares, hot => {
       return {defaultModels};
     });
+    damo.fireReady();
   },
   model(name, Models, entity) {
     if (!damo.$$store__) {
-      throw new Error('Application uninitialized，initliaze Application by damo.init');
+      damo.$$callback__.push(() => {
+        damo.model(name, Models, entity);
+      });
+      return;
     }
     if(Models){
       Models = {
@@ -212,6 +224,12 @@ const damo = {
       .addModel(Models);
   },
   service(name, Services) {
+    if (!damo.$$store__) {
+      damo.$$callback__.push(() => {
+        damo.service(name, Services);
+      });
+      return;
+    }
     if(Services){
       Services = {
         [name]: Services
@@ -292,8 +310,11 @@ const damo = {
     }
   },
   autoLoadModels(modelContext, resourceContext, noHot) {
-    if (!damo.$$store__) {
-      throw new Error('Application uninitialized，initliaze Application by damo.init');
+    if(!damo.$$store__){
+      damo.$$callback__.push(() => {
+        damo.autoLoadModels(modelContext, resourceContext, noHot);
+      });
+      return;
     }
     if (!modelContext) {
       throw new Error('需要提供require.context的遍历列表！');
@@ -334,6 +355,9 @@ const damo = {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
+    if (!damo.$$store__) {
+      throw new Error('Application uninitialized，initliaze Application by damo.init');
+    }
     if (Array.isArray(Selector)) {
       const moelds = Selector;
       class SelectorClass extends BaseSelector {
@@ -350,7 +374,7 @@ const damo = {
   },
   bootstrap(RootComponent, DOM, dirname) {
     if (!damo.$$store__) {
-      throw new Error('Application uninitialized，initliaze Application by damo.init');
+      damo.fireReady();
     }
     if (RootComponent.tagName || typeof RootComponent === 'string') {
       dirname = DOM;

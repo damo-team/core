@@ -343,8 +343,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $$routes__: [],
 	  $$defaultModels__: {},
 	  $$store__: null,
+	  $$callback__: [],
 	  getRoutes: function getRoutes() {
 	    return damo.$$routes__;
+	  },
+	  fireReady: function fireReady() {
+	    var callback = void 0;
+	    while (callback = damo.$$callback__.pop()) {
+	      callback();
+	    }
 	  },
 	  init: function init() {
 	    var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -353,15 +360,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (damo.$$store__) {
 	      console.warn('Application initialized！');
+	      return;
 	    }
 	    damo.$$defaultModels__ = defaultModels;
 	    damo.$$store__ = configureStore(initialState, middlewares, function (hot) {
 	      return { defaultModels: defaultModels };
 	    });
+	    damo.fireReady();
 	  },
 	  model: function model(name, Models, entity) {
 	    if (!damo.$$store__) {
-	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	      damo.$$callback__.push(function () {
+	        damo.model(name, Models, entity);
+	      });
+	      return;
 	    }
 	    if (Models) {
 	      Models = _defineProperty({}, name, Models);
@@ -378,6 +390,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$store__.addModel(Models);
 	  },
 	  service: function service(name, Services) {
+	    if (!damo.$$store__) {
+	      damo.$$callback__.push(function () {
+	        damo.service(name, Services);
+	      });
+	      return;
+	    }
 	    if (Services) {
 	      Services = _defineProperty({}, name, Services);
 	    } else {
@@ -452,7 +470,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  autoLoadModels: function autoLoadModels(modelContext, resourceContext, noHot) {
 	    if (!damo.$$store__) {
-	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	      damo.$$callback__.push(function () {
+	        damo.autoLoadModels(modelContext, resourceContext, noHot);
+	      });
+	      return;
 	    }
 	    if (!modelContext) {
 	      throw new Error('需要提供require.context的遍历列表！');
@@ -487,6 +508,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
+	    if (!damo.$$store__) {
+	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	    }
 	    if (Array.isArray(Selector)) {
 	      var _class, _temp;
 
@@ -513,7 +537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  bootstrap: function bootstrap(RootComponent, DOM, dirname) {
 	    if (!damo.$$store__) {
-	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	      damo.fireReady();
 	    }
 	    if (RootComponent.tagName || typeof RootComponent === 'string') {
 	      dirname = DOM;

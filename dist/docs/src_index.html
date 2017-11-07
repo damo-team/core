@@ -429,21 +429,33 @@
   <span class="hljs-attr">$$routes__</span>: [],
   <span class="hljs-attr">$$defaultModels__</span>: {},
   <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">$$callback__</span>: [],
   getRoutes(){
     <span class="hljs-keyword">return</span> damo.$$routes__;
   },
+  fireReady(){
+    <span class="hljs-keyword">let</span> callback;
+    <span class="hljs-keyword">while</span>(callback = damo.$$callback__.pop()){
+      callback();
+    }
+  },
   init(initialState = {}, defaultModels = {}, middlewares = []) {
     <span class="hljs-keyword">if</span> (damo.$$store__) {
-      <span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'Application initialized！'</span>)
+      <span class="hljs-built_in">console</span>.warn(<span class="hljs-string">'Application initialized！'</span>);
+      <span class="hljs-keyword">return</span>;
     }
     damo.$$defaultModels__ = defaultModels;
     damo.$$store__ = configureStore(initialState, middlewares, hot =&gt; {
       <span class="hljs-keyword">return</span> {defaultModels};
     });
+    damo.fireReady();
   },
   model(name, Models, entity) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        damo.model(name, Models, entity);
+      });
+      <span class="hljs-keyword">return</span>;
     }
     <span class="hljs-keyword">if</span>(Models){
       Models = {
@@ -464,6 +476,12 @@
       .addModel(Models);
   },
   service(name, Services) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
+      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        damo.service(name, Services);
+      });
+      <span class="hljs-keyword">return</span>;
+    }
     <span class="hljs-keyword">if</span>(Services){
       Services = {
         [name]: Services
@@ -544,8 +562,11 @@
     }
   },
   autoLoadModels(modelContext, resourceContext, noHot) {
-    <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    <span class="hljs-keyword">if</span>(!damo.$$store__){
+      damo.$$callback__.push(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        damo.autoLoadModels(modelContext, resourceContext, noHot);
+      });
+      <span class="hljs-keyword">return</span>;
     }
     <span class="hljs-keyword">if</span> (!modelContext) {
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
@@ -586,6 +607,9 @@
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+    }
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
       <span class="hljs-keyword">const</span> moelds = Selector;
       <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
@@ -602,7 +626,7 @@
   },
   bootstrap(RootComponent, DOM, dirname) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
+      damo.fireReady();
     }
     <span class="hljs-keyword">if</span> (RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>) {
       dirname = DOM;
