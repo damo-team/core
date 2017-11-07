@@ -1,6 +1,6 @@
 import {Component} from 'react';
 
-export default function router(path, RouteComponent, option) {
+export default function router(path, RouteComponent, option, strict) {
   let routeConfig;
   if (Object(path) === path) {
     if (path.path && path.component) {
@@ -11,7 +11,7 @@ export default function router(path, RouteComponent, option) {
       path = RouteComponent.routePath;
     }
   }
-  if(RouteComponent.prototype === undefined){
+  if(RouteComponent.prototype === undefined || (strict && name !== 'root' && !RouteComponent.__view__)){
     return null;
   }
   if (!routeConfig) {

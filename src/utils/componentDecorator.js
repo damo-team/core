@@ -139,6 +139,7 @@ export const component = ({
     }
 
     const Component = connect(inputs, outputs)(BaseComponent);
+    Component.__view__ = true;
 
     const handleChange = Component.prototype.handleChange;
 

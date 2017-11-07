@@ -17,7 +17,6 @@ import ReactDOM from 'react-dom';
 import path from 'path';
 import router from './utils/router';
 
-
 import {BaseSelector} from './utils/baseSelector';
 import {BaseModel} from './utils/baseModel';
 import {rcInject} from './utils/inject';
@@ -133,9 +132,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
         children;
       if (keys.length < level) {
         name = keys.pop() || 'root';
-        childRoute = router(Comp.routePath || name, Comp, {
-          name: name
-        });
+        childRoute = router(Comp.routePath || name, Comp, {name: name});
         if (childRoute && routeCallback(childRoute, relativePath) !== false) {
           routes.push(childRoute);
         };
@@ -155,7 +152,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath || name, Comp, {
             name: name
-          });
+          }, option.strict);
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             route
               .childRoutes
@@ -165,7 +162,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
           childRoute = router(Comp.routePath || name, Comp, {
             name: name,
             navKey: key
-          });
+          }, option.strict);
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             routes.push(childRoute);
           };
@@ -199,14 +196,14 @@ const damo = {
   service(Services) {
     rcInject.setService(Services);
   },
-  getModel(modelName){
+  getModel(modelName) {
     if (!damo.$$store__) {
       throw new Error('Application uninitialized，initliaze Application by damo.init');
     }
-    if(Object(modelName) === modelName){
+    if (Object(modelName) === modelName) {
       modelName = modelName.displayName;
     }
-    return damo.$$store__.models[modelName]; 
+    return damo.$$store__.models[modelName];
   },
   toselect(Model, prop) {
     return (state, ownProps) => {
@@ -251,8 +248,8 @@ const damo = {
       .getModel(modelName)
       .select(prop, true);
   },
-  route(path, RouteComponent, option) {
-    const routeConfig = router(path, RouteComponent, option);
+  route(path, RouteComponent, option = {}) {
+    const routeConfig = router(path, RouteComponent, option, option.strict);
     damo
       .$$routes__
       .push(routeConfig);
@@ -260,9 +257,12 @@ const damo = {
     return {
       route: (path, RouteComponent, option) => {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
-        routeConfig
-          .childRoutes
-          .push(router(path, RouteComponent, option));
+        const _routeConfig = router(path, RouteComponent, option, option.strict);
+        if (_routeConfig) {
+          routeConfig
+            .childRoutes
+            .push(_routeConfig);
+        }
       }
     }
   },
@@ -304,14 +304,14 @@ const damo = {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    if(Array.isArray(Selector)){
+    if (Array.isArray(Selector)) {
       const moelds = Selector;
-      class SelectorClass extends BaseSelector{
+      class SelectorClass extends BaseSelector {
         static dataBindings = moelds;
         static eventBindings = moelds;
       }
       Selector = SelectorClass;
-    }else if (Selector.prototype.isReactComponent) {
+    } else if (Selector.prototype.isReactComponent) {
       providers = SceneComponent;
       SceneComponent = Selector;
       Selector = null;
@@ -368,7 +368,6 @@ const exportObj = {
 };
 
 Object.assign(damo, exportObj);
-
 
 export default damo;
 
