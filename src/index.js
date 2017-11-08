@@ -302,7 +302,7 @@ const damo = {
       .push(routeConfig);
 
     return {
-      route: (path, RouteComponent, option) => {
+      route: (path, RouteComponent, option = {}) => {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
         const _routeConfig = router(path, RouteComponent, option, option.strict);
         if (_routeConfig) {
@@ -332,14 +332,15 @@ const damo = {
       .keys()
       .forEach(key => {
         const model = modelContext(key);
-        defaultModels[model.displayName || path.basename(key)] = model;
+        debugger
+        defaultModels[model.displayName || path.basename(key).replace(path.extname(key), '')] = model;
       });
     if (resourceContext) {
       resourceContext
         .keys()
         .forEach(key => {
           const entity = modelContext(key);
-          const name = entity.displayName || path.basename(key);
+          const name = entity.displayName || path.basename(key).replace(path.extname(key), '');
           if (defaultModels[name]) {
             defaultModels[name] = resource(entity)(defaultModels[name]);
           };
@@ -363,32 +364,45 @@ const damo = {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    if (!damo.$$store__) {
-      throw new Error('Application uninitialized，initliaze Application by damo.init');
-    }
-    if (Array.isArray(Selector)) {
-      const moelds = Selector;
-      class SelectorClass extends BaseSelector {
-        static dataBindings = moelds;
-        static eventBindings = moelds;
+    const getView = (nextState, callback) => {
+      if (Array.isArray(Selector)) {
+        const moelds = Selector;
+        class SelectorClass extends BaseSelector {
+          static dataBindings = moelds;
+          static eventBindings = moelds;
+        }
+        Selector = SelectorClass;
+      } else if (Selector.prototype.isReactComponent) {
+        providers = SceneComponent;
+        SceneComponent = Selector;
+        Selector = null;
       }
-      Selector = SelectorClass;
-    } else if (Selector.prototype.isReactComponent) {
-      providers = SceneComponent;
-      SceneComponent = Selector;
-      Selector = null;
+      if(callback){
+        callback(null, View({selector: Selector, providers: providers})(SceneComponent));
+      }else{
+        return View({selector: Selector, providers: providers})(SceneComponent);
+      }
     }
-    return View({selector: Selector, providers: providers})(SceneComponent);
+    if (!damo.$$store__) {
+      return getView;
+    }else{
+      return getView();
+    }
   },
   bootstrap(RootComponent, DOM, dirname) {
     if (!damo.$$store__) {
       damo.fireReady();
     }
+    let routes = damo.$$routes__;
+
     if (RootComponent.tagName || typeof RootComponent === 'string') {
       dirname = DOM;
       DOM = RootComponent;
       RootComponent = null;
-    } else if (!React.isValidElement(RootComponent)) {
+    } else if (Array.isArray(RootComponent)) {
+      routes = RootComponent;
+      RootComponent = null;
+    }else if (!React.isValidElement(RootComponent)) {
       RootComponent = React.createElement(RootComponent, null);
     }
     if (DOM) {
@@ -398,10 +412,7 @@ const damo = {
     } else {
       DOM = document.body;
     }
-    let routes = damo.$$routes__;
-    if (Array.isArray(RootComponent)) {
-      routes = RootComponent;
-    }
+    
     if (routes.length && dirname !== false) {
       RootComponent = React.createElement(Provider, {
         store: damo.$$store__

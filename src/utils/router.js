@@ -19,7 +19,10 @@ export default function router(path, RouteComponent, option, strict) {
       path: path,
       onLeave: RouteComponent.onLeave,
       onEnter: RouteComponent.onEnter,
-      childRoutes: RouteComponent.childRoutes
+      childRoutes: RouteComponent.childRoutes,
+      getIndexRoute: RouteComponent.getIndexRoute,
+      getChildRoutes: RouteComponent.getChildRoutes,
+      extension: RouteComponent.extension
     }, option);
     if (RouteComponent.indexRoute) {
       if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
