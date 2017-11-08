@@ -459,7 +459,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$routes__.push(routeConfig);
 
 	    return {
-	      route: function route(path, RouteComponent, option) {
+	      route: function route(path, RouteComponent) {
+	        var option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
 	        routeConfig.childRoutes = routeConfig.childRoutes || [];
 	        var _routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
 	        if (_routeConfig) {
@@ -483,12 +485,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    modelContext.keys().forEach(function (key) {
 	      var model = modelContext(key);
-	      defaultModels[model.displayName || _path2.default.basename(key)] = model;
+	      debugger;
+	      defaultModels[model.displayName || _path2.default.basename(key).replace(_path2.default.extname(key), '')] = model;
 	    });
 	    if (resourceContext) {
 	      resourceContext.keys().forEach(function (key) {
 	        var entity = modelContext(key);
-	        var name = entity.displayName || _path2.default.basename(key);
+	        var name = entity.displayName || _path2.default.basename(key).replace(_path2.default.extname(key), '');
 	        if (defaultModels[name]) {
 	          defaultModels[name] = (0, _resource.resource)(entity)(defaultModels[name]);
 	        };
@@ -510,40 +513,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers) {
+	    var getView = function getView(nextState, callback) {
+	      if (Array.isArray(Selector)) {
+	        var _class, _temp;
+
+	        var moelds = Selector;
+	        var SelectorClass = (_temp = _class = function (_BaseSelector) {
+	          _inherits(SelectorClass, _BaseSelector);
+
+	          function SelectorClass() {
+	            _classCallCheck(this, SelectorClass);
+
+	            return _possibleConstructorReturn(this, (SelectorClass.__proto__ || Object.getPrototypeOf(SelectorClass)).apply(this, arguments));
+	          }
+
+	          return SelectorClass;
+	        }(_baseSelector.BaseSelector), _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
+
+	        Selector = SelectorClass;
+	      } else if (Selector.prototype.isReactComponent) {
+	        providers = SceneComponent;
+	        SceneComponent = Selector;
+	        Selector = null;
+	      }
+	      if (callback) {
+	        callback(null, (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent));
+	      } else {
+	        return (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent);
+	      }
+	    };
 	    if (!damo.$$store__) {
-	      throw new Error('Application uninitialized，initliaze Application by damo.init');
+	      return getView;
+	    } else {
+	      return getView();
 	    }
-	    if (Array.isArray(Selector)) {
-	      var _class, _temp;
-
-	      var moelds = Selector;
-	      var SelectorClass = (_temp = _class = function (_BaseSelector) {
-	        _inherits(SelectorClass, _BaseSelector);
-
-	        function SelectorClass() {
-	          _classCallCheck(this, SelectorClass);
-
-	          return _possibleConstructorReturn(this, (SelectorClass.__proto__ || Object.getPrototypeOf(SelectorClass)).apply(this, arguments));
-	        }
-
-	        return SelectorClass;
-	      }(_baseSelector.BaseSelector), _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
-
-	      Selector = SelectorClass;
-	    } else if (Selector.prototype.isReactComponent) {
-	      providers = SceneComponent;
-	      SceneComponent = Selector;
-	      Selector = null;
-	    }
-	    return (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent);
 	  },
 	  bootstrap: function bootstrap(RootComponent, DOM, dirname) {
 	    if (!damo.$$store__) {
 	      damo.fireReady();
 	    }
+	    var routes = damo.$$routes__;
+
 	    if (RootComponent.tagName || typeof RootComponent === 'string') {
 	      dirname = DOM;
 	      DOM = RootComponent;
+	      RootComponent = null;
+	    } else if (Array.isArray(RootComponent)) {
+	      routes = RootComponent;
 	      RootComponent = null;
 	    } else if (!_react2.default.isValidElement(RootComponent)) {
 	      RootComponent = _react2.default.createElement(RootComponent, null);
@@ -555,10 +571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } else {
 	      DOM = document.body;
 	    }
-	    var routes = damo.$$routes__;
-	    if (Array.isArray(RootComponent)) {
-	      routes = RootComponent;
-	    }
+
 	    if (routes.length && dirname !== false) {
 	      RootComponent = _react2.default.createElement(_reactRedux.Provider, {
 	        store: damo.$$store__
@@ -5180,7 +5193,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path: path,
 	      onLeave: RouteComponent.onLeave,
 	      onEnter: RouteComponent.onEnter,
-	      childRoutes: RouteComponent.childRoutes
+	      childRoutes: RouteComponent.childRoutes,
+	      getIndexRoute: RouteComponent.getIndexRoute,
+	      getChildRoutes: RouteComponent.getChildRoutes,
+	      extension: RouteComponent.extension
 	    }, option);
 	    if (RouteComponent.indexRoute) {
 	      if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {

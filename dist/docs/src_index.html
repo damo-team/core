@@ -554,7 +554,7 @@
       .push(routeConfig);
 
     <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option</span>) =&gt;</span> {
+      <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option = {}</span>) =&gt;</span> {
         routeConfig.childRoutes = routeConfig.childRoutes || [];
         <span class="hljs-keyword">const</span> _routeConfig = router(path, RouteComponent, option, option.strict);
         <span class="hljs-keyword">if</span> (_routeConfig) {
@@ -584,14 +584,15 @@
       .keys()
       .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
         <span class="hljs-keyword">const</span> model = modelContext(key);
-        defaultModels[model.displayName || path.basename(key)] = model;
+        <span class="hljs-keyword">debugger</span>
+        defaultModels[model.displayName || path.basename(key).replace(path.extname(key), <span class="hljs-string">''</span>)] = model;
       });
     <span class="hljs-keyword">if</span> (resourceContext) {
       resourceContext
         .keys()
         .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
           <span class="hljs-keyword">const</span> entity = modelContext(key);
-          <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key);
+          <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key).replace(path.extname(key), <span class="hljs-string">''</span>);
           <span class="hljs-keyword">if</span> (defaultModels[name]) {
             defaultModels[name] = resource(entity)(defaultModels[name]);
           };
@@ -615,32 +616,45 @@
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
   view(Selector, SceneComponent, providers) {
-    <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Application uninitialized，initliaze Application by damo.init'</span>);
-    }
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
-      <span class="hljs-keyword">const</span> moelds = Selector;
-      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
-        <span class="hljs-keyword">static</span> dataBindings = moelds;
-        <span class="hljs-keyword">static</span> eventBindings = moelds;
+    <span class="hljs-keyword">const</span> getView = <span class="hljs-function">(<span class="hljs-params">nextState, callback</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
+        <span class="hljs-keyword">const</span> moelds = Selector;
+        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
+          <span class="hljs-keyword">static</span> dataBindings = moelds;
+          <span class="hljs-keyword">static</span> eventBindings = moelds;
+        }
+        Selector = SelectorClass;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
+        providers = SceneComponent;
+        SceneComponent = Selector;
+        Selector = <span class="hljs-literal">null</span>;
       }
-      Selector = SelectorClass;
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
-      providers = SceneComponent;
-      SceneComponent = Selector;
-      Selector = <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">if</span>(callback){
+        callback(<span class="hljs-literal">null</span>, View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent));
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
+      }
     }
-    <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
+      <span class="hljs-keyword">return</span> getView;
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> getView();
+    }
   },
   bootstrap(RootComponent, DOM, dirname) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
       damo.fireReady();
     }
+    <span class="hljs-keyword">let</span> routes = damo.$$routes__;
+
     <span class="hljs-keyword">if</span> (RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>) {
       dirname = DOM;
       DOM = RootComponent;
       RootComponent = <span class="hljs-literal">null</span>;
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
+      routes = RootComponent;
+      RootComponent = <span class="hljs-literal">null</span>;
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
       RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);
     }
     <span class="hljs-keyword">if</span> (DOM) {
@@ -650,10 +664,7 @@
     } <span class="hljs-keyword">else</span> {
       DOM = <span class="hljs-built_in">document</span>.body;
     }
-    <span class="hljs-keyword">let</span> routes = damo.$$routes__;
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
-      routes = RootComponent;
-    }
+    
     <span class="hljs-keyword">if</span> (routes.length &amp;&amp; dirname !== <span class="hljs-literal">false</span>) {
       RootComponent = React.createElement(Provider, {
         <span class="hljs-attr">store</span>: damo.$$store__
