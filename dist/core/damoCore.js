@@ -283,7 +283,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var level = option.level || 1;
 	  var routes = [];
 	  context.keys().sort(function (a, b) {
-	    return a.split('/').length > b.split('/').length;
+	    return a < b;
 	  }).forEach(function (relativePath) {
 	    var keys = relativePath.slice(2, -10).split(_path2.default.sep);
 	    var Comp = context(relativePath);
@@ -296,8 +296,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        name = void 0,
 	        children = void 0;
 	    if (keys.length < level) {
-	      name = keys.pop() || 'root';
-	      childRoute = (0, _router2.default)(Comp.routePath || name, Comp, { name: name });
+	      name = keys.pop() || '/';
+	      childRoute = (0, _router2.default)(Comp.routePath, Comp, { name: name });
 	      if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	        routes.push(childRoute);
 	      };
@@ -314,19 +314,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      } else {
 	        route = children.find(function (route) {
-	          return route.name === 'root';
+	          return route.name === '/';
 	        });
 	      }
 	      if (route) {
 	        route.childRoutes = route.childRoutes || [];
-	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
+	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
 	          name: name
 	        }, option.strict);
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          route.childRoutes.push(childRoute);
 	        }
 	      } else {
-	        childRoute = (0, _router2.default)(Comp.routePath || name, Comp, {
+	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
 	          name: name,
 	          navKey: key
 	        }, option.strict);
@@ -554,15 +554,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var routes = damo.$$routes__;
 
-	    if (RootComponent.tagName || typeof RootComponent === 'string') {
-	      dirname = DOM;
-	      DOM = RootComponent;
-	      RootComponent = null;
-	    } else if (Array.isArray(RootComponent)) {
-	      routes = RootComponent;
-	      RootComponent = null;
-	    } else if (!_react2.default.isValidElement(RootComponent)) {
-	      RootComponent = _react2.default.createElement(RootComponent, null);
+	    if (RootComponent) {
+	      if (RootComponent.tagName || typeof RootComponent === 'string') {
+	        dirname = DOM;
+	        DOM = RootComponent;
+	        RootComponent = null;
+	      } else if (Array.isArray(RootComponent)) {
+	        routes = RootComponent;
+	        RootComponent = null;
+	      } else if (!_react2.default.isValidElement(RootComponent)) {
+	        RootComponent = _react2.default.createElement(RootComponent, null);
+	      }
 	    }
 	    if (DOM) {
 	      if (typeof DOM === 'string') {
@@ -1441,7 +1443,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function setState(options) {
 	      var promises = [];
 	      for (var key in options) {
-	        if (options[key].change) {
+	        if (options[key].then && options[key].catch) {
+	          options[key] = {
+	            response: options[key],
+	            callback: function callback(data) {
+	              return data;
+	            }
+	          };
+	        } else if (options[key].change) {
 	          options[key].change = {
 	            name: key,
 	            callback: options[key].change
@@ -5190,7 +5199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  if (!routeConfig) {
 	    routeConfig = Object.assign({
-	      path: path,
+	      resolvePath: path,
+	      path: path || name,
 	      onLeave: RouteComponent.onLeave,
 	      onEnter: RouteComponent.onEnter,
 	      childRoutes: RouteComponent.childRoutes,

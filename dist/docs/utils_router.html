@@ -251,7 +251,8 @@
   }
   <span class="hljs-keyword">if</span> (!routeConfig) {
     routeConfig = <span class="hljs-built_in">Object</span>.assign({
-      <span class="hljs-attr">path</span>: path,
+      <span class="hljs-attr">resolvePath</span>: path,
+      <span class="hljs-attr">path</span>: path || name,
       <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
       <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
       <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes,

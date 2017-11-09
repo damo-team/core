@@ -504,7 +504,12 @@
   setState(options){
     <span class="hljs-keyword">const</span> promises = [];
     <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options){
-      <span class="hljs-keyword">if</span>(options[key].change){
+      <span class="hljs-keyword">if</span>(options[key].then &amp;&amp; options[key].catch){
+        options[key] = {
+          <span class="hljs-attr">response</span>: options[key],
+          <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+        }
+      }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(options[key].change){
         options[key].change = {
           <span class="hljs-attr">name</span>: key,
           <span class="hljs-attr">callback</span>: options[key].change

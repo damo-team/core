@@ -369,7 +369,7 @@
   <span class="hljs-keyword">const</span> routes = [];
   context
     .keys()
-    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length)
+    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a &lt; b)
     .forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
       <span class="hljs-keyword">const</span> keys = relativePath
         .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)
@@ -384,8 +384,8 @@
         name,
         children;
       <span class="hljs-keyword">if</span> (keys.length &lt; level) {
-        name = keys.pop() || <span class="hljs-string">'root'</span>;
-        childRoute = router(Comp.routePath || name, Comp, {<span class="hljs-attr">name</span>: name});
+        name = keys.pop() || <span class="hljs-string">'/'</span>;
+        childRoute = router(Comp.routePath, Comp, {<span class="hljs-attr">name</span>: name});
         <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
           routes.push(childRoute);
         };
@@ -399,11 +399,11 @@
             children = route.childRoutes || [];
           }
         } <span class="hljs-keyword">else</span> {
-          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'root'</span>)
+          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'/'</span>)
         }
         <span class="hljs-keyword">if</span> (route) {
           route.childRoutes = route.childRoutes || [];
-          childRoute = router(Comp.routePath || name, Comp, {
+          childRoute = router(Comp.routePath, Comp, {
             <span class="hljs-attr">name</span>: name
           }, option.strict);
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
@@ -412,7 +412,7 @@
               .push(childRoute);
           }
         } <span class="hljs-keyword">else</span> {
-          childRoute = router(Comp.routePath || name, Comp, {
+          childRoute = router(Comp.routePath, Comp, {
             <span class="hljs-attr">name</span>: name,
             <span class="hljs-attr">navKey</span>: key
           }, option.strict);
@@ -647,15 +647,17 @@
     }
     <span class="hljs-keyword">let</span> routes = damo.$$routes__;
 
-    <span class="hljs-keyword">if</span> (RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>) {
-      dirname = DOM;
-      DOM = RootComponent;
-      RootComponent = <span class="hljs-literal">null</span>;
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
-      routes = RootComponent;
-      RootComponent = <span class="hljs-literal">null</span>;
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
-      RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);
+    <span class="hljs-keyword">if</span>(RootComponent){
+      <span class="hljs-keyword">if</span> (RootComponent.tagName || <span class="hljs-keyword">typeof</span> RootComponent === <span class="hljs-string">'string'</span>) {
+        dirname = DOM;
+        DOM = RootComponent;
+        RootComponent = <span class="hljs-literal">null</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
+        routes = RootComponent;
+        RootComponent = <span class="hljs-literal">null</span>;
+      }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
+        RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);
+      }
     }
     <span class="hljs-keyword">if</span> (DOM) {
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> DOM === <span class="hljs-string">'string'</span>) {

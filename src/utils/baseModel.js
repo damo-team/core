@@ -163,7 +163,12 @@ export class BaseModel extends EventEmitter{
   setState(options){
     const promises = [];
     for(let key in options){
-      if(options[key].change){
+      if(options[key].then && options[key].catch){
+        options[key] = {
+          response: options[key],
+          callback: data => data
+        }
+      }else if(options[key].change){
         options[key].change = {
           name: key,
           callback: options[key].change

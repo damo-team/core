@@ -117,7 +117,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
   const routes = [];
   context
     .keys()
-    .sort((a, b) => a.split('/').length > b.split('/').length)
+    .sort((a, b) => a < b)
     .forEach(relativePath => {
       const keys = relativePath
         .slice(2, -10)
@@ -132,8 +132,8 @@ export function autoLoadScenesRoutes(context, option = {}) {
         name,
         children;
       if (keys.length < level) {
-        name = keys.pop() || 'root';
-        childRoute = router(Comp.routePath || name, Comp, {name: name});
+        name = keys.pop() || '/';
+        childRoute = router(Comp.routePath, Comp, {name: name});
         if (childRoute && routeCallback(childRoute, relativePath) !== false) {
           routes.push(childRoute);
         };
@@ -147,11 +147,11 @@ export function autoLoadScenesRoutes(context, option = {}) {
             children = route.childRoutes || [];
           }
         } else {
-          route = children.find(route => route.name === 'root')
+          route = children.find(route => route.name === '/')
         }
         if (route) {
           route.childRoutes = route.childRoutes || [];
-          childRoute = router(Comp.routePath || name, Comp, {
+          childRoute = router(Comp.routePath, Comp, {
             name: name
           }, option.strict);
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
@@ -160,7 +160,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
               .push(childRoute);
           }
         } else {
-          childRoute = router(Comp.routePath || name, Comp, {
+          childRoute = router(Comp.routePath, Comp, {
             name: name,
             navKey: key
           }, option.strict);
@@ -395,15 +395,17 @@ const damo = {
     }
     let routes = damo.$$routes__;
 
-    if (RootComponent.tagName || typeof RootComponent === 'string') {
-      dirname = DOM;
-      DOM = RootComponent;
-      RootComponent = null;
-    } else if (Array.isArray(RootComponent)) {
-      routes = RootComponent;
-      RootComponent = null;
-    }else if (!React.isValidElement(RootComponent)) {
-      RootComponent = React.createElement(RootComponent, null);
+    if(RootComponent){
+      if (RootComponent.tagName || typeof RootComponent === 'string') {
+        dirname = DOM;
+        DOM = RootComponent;
+        RootComponent = null;
+      } else if (Array.isArray(RootComponent)) {
+        routes = RootComponent;
+        RootComponent = null;
+      }else if (!React.isValidElement(RootComponent)) {
+        RootComponent = React.createElement(RootComponent, null);
+      }
     }
     if (DOM) {
       if (typeof DOM === 'string') {

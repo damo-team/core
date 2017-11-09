@@ -16,7 +16,8 @@ export default function router(path, RouteComponent, option, strict) {
   }
   if (!routeConfig) {
     routeConfig = Object.assign({
-      path: path,
+      resolvePath: path,
+      path: path || name,
       onLeave: RouteComponent.onLeave,
       onEnter: RouteComponent.onEnter,
       childRoutes: RouteComponent.childRoutes,
