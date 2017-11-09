@@ -332,7 +332,6 @@ const damo = {
       .keys()
       .forEach(key => {
         const model = modelContext(key);
-        debugger
         defaultModels[model.displayName || path.basename(key).replace(path.extname(key), '')] = model;
       });
     if (resourceContext) {

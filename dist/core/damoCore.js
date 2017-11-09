@@ -485,7 +485,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    modelContext.keys().forEach(function (key) {
 	      var model = modelContext(key);
-	      debugger;
 	      defaultModels[model.displayName || _path2.default.basename(key).replace(_path2.default.extname(key), '')] = model;
 	    });
 	    if (resourceContext) {
@@ -5194,13 +5193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path = RouteComponent.routePath;
 	    }
 	  }
-	  if (RouteComponent.prototype === undefined || strict && name !== 'root' && !RouteComponent.__view__) {
+	  if (RouteComponent.prototype === undefined || strict && option.name !== 'root' && !RouteComponent.__view__) {
 	    return null;
 	  }
 	  if (!routeConfig) {
 	    routeConfig = Object.assign({
 	      resolvePath: path,
-	      path: path || name,
+	      path: path || option.name,
 	      onLeave: RouteComponent.onLeave,
 	      onEnter: RouteComponent.onEnter,
 	      childRoutes: RouteComponent.childRoutes,

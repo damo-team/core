@@ -11,13 +11,13 @@ export default function router(path, RouteComponent, option, strict) {
       path = RouteComponent.routePath;
     }
   }
-  if(RouteComponent.prototype === undefined || (strict && name !== 'root' && !RouteComponent.__view__)){
+  if(RouteComponent.prototype === undefined || (strict && option.name !== 'root' && !RouteComponent.__view__)){
     return null;
   }
   if (!routeConfig) {
     routeConfig = Object.assign({
       resolvePath: path,
-      path: path || name,
+      path: path || option.name,
       onLeave: RouteComponent.onLeave,
       onEnter: RouteComponent.onEnter,
       childRoutes: RouteComponent.childRoutes,

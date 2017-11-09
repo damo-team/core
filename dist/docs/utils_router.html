@@ -246,13 +246,13 @@
       path = RouteComponent.routePath;
     }
   }
-  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; name !== <span class="hljs-string">'root'</span> &amp;&amp; !RouteComponent.__view__)){
+  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; option.name !== <span class="hljs-string">'root'</span> &amp;&amp; !RouteComponent.__view__)){
     <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
   }
   <span class="hljs-keyword">if</span> (!routeConfig) {
     routeConfig = <span class="hljs-built_in">Object</span>.assign({
       <span class="hljs-attr">resolvePath</span>: path,
-      <span class="hljs-attr">path</span>: path || name,
+      <span class="hljs-attr">path</span>: path || option.name,
       <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
       <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
       <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes,
