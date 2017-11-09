@@ -340,6 +340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	var damo = {
+	  Link: Link,
 	  $$routes__: [],
 	  $$defaultModels__: {},
 	  $$store__: null,

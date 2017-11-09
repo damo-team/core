@@ -174,6 +174,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
 }
 
 const damo = {
+  Link: Link,
   $$routes__: [],
   $$defaultModels__: {},
   $$store__: null,
