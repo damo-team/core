@@ -249,7 +249,8 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> React, {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
+<span class="hljs-keyword">import</span> React, {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">'path'</span>;
 <span class="hljs-keyword">import</span> router <span class="hljs-keyword">from</span> <span class="hljs-string">'./utils/router'</span>;
@@ -369,7 +370,7 @@
   <span class="hljs-keyword">const</span> routes = [];
   context
     .keys()
-    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a &lt; b)
+    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length)
     .forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
       <span class="hljs-keyword">const</span> keys = relativePath
         .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)
@@ -393,18 +394,21 @@
         name = keys.pop();
         children = routes;
         <span class="hljs-keyword">let</span> route;
+        <span class="hljs-keyword">let</span> navKey = keys[keys.length - <span class="hljs-number">1</span>];
         <span class="hljs-keyword">if</span> (keys.length) {
           <span class="hljs-keyword">while</span> ((key = keys.shift()) &amp;&amp; (temp = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === key))) {
             route = temp;
             children = route.childRoutes || [];
           }
-        } <span class="hljs-keyword">else</span> {
-          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'/'</span>)
+        }
+        <span class="hljs-keyword">if</span>(!route){
+          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'/'</span>);
         }
         <span class="hljs-keyword">if</span> (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath, Comp, {
-            <span class="hljs-attr">name</span>: name
+            <span class="hljs-attr">name</span>: name,
+            <span class="hljs-attr">navKey</span>: navKey
           }, option.strict);
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             route
@@ -414,7 +418,7 @@
         } <span class="hljs-keyword">else</span> {
           childRoute = router(Comp.routePath, Comp, {
             <span class="hljs-attr">name</span>: name,
-            <span class="hljs-attr">navKey</span>: key
+            <span class="hljs-attr">navKey</span>: navKey
           }, option.strict);
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             routes.push(childRoute);
@@ -692,7 +696,18 @@
   <span class="hljs-attr">injector</span>: rcInject,
   <span class="hljs-attr">Api</span>: Api,
   <span class="hljs-attr">Poller</span>: Poller,
-  <span class="hljs-attr">run</span>: damo.bootstrap
+  <span class="hljs-attr">run</span>: damo.bootstrap,
+
+  <span class="hljs-attr">serialize</span>: <span class="hljs-function">(<span class="hljs-params">obj</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> SI(obj);
+  },
+  <span class="hljs-attr">deserialize</span>: <span class="hljs-function">(<span class="hljs-params">obj, depth</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span>(SI.isImmutable(obj)){
+      <span class="hljs-keyword">return</span> obj.asMutable({<span class="hljs-attr">isDeep</span>: depth});
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> obj;
+    }
+  }
 };
 
 <span class="hljs-built_in">Object</span>.assign(damo, exportObj);

@@ -18,10 +18,7 @@ class User extends BaseModel {
 
   getUser() {
     return this.setState({
-      profile: {
-        response: Api.get('https://api.github.com/users/baqian'),
-        processData: data => data
-      }
+      profile: Api.get('https://api.github.com/users/baqian')
     });
   }
 }
@@ -57,6 +54,14 @@ class Root extends Component {
     };
     this.context.router.replace(this.props.location)
     this.props.getUser();
+
+    setTimeout(function(){
+      damo.getModel('user').setState({
+        profile: damo.serialize({
+          login: 'God'
+        })
+      });
+    }, 2000);
   }
 
   render() {

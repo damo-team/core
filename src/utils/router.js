@@ -11,7 +11,7 @@ export default function router(path, RouteComponent, option, strict) {
       path = RouteComponent.routePath;
     }
   }
-  if(RouteComponent.prototype === undefined || (strict && option.name !== 'root' && !RouteComponent.__view__)){
+  if(RouteComponent.prototype === undefined || (strict && option.name !== '/' && !RouteComponent.__view__)){
     return null;
   }
   if (!routeConfig) {
@@ -45,7 +45,7 @@ export default function router(path, RouteComponent, option, strict) {
       RouteComponent.prototype.componentWillMount = function () {
         componentWillMount && componentWillMount.call(this);
         this
-          .context
+          .props
           .router
           .setRouteLeaveHook(this.props.route, option.onDestroy)
       }

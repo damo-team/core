@@ -12,6 +12,7 @@
  *  - loadingBarMiddleware.js - hack loadingbar中间件，为了更加方便控制loadingbar
  * > demo: http://groups.alidemo.cn/aliyun_FED/naza-react-starter/demo/build/index.html
  */
+import SI from 'seamless-immutable';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import path from 'path';
@@ -117,7 +118,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
   const routes = [];
   context
     .keys()
-    .sort((a, b) => a < b)
+    .sort((a, b) => a.split('/').length > b.split('/').length)
     .forEach(relativePath => {
       const keys = relativePath
         .slice(2, -10)
@@ -141,18 +142,21 @@ export function autoLoadScenesRoutes(context, option = {}) {
         name = keys.pop();
         children = routes;
         let route;
+        let navKey = keys[keys.length - 1];
         if (keys.length) {
           while ((key = keys.shift()) && (temp = children.find(route => route.name === key))) {
             route = temp;
             children = route.childRoutes || [];
           }
-        } else {
-          route = children.find(route => route.name === '/')
+        }
+        if(!route){
+          route = children.find(route => route.name === '/');
         }
         if (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath, Comp, {
-            name: name
+            name: name,
+            navKey: navKey
           }, option.strict);
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             route
@@ -162,7 +166,7 @@ export function autoLoadScenesRoutes(context, option = {}) {
         } else {
           childRoute = router(Comp.routePath, Comp, {
             name: name,
-            navKey: key
+            navKey: navKey
           }, option.strict);
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             routes.push(childRoute);
@@ -440,7 +444,18 @@ const exportObj = {
   injector: rcInject,
   Api: Api,
   Poller: Poller,
-  run: damo.bootstrap
+  run: damo.bootstrap,
+
+  serialize: (obj) => {
+    return SI(obj);
+  },
+  deserialize: (obj, depth) => {
+    if(SI.isImmutable(obj)){
+      return obj.asMutable({isDeep: depth});
+    }else{
+      return obj;
+    }
+  }
 };
 
 Object.assign(damo, exportObj);

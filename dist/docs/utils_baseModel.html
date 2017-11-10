@@ -247,6 +247,10 @@
 <span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
 <span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
 
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPromise</span>(<span class="hljs-params">obj</span>)</span>{
+  <span class="hljs-keyword">return</span> !!(obj &amp;&amp; obj.then &amp;&amp; obj.catch);
+}
+
 <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
   <span class="hljs-keyword">static</span> processData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res };
 
@@ -500,25 +504,44 @@
   execQuery(ajaxOption, changeOption){
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery(ajaxOption, changeOption, <span class="hljs-keyword">this</span>.dispatch);
   }
-
+  
   setState(options){
     <span class="hljs-keyword">const</span> promises = [];
     <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options){
-      <span class="hljs-keyword">if</span>(options[key].then &amp;&amp; options[key].catch){
-        options[key] = {
-          <span class="hljs-attr">response</span>: options[key],
-          <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
-        }
-      }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(options[key].change){
-        options[key].change = {
-          <span class="hljs-attr">name</span>: key,
-          <span class="hljs-attr">callback</span>: options[key].change
-        }
-      }<span class="hljs-keyword">else</span>{
-        options[key].change = {
-          <span class="hljs-attr">name</span>: key,
-          <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
-        }
+      <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+        <span class="hljs-keyword">case</span> SI.isImmutable(options[key]):
+          options[key] = {
+            <span class="hljs-attr">response</span>: <span class="hljs-built_in">Promise</span>.resolve(options[key]),
+            <span class="hljs-attr">change</span>: {
+              <span class="hljs-attr">name</span>: key,
+              <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+            }
+          }
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> isPromise(options[key]):
+          options[key] = {
+            <span class="hljs-attr">response</span>: options[key],
+            <span class="hljs-attr">change</span>: {
+              <span class="hljs-attr">name</span>: key,
+              <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+            }
+          }
+          <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+          <span class="hljs-keyword">if</span>(options[key].change){
+            <span class="hljs-keyword">if</span>(options[key].change === <span class="hljs-string">'function'</span>){
+              options[key].change = {
+                <span class="hljs-attr">name</span>: key,
+                <span class="hljs-attr">callback</span>: options[key].change
+              };
+            }  
+          }<span class="hljs-keyword">else</span>{
+            options[key].change = {
+              <span class="hljs-attr">name</span>: key,
+              <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+            }
+          }
+          <span class="hljs-keyword">break</span>;
       }
       promises.push(<span class="hljs-keyword">this</span>.execQuery(options[key]));
     }
@@ -650,11 +673,11 @@
 
         <span class="hljs-keyword">const</span> payloadOption = { <span class="hljs-attr">name</span>: opt.name || operate, <span class="hljs-attr">params</span>: opt.params || opt.body, <span class="hljs-attr">change</span>: opt.change, <span class="hljs-attr">changes</span>: opt.changes };
         <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
-        <span class="hljs-keyword">const</span> isPromise = opt.response &amp;&amp; opt.response.then;
-        <span class="hljs-keyword">const</span> promise = isPromise ? opt.response : <span class="hljs-built_in">Promise</span>.resolve(opt.response);
+        <span class="hljs-keyword">const</span> _isPromise = isPromise(opt.response);
+        <span class="hljs-keyword">const</span> promise = _isPromise ? opt.response : <span class="hljs-built_in">Promise</span>.resolve(opt.response);
 
         <span class="hljs-keyword">if</span>(needToOperate){
-          <span class="hljs-keyword">if</span>(!isPromise){
+          <span class="hljs-keyword">if</span>(!_isPromise){
             <span class="hljs-keyword">const</span> data = processData(opt.response);
             dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
           }
@@ -675,7 +698,7 @@
           <span class="hljs-keyword">const</span> data = processData(res);
         
           <span class="hljs-keyword">if</span>(needToOperate){
-            <span class="hljs-keyword">if</span>(isPromise){
+            <span class="hljs-keyword">if</span>(_isPromise){
               dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
             }
             <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, <span class="hljs-literal">null</span>, data);

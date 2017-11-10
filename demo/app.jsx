@@ -5,7 +5,6 @@ import { connect, Provider } from 'react-redux';
 import { configureStore, autoLoadScenesRoutes, BaseSelector, component, BaseModel } from '../src/index';
 import { IntlProvider } from 'react-intl';
 
-BaseModel.processData = res => res.data;
 /**
  * ----------------------------------------------------------------------------
  *                            Store == DB
@@ -105,7 +104,6 @@ class Root extends Component {
         <Provider store={store}>
           <div>
             <Router history={hashHistory} routes={rootRoute} />
-            
           </div>
         </Provider>
       </IntlProvider>

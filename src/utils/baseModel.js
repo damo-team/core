@@ -12,6 +12,10 @@ import {ucfirst} from './core';
 import { EventEmitter } from 'events';
 import SI from 'seamless-immutable';
 
+function isPromise(obj){
+  return !!(obj && obj.then && obj.catch);
+}
+
 export class BaseModel extends EventEmitter{
   static processData = function (res) { return res };
 
@@ -159,25 +163,44 @@ export class BaseModel extends EventEmitter{
   execQuery(ajaxOption, changeOption){
     return this.getQuery(ajaxOption, changeOption, this.dispatch);
   }
-
+  
   setState(options){
     const promises = [];
     for(let key in options){
-      if(options[key].then && options[key].catch){
-        options[key] = {
-          response: options[key],
-          callback: data => data
-        }
-      }else if(options[key].change){
-        options[key].change = {
-          name: key,
-          callback: options[key].change
-        }
-      }else{
-        options[key].change = {
-          name: key,
-          callback: data => data
-        }
+      switch(true){
+        case SI.isImmutable(options[key]):
+          options[key] = {
+            response: Promise.resolve(options[key]),
+            change: {
+              name: key,
+              callback: data => data
+            }
+          }
+          break;
+        case isPromise(options[key]):
+          options[key] = {
+            response: options[key],
+            change: {
+              name: key,
+              callback: data => data
+            }
+          }
+          break;
+        default:
+          if(options[key].change){
+            if(options[key].change === 'function'){
+              options[key].change = {
+                name: key,
+                callback: options[key].change
+              };
+            }  
+          }else{
+            options[key].change = {
+              name: key,
+              callback: data => data
+            }
+          }
+          break;
       }
       promises.push(this.execQuery(options[key]));
     }
@@ -290,11 +313,11 @@ export class BaseModel extends EventEmitter{
 
         const payloadOption = { name: opt.name || operate, params: opt.params || opt.body, change: opt.change, changes: opt.changes };
         const actionOption = {suppressGlobalErrorNotification: suppressGlobalErrorNotification, suppressGlobalProgress: suppressGlobalProgress};
-        const isPromise = opt.response && opt.response.then;
-        const promise = isPromise ? opt.response : Promise.resolve(opt.response);
+        const _isPromise = isPromise(opt.response);
+        const promise = _isPromise ? opt.response : Promise.resolve(opt.response);
 
         if(needToOperate){
-          if(!isPromise){
+          if(!_isPromise){
             const data = processData(opt.response);
             dispatch && dispatch(this.createAction(this.createActionName(ucOperate, 'action'), data, Object.assign(payloadOption, { data: opt.response }), actionOption));
           }
@@ -315,7 +338,7 @@ export class BaseModel extends EventEmitter{
           const data = processData(res);
         
           if(needToOperate){
-            if(isPromise){
+            if(_isPromise){
               dispatch && dispatch(this.createAction(this.createActionName(ucOperate, 'action'), data, Object.assign(payloadOption, { data: opt.response }), actionOption));
             }
             this.emit('after' + ucOperate, null, data);

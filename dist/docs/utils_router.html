@@ -246,7 +246,7 @@
       path = RouteComponent.routePath;
     }
   }
-  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; option.name !== <span class="hljs-string">'root'</span> &amp;&amp; !RouteComponent.__view__)){
+  <span class="hljs-keyword">if</span>(RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; option.name !== <span class="hljs-string">'/'</span> &amp;&amp; !RouteComponent.__view__)){
     <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
   }
   <span class="hljs-keyword">if</span> (!routeConfig) {
@@ -280,7 +280,7 @@
       RouteComponent.prototype.componentWillMount = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
         componentWillMount &amp;&amp; componentWillMount.call(<span class="hljs-keyword">this</span>);
         <span class="hljs-keyword">this</span>
-          .context
+          .props
           .router
           .setRouteLeaveHook(<span class="hljs-keyword">this</span>.props.route, option.onDestroy)
       }

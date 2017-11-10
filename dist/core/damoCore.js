@@ -7,7 +7,7 @@
 		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
 		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -109,7 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _baseSelector = __webpack_require__(3);
+	var _baseSelector = __webpack_require__(4);
 
 	Object.keys(_baseSelector).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -145,7 +145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _fetch = __webpack_require__(4);
+	var _fetch = __webpack_require__(5);
 
 	Object.keys(_fetch).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -170,6 +170,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.autoLoadStore = autoLoadStore;
 	exports.autoLoadScenesRoutes = autoLoadScenesRoutes;
+
+	var _seamlessImmutable = __webpack_require__(3);
+
+	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
 	var _react = __webpack_require__(2);
 
@@ -283,7 +287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var level = option.level || 1;
 	  var routes = [];
 	  context.keys().sort(function (a, b) {
-	    return a < b;
+	    return a.split('/').length > b.split('/').length;
 	  }).forEach(function (relativePath) {
 	    var keys = relativePath.slice(2, -10).split(_path2.default.sep);
 	    var Comp = context(relativePath);
@@ -305,6 +309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      name = keys.pop();
 	      children = routes;
 	      var route = void 0;
+	      var navKey = keys[keys.length - 1];
 	      if (keys.length) {
 	        while ((key = keys.shift()) && (temp = children.find(function (route) {
 	          return route.name === key;
@@ -312,7 +317,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          route = temp;
 	          children = route.childRoutes || [];
 	        }
-	      } else {
+	      }
+	      if (!route) {
 	        route = children.find(function (route) {
 	          return route.name === '/';
 	        });
@@ -320,7 +326,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (route) {
 	        route.childRoutes = route.childRoutes || [];
 	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
-	          name: name
+	          name: name,
+	          navKey: navKey
 	        }, option.strict);
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          route.childRoutes.push(childRoute);
@@ -328,7 +335,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
 	          name: name,
-	          navKey: key
+	          navKey: navKey
 	        }, option.strict);
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          routes.push(childRoute);
@@ -597,7 +604,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  injector: _inject.rcInject,
 	  Api: _fetch.Api,
 	  Poller: _poller.Poller,
-	  run: damo.bootstrap
+	  run: damo.bootstrap,
+
+	  serialize: function serialize(obj) {
+	    return (0, _seamlessImmutable2.default)(obj);
+	  },
+	  deserialize: function deserialize(obj, depth) {
+	    if (_seamlessImmutable2.default.isImmutable(obj)) {
+	      return obj.asMutable({ isDeep: depth });
+	    } else {
+	      return obj;
+	    }
+	  }
 	};
 
 	Object.assign(damo, exportObj);
@@ -739,6 +757,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -890,7 +914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(_events.EventEmitter), _class.appStore = null, _class.emitter = new _events.EventEmitter(), _temp);
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1156,12 +1180,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	// }
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_5__;
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1246,7 +1264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    * 2. Model的实现基于事件机制，方便绑定自定义事件
 	                    */
 
-	var _fetch = __webpack_require__(4);
+	var _fetch = __webpack_require__(5);
 
 	var _createCrud = __webpack_require__(8);
 
@@ -1260,7 +1278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _events = __webpack_require__(11);
 
-	var _seamlessImmutable = __webpack_require__(5);
+	var _seamlessImmutable = __webpack_require__(3);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -1271,6 +1289,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function isPromise(obj) {
+	  return !!(obj && obj.then && obj.catch);
+	}
 
 	var BaseModel = exports.BaseModel = (_temp = _class = function (_EventEmitter) {
 	  _inherits(BaseModel, _EventEmitter);
@@ -1443,25 +1465,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function setState(options) {
 	      var promises = [];
 	      for (var key in options) {
-	        if (options[key].then && options[key].catch) {
-	          options[key] = {
-	            response: options[key],
-	            callback: function callback(data) {
-	              return data;
+	        switch (true) {
+	          case _seamlessImmutable2.default.isImmutable(options[key]):
+	            options[key] = {
+	              response: Promise.resolve(options[key]),
+	              change: {
+	                name: key,
+	                callback: function callback(data) {
+	                  return data;
+	                }
+	              }
+	            };
+	            break;
+	          case isPromise(options[key]):
+	            options[key] = {
+	              response: options[key],
+	              change: {
+	                name: key,
+	                callback: function callback(data) {
+	                  return data;
+	                }
+	              }
+	            };
+	            break;
+	          default:
+	            if (options[key].change) {
+	              if (options[key].change === 'function') {
+	                options[key].change = {
+	                  name: key,
+	                  callback: options[key].change
+	                };
+	              }
+	            } else {
+	              options[key].change = {
+	                name: key,
+	                callback: function callback(data) {
+	                  return data;
+	                }
+	              };
 	            }
-	          };
-	        } else if (options[key].change) {
-	          options[key].change = {
-	            name: key,
-	            callback: options[key].change
-	          };
-	        } else {
-	          options[key].change = {
-	            name: key,
-	            callback: function callback(data) {
-	              return data;
-	            }
-	          };
+	            break;
 	        }
 	        promises.push(this.execQuery(options[key]));
 	      }
@@ -1583,11 +1626,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          var payloadOption = { name: opt.name || operate, params: opt.params || opt.body, change: opt.change, changes: opt.changes };
 	          var actionOption = { suppressGlobalErrorNotification: suppressGlobalErrorNotification, suppressGlobalProgress: suppressGlobalProgress };
-	          var isPromise = opt.response && opt.response.then;
-	          var promise = isPromise ? opt.response : Promise.resolve(opt.response);
+	          var _isPromise = isPromise(opt.response);
+	          var promise = _isPromise ? opt.response : Promise.resolve(opt.response);
 
 	          if (needToOperate) {
-	            if (!isPromise) {
+	            if (!_isPromise) {
 	              var data = processData(opt.response);
 	              dispatch && dispatch(_this2.createAction(_this2.createActionName(ucOperate, 'action'), data, Object.assign(payloadOption, { data: opt.response }), actionOption));
 	            }
@@ -1608,7 +1651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var data = processData(res);
 
 	            if (needToOperate) {
-	              if (isPromise) {
+	              if (_isPromise) {
 	                dispatch && dispatch(_this2.createAction(_this2.createActionName(ucOperate, 'action'), data, Object.assign(payloadOption, { data: opt.response }), actionOption));
 	              }
 	              _this2.emit('after' + ucOperate, null, data);
@@ -2029,7 +2072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _class, _temp;
 
-	var _fetch = __webpack_require__(4);
+	var _fetch = __webpack_require__(5);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2430,9 +2473,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createCrud = __webpack_require__(8);
 
-	var _fetch = __webpack_require__(4);
+	var _fetch = __webpack_require__(5);
 
-	var _seamlessImmutable = __webpack_require__(5);
+	var _seamlessImmutable = __webpack_require__(3);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -3174,11 +3217,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _inject = __webpack_require__(10);
 
-	var _baseSelector = __webpack_require__(3);
+	var _baseSelector = __webpack_require__(4);
 
-	var _fetch = __webpack_require__(4);
+	var _fetch = __webpack_require__(5);
 
-	var _seamlessImmutable = __webpack_require__(5);
+	var _seamlessImmutable = __webpack_require__(3);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -3487,7 +3530,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createReducerFactory = createReducerFactory;
 	exports.createReducerAndModels = createReducerAndModels;
 
-	var _seamlessImmutable = __webpack_require__(5);
+	var _seamlessImmutable = __webpack_require__(3);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -4605,7 +4648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseModel = __webpack_require__(7);
 
-	var _baseSelector = __webpack_require__(3);
+	var _baseSelector = __webpack_require__(4);
 
 	var _core = __webpack_require__(1);
 
@@ -4613,7 +4656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rx = __webpack_require__(20);
 
-	var _seamlessImmutable = __webpack_require__(5);
+	var _seamlessImmutable = __webpack_require__(3);
 
 	var _seamlessImmutable2 = _interopRequireDefault(_seamlessImmutable);
 
@@ -4758,7 +4801,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _inject = __webpack_require__(10);
 
-	var _baseSelector = __webpack_require__(3);
+	var _baseSelector = __webpack_require__(4);
 
 	var _hoistNonReactStatics = __webpack_require__(46);
 
@@ -5194,7 +5237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path = RouteComponent.routePath;
 	    }
 	  }
-	  if (RouteComponent.prototype === undefined || strict && option.name !== 'root' && !RouteComponent.__view__) {
+	  if (RouteComponent.prototype === undefined || strict && option.name !== '/' && !RouteComponent.__view__) {
 	    return null;
 	  }
 	  if (!routeConfig) {
@@ -5227,7 +5270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var componentWillMount = RouteComponent.prototype.componentWillMount;
 	      RouteComponent.prototype.componentWillMount = function () {
 	        componentWillMount && componentWillMount.call(this);
-	        this.context.router.setRouteLeaveHook(this.props.route, option.onDestroy);
+	        this.props.router.setRouteLeaveHook(this.props.route, option.onDestroy);
 	      };
 	    }
 	  }
@@ -5245,7 +5288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-	var _baseSelector = __webpack_require__(3);
+	var _baseSelector = __webpack_require__(4);
 
 	var _core = __webpack_require__(1);
 
