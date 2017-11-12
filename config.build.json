@@ -24,7 +24,6 @@
     "react",
     "react-addons-pure-render-mixin",
     "react-dom",
-    "react-intl",
     "react-mixin",
     "react-redux",
     "react-redux-loading-bar",

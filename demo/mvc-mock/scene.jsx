@@ -1,5 +1,6 @@
 import path from 'path';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { component, BaseSelector, BaseModel, changeOperators } from '../../src/index'; // #! damo-core
 

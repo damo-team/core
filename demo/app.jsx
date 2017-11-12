@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Router, Route, Redirect, hashHistory, Link } from 'react-router';
 import { connect, Provider } from 'react-redux';
 import { configureStore, autoLoadScenesRoutes, BaseSelector, component, BaseModel } from '../src/index';
-import { IntlProvider } from 'react-intl';
 
 /**
  * ----------------------------------------------------------------------------
@@ -100,13 +99,11 @@ const rootRoute = {
 class Root extends Component {
   render() {
     return (
-      <IntlProvider locale="en">
         <Provider store={store}>
           <div>
             <Router history={hashHistory} routes={rootRoute} />
           </div>
         </Provider>
-      </IntlProvider>
     );
   }
 }

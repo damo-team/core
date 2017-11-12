@@ -4,7 +4,7 @@
  * 2. component希望把外部的state和context也能装饰到React组件中
  * 3. 内部通过recompose库来实现(hoc by recompose)
  */
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
 import cuid from 'cuid';
