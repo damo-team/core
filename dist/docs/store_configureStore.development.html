@@ -433,7 +433,7 @@ configureStore.replace = <span class="hljs-function"><span class="hljs-keyword">
   appStore.replaceReducer(rootReducer);
   
   <span class="hljs-comment">// #! 重新赋值models</span>
-  appStore.models = models;
+  <span class="hljs-built_in">Object</span>.assign(appStore.models, models);
 }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       

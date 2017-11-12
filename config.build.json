@@ -43,7 +43,7 @@
   "noUglify": true,
   "devtool": "",
   "partition": {
-    "NODE_ENV": "production",
+    "NODE_ENV": "development",
     "RXJS": true
   }
 }

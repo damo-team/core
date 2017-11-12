@@ -98,5 +98,5 @@ configureStore.replace = function(appStore, Models){
   appStore.replaceReducer(rootReducer);
   
   // #! 重新赋值models
-  appStore.models = models;
+  Object.assign(appStore.models, models);
 }

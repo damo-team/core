@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		module.exports = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react", "seamless-immutable", "events", "react-router", "rxjs", "cuid", "react-dom", "react-redux", "react-redux-loading-bar", "recompose", "damo-redux", "hoist-non-react-statics", "isomorphic-fetch", "react-router-redux", "redux-promise-middleware", "redux-thunk"], factory);
+		define(["react", "seamless-immutable", "events", "react-router", "rxjs", "cuid", "react-dom", "react-redux", "react-redux-loading-bar", "recompose", "damo-redux", "hoist-non-react-statics", "isomorphic-fetch", "react-router-redux", "redux-logger", "redux-promise-middleware", "redux-thunk"], factory);
 	else if(typeof exports === 'object')
-		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-promise-middleware"), require("redux-thunk"));
+		exports["damo"] = factory(require("react"), require("seamless-immutable"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
-		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_45__, __WEBPACK_EXTERNAL_MODULE_46__, __WEBPACK_EXTERNAL_MODULE_47__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__) {
+		root["damo"] = factory(root["react"], root["seamless-immutable"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-logger"], root["redux-promise-middleware"], root["redux-thunk"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_11__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_22__, __WEBPACK_EXTERNAL_MODULE_23__, __WEBPACK_EXTERNAL_MODULE_24__, __WEBPACK_EXTERNAL_MODULE_25__, __WEBPACK_EXTERNAL_MODULE_26__, __WEBPACK_EXTERNAL_MODULE_48__, __WEBPACK_EXTERNAL_MODULE_49__, __WEBPACK_EXTERNAL_MODULE_50__, __WEBPACK_EXTERNAL_MODULE_51__, __WEBPACK_EXTERNAL_MODULE_52__, __WEBPACK_EXTERNAL_MODULE_53__, __WEBPACK_EXTERNAL_MODULE_54__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _componentDecorator = __webpack_require__(39);
+	var _componentDecorator = __webpack_require__(41);
 
 	Object.keys(_componentDecorator).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -97,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resource = __webpack_require__(33);
+	var _resource = __webpack_require__(35);
 
 	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -183,11 +183,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _path = __webpack_require__(43);
+	var _path = __webpack_require__(45);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _router = __webpack_require__(40);
+	var _router = __webpack_require__(42);
 
 	var _router2 = _interopRequireDefault(_router);
 
@@ -224,8 +224,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	var Link = exports.Link = __webpack_require__(12).Link;
-	var configureStore = exports.configureStore = __webpack_require__(35);
-	var RxSelector = exports.RxSelector = __webpack_require__(41);
+	var configureStore = exports.configureStore = __webpack_require__(38);
+	var RxSelector = exports.RxSelector = __webpack_require__(43);
 	var RxComponent = exports.RxComponent = __webpack_require__(21);
 
 	// #! require.context('./models', false, /\.js$/);
@@ -933,7 +933,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.Api = Api;
 
-	var _isomorphicFetch = __webpack_require__(47);
+	var _isomorphicFetch = __webpack_require__(50);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
@@ -994,7 +994,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`damo-mocker`模块提供
 	 */
 	var doFetch = void 0;
-	if (true) {
+	if (false) {
 	  doFetch = _isomorphicFetch2.default;
 	} else {
 	  if (location.search.indexOf('debug=true') > -1 || window.DEBUG) {
@@ -1203,7 +1203,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var warning = function() {};
 
-	if (false) {
+	if (true) {
 	  warning = function(condition, format, args) {
 	    var len = arguments.length;
 	    args = new Array(len > 2 ? len - 2 : 0);
@@ -3767,7 +3767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	if (true) {
-	  module.exports = __webpack_require__(45);
+	  module.exports = __webpack_require__(48);
 	} else {
 	  module.exports = require('redux');
 	}
@@ -3935,7 +3935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var search = '';
 	  var hash = '';
 
-	   false ? _warning2['default'](path === pathname, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', path) : undefined;
+	   true ? _warning2['default'](path === pathname, 'A path must be pathname + search + hash only, not a fully qualified URL like "%s"', path) : undefined;
 
 	  var hashIndex = pathname.indexOf('#');
 	  if (hashIndex !== -1) {
@@ -3974,7 +3974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function deprecate(fn, message) {
 	  return function () {
-	     false ? _warning2['default'](false, '[history] ' + message) : undefined;
+	     true ? _warning2['default'](false, '[history] ' + message) : undefined;
 	    return fn.apply(this, arguments);
 	  };
 	}
@@ -4004,7 +4004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // call the callback with the return value.
 	    callback(result);
 	  } else {
-	     false ? _warning2['default'](result === undefined, 'You should not "return" in a transition hook with a callback argument; call the callback instead') : undefined;
+	     true ? _warning2['default'](result === undefined, 'You should not "return" in a transition hook with a callback argument; call the callback instead') : undefined;
 	  }
 	}
 
@@ -4063,7 +4063,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (baseHref != null) {
 	          basename = baseHref;
 
-	           false ? _warning2['default'](false, 'Automatically setting basename using <base href> is deprecated and will ' + 'be removed in the next major release. The semantics of <base href> are ' + 'subtly different from basename. Please pass the basename explicitly in ' + 'the options to createHistory') : undefined;
+	           true ? _warning2['default'](false, 'Automatically setting basename using <base href> is deprecated and will ' + 'be removed in the next major release. The semantics of <base href> are ' + 'subtly different from basename. Please pass the basename explicitly in ' + 'the options to createHistory') : undefined;
 	        }
 	      }
 
@@ -4185,10 +4185,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var setDisplayName = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
 	  var noArgs = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 
-	  if (false) {
+	  if (("development") !== 'production' && setDisplayName) {
 	    var _ret = function () {
 	      /* eslint-disable global-require */
-	      var wrapDisplayName = require('./wrapDisplayName').default;
+	      var wrapDisplayName = __webpack_require__(34).default;
 	      /* eslint-enable global-require */
 
 	      if (noArgs) {
@@ -4233,6 +4233,47 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 33 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	exports.__esModule = true;
+	var getDisplayName = function getDisplayName(Component) {
+	  if (typeof Component === 'string') {
+	    return Component;
+	  }
+
+	  if (!Component) {
+	    return undefined;
+	  }
+
+	  return Component.displayName || Component.name || 'Component';
+	};
+
+	exports.default = getDisplayName;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _getDisplayName = __webpack_require__(33);
+
+	var _getDisplayName2 = _interopRequireDefault(_getDisplayName);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var wrapDisplayName = function wrapDisplayName(BaseComponent, hocName) {
+	  return hocName + '(' + (0, _getDisplayName2.default)(BaseComponent) + ')';
+	};
+
+	exports.default = wrapDisplayName;
+
+/***/ },
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4265,7 +4306,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceAction = __webpack_require__(34);
+	var _resourceAction = __webpack_require__(36);
 
 	Object.keys(_resourceAction).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -4351,7 +4392,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4512,26 +4553,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	/**
-	 * # 创建store
-	 * 详情请查看对应的文件
-	 */
-	if (true) {
-	  module.exports = __webpack_require__(36);
-	} else {
-	  module.exports = require('./configureStore.development');
-	}
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -4540,42 +4565,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _rx = __webpack_require__(20);
 
-	var _reduxThunk = __webpack_require__(50);
+	var _reduxThunk = __webpack_require__(54);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+	var _reduxLogger = __webpack_require__(52);
+
+	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
 	var _reactRouter = __webpack_require__(12);
 
-	var _reactRouterRedux = __webpack_require__(48);
+	var _reactRouterRedux = __webpack_require__(51);
 
-	var _reduxPromiseMiddleware = __webpack_require__(49);
+	var _reduxPromiseMiddleware = __webpack_require__(53);
 
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 
 	var _reactReduxLoadingBar = __webpack_require__(25);
 
-	var _loadingBarMiddleware = __webpack_require__(38);
+	var _loadingBarMiddleware = __webpack_require__(40);
 
 	var _createReducerFactory = __webpack_require__(18);
 
-	var _enhanceStore = __webpack_require__(37);
+	var _enhanceStore = __webpack_require__(39);
 
 	var _enhanceStore2 = _interopRequireDefault(_enhanceStore);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
-	                                                                                                                                                                                                     * # 【生产】创建全局唯一的store
+	                                                                                                                                                                                                     * # 【日常】创建全局唯一的store
 	                                                                                                                                                                                                     *  1. applyMiddleware -> compose -> enhancer
 	                                                                                                                                                                                                     *  2. combineReducers -> rootReducer
 	                                                                                                                                                                                                     *  3. createStore(rootReducer, initialState, enhancer);
-	                                                                                                                                                                                                     * > see: https://github.com/barrystaes/react-trebuchet/tree/test-bottledapi-apireduxmiddleware/src/store
+	                                                                                                                                                                                                     *  > see: https://github.com/barrystaes/react-trebuchet/tree/test-bottledapi-apireduxmiddleware/src/store
 	                                                                                                                                                                                                     */
 
 	/**
 	 * + redux的middleware，让dispatch支持actionCreator  
 	 * > see: https://www.npmjs.com/package/redux-thunk 
 	 */
+
+	/**
+	 * + redux的middleware, 支持action日志打印到console控制台
+	 * > see: https://www.npmjs.com/package/redux-logger
+	 */
+
 
 	/**
 	 * + history + store (redux) → react-router-redux → enhanced history → react-router
@@ -4597,17 +4632,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	function configureStore(initialState, storeMiddlewares, createReducer) {
 	  if (appStore) return appStore;
 
+	  var logger = (0, _reduxLogger2.default)({
+	    level: 'info',
+	    collapsed: true
+	  });
+
 	  var router = (0, _reactRouterRedux.routerMiddleware)(_reactRouter.hashHistory);
 
-	  var enhancer = _rx.applyMiddleware.apply(undefined, [_reduxThunk2.default, router].concat(_toConsumableArray(storeMiddlewares), [(0, _reduxPromiseMiddleware2.default)(), (0, _loadingBarMiddleware.loadingBarMiddleware)({ promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR'] })]));
+	  var enhancer = (0, _rx.compose)(_rx.applyMiddleware.apply(undefined, [_reduxThunk2.default, router, logger].concat(_toConsumableArray(storeMiddlewares), [(0, _reduxPromiseMiddleware2.default)(), (0, _loadingBarMiddleware.loadingBarMiddleware)({ promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR'] })])), window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function (noop) {
+	    return noop;
+	  });
 
-	  /**
-	   * + 组合所有reducer到一起，每次触发action，所有reducer都会调用
-	   * > see: http://stackoverflow.com/questions/33590579/all-reducers-will-be-invoked-when-an-action-is-dispatched
-	   */
-
-	  var _createReducer = createReducer(),
-	      Models = _createReducer.Models;
+	  var _createReducer = createReducer(module.hot),
+	      Models = _createReducer.Models,
+	      hotAcceptId = _createReducer.hotAcceptId,
+	      hotModelsFeedback = _createReducer.hotModelsFeedback;
 
 	  var _createReducerAndMode = (0, _createReducerFactory.createReducerAndModels)({ routing: _reactRouterRedux.routerReducer, loadingBar: _reactReduxLoadingBar.loadingBarReducer }, Models),
 	      reducers = _createReducerAndMode.reducers,
@@ -4618,6 +4657,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  appStore = (0, _rx.createStore)(rootReducer, initialState, enhancer);
 
 	  (0, _enhanceStore2.default)(appStore, models, reducers);
+
+	  // #! 集成到chrome插件redux
+	  if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+	    window.__REDUX_DEVTOOLS_EXTENSION__.updateStore(appStore);
+	  }
+
+	  /**
+	   * + 支持代码热模块替换，原理是重新替换所有的Reducer
+	   * > see: https://webpack.github.io/docs/hot-module-replacement.html#example-3-hot-module-replace-with-require-context
+	   */
+	  if (false) {
+	    module.hot.accept(hotAcceptId, function () {
+
+	      var Models = hotModelsFeedback();
+
+	      configureStore.replace(appStore, Models);
+	    });
+	  }
+
 	  return appStore;
 	}
 
@@ -4631,12 +4689,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  appStore.replaceReducer(rootReducer);
 
 	  // #! 重新赋值models
-	  appStore.models = models;
+	  Object.assign(appStore.models, models);
 	};
 	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)(module)))
 
 /***/ },
-/* 37 */
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	/**
+	 * # 创建store
+	 * 详情请查看对应的文件
+	 */
+	if (false) {
+	  module.exports = require('./configureStore.production');
+	} else {
+	  module.exports = __webpack_require__(37);
+	}
+
+/***/ },
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4720,7 +4795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4775,7 +4850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4795,7 +4870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _withState2 = __webpack_require__(42);
+	var _withState2 = __webpack_require__(44);
 
 	var _withState3 = _interopRequireDefault(_withState2);
 
@@ -4803,7 +4878,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseSelector = __webpack_require__(4);
 
-	var _hoistNonReactStatics = __webpack_require__(46);
+	var _hoistNonReactStatics = __webpack_require__(49);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
@@ -5214,7 +5289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var View = exports.View = component;
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5279,7 +5354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5527,7 +5602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5605,7 +5680,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -5833,10 +5908,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -6026,22 +6101,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 45 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_45__;
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_46__;
-
-/***/ },
 /* 47 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_47__;
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
 
 /***/ },
 /* 48 */
@@ -6060,6 +6133,30 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_50__;
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_51__;
+
+/***/ },
+/* 52 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_52__;
+
+/***/ },
+/* 53 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_53__;
+
+/***/ },
+/* 54 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_54__;
 
 /***/ }
 /******/ ])
