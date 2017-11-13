@@ -282,23 +282,38 @@
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxSelector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxSelector'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxComponent'</span>);
 
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extractModules</span>(<span class="hljs-params">context</span>)</span>{
+  <span class="hljs-keyword">const</span> modules = {};
+
+  context
+      .keys()
+      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-built_in">module</span> = context(key);
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">module</span>.default){
+          <span class="hljs-built_in">module</span> = <span class="hljs-built_in">module</span>.default;
+        }
+        <span class="hljs-keyword">const</span> paths = key.split(path.sep);
+        <span class="hljs-keyword">let</span> name = <span class="hljs-built_in">module</span>.displayName;
+        <span class="hljs-keyword">if</span>(!name){
+          <span class="hljs-keyword">const</span> fileName = paths.pop().split(<span class="hljs-string">'.'</span>).slice(<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>).join(<span class="hljs-string">'.'</span>);
+          <span class="hljs-keyword">if</span>(fileName === <span class="hljs-string">'index'</span>){
+            name = paths.pop();
+          }<span class="hljs-keyword">else</span>{
+            name = fileName;
+          }
+        }
+        modules[name] = <span class="hljs-built_in">module</span>;
+      });
+    <span class="hljs-keyword">return</span> modules;
+}
 <span class="hljs-comment">// #! require.context('./models', false, /\.js$/);</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadStore</span>(<span class="hljs-params">initialState = {}, middlewares = [], context, getInitReducers = function (</span>) </span>{}) {
   <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
   <span class="hljs-keyword">return</span> configureStore(initialState, middlewares, hot =&gt; {
-    <span class="hljs-keyword">const</span> Models = getInitReducers() || {};
-    context
-      .keys()
-      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        Models[
-          key
-            .split(<span class="hljs-string">'/'</span>)
-            .pop()
-            .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
-        ] = context(key);
-      });
+    <span class="hljs-keyword">const</span> Models = extractModules(context);
+    <span class="hljs-built_in">Object</span>.assign(Models, getInitReducers());
     <span class="hljs-keyword">const</span> hotAcceptId = context.id;
     <span class="hljs-keyword">let</span> hotModelsFeedback;
     <span class="hljs-keyword">if</span> (hot) {
@@ -319,17 +334,8 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre>        <span class="hljs-keyword">const</span> reloadedModels = getInitReducers() || {};
-        context
-          .keys()
-          .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-            reloadedModels[
-              key
-                .split(<span class="hljs-string">'/'</span>)
-                .pop()
-                .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
-            ] = context(key);
-          });
+        <div class='highlight'><pre><div class='highlight'><pre>        <span class="hljs-keyword">const</span> reloadedModels = extractModules(context);
+        <span class="hljs-built_in">Object</span>.assign(reloadedModels, getInitReducers());
         <span class="hljs-keyword">return</span> {<span class="hljs-attr">Models</span>: reloadedModels};
       }
     }
@@ -341,17 +347,7 @@
   <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
-  <span class="hljs-keyword">const</span> Services = {};
-  context
-    .keys()
-    .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-      Services[
-        key
-          .split(<span class="hljs-string">'/'</span>)
-          .pop()
-          .split(<span class="hljs-string">'.'</span>)[<span class="hljs-number">0</span>]
-      ] = context(key);
-    });
+  <span class="hljs-keyword">const</span> Services = extractModules(context);
   rcInject.setService(Services)
 }
 
@@ -553,7 +549,19 @@
       .select(prop, <span class="hljs-literal">true</span>);
   },
   route(path, RouteComponent, option = {}) {
-    <span class="hljs-keyword">const</span> routeConfig = router(path, RouteComponent, option, option.strict);
+    <span class="hljs-keyword">let</span> routeConfig;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(path) === path) {
+      <span class="hljs-keyword">if</span> (path.path &amp;&amp; path.component) {
+        routeConfig = path;
+      } <span class="hljs-keyword">else</span> {
+        option = RouteComponent;
+        RouteComponent = path;
+        path = RouteComponent.routePath;
+      }
+    }
+    <span class="hljs-keyword">if</span>(!routeConfig){
+      routeConfig = router(path, RouteComponent, option, option.strict);
+    }
     damo
       .$$routes__
       .push(routeConfig);
@@ -583,24 +591,13 @@
       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
     }
 
-    <span class="hljs-keyword">const</span> defaultModels = <span class="hljs-built_in">Object</span>.assign({}, damo.$$defaultModels__);
+    <span class="hljs-keyword">const</span> defaultModels = <span class="hljs-built_in">Object</span>.assign({}, damo.$$defaultModels__, extractModules(modelContext));
 
-    modelContext
-      .keys()
-      .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        <span class="hljs-keyword">const</span> model = modelContext(key);
-        defaultModels[model.displayName || path.basename(key).replace(path.extname(key), <span class="hljs-string">''</span>)] = model;
-      });
     <span class="hljs-keyword">if</span> (resourceContext) {
-      resourceContext
-        .keys()
-        .forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-          <span class="hljs-keyword">const</span> entity = modelContext(key);
-          <span class="hljs-keyword">const</span> name = entity.displayName || path.basename(key).replace(path.extname(key), <span class="hljs-string">''</span>);
-          <span class="hljs-keyword">if</span> (defaultModels[name]) {
-            defaultModels[name] = resource(entity)(defaultModels[name]);
-          };
-        });
+      <span class="hljs-keyword">const</span> resources = extractModules(resourceContext);
+      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> resources){
+        defaultModels[name] = resource(resources[key])(defaultModels[name]);
+      }
     }
 
     configureStore.replace(damo.$$store__, defaultModels);
@@ -619,11 +616,16 @@
   autoLoadRoutes(context, option) {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
-  view(Selector, SceneComponent, providers) {
+  view(Selector, SceneComponent, providers, noFlattern) {
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> providers === <span class="hljs-string">'boolean'</span>){
+      noFlattern = providers;
+      providers = <span class="hljs-literal">null</span>;
+    }
     <span class="hljs-keyword">const</span> getView = <span class="hljs-function">(<span class="hljs-params">nextState, callback</span>) =&gt;</span> {
       <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
         <span class="hljs-keyword">const</span> moelds = Selector;
         <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
+          <span class="hljs-keyword">static</span> noFlattern = noFlattern;
           <span class="hljs-keyword">static</span> dataBindings = moelds;
           <span class="hljs-keyword">static</span> eventBindings = moelds;
         }
@@ -632,6 +634,8 @@
         providers = SceneComponent;
         SceneComponent = Selector;
         Selector = <span class="hljs-literal">null</span>;
+      }<span class="hljs-keyword">else</span>{
+        Selection.noFlattern = noFlattern;
       }
       <span class="hljs-keyword">if</span>(callback){
         callback(<span class="hljs-literal">null</span>, View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent));

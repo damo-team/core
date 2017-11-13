@@ -19,7 +19,7 @@ class User extends BaseModel {
 
   getUser() {
     return this.setState({
-      profile: Api.get('https://api.github.com/users/baqian')
+      profile: Api.get('https://api.github.com/users/baqian').then(data => ({data: data}))
     });
   }
 }

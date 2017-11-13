@@ -22,6 +22,25 @@ const _withState = (...args) => BaseComponent => {
   let Component = withState(...args)(BaseComponent);
   return hoistNonReactStatics(Component, BaseComponent);
 }
+
+function deepMerge(a, b, extra){
+  const obj = {};
+  for(let key in a){
+    if(Object(a[key]) === a[key] && Object(b[key]) === b[key]){
+      obj[key] = Object.assign({}, a[key], b[key]);
+    }else if(b[key] === undefined){
+      obj[key] = a[key];
+    }else{
+      obj[key] = b[key];
+    }
+  }
+  for(let key in b){
+    if(obj[key] === undefined){
+      obj[key] = b[key];
+    }
+  }
+  return Object.assign(obj, extra);
+}
 /**
  * + hoc by recompose
  * > see:
@@ -54,25 +73,40 @@ export const component = ({
     inputs = selectorInstance.inputs;
     outputs = selectorInstance.outputs;
 
-    if(inputs.toString() === BaseSelector.prototype.inputs.toString() && selector.dataBindings){
+    if (inputs.toString() === BaseSelector.prototype.inputs.toString() && selector.dataBindings) {
       inputs = () => {
         return (state, ownProps) => {
           let iState = {};
-          switch(true){
+          switch (true) {
             case typeof selector.dataBindings === 'function':
-              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
+              iState = selector
+                .dataBindings
+                .call(selectorInstance, state, ownProps);
               break;
             case Array.isArray(selector.dataBindings):
-              selector.dataBindings.forEach(name => {
-                const model = BaseSelector.appStore.models[name];
-                Object.assign(iState, model.state);
-              });
+              if(selector.noFlattern){
+                selector
+                .dataBindings
+                .forEach(name => {
+                  const model = BaseSelector.appStore.models[name];
+                  iState[name] = model.state;
+                });
+              }else{
+                selector
+                .dataBindings
+                .forEach(name => {
+                  const model = BaseSelector.appStore.models[name];
+                  Object.assign(iState, model.state);
+                });
+              }
               break;
             default:
-              for(let key in selector.dataBindings){
-                if(typeof selector.dataBindings[key] === 'function'){
-                  iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
-                }else{
+              for (let key in selector.dataBindings) {
+                if (typeof selector.dataBindings[key] === 'function') {
+                  iState[key] = selector
+                    .dataBindings[key]
+                    .call(selectorInstance, state, ownProps);
+                } else {
                   iState[key] = selector.dataBindings[key];
                 }
               }
@@ -83,27 +117,46 @@ export const component = ({
       }
     }
 
-    if(outputs.toString() === BaseSelector.prototype.outputs.toString() && selector.eventBindings){
+    if (outputs.toString() === BaseSelector.prototype.outputs.toString() && selector.eventBindings) {
       outputs = () => {
         return (dispatch, ownProps) => {
           let iActions = {};
-          switch(true){
+          switch (true) {
             case typeof(selector.eventBindings) === 'function':
-              iActions = selector.eventBindings.call(selectorInstance, dispatch, ownProps);
+              iActions = selector
+                .eventBindings
+                .call(selectorInstance, dispatch, ownProps);
               break;
             case Array.isArray(selector.eventBindings):
-              selector.dataBindings.forEach(name => {
-                const model = BaseSelector.appStore.models[name];
-                Object.getOwnPropertyNames(model.__proto__).forEach(method => {
-                  if(typeof model[method] === 'function' && method !== 'constructor'){
-                    iActions[method] = model[method].bind(model);
+              selector
+                .dataBindings
+                .forEach(name => {
+                  const model = BaseSelector.appStore.models[name];
+                  const names = Object.getOwnPropertyNames(model.__proto__);
+                  names.shift();
+                  if (selector.noFlattern) {
+                    const mAction = {};
+                    names.forEach(method => {
+                      if (typeof model[method] === 'function') {
+                        mAction[method] = model[method].bind(model);
+                      }
+                    });
+                    iActions[name] = mAction;
+                    iActions.__deep__ = true;
+                  } else {
+                    names.forEach(method => {
+                      if (typeof model[method] === 'function') {
+                        iActions[method] = model[method].bind(model);
+                      }
+                    });
                   }
-                })
-              });
+                });
               break;
             default:
-              for(let key in selector.eventBindings){
-                iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+              for (let key in selector.eventBindings) {
+                iActions[key] = selector
+                  .eventBindings[key]
+                  .bind(selectorInstance);
               }
               break;
           }
@@ -118,13 +171,13 @@ export const component = ({
     const services = {};
     const parentContextTypes = [];
 
-    for(let key in BaseComponent.contextTypes){
+    for (let key in BaseComponent.contextTypes) {
       contextTypes[key] = BaseComponent.contextTypes[key];
       parentContextTypes.push(key);
       services[key] = rcInject.getService(key)
     }
     delete services.selector;
-    
+
     if (selectorInstance) {
       contextTypes.selector = PropTypes.object.isRequired;
     }
@@ -140,14 +193,22 @@ export const component = ({
       BaseComponent.contextTypes = Object.assign(BaseComponent.contextTypes || {}, contextTypes);
     }
 
-    const Component = connect(inputs, outputs)(BaseComponent);
+    const Component = connect(inputs, outputs, (stateProps, dispatchProps, parentProps) => {
+      if(dispatchProps.__deep__){
+        return deepMerge(stateProps, dispatchProps, parentProps);
+      }else{
+        return Object.assign({}, stateProps, dispatchProps, parentProps);
+      }
+    })(BaseComponent);
     Component.__view__ = true;
 
     const handleChange = Component.prototype.handleChange;
 
-    Component.prototype.handleChange = function(){
-      var storeState = this.store.getState();
-      for(let name in this.store.models){
+    Component.prototype.handleChange = function () {
+      var storeState = this
+        .store
+        .getState();
+      for (let name in this.store.models) {
         this.store.models[name].state = storeState[name];
       }
       handleChange.call(this);
@@ -164,7 +225,7 @@ export const component = ({
 
       parentContextTypes.forEach(name => {
         // #! 如果全局没有这个服务，那么从父级继承下来
-        if(!services[name]){
+        if (!services[name]) {
           services[name] = getParantService.call(this, name);
         }
       });
@@ -292,100 +353,115 @@ function getService(name) {
   return service || getParantService.call(this, name)
 };
 
-
 export const Input = (model) => (prototype, method, obj) => {
   prototype.$inputMethods_ = prototype.$inputMethods_ || [];
-  prototype.$inputMethods_.push({
-    name: method,
-    value: obj.initializer? obj.initializer() : obj.value,
-    model: model
-  });
-  if(prototype.propertyIsEnumerable('inputs')) return;
+  prototype
+    .$inputMethods_
+    .push({
+      name: method,
+      value: obj.initializer
+        ? obj.initializer()
+        : obj.value,
+      model: model
+    });
+  if (prototype.propertyIsEnumerable('inputs')) 
+    return;
   Object.defineProperty(prototype, 'inputs', {
     enumerable: true,
-    get: function() {
+    get: function () {
       return (state, ownProps) => {
         const iState = {};
-        prototype.$inputMethods_.forEach(method => {
-          try{
-            if(method.model){
-              if(method.model.indexOf('.') > -1){
-                iState[method.name] = this.getModel(method.model).select(method.name, true);
-              }else{
-                iState[method.name] = state[method.model][method.name];
+        prototype
+          .$inputMethods_
+          .forEach(method => {
+            try {
+              if (method.model) {
+                if (method.model.indexOf('.') > -1) {
+                  iState[method.name] = this
+                    .getModel(method.model)
+                    .select(method.name, true);
+                } else {
+                  iState[method.name] = state[method.model][method.name];
+                }
+
+              } else if (method.model === false) {
+                iState[method.name] = method.value;
+              } else {
+                iState[method.name] = method
+                  .value
+                  .call(this, state, ownProps);
               }
-              
-            }else if(method.model === false){
-              iState[method.name] = method.value;
-            }else{
-              iState[method.name] = method.value.call(this, state, ownProps);
+            } catch (e) {
+              console.error('[Selector Error]' + e.stack);
             }
-          }catch(e){
-            console.error('[Selector Error]' + e.stack);
-          }
-        })
+          })
         return iState;
       }
     }
   })
-} 
+}
 
 export const Output = (model) => (prototype, method, obj) => {
   prototype.$outputMethods_ = prototype.$outputMethods_ || [];
-  prototype.$outputMethods_.push({
-    name: method,
-    value: obj.value,
-    model: model
-  });
-  if(prototype.propertyIsEnumerable('outputs')) return;
+  prototype
+    .$outputMethods_
+    .push({name: method, value: obj.value, model: model});
+  if (prototype.propertyIsEnumerable('outputs')) 
+    return;
   Object.defineProperty(prototype, 'outputs', {
     enumerable: true,
-    get(){
+    get() {
       return (dispatch, ownProps) => {
         const iAction = {};
-        prototype.$outputMethods_.forEach(method => {
-          if(method.model){
-            iAction[method.name] = (...args) => {
-              return this.getModel(method.model)[method.name](args);
-            };
-          }else if(method.model === false){
-            iAction[method.name] = method.value;
-          }else{
-            iAction[method.name] = method.value.call(this, dispatch, ownProps);
-          }
-        })
+        prototype
+          .$outputMethods_
+          .forEach(method => {
+            if (method.model) {
+              iAction[method.name] = (...args) => {
+                return this.getModel(method.model)[method.name](args);
+              };
+            } else {
+              iAction[method.name] = method
+                .value
+                .bind(this)
+            }
+          })
         return iAction;
       }
     }
   })
-} 
+}
 
 export const initialState = (prototype, property, obj) => {
   prototype.$propMethods_ = prototype.$propMethods_ || [];
-  prototype.$propMethods_.push({
-    name: property,
-    value: obj.initializer()
-  });
+  prototype
+    .$propMethods_
+    .push({
+      name: property,
+      value: obj.initializer()
+    });
   Object.defineProperty(prototype, 'properties', {
     enumerable: true,
     get() {
       const properties = {};
-      prototype.$propMethods_.forEach(prop => {
-        properties[prop.name] = prop.value;
-      });
+      prototype
+        .$propMethods_
+        .forEach(prop => {
+          properties[prop.name] = prop.value;
+        });
       return properties;
     }
   })
-} 
+}
 
 export const dispatch = (prototype, method, obj) => {
   const func = obj.value;
   obj.initializer = (...args) => {
-    return function(){
+    return function () {
       return func.apply(this, args)(this.dispatch);
     }
   };
-} 
+}
 
 export {PropTypes};
 export const View = component;

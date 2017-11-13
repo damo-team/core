@@ -94,11 +94,9 @@ Damo框架包括前端应用开发所用到的一系列库，有些是核心库�
 13. 异步路由 - https://segmentfault.com/a/1190000006063554
 
 
-1. damo.init支持ready形式，可以提前注册model、view之类的
-2. damo.router
-3. bootstrap自定义路由
-4. damo autoloadModels
-5. source-map
+2. multi app
+3. Api, uri , ?
+
 6. ts
 7. css-module
 8. require.ensure

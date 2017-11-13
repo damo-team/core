@@ -244,11 +244,9 @@
 <span class="hljs-keyword">import</span> {resourceCRUD} <span class="hljs-keyword">from</span> <span class="hljs-string">'./resourceCRUD'</span>;
 
 <span class="hljs-keyword">const</span> noop = <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d;
-<span class="hljs-keyword">const</span> defaultProcessData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{
-  <span class="hljs-keyword">return</span> res
-};
 
 <span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseResource</span> </span>{
+  <span class="hljs-keyword">static</span> processData = <span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res;
   <span class="hljs-keyword">static</span> validate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{};
   <span class="hljs-keyword">static</span> ASSIGN_METHODS = resourceCRUD;
 
@@ -542,7 +540,7 @@
           }
           
           promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
-            <span class="hljs-keyword">const</span> processData = newHttp.extraOption.processData || action.processData || defaultProcessData;
+            <span class="hljs-keyword">const</span> processData = newHttp.extraOption.processData || action.processData || BaseResource.processData;
             <span class="hljs-keyword">const</span> data = processData(res, ajaxOption.params);
 
             <span class="hljs-keyword">const</span> state = <span class="hljs-keyword">this</span>.applyState({

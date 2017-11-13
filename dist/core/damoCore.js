@@ -228,6 +228,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	var RxSelector = exports.RxSelector = __webpack_require__(51);
 	var RxComponent = exports.RxComponent = __webpack_require__(26);
 
+	function extractModules(context) {
+	  var modules = {};
+
+	  context.keys().forEach(function (key) {
+	    var module = context(key);
+	    if (module.default) {
+	      module = module.default;
+	    }
+	    var paths = key.split(_path2.default.sep);
+	    var name = module.displayName;
+	    if (!name) {
+	      var fileName = paths.pop().split('.').slice(0, -1).join('.');
+	      if (fileName === 'index') {
+	        name = paths.pop();
+	      } else {
+	        name = fileName;
+	      }
+	    }
+	    modules[name] = module;
+	  });
+	  return modules;
+	}
 	// #! require.context('./models', false, /\.js$/);
 	function autoLoadStore() {
 	  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -239,19 +261,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    throw new Error('需要提供require.context的遍历列表！');
 	  }
 	  return configureStore(initialState, middlewares, function (hot) {
-	    var Models = getInitReducers() || {};
-	    context.keys().forEach(function (key) {
-	      Models[key.split('/').pop().split('.')[0]] = context(key);
-	    });
+	    var Models = extractModules(context);
+	    Object.assign(Models, getInitReducers());
 	    var hotAcceptId = context.id;
 	    var hotModelsFeedback = void 0;
 	    if (hot) {
 	      hotModelsFeedback = function hotModelsFeedback() {
 	        // const reloadedContext = require.context('./models', false, /\.js$/);
-	        var reloadedModels = getInitReducers() || {};
-	        context.keys().forEach(function (key) {
-	          reloadedModels[key.split('/').pop().split('.')[0]] = context(key);
-	        });
+	        var reloadedModels = extractModules(context);
+	        Object.assign(reloadedModels, getInitReducers());
 	        return { Models: reloadedModels };
 	      };
 	    }
@@ -263,10 +281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!context) {
 	    throw new Error('需要提供require.context的遍历列表！');
 	  }
-	  var Services = {};
-	  context.keys().forEach(function (key) {
-	    Services[key.split('/').pop().split('.')[0]] = context(key);
-	  });
+	  var Services = extractModules(context);
 	  _inject.rcInject.setService(Services);
 	}
 
@@ -463,7 +478,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  route: function route(path, RouteComponent) {
 	    var option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-	    var routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
+	    var routeConfig = void 0;
+	    if (Object(path) === path) {
+	      if (path.path && path.component) {
+	        routeConfig = path;
+	      } else {
+	        option = RouteComponent;
+	        RouteComponent = path;
+	        path = RouteComponent.routePath;
+	      }
+	    }
+	    if (!routeConfig) {
+	      routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
+	    }
 	    damo.$$routes__.push(routeConfig);
 
 	    return {
@@ -489,20 +516,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      throw new Error('需要提供require.context的遍历列表！');
 	    }
 
-	    var defaultModels = Object.assign({}, damo.$$defaultModels__);
+	    var defaultModels = Object.assign({}, damo.$$defaultModels__, extractModules(modelContext));
 
-	    modelContext.keys().forEach(function (key) {
-	      var model = modelContext(key);
-	      defaultModels[model.displayName || _path2.default.basename(key).replace(_path2.default.extname(key), '')] = model;
-	    });
 	    if (resourceContext) {
-	      resourceContext.keys().forEach(function (key) {
-	        var entity = modelContext(key);
-	        var name = entity.displayName || _path2.default.basename(key).replace(_path2.default.extname(key), '');
-	        if (defaultModels[name]) {
-	          defaultModels[name] = (0, _resource.resource)(entity)(defaultModels[name]);
-	        };
-	      });
+	      var resources = extractModules(resourceContext);
+	      for (var key in resources) {
+	        defaultModels[name] = (0, _resource.resource)(resources[key])(defaultModels[name]);
+	      }
 	    }
 
 	    configureStore.replace(damo.$$store__, defaultModels);
@@ -519,7 +539,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  autoLoadRoutes: function autoLoadRoutes(context, option) {
 	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
 	  },
-	  view: function view(Selector, SceneComponent, providers) {
+	  view: function view(Selector, SceneComponent, providers, noFlattern) {
+	    if (typeof providers === 'boolean') {
+	      noFlattern = providers;
+	      providers = null;
+	    }
 	    var getView = function getView(nextState, callback) {
 	      if (Array.isArray(Selector)) {
 	        var _class, _temp;
@@ -535,13 +559,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 
 	          return SelectorClass;
-	        }(_baseSelector.BaseSelector), _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
+	        }(_baseSelector.BaseSelector), _class.noFlattern = noFlattern, _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
 
 	        Selector = SelectorClass;
 	      } else if (Selector.prototype.isReactComponent) {
 	        providers = SceneComponent;
 	        SceneComponent = Selector;
 	        Selector = null;
+	      } else {
+	        Selection.noFlattern = noFlattern;
 	      }
 	      if (callback) {
 	        callback(null, (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent));
@@ -1336,7 +1362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * ### actionType, actionCreator和创建action的逻辑
-	     * 
+	     *
 	     * + 同步的action，以'actionName'来创建，得到
 	     *  * actionType: `ACTION_NAME_ACTION`
 	     *  * actionCreator的key：`$actionNameAction`
@@ -1393,7 +1419,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            type: _createCrud.changeOperators['SETPROPERTY'],
 	            getData: payloadOption.change
 	          }];
-	        } else if (Object.assign(payloadOption.change) === payloadOption.change) {
+	        } else if (Object(payloadOption.change) === payloadOption.change) {
 	          payloadOption.changes = [payloadOption.change];
 	        } else {
 	          payloadOption.changes = [{
@@ -1414,12 +1440,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    /**
 	     * ### Model特性属性
-	     * 
+	     *
 	     * |        属性名         |          描述          |
 	     * |:       ------        |         ------        |
 	     * | generatorKey: String | Model的唯一键名         |
 	     * | properties: Object   | Model的数据域的数据结构  |
-	     * | dispatch: Function | 获取store实例的dispatch方法 | 
+	     * | dispatch: Function | 获取store实例的dispatch方法 |
 	     */
 
 	  }]);
@@ -1449,7 +1475,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * ### Model方法
-	   * 
+	   *
 	   * |     方法名   |          描述          |       参数        |    默认参数      |
 	   * |     ------  |         ------        |       ------      |        ------   |
 	   * | getAppStore | 获取redux的store实例    |       NA          |         NA      |
@@ -1503,6 +1529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          case _seamlessImmutable2.default.isImmutable(options[key]):
 	            options[key] = {
 	              response: Promise.resolve(options[key]),
+	              operate: key,
 	              change: {
 	                name: key,
 	                callback: function callback(data) {
@@ -1512,31 +1539,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	            break;
 	          case isPromise(options[key]):
-	            options[key] = {
+	            Object.assign(options[key], {
 	              response: options[key],
+	              operate: key,
 	              change: {
 	                name: key,
 	                callback: function callback(data) {
 	                  return data;
 	                }
 	              }
-	            };
+	            });
 	            break;
 	          default:
 	            if (options[key].change) {
 	              if (options[key].change === 'function') {
-	                options[key].change = {
-	                  name: key,
-	                  callback: options[key].change
-	                };
+	                Object.assign(options[key], {
+	                  operate: key,
+	                  change: {
+	                    name: key,
+	                    callback: options[key].change
+	                  }
+	                });
 	              }
 	            } else {
-	              options[key].change = {
-	                name: key,
-	                callback: function callback(data) {
-	                  return data;
+	              Object.assign(options[key], {
+	                operate: key,
+	                change: {
+	                  name: key,
+	                  callback: function callback(data) {
+	                    return data;
+	                  }
 	                }
-	              };
+	              });
 	            }
 	            break;
 	        }
@@ -1572,7 +1606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *  ```
 	     *    * 系统存在默认的`processData=res=>res.data`，即拿到接口数据的data作为处理数据
 	     *    * 当不想走接口，而是通过静态数据做change时，可以配置`ajaxOption={response: 数据}`
-	     * 
+	     *
 	     * + changeOption配置, 用于把获取到的数据更新到store。
 	     *  ```
 	     *    {
@@ -1586,7 +1620,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *  ```
 	     *    * 实际上type值为其一：["add", "update", "delete", "reconfigure": 'setProperty']
 	     *    > https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/observe
-	     * 
+	     *
 	     * + 更简单的方式，ajaxOption和changeOption可以合成一个参数, 举个例子
 	     *  ```
 	     *    {
@@ -1598,7 +1632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *    }
 	     *  ```
 	     *    * 当change只有一项时，可以平铺出来，当然也可以通过change属性来配，多个change仍可以用changes
-	     *    * 通过type来配置时，实际上依赖于Model的generatorKey，用来识别数据是否已存在。 
+	     *    * 通过type来配置时，实际上依赖于Model的generatorKey，用来识别数据是否已存在。
 	     */
 
 	  }, {
@@ -1630,9 +1664,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var processData = extraOption.processData || opt.processData;
 	          var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	          var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
-	          var actionOption = { suppressGlobalErrorNotification: suppressGlobalErrorNotification, suppressGlobalProgress: suppressGlobalProgress };
+	          var actionOption = {
+	            suppressGlobalErrorNotification: suppressGlobalErrorNotification,
+	            suppressGlobalProgress: suppressGlobalProgress
+	          };
 
-	          var promise = opt.request(opt.params || opt.body, { dispatch: dispatch, processData: processData, action: actionOption, changes: opt.changes, callback: extraOption.callback, errorNotification: extraOption.errorNotification });
+	          var promise = opt.request(opt.params || opt.body, {
+	            dispatch: dispatch,
+	            processData: processData,
+	            action: actionOption,
+	            changes: opt.changes,
+	            callback: extraOption.callback,
+	            errorNotification: extraOption.errorNotification
+	          });
 
 	          promise.fromSubscribe = function (callback) {
 	            if (callback) {
@@ -1658,8 +1702,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          needToOperate && _this2.createActionCreator([], [_this2.createActionName(ucOperate)]);
 
-	          var payloadOption = { name: opt.name || operate, params: opt.params || opt.body, change: opt.change, changes: opt.changes };
-	          var actionOption = { suppressGlobalErrorNotification: suppressGlobalErrorNotification, suppressGlobalProgress: suppressGlobalProgress };
+	          var payloadOption = {
+	            name: opt.name || operate,
+	            params: opt.params || opt.body,
+	            change: opt.change,
+	            changes: opt.changes
+	          };
+	          var actionOption = {
+	            suppressGlobalErrorNotification: suppressGlobalErrorNotification,
+	            suppressGlobalProgress: suppressGlobalProgress
+	          };
 	          var _isPromise = isPromise(opt.response);
 	          var promise = _isPromise ? opt.response : Promise.resolve(opt.response);
 
@@ -1722,21 +1774,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
 	        var suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
-	        var payloadOption = { name: opt.name || operate, params: opt.params || opt.body, change: opt.change, changes: opt.changes };
-	        var actionOption = { suppressGlobalErrorNotification: suppressGlobalErrorNotification, suppressGlobalProgress: suppressGlobalProgress };
+	        var payloadOption = {
+	          name: opt.name || operate,
+	          params: opt.params || opt.body,
+	          change: opt.change,
+	          changes: opt.changes
+	        };
+	        var actionOption = {
+	          suppressGlobalErrorNotification: suppressGlobalErrorNotification,
+	          suppressGlobalProgress: suppressGlobalProgress
+	        };
 
 	        if (needToOperate) {
 	          dispatch && dispatch(_this3.createAction(_this3.createActionName(ucOperate, 'start'), opt.initialValue, Object.assign(payloadOption, { data: promise }), actionOption));
 	          _this3.emit('before' + ucOperate, opt);
 	        }
 
-	        var promise = (0, _fetch.Api)({
-	          url: opt.uri,
-	          method: opt.method,
-	          data: opt.body,
-	          headers: opt.headers,
-	          errorNotification: opt.errorNotification
-	        });
+	        var promise = (0, _fetch.Api)({ url: opt.uri, method: opt.method, data: opt.body, headers: opt.headers, errorNotification: opt.errorNotification });
 
 	        promise.fromSubscribe = function (callback) {
 	          if (callback) {
@@ -2706,9 +2760,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var noop = function noop(d) {
 	  return d;
 	};
-	var defaultProcessData = function defaultProcessData(res) {
-	  return res;
-	};
 
 	var BaseResource = exports.BaseResource = (_temp = _class = function () {
 	  function BaseResource(resourceName) {
@@ -2987,7 +3038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 
 	            promise.then(function (res) {
-	              var processData = newHttp.extraOption.processData || action.processData || defaultProcessData;
+	              var processData = newHttp.extraOption.processData || action.processData || BaseResource.processData;
 	              var data = processData(res, ajaxOption.params);
 
 	              var state = _this.applyState({
@@ -3157,7 +3208,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }]);
 
 	  return BaseResource;
-	}(), _class.validate = function () {}, _class.ASSIGN_METHODS = _resourceCRUD.resourceCRUD, _temp);
+	}(), _class.processData = function (res) {
+	  return res;
+	}, _class.validate = function () {}, _class.ASSIGN_METHODS = _resourceCRUD.resourceCRUD, _temp);
 
 /***/ },
 /* 21 */
@@ -5841,6 +5894,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return (0, _hoistNonReactStatics2.default)(Component, BaseComponent);
 	  };
 	};
+
+	/**
+	 * + Copies non-react specific statics from a child component to a parent component
+	 * > see: https://www.npmjs.com/package/hoist-non-react-statics
+	 */
+
+
+	function deepMerge(a, b, extra) {
+	  var obj = {};
+	  for (var key in a) {
+	    if (Object(a[key]) === a[key] && Object(b[key]) === b[key]) {
+	      obj[key] = Object.assign({}, a[key], b[key]);
+	    } else if (b[key] === undefined) {
+	      obj[key] = a[key];
+	    } else {
+	      obj[key] = b[key];
+	    }
+	  }
+	  for (var _key2 in b) {
+	    if (obj[_key2] === undefined) {
+	      obj[_key2] = b[_key2];
+	    }
+	  }
+	  return Object.assign(obj, extra);
+	}
 	/**
 	 * + hoc by recompose
 	 * > see:
@@ -5852,10 +5930,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * > code ground: https://jsbin.com/buqeqac/edit?html,js,console,output
 	 */
 
-	/**
-	 * + Copies non-react specific statics from a child component to a parent component
-	 * > see: https://www.npmjs.com/package/hoist-non-react-statics
-	 */
 	var component = exports.component = function component(_ref) {
 	  var elementFactory = _ref.elementFactory,
 	      inputs = _ref.inputs,
@@ -5886,10 +5960,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
 	              break;
 	            case Array.isArray(selector.dataBindings):
-	              selector.dataBindings.forEach(function (name) {
-	                var model = _baseSelector.BaseSelector.appStore.models[name];
-	                Object.assign(iState, model.state);
-	              });
+	              if (selector.noFlattern) {
+	                selector.dataBindings.forEach(function (name) {
+	                  var model = _baseSelector.BaseSelector.appStore.models[name];
+	                  iState[name] = model.state;
+	                });
+	              } else {
+	                selector.dataBindings.forEach(function (name) {
+	                  var model = _baseSelector.BaseSelector.appStore.models[name];
+	                  Object.assign(iState, model.state);
+	                });
+	              }
 	              break;
 	            default:
 	              for (var key in selector.dataBindings) {
@@ -5917,11 +5998,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	            case Array.isArray(selector.eventBindings):
 	              selector.dataBindings.forEach(function (name) {
 	                var model = _baseSelector.BaseSelector.appStore.models[name];
-	                Object.getOwnPropertyNames(model.__proto__).forEach(function (method) {
-	                  if (typeof model[method] === 'function' && method !== 'constructor') {
-	                    iActions[method] = model[method].bind(model);
-	                  }
-	                });
+	                var names = Object.getOwnPropertyNames(model.__proto__);
+	                names.shift();
+	                if (selector.noFlattern) {
+	                  var mAction = {};
+	                  names.forEach(function (method) {
+	                    if (typeof model[method] === 'function') {
+	                      mAction[method] = model[method].bind(model);
+	                    }
+	                  });
+	                  iActions[name] = mAction;
+	                  iActions.__deep__ = true;
+	                } else {
+	                  names.forEach(function (method) {
+	                    if (typeof model[method] === 'function') {
+	                      iActions[method] = model[method].bind(model);
+	                    }
+	                  });
+	                }
 	              });
 	              break;
 	            default:
@@ -5963,7 +6057,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      BaseComponent.contextTypes = Object.assign(BaseComponent.contextTypes || {}, contextTypes);
 	    }
 
-	    var Component = (0, _reactRedux.connect)(inputs, outputs)(BaseComponent);
+	    var Component = (0, _reactRedux.connect)(inputs, outputs, function (stateProps, dispatchProps, parentProps) {
+	      if (dispatchProps.__deep__) {
+	        return deepMerge(stateProps, dispatchProps, parentProps);
+	      } else {
+	        return Object.assign({}, stateProps, dispatchProps, parentProps);
+	      }
+	    })(BaseComponent);
 	    Component.__view__ = true;
 
 	    var handleChange = Component.prototype.handleChange;
@@ -6160,11 +6260,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Output = exports.Output = function Output(model) {
 	  return function (prototype, method, obj) {
 	    prototype.$outputMethods_ = prototype.$outputMethods_ || [];
-	    prototype.$outputMethods_.push({
-	      name: method,
-	      value: obj.value,
-	      model: model
-	    });
+	    prototype.$outputMethods_.push({ name: method, value: obj.value, model: model });
 	    if (prototype.propertyIsEnumerable('outputs')) return;
 	    Object.defineProperty(prototype, 'outputs', {
 	      enumerable: true,
@@ -6176,16 +6272,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          prototype.$outputMethods_.forEach(function (method) {
 	            if (method.model) {
 	              iAction[method.name] = function () {
-	                for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	                  args[_key2] = arguments[_key2];
+	                for (var _len2 = arguments.length, args = Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+	                  args[_key3] = arguments[_key3];
 	                }
 
 	                return _this4.getModel(method.model)[method.name](args);
 	              };
-	            } else if (method.model === false) {
-	              iAction[method.name] = method.value;
 	            } else {
-	              iAction[method.name] = method.value.call(_this4, dispatch, ownProps);
+	              iAction[method.name] = method.value.bind(_this4);
 	            }
 	          });
 	          return iAction;
@@ -6216,8 +6310,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dispatch = exports.dispatch = function dispatch(prototype, method, obj) {
 	  var func = obj.value;
 	  obj.initializer = function () {
-	    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-	      args[_key3] = arguments[_key3];
+	    for (var _len3 = arguments.length, args = Array(_len3), _key4 = 0; _key4 < _len3; _key4++) {
+	      args[_key4] = arguments[_key4];
 	    }
 
 	    return function () {
@@ -6243,52 +6337,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _react = __webpack_require__(5);
 
 	function router(path, RouteComponent, option, strict) {
-	  var routeConfig = void 0;
-	  if (Object(path) === path) {
-	    if (path.path && path.component) {
-	      routeConfig = path;
-	    } else {
-	      option = RouteComponent;
-	      RouteComponent = path;
-	      path = RouteComponent.routePath;
-	    }
-	  }
 	  if (RouteComponent.prototype === undefined || strict && option.name !== '/' && !RouteComponent.__view__) {
 	    return null;
 	  }
-	  if (!routeConfig) {
-	    routeConfig = Object.assign({
-	      resolvePath: path,
-	      path: path || option.name,
-	      onLeave: RouteComponent.onLeave,
-	      onEnter: RouteComponent.onEnter,
-	      childRoutes: RouteComponent.childRoutes,
-	      getIndexRoute: RouteComponent.getIndexRoute,
-	      getChildRoutes: RouteComponent.getChildRoutes,
-	      extension: RouteComponent.extension
-	    }, option);
-	    if (RouteComponent.indexRoute) {
-	      if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
-	        routeConfig.indexRoute = RouteComponent.indexRoute;
-	      } else {
-	        routeConfig.indexRoute = {
-	          component: RouteComponent.indexRoute
-	        };
-	      }
-	    }
-	    if (RouteComponent.prototype.isReactComponent) {
-	      routeConfig.component = RouteComponent;
+	  var routeConfig = Object.assign({
+	    resolvePath: path,
+	    path: path || option.navKey ? option.navKey + '/' + option.name : option.name,
+	    onLeave: RouteComponent.onLeave,
+	    onEnter: RouteComponent.onEnter,
+	    childRoutes: RouteComponent.childRoutes,
+	    getIndexRoute: RouteComponent.getIndexRoute,
+	    getChildRoutes: RouteComponent.getChildRoutes,
+	    extension: RouteComponent.extension
+	  }, option);
+	  if (RouteComponent.indexRoute) {
+	    if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
+	      routeConfig.indexRoute = RouteComponent.indexRoute;
 	    } else {
-	      routeConfig.getComponent = RouteComponent;
-	    }
-	    if (option && option.onDestroy) {
-	      delete routeConfig.onDestroy;
-	      var componentWillMount = RouteComponent.prototype.componentWillMount;
-	      RouteComponent.prototype.componentWillMount = function () {
-	        componentWillMount && componentWillMount.call(this);
-	        this.props.router.setRouteLeaveHook(this.props.route, option.onDestroy);
+	      routeConfig.indexRoute = {
+	        component: RouteComponent.indexRoute
 	      };
 	    }
+	  }
+	  if (RouteComponent.prototype.isReactComponent) {
+	    routeConfig.component = RouteComponent;
+	  } else {
+	    routeConfig.getComponent = RouteComponent;
+	  }
+	  if (option && option.onDestroy) {
+	    delete routeConfig.onDestroy;
+	    var componentWillMount = RouteComponent.prototype.componentWillMount;
+	    RouteComponent.prototype.componentWillMount = function () {
+	      componentWillMount && componentWillMount.call(this);
+	      this.props.router.setRouteLeaveHook(this.props.route, option.onDestroy);
+	    };
 	  }
 	  return routeConfig;
 	}

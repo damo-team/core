@@ -45,39 +45,45 @@ export const configureStore = require('./store/configureStore');
 export const RxSelector = require('./utils/rxSelector');
 export const RxComponent = require('./utils/rxComponent');
 
+function extractModules(context){
+  const modules = {};
+
+  context
+      .keys()
+      .forEach(key => {
+        let module = context(key);
+        if(module.default){
+          module = module.default;
+        }
+        const paths = key.split(path.sep);
+        let name = module.displayName;
+        if(!name){
+          const fileName = paths.pop().split('.').slice(0, -1).join('.');
+          if(fileName === 'index'){
+            name = paths.pop();
+          }else{
+            name = fileName;
+          }
+        }
+        modules[name] = module;
+      });
+    return modules;
+}
 // #! require.context('./models', false, /\.js$/);
 export function autoLoadStore(initialState = {}, middlewares = [], context, getInitReducers = function () {}) {
   if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
   return configureStore(initialState, middlewares, hot => {
-    const Models = getInitReducers() || {};
-    context
-      .keys()
-      .forEach(key => {
-        Models[
-          key
-            .split('/')
-            .pop()
-            .split('.')[0]
-        ] = context(key);
-      });
+    const Models = extractModules(context);
+    Object.assign(Models, getInitReducers());
     const hotAcceptId = context.id;
     let hotModelsFeedback;
     if (hot) {
       hotModelsFeedback = () => {
         // const reloadedContext = require.context('./models', false, /\.js$/);
-        const reloadedModels = getInitReducers() || {};
-        context
-          .keys()
-          .forEach(key => {
-            reloadedModels[
-              key
-                .split('/')
-                .pop()
-                .split('.')[0]
-            ] = context(key);
-          });
+        const reloadedModels = extractModules(context);
+        Object.assign(reloadedModels, getInitReducers());
         return {Models: reloadedModels};
       }
     }
@@ -89,17 +95,7 @@ export function autoLoadServices(context) {
   if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
-  const Services = {};
-  context
-    .keys()
-    .forEach(key => {
-      Services[
-        key
-          .split('/')
-          .pop()
-          .split('.')[0]
-      ] = context(key);
-    });
+  const Services = extractModules(context);
   rcInject.setService(Services)
 }
 
@@ -301,7 +297,19 @@ const damo = {
       .select(prop, true);
   },
   route(path, RouteComponent, option = {}) {
-    const routeConfig = router(path, RouteComponent, option, option.strict);
+    let routeConfig;
+    if (Object(path) === path) {
+      if (path.path && path.component) {
+        routeConfig = path;
+      } else {
+        option = RouteComponent;
+        RouteComponent = path;
+        path = RouteComponent.routePath;
+      }
+    }
+    if(!routeConfig){
+      routeConfig = router(path, RouteComponent, option, option.strict);
+    }
     damo
       .$$routes__
       .push(routeConfig);
@@ -331,24 +339,13 @@ const damo = {
       throw new Error('需要提供require.context的遍历列表！');
     }
 
-    const defaultModels = Object.assign({}, damo.$$defaultModels__);
+    const defaultModels = Object.assign({}, damo.$$defaultModels__, extractModules(modelContext));
 
-    modelContext
-      .keys()
-      .forEach(key => {
-        const model = modelContext(key);
-        defaultModels[model.displayName || path.basename(key).replace(path.extname(key), '')] = model;
-      });
     if (resourceContext) {
-      resourceContext
-        .keys()
-        .forEach(key => {
-          const entity = modelContext(key);
-          const name = entity.displayName || path.basename(key).replace(path.extname(key), '');
-          if (defaultModels[name]) {
-            defaultModels[name] = resource(entity)(defaultModels[name]);
-          };
-        });
+      const resources = extractModules(resourceContext);
+      for(let key in resources){
+        defaultModels[name] = resource(resources[key])(defaultModels[name]);
+      }
     }
 
     configureStore.replace(damo.$$store__, defaultModels);
@@ -367,11 +364,16 @@ const damo = {
   autoLoadRoutes(context, option) {
     damo.$$routes__ = autoLoadScenesRoutes(context, option);
   },
-  view(Selector, SceneComponent, providers) {
+  view(Selector, SceneComponent, providers, noFlattern) {
+    if(typeof providers === 'boolean'){
+      noFlattern = providers;
+      providers = null;
+    }
     const getView = (nextState, callback) => {
       if (Array.isArray(Selector)) {
         const moelds = Selector;
         class SelectorClass extends BaseSelector {
+          static noFlattern = noFlattern;
           static dataBindings = moelds;
           static eventBindings = moelds;
         }
@@ -380,6 +382,8 @@ const damo = {
         providers = SceneComponent;
         SceneComponent = Selector;
         Selector = null;
+      }else{
+        Selection.noFlattern = noFlattern;
       }
       if(callback){
         callback(null, View({selector: Selector, providers: providers})(SceneComponent));

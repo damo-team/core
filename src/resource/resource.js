@@ -10,11 +10,9 @@ import SI from 'seamless-immutable';
 import {resourceCRUD} from './resourceCRUD';
 
 const noop = d => d;
-const defaultProcessData = function (res) {
-  return res
-};
 
 export class BaseResource {
+  static processData = res => res;
   static validate = function(){};
   static ASSIGN_METHODS = resourceCRUD;
 
@@ -286,7 +284,7 @@ export class BaseResource {
           }
           
           promise.then(res => {
-            const processData = newHttp.extraOption.processData || action.processData || defaultProcessData;
+            const processData = newHttp.extraOption.processData || action.processData || BaseResource.processData;
             const data = processData(res, ajaxOption.params);
 
             const state = this.applyState({

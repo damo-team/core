@@ -4,6 +4,7 @@ import { Router, Route, Redirect, hashHistory, Link } from 'react-router';
 import { connect, Provider } from 'react-redux';
 import { configureStore, autoLoadScenesRoutes, BaseSelector, component, BaseModel } from '../src/index';
 
+BaseModel.processData = res => res.data;
 /**
  * ----------------------------------------------------------------------------
  *                            Store == DB

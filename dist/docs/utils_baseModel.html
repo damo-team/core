@@ -239,23 +239,25 @@
       
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre>
-<span class="hljs-keyword">import</span> { Api } <span class="hljs-keyword">from</span> <span class="hljs-string">'./fetch'</span>;
-<span class="hljs-keyword">import</span> { createActions, createActionCreators, changeOperators } <span class="hljs-keyword">from</span> <span class="hljs-string">'./createCrud'</span>;
-<span class="hljs-keyword">import</span> { Poller } <span class="hljs-keyword">from</span> <span class="hljs-string">'./poller'</span>;
+<span class="hljs-keyword">import</span> {Api} <span class="hljs-keyword">from</span> <span class="hljs-string">'./fetch'</span>;
+<span class="hljs-keyword">import</span> {createActions, createActionCreators, changeOperators} <span class="hljs-keyword">from</span> <span class="hljs-string">'./createCrud'</span>;
+<span class="hljs-keyword">import</span> {Poller} <span class="hljs-keyword">from</span> <span class="hljs-string">'./poller'</span>;
 <span class="hljs-keyword">import</span> cuid <span class="hljs-keyword">from</span> <span class="hljs-string">'cuid'</span>;
 <span class="hljs-keyword">import</span> {ucfirst} <span class="hljs-keyword">from</span> <span class="hljs-string">'./core'</span>;
-<span class="hljs-keyword">import</span> { EventEmitter } <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
+<span class="hljs-keyword">import</span> {EventEmitter} <span class="hljs-keyword">from</span> <span class="hljs-string">'events'</span>;
 <span class="hljs-keyword">import</span> SI <span class="hljs-keyword">from</span> <span class="hljs-string">'seamless-immutable'</span>;
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPromise</span>(<span class="hljs-params">obj</span>)</span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPromise</span>(<span class="hljs-params">obj</span>) </span>{
   <span class="hljs-keyword">return</span> !!(obj &amp;&amp; obj.then &amp;&amp; obj.catch);
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>{
-  <span class="hljs-keyword">static</span> processData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{ <span class="hljs-keyword">return</span> res };
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span> </span>{
+  <span class="hljs-keyword">static</span> processData = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>{
+    <span class="hljs-keyword">return</span> res
+  };
 
   <span class="hljs-keyword">static</span> appStore = <span class="hljs-literal">null</span>;
-  
+
   <span class="hljs-keyword">static</span> ASSIGN_TYPES = changeOperators;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
@@ -287,7 +289,7 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre>  createActionCreator(crudActions, actions){
+        <div class='highlight'><pre><div class='highlight'><pre>  createActionCreator(crudActions, actions) {
     <span class="hljs-keyword">const</span> defineAction = createActions(crudActions, actions);
     <span class="hljs-comment">// #! 自定义的actionType</span>
     <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.defineActionTypes, defineAction.getActionTypes());
@@ -296,7 +298,7 @@
   }
 
   <span class="hljs-comment">// #! 获取actionCreator的key</span>
-  createActionName(operate, status = <span class="hljs-string">''</span>){
+  createActionName(operate, status = <span class="hljs-string">''</span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name + operate + ucfirst(status);
   }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
@@ -333,28 +335,32 @@
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre>  createAction(actionName, data, payloadOption, actionOption) {
     <span class="hljs-keyword">if</span> (!payloadOption.changes) {
-      <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> payloadOption.change === <span class="hljs-string">'function'</span>){
-        payloadOption.changes = [{
-          <span class="hljs-attr">name</span>: payloadOption.name,
-          <span class="hljs-attr">type</span>: changeOperators[<span class="hljs-string">'SETPROPERTY'</span>],
-          <span class="hljs-attr">getData</span>: payloadOption.change
-        }];
-      }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>.assign(payloadOption.change) === payloadOption.change) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> payloadOption.change === <span class="hljs-string">'function'</span>) {
+        payloadOption.changes = [
+          {
+            <span class="hljs-attr">name</span>: payloadOption.name,
+            <span class="hljs-attr">type</span>: changeOperators[<span class="hljs-string">'SETPROPERTY'</span>],
+            <span class="hljs-attr">getData</span>: payloadOption.change
+          }
+        ];
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(payloadOption.change) === payloadOption.change) {
         payloadOption.changes = [payloadOption.change];
       } <span class="hljs-keyword">else</span> {
-        payloadOption.changes = [{
-          <span class="hljs-attr">name</span>: payloadOption.name,
-          <span class="hljs-attr">type</span>: payloadOption.change || changeOperators[<span class="hljs-string">'RECONFIGURE'</span>]
-        }]
+        payloadOption.changes = [
+          {
+            <span class="hljs-attr">name</span>: payloadOption.name,
+            <span class="hljs-attr">type</span>: payloadOption.change || changeOperators[<span class="hljs-string">'RECONFIGURE'</span>]
+          }
+        ]
       }
     }
     <span class="hljs-keyword">const</span> action = <span class="hljs-keyword">this</span>.defineActionCreators[<span class="hljs-string">'$'</span> + actionName](data);
-    <span class="hljs-built_in">Object</span>.assign(action.payload, payloadOption, { <span class="hljs-attr">cid</span>: <span class="hljs-keyword">this</span>.generatorKey });
+    <span class="hljs-built_in">Object</span>.assign(action.payload, payloadOption, {<span class="hljs-attr">cid</span>: <span class="hljs-keyword">this</span>.generatorKey});
     <span class="hljs-built_in">Object</span>.assign(action, actionOption);
     <span class="hljs-keyword">return</span> action;
   }
 
-  get generatorKey(){
+  get generatorKey() {
     <span class="hljs-keyword">return</span> <span class="hljs-string">'id'</span>;
   }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
@@ -399,14 +405,14 @@
     <span class="hljs-keyword">super</span>();
 
     <span class="hljs-keyword">this</span>.setName(name);
-    
+
     <span class="hljs-keyword">this</span>.mapToStore = {};
-    
+
     <span class="hljs-keyword">this</span>.defineActionTypes = {};
     <span class="hljs-keyword">this</span>.defineActionCreators = {};
     <span class="hljs-keyword">this</span>.$pollers_ = [];
 
-    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.properties){
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.properties) {
       <span class="hljs-keyword">this</span>.properties = initialState;
     }
 
@@ -472,86 +478,101 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre>  getAppStore(){
-    <span class="hljs-keyword">return</span> BaseModel.appStore; 
+        <div class='highlight'><pre><div class='highlight'><pre>  getAppStore() {
+    <span class="hljs-keyword">return</span> BaseModel.appStore;
   }
 
-  setName(modelName){
+  setName(modelName) {
     <span class="hljs-keyword">this</span>.name = modelName;
   }
 
-  getModel(modelName){
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().models[modelName]; 
+  getModel(modelName) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>
+      .getAppStore()
+      .models[modelName];
   }
 
-  select(name){
-    <span class="hljs-keyword">const</span> currentState = <span class="hljs-keyword">this</span>.getAppStore().getState();
+  select(name) {
+    <span class="hljs-keyword">const</span> currentState = <span class="hljs-keyword">this</span>
+      .getAppStore()
+      .getState();
     <span class="hljs-keyword">let</span> state = currentState[<span class="hljs-keyword">this</span>.name];
     <span class="hljs-keyword">const</span> keys = name.split(<span class="hljs-string">'.'</span>);
-    
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, len = keys.length; i &lt; len; i++){
-      <span class="hljs-keyword">if</span>(!(state = state[keys[i]])){
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, len = keys.length; i &lt; len; i++) {
+      <span class="hljs-keyword">if</span> (!(state = state[keys[i]])) {
         <span class="hljs-keyword">return</span> state;
       }
     }
     <span class="hljs-keyword">return</span> state;
   }
 
-  get dispatch(){
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAppStore().dispatch;
+  get dispatch() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>
+      .getAppStore()
+      .dispatch;
   }
 
-  execQuery(ajaxOption, changeOption){
+  execQuery(ajaxOption, changeOption) {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getQuery(ajaxOption, changeOption, <span class="hljs-keyword">this</span>.dispatch);
   }
-  
-  setState(options){
+
+  setState(options) {
     <span class="hljs-keyword">const</span> promises = [];
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options){
-      <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> options) {
+      <span class="hljs-keyword">switch</span> (<span class="hljs-literal">true</span>) {
         <span class="hljs-keyword">case</span> SI.isImmutable(options[key]):
           options[key] = {
             <span class="hljs-attr">response</span>: <span class="hljs-built_in">Promise</span>.resolve(options[key]),
+            <span class="hljs-attr">operate</span>: key,
             <span class="hljs-attr">change</span>: {
               <span class="hljs-attr">name</span>: key,
               <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
             }
-          }
+          };
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">case</span> isPromise(options[key]):
-          options[key] = {
+          <span class="hljs-built_in">Object</span>.assign(options[key], {
             <span class="hljs-attr">response</span>: options[key],
+            <span class="hljs-attr">operate</span>: key,
             <span class="hljs-attr">change</span>: {
               <span class="hljs-attr">name</span>: key,
               <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
             }
-          }
+          });
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">default</span>:
-          <span class="hljs-keyword">if</span>(options[key].change){
-            <span class="hljs-keyword">if</span>(options[key].change === <span class="hljs-string">'function'</span>){
-              options[key].change = {
-                <span class="hljs-attr">name</span>: key,
-                <span class="hljs-attr">callback</span>: options[key].change
-              };
-            }  
-          }<span class="hljs-keyword">else</span>{
-            options[key].change = {
-              <span class="hljs-attr">name</span>: key,
-              <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+          <span class="hljs-keyword">if</span> (options[key].change) {
+            <span class="hljs-keyword">if</span> (options[key].change === <span class="hljs-string">'function'</span>) {
+              <span class="hljs-built_in">Object</span>.assign(options[key], {
+                <span class="hljs-attr">operate</span>: key,
+                <span class="hljs-attr">change</span>: {
+                  <span class="hljs-attr">name</span>: key,
+                  <span class="hljs-attr">callback</span>: options[key].change
+                }
+              });
             }
+          } <span class="hljs-keyword">else</span> {
+            <span class="hljs-built_in">Object</span>.assign(options[key], {
+              <span class="hljs-attr">operate</span>: key,
+              <span class="hljs-attr">change</span>: {
+                <span class="hljs-attr">name</span>: key,
+                <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
+              }
+            });
+
           }
           <span class="hljs-keyword">break</span>;
       }
       promises.push(<span class="hljs-keyword">this</span>.execQuery(options[key]));
     }
-    
-    <span class="hljs-keyword">if</span>(promises.length === <span class="hljs-number">1</span>){
+
+    <span class="hljs-keyword">if</span> (promises.length === <span class="hljs-number">1</span>) {
       <span class="hljs-keyword">return</span> promises[<span class="hljs-number">0</span>];
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">const</span> promise = <span class="hljs-built_in">Promise</span>.all[promises];
       promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
-        <span class="hljs-keyword">if</span>(callback){
+        <span class="hljs-keyword">if</span> (callback) {
           promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
             callback(<span class="hljs-literal">null</span>, res);
           }, callback);
@@ -614,7 +635,7 @@
  }
 </code></pre><ul>
 <li>当change只有一项时，可以平铺出来，当然也可以通过change属性来配，多个change仍可以用changes</li>
-<li>通过type来配置时，实际上依赖于Model的generatorKey，用来识别数据是否已存在。 </li>
+<li>通过type来配置时，实际上依赖于Model的generatorKey，用来识别数据是否已存在。</li>
 </ul>
 </li>
 </ul>
@@ -622,12 +643,12 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre>  getQuery(ajaxOption, changeOption, appDispatch){
-    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> changeOption === <span class="hljs-string">'function'</span>){
+        <div class='highlight'><pre><div class='highlight'><pre>  getQuery(ajaxOption, changeOption, appDispatch) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> changeOption === <span class="hljs-string">'function'</span>) {
       appDispatch = changeOption;
       changeOption = {};
     }
-    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Array</span>.isArray(changeOption)){
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(changeOption)) {
       changeOption = {
         <span class="hljs-attr">changes</span>: changeOption
       }
@@ -635,22 +656,32 @@
 
     <span class="hljs-keyword">let</span> actionReducer;
     <span class="hljs-keyword">const</span> opt = <span class="hljs-built_in">Object</span>.assign({}, ajaxOption, changeOption);
-    <span class="hljs-keyword">if</span>(!opt.operate){
+    <span class="hljs-keyword">if</span> (!opt.operate) {
       opt.operate = opt.name || cuid()
     }
-    <span class="hljs-keyword">if</span>(opt.uri){
+    <span class="hljs-keyword">if</span> (opt.uri) {
       actionReducer = <span class="hljs-keyword">this</span>.createCrudFor(opt);
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> opt.request === <span class="hljs-string">'function'</span>){
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> opt.request === <span class="hljs-string">'function'</span>) {
       actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> processData = extraOption.processData || opt.processData;
         <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
         <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
-        <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+        <span class="hljs-keyword">const</span> actionOption = {
+          <span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification,
+          <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress
+        };
 
-        <span class="hljs-keyword">const</span> promise = opt.request(opt.params || opt.body, {<span class="hljs-attr">dispatch</span>: dispatch, <span class="hljs-attr">processData</span>: processData, <span class="hljs-attr">action</span>: actionOption, <span class="hljs-attr">changes</span>: opt.changes, <span class="hljs-attr">callback</span>: extraOption.callback, <span class="hljs-attr">errorNotification</span>: extraOption.errorNotification});
+        <span class="hljs-keyword">const</span> promise = opt.request(opt.params || opt.body, {
+          <span class="hljs-attr">dispatch</span>: dispatch,
+          <span class="hljs-attr">processData</span>: processData,
+          <span class="hljs-attr">action</span>: actionOption,
+          <span class="hljs-attr">changes</span>: opt.changes,
+          <span class="hljs-attr">callback</span>: extraOption.callback,
+          <span class="hljs-attr">errorNotification</span>: extraOption.errorNotification
+        });
 
         promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
-          <span class="hljs-keyword">if</span>(callback){
+          <span class="hljs-keyword">if</span> (callback) {
             promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
               callback(<span class="hljs-literal">null</span>, res);
             }, callback);
@@ -660,7 +691,7 @@
 
         <span class="hljs-keyword">return</span> promise;
       }
-    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(opt.response){
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (opt.response) {
       <span class="hljs-keyword">const</span> operate = opt.operate;
       <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
       <span class="hljs-keyword">const</span> needToOperate = operate &amp;&amp; (opt.change || opt.changes);
@@ -671,21 +702,31 @@
 
         needToOperate &amp;&amp; <span class="hljs-keyword">this</span>.createActionCreator([], [<span class="hljs-keyword">this</span>.createActionName(ucOperate)]);
 
-        <span class="hljs-keyword">const</span> payloadOption = { <span class="hljs-attr">name</span>: opt.name || operate, <span class="hljs-attr">params</span>: opt.params || opt.body, <span class="hljs-attr">change</span>: opt.change, <span class="hljs-attr">changes</span>: opt.changes };
-        <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+        <span class="hljs-keyword">const</span> payloadOption = {
+          <span class="hljs-attr">name</span>: opt.name || operate,
+          <span class="hljs-attr">params</span>: opt.params || opt.body,
+          <span class="hljs-attr">change</span>: opt.change,
+          <span class="hljs-attr">changes</span>: opt.changes
+        };
+        <span class="hljs-keyword">const</span> actionOption = {
+          <span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification,
+          <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress
+        };
         <span class="hljs-keyword">const</span> _isPromise = isPromise(opt.response);
-        <span class="hljs-keyword">const</span> promise = _isPromise ? opt.response : <span class="hljs-built_in">Promise</span>.resolve(opt.response);
+        <span class="hljs-keyword">const</span> promise = _isPromise
+          ? opt.response
+          : <span class="hljs-built_in">Promise</span>.resolve(opt.response);
 
-        <span class="hljs-keyword">if</span>(needToOperate){
-          <span class="hljs-keyword">if</span>(!_isPromise){
+        <span class="hljs-keyword">if</span> (needToOperate) {
+          <span class="hljs-keyword">if</span> (!_isPromise) {
             <span class="hljs-keyword">const</span> data = processData(opt.response);
-            dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
+            dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, {<span class="hljs-attr">data</span>: opt.response}), actionOption));
           }
           <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'before'</span> + ucOperate, opt)
         }
 
         promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
-          <span class="hljs-keyword">if</span>(callback){
+          <span class="hljs-keyword">if</span> (callback) {
             promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
               callback(<span class="hljs-literal">null</span>, res);
             }, callback);
@@ -696,10 +737,10 @@
 
         promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
           <span class="hljs-keyword">const</span> data = processData(res);
-        
-          <span class="hljs-keyword">if</span>(needToOperate){
-            <span class="hljs-keyword">if</span>(_isPromise){
-              dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: opt.response }), actionOption));
+
+          <span class="hljs-keyword">if</span> (needToOperate) {
+            <span class="hljs-keyword">if</span> (_isPromise) {
+              dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'action'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, {<span class="hljs-attr">data</span>: opt.response}), actionOption));
             }
             <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, <span class="hljs-literal">null</span>, data);
           }
@@ -710,14 +751,14 @@
         <span class="hljs-keyword">return</span> promise;
       }
     }
-    
-    <span class="hljs-keyword">if</span>(appDispatch){
+
+    <span class="hljs-keyword">if</span> (appDispatch) {
       <span class="hljs-keyword">return</span> actionReducer(appDispatch);
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">return</span> actionReducer;
     }
   }
-  
+
   createCrudFor(opt) {
     <span class="hljs-keyword">const</span> operate = opt.operate;
     <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
@@ -730,24 +771,26 @@
       <span class="hljs-keyword">const</span> suppressGlobalProgress = extraOption.suppressGlobalProgress || opt.suppressGlobalProgress;
       <span class="hljs-keyword">const</span> suppressGlobalErrorNotification = extraOption.suppressGlobalErrorNotification || opt.suppressGlobalErrorNotification;
 
-      <span class="hljs-keyword">const</span> payloadOption = { <span class="hljs-attr">name</span>: opt.name || operate, <span class="hljs-attr">params</span>: opt.params || opt.body, <span class="hljs-attr">change</span>: opt.change, <span class="hljs-attr">changes</span>: opt.changes };
-      <span class="hljs-keyword">const</span> actionOption = {<span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification, <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress};
+      <span class="hljs-keyword">const</span> payloadOption = {
+        <span class="hljs-attr">name</span>: opt.name || operate,
+        <span class="hljs-attr">params</span>: opt.params || opt.body,
+        <span class="hljs-attr">change</span>: opt.change,
+        <span class="hljs-attr">changes</span>: opt.changes
+      };
+      <span class="hljs-keyword">const</span> actionOption = {
+        <span class="hljs-attr">suppressGlobalErrorNotification</span>: suppressGlobalErrorNotification,
+        <span class="hljs-attr">suppressGlobalProgress</span>: suppressGlobalProgress
+      };
 
-      <span class="hljs-keyword">if</span>(needToOperate){
-        dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'start'</span>), opt.initialValue, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: promise }), actionOption));
+      <span class="hljs-keyword">if</span> (needToOperate) {
+        dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'start'</span>), opt.initialValue, <span class="hljs-built_in">Object</span>.assign(payloadOption, {<span class="hljs-attr">data</span>: promise}), actionOption));
         <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'before'</span> + ucOperate, opt);
       }
 
-      <span class="hljs-keyword">const</span> promise = Api({
-        <span class="hljs-attr">url</span>: opt.uri,
-        <span class="hljs-attr">method</span>: opt.method,
-        <span class="hljs-attr">data</span>: opt.body,
-        <span class="hljs-attr">headers</span>: opt.headers,
-        <span class="hljs-attr">errorNotification</span>: opt.errorNotification
-      });
+      <span class="hljs-keyword">const</span> promise = Api({<span class="hljs-attr">url</span>: opt.uri, <span class="hljs-attr">method</span>: opt.method, <span class="hljs-attr">data</span>: opt.body, <span class="hljs-attr">headers</span>: opt.headers, <span class="hljs-attr">errorNotification</span>: opt.errorNotification});
 
       promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
-        <span class="hljs-keyword">if</span>(callback){
+        <span class="hljs-keyword">if</span> (callback) {
           promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {
             callback(<span class="hljs-literal">null</span>, res);
           }, callback);
@@ -758,26 +801,26 @@
 
       promise.then(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
         <span class="hljs-keyword">let</span> data = processData(response, dispatch);
-        <span class="hljs-keyword">if</span>(needToOperate){
-          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'success'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: response }), actionOption));
+        <span class="hljs-keyword">if</span> (needToOperate) {
+          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'success'</span>), data, <span class="hljs-built_in">Object</span>.assign(payloadOption, {<span class="hljs-attr">data</span>: response}), actionOption));
           <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, <span class="hljs-literal">null</span>, data);
         }
         <span class="hljs-keyword">return</span> data;
       }, (err) =&gt; {
-        <span class="hljs-keyword">if</span>(needToOperate){
-          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'error'</span>), <span class="hljs-literal">null</span>, <span class="hljs-built_in">Object</span>.assign(payloadOption, { <span class="hljs-attr">data</span>: err }), <span class="hljs-built_in">Object</span>.assign(actionOption, {<span class="hljs-attr">error</span>: err})));
+        <span class="hljs-keyword">if</span> (needToOperate) {
+          dispatch &amp;&amp; dispatch(<span class="hljs-keyword">this</span>.createAction(<span class="hljs-keyword">this</span>.createActionName(ucOperate, <span class="hljs-string">'error'</span>), <span class="hljs-literal">null</span>, <span class="hljs-built_in">Object</span>.assign(payloadOption, {<span class="hljs-attr">data</span>: err}), <span class="hljs-built_in">Object</span>.assign(actionOption, {<span class="hljs-attr">error</span>: err})));
           <span class="hljs-keyword">this</span>.emit(<span class="hljs-string">'after'</span> + ucOperate, err);
         }
         <span class="hljs-keyword">return</span> err;
       });
-      
+
       <span class="hljs-keyword">return</span> promise;
     }
     <span class="hljs-keyword">return</span> actionReducer;
   }
-  
+
   <span class="hljs-comment">// #! 结合Poller模块实现轮询功能</span>
-  pollingQuery(ajaxOption, changeOption, appDispatch){
+  pollingQuery(ajaxOption, changeOption, appDispatch) {
     <span class="hljs-keyword">const</span> actionReducer = <span class="hljs-function">(<span class="hljs-params">dispatch, extraOption = {}</span>) =&gt;</span> {
       <span class="hljs-keyword">const</span> poller = <span class="hljs-keyword">new</span> Poller({
         <span class="hljs-attr">catchError</span>: ajaxOption.catchError,
@@ -788,24 +831,28 @@
         }
       });
 
-      <span class="hljs-keyword">this</span>.$pollers_.push(poller);
+      <span class="hljs-keyword">this</span>
+        .$pollers_
+        .push(poller);
 
       <span class="hljs-keyword">return</span> poller;
     }
-    <span class="hljs-keyword">if</span>(appDispatch){
+    <span class="hljs-keyword">if</span> (appDispatch) {
       <span class="hljs-keyword">return</span> actionReducer(appDispatch);
-    }<span class="hljs-keyword">else</span>{
+    } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">return</span> actionReducer;
     }
   }
 
-  clearPolling(){
-    <span class="hljs-keyword">this</span>.$pollers_.forEach(<span class="hljs-function"><span class="hljs-params">poller</span> =&gt;</span> {
-      poller.remove();
-    });
+  clearPolling() {
+    <span class="hljs-keyword">this</span>
+      .$pollers_
+      .forEach(<span class="hljs-function"><span class="hljs-params">poller</span> =&gt;</span> {
+        poller.remove();
+      });
   }
 
-  destroy(){
+  destroy() {
     <span class="hljs-keyword">this</span>.removeAllListeners();
     <span class="hljs-keyword">this</span>.clearPolling();
   }

@@ -272,6 +272,25 @@
 <span class="hljs-keyword">const</span> _withState = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> BaseComponent =&gt; {
   <span class="hljs-keyword">let</span> Component = withState(...args)(BaseComponent);
   <span class="hljs-keyword">return</span> hoistNonReactStatics(Component, BaseComponent);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepMerge</span>(<span class="hljs-params">a, b, extra</span>)</span>{
+  <span class="hljs-keyword">const</span> obj = {};
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> a){
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Object</span>(a[key]) === a[key] &amp;&amp; <span class="hljs-built_in">Object</span>(b[key]) === b[key]){
+      obj[key] = <span class="hljs-built_in">Object</span>.assign({}, a[key], b[key]);
+    }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(b[key] === <span class="hljs-literal">undefined</span>){
+      obj[key] = a[key];
+    }<span class="hljs-keyword">else</span>{
+      obj[key] = b[key];
+    }
+  }
+  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> b){
+    <span class="hljs-keyword">if</span>(obj[key] === <span class="hljs-literal">undefined</span>){
+      obj[key] = b[key];
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign(obj, extra);
 }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
@@ -325,25 +344,40 @@
     inputs = selectorInstance.inputs;
     outputs = selectorInstance.outputs;
 
-    <span class="hljs-keyword">if</span>(inputs.toString() === BaseSelector.prototype.inputs.toString() &amp;&amp; selector.dataBindings){
+    <span class="hljs-keyword">if</span> (inputs.toString() === BaseSelector.prototype.inputs.toString() &amp;&amp; selector.dataBindings) {
       inputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
           <span class="hljs-keyword">let</span> iState = {};
-          <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+          <span class="hljs-keyword">switch</span> (<span class="hljs-literal">true</span>) {
             <span class="hljs-keyword">case</span> <span class="hljs-keyword">typeof</span> selector.dataBindings === <span class="hljs-string">'function'</span>:
-              iState = selector.dataBindings.call(selectorInstance, state, ownProps);
+              iState = selector
+                .dataBindings
+                .call(selectorInstance, state, ownProps);
               <span class="hljs-keyword">break</span>;
             <span class="hljs-keyword">case</span> <span class="hljs-built_in">Array</span>.isArray(selector.dataBindings):
-              selector.dataBindings.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
-                <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
-                <span class="hljs-built_in">Object</span>.assign(iState, model.state);
-              });
+              <span class="hljs-keyword">if</span>(selector.noFlattern){
+                selector
+                .dataBindings
+                .forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+                  <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
+                  iState[name] = model.state;
+                });
+              }<span class="hljs-keyword">else</span>{
+                selector
+                .dataBindings
+                .forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+                  <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
+                  <span class="hljs-built_in">Object</span>.assign(iState, model.state);
+                });
+              }
               <span class="hljs-keyword">break</span>;
             <span class="hljs-keyword">default</span>:
-              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.dataBindings){
-                <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> selector.dataBindings[key] === <span class="hljs-string">'function'</span>){
-                  iState[key] = selector.dataBindings[key].call(selectorInstance, state, ownProps);
-                }<span class="hljs-keyword">else</span>{
+              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.dataBindings) {
+                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> selector.dataBindings[key] === <span class="hljs-string">'function'</span>) {
+                  iState[key] = selector
+                    .dataBindings[key]
+                    .call(selectorInstance, state, ownProps);
+                } <span class="hljs-keyword">else</span> {
                   iState[key] = selector.dataBindings[key];
                 }
               }
@@ -354,27 +388,46 @@
       }
     }
 
-    <span class="hljs-keyword">if</span>(outputs.toString() === BaseSelector.prototype.outputs.toString() &amp;&amp; selector.eventBindings){
+    <span class="hljs-keyword">if</span> (outputs.toString() === BaseSelector.prototype.outputs.toString() &amp;&amp; selector.eventBindings) {
       outputs = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
           <span class="hljs-keyword">let</span> iActions = {};
-          <span class="hljs-keyword">switch</span>(<span class="hljs-literal">true</span>){
+          <span class="hljs-keyword">switch</span> (<span class="hljs-literal">true</span>) {
             <span class="hljs-keyword">case</span> <span class="hljs-keyword">typeof</span>(selector.eventBindings) === <span class="hljs-string">'function'</span>:
-              iActions = selector.eventBindings.call(selectorInstance, dispatch, ownProps);
+              iActions = selector
+                .eventBindings
+                .call(selectorInstance, dispatch, ownProps);
               <span class="hljs-keyword">break</span>;
             <span class="hljs-keyword">case</span> <span class="hljs-built_in">Array</span>.isArray(selector.eventBindings):
-              selector.dataBindings.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
-                <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
-                <span class="hljs-built_in">Object</span>.getOwnPropertyNames(model.__proto__).forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-                  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> model[method] === <span class="hljs-string">'function'</span> &amp;&amp; method !== <span class="hljs-string">'constructor'</span>){
-                    iActions[method] = model[method].bind(model);
+              selector
+                .dataBindings
+                .forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
+                  <span class="hljs-keyword">const</span> model = BaseSelector.appStore.models[name];
+                  <span class="hljs-keyword">const</span> names = <span class="hljs-built_in">Object</span>.getOwnPropertyNames(model.__proto__);
+                  names.shift();
+                  <span class="hljs-keyword">if</span> (selector.noFlattern) {
+                    <span class="hljs-keyword">const</span> mAction = {};
+                    names.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+                      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> model[method] === <span class="hljs-string">'function'</span>) {
+                        mAction[method] = model[method].bind(model);
+                      }
+                    });
+                    iActions[name] = mAction;
+                    iActions.__deep__ = <span class="hljs-literal">true</span>;
+                  } <span class="hljs-keyword">else</span> {
+                    names.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+                      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> model[method] === <span class="hljs-string">'function'</span>) {
+                        iActions[method] = model[method].bind(model);
+                      }
+                    });
                   }
-                })
-              });
+                });
               <span class="hljs-keyword">break</span>;
             <span class="hljs-keyword">default</span>:
-              <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.eventBindings){
-                iActions[key] = selector.eventBindings[key].bind(selectorInstance);
+              <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> selector.eventBindings) {
+                iActions[key] = selector
+                  .eventBindings[key]
+                  .bind(selectorInstance);
               }
               <span class="hljs-keyword">break</span>;
           }
@@ -389,13 +442,13 @@
     <span class="hljs-keyword">const</span> services = {};
     <span class="hljs-keyword">const</span> parentContextTypes = [];
 
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> BaseComponent.contextTypes){
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> BaseComponent.contextTypes) {
       contextTypes[key] = BaseComponent.contextTypes[key];
       parentContextTypes.push(key);
       services[key] = rcInject.getService(key)
     }
     <span class="hljs-keyword">delete</span> services.selector;
-    
+
     <span class="hljs-keyword">if</span> (selectorInstance) {
       contextTypes.selector = PropTypes.object.isRequired;
     }
@@ -411,14 +464,22 @@
       BaseComponent.contextTypes = <span class="hljs-built_in">Object</span>.assign(BaseComponent.contextTypes || {}, contextTypes);
     }
 
-    <span class="hljs-keyword">const</span> Component = connect(inputs, outputs)(BaseComponent);
+    <span class="hljs-keyword">const</span> Component = connect(inputs, outputs, (stateProps, dispatchProps, parentProps) =&gt; {
+      <span class="hljs-keyword">if</span>(dispatchProps.__deep__){
+        <span class="hljs-keyword">return</span> deepMerge(stateProps, dispatchProps, parentProps);
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, stateProps, dispatchProps, parentProps);
+      }
+    })(BaseComponent);
     Component.__view__ = <span class="hljs-literal">true</span>;
 
     <span class="hljs-keyword">const</span> handleChange = Component.prototype.handleChange;
 
-    Component.prototype.handleChange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-      <span class="hljs-keyword">var</span> storeState = <span class="hljs-keyword">this</span>.store.getState();
-      <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.store.models){
+    Component.prototype.handleChange = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> storeState = <span class="hljs-keyword">this</span>
+        .store
+        .getState();
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> name <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>.store.models) {
         <span class="hljs-keyword">this</span>.store.models[name].state = storeState[name];
       }
       handleChange.call(<span class="hljs-keyword">this</span>);
@@ -435,7 +496,7 @@
 
       parentContextTypes.forEach(<span class="hljs-function"><span class="hljs-params">name</span> =&gt;</span> {
         <span class="hljs-comment">// #! 如果全局没有这个服务，那么从父级继承下来</span>
-        <span class="hljs-keyword">if</span>(!services[name]){
+        <span class="hljs-keyword">if</span> (!services[name]) {
           services[name] = getParantService.call(<span class="hljs-keyword">this</span>, name);
         }
       });
@@ -579,100 +640,115 @@
   <span class="hljs-keyword">return</span> service || getParantService.call(<span class="hljs-keyword">this</span>, name)
 };
 
-
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Input = <span class="hljs-function">(<span class="hljs-params">model</span>) =&gt;</span> (prototype, method, obj) =&gt; {
   prototype.$inputMethods_ = prototype.$inputMethods_ || [];
-  prototype.$inputMethods_.push({
-    <span class="hljs-attr">name</span>: method,
-    <span class="hljs-attr">value</span>: obj.initializer? obj.initializer() : obj.value,
-    <span class="hljs-attr">model</span>: model
-  });
-  <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'inputs'</span>)) <span class="hljs-keyword">return</span>;
+  prototype
+    .$inputMethods_
+    .push({
+      <span class="hljs-attr">name</span>: method,
+      <span class="hljs-attr">value</span>: obj.initializer
+        ? obj.initializer()
+        : obj.value,
+      <span class="hljs-attr">model</span>: model
+    });
+  <span class="hljs-keyword">if</span> (prototype.propertyIsEnumerable(<span class="hljs-string">'inputs'</span>)) 
+    <span class="hljs-keyword">return</span>;
   <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'inputs'</span>, {
     <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">state, ownProps</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> iState = {};
-        prototype.$inputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-          <span class="hljs-keyword">try</span>{
-            <span class="hljs-keyword">if</span>(method.model){
-              <span class="hljs-keyword">if</span>(method.model.indexOf(<span class="hljs-string">'.'</span>) &gt; <span class="hljs-number">-1</span>){
-                iState[method.name] = <span class="hljs-keyword">this</span>.getModel(method.model).select(method.name, <span class="hljs-literal">true</span>);
-              }<span class="hljs-keyword">else</span>{
-                iState[method.name] = state[method.model][method.name];
+        prototype
+          .$inputMethods_
+          .forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+            <span class="hljs-keyword">try</span> {
+              <span class="hljs-keyword">if</span> (method.model) {
+                <span class="hljs-keyword">if</span> (method.model.indexOf(<span class="hljs-string">'.'</span>) &gt; <span class="hljs-number">-1</span>) {
+                  iState[method.name] = <span class="hljs-keyword">this</span>
+                    .getModel(method.model)
+                    .select(method.name, <span class="hljs-literal">true</span>);
+                } <span class="hljs-keyword">else</span> {
+                  iState[method.name] = state[method.model][method.name];
+                }
+
+              } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (method.model === <span class="hljs-literal">false</span>) {
+                iState[method.name] = method.value;
+              } <span class="hljs-keyword">else</span> {
+                iState[method.name] = method
+                  .value
+                  .call(<span class="hljs-keyword">this</span>, state, ownProps);
               }
-              
-            }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
-              iState[method.name] = method.value;
-            }<span class="hljs-keyword">else</span>{
-              iState[method.name] = method.value.call(<span class="hljs-keyword">this</span>, state, ownProps);
+            } <span class="hljs-keyword">catch</span> (e) {
+              <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'[Selector Error]'</span> + e.stack);
             }
-          }<span class="hljs-keyword">catch</span>(e){
-            <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'[Selector Error]'</span> + e.stack);
-          }
-        })
+          })
         <span class="hljs-keyword">return</span> iState;
       }
     }
   })
-} 
+}
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Output = <span class="hljs-function">(<span class="hljs-params">model</span>) =&gt;</span> (prototype, method, obj) =&gt; {
   prototype.$outputMethods_ = prototype.$outputMethods_ || [];
-  prototype.$outputMethods_.push({
-    <span class="hljs-attr">name</span>: method,
-    <span class="hljs-attr">value</span>: obj.value,
-    <span class="hljs-attr">model</span>: model
-  });
-  <span class="hljs-keyword">if</span>(prototype.propertyIsEnumerable(<span class="hljs-string">'outputs'</span>)) <span class="hljs-keyword">return</span>;
+  prototype
+    .$outputMethods_
+    .push({<span class="hljs-attr">name</span>: method, <span class="hljs-attr">value</span>: obj.value, <span class="hljs-attr">model</span>: model});
+  <span class="hljs-keyword">if</span> (prototype.propertyIsEnumerable(<span class="hljs-string">'outputs'</span>)) 
+    <span class="hljs-keyword">return</span>;
   <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'outputs'</span>, {
     <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
-    get(){
+    get() {
       <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> {
         <span class="hljs-keyword">const</span> iAction = {};
-        prototype.$outputMethods_.forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
-          <span class="hljs-keyword">if</span>(method.model){
-            iAction[method.name] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
-              <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getModel(method.model)[method.name](args);
-            };
-          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(method.model === <span class="hljs-literal">false</span>){
-            iAction[method.name] = method.value;
-          }<span class="hljs-keyword">else</span>{
-            iAction[method.name] = method.value.call(<span class="hljs-keyword">this</span>, dispatch, ownProps);
-          }
-        })
+        prototype
+          .$outputMethods_
+          .forEach(<span class="hljs-function"><span class="hljs-params">method</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (method.model) {
+              iAction[method.name] = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getModel(method.model)[method.name](args);
+              };
+            } <span class="hljs-keyword">else</span> {
+              iAction[method.name] = method
+                .value
+                .bind(<span class="hljs-keyword">this</span>)
+            }
+          })
         <span class="hljs-keyword">return</span> iAction;
       }
     }
   })
-} 
+}
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> initialState = <span class="hljs-function">(<span class="hljs-params">prototype, property, obj</span>) =&gt;</span> {
   prototype.$propMethods_ = prototype.$propMethods_ || [];
-  prototype.$propMethods_.push({
-    <span class="hljs-attr">name</span>: property,
-    <span class="hljs-attr">value</span>: obj.initializer()
-  });
+  prototype
+    .$propMethods_
+    .push({
+      <span class="hljs-attr">name</span>: property,
+      <span class="hljs-attr">value</span>: obj.initializer()
+    });
   <span class="hljs-built_in">Object</span>.defineProperty(prototype, <span class="hljs-string">'properties'</span>, {
     <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">true</span>,
     get() {
       <span class="hljs-keyword">const</span> properties = {};
-      prototype.$propMethods_.forEach(<span class="hljs-function"><span class="hljs-params">prop</span> =&gt;</span> {
-        properties[prop.name] = prop.value;
-      });
+      prototype
+        .$propMethods_
+        .forEach(<span class="hljs-function"><span class="hljs-params">prop</span> =&gt;</span> {
+          properties[prop.name] = prop.value;
+        });
       <span class="hljs-keyword">return</span> properties;
     }
   })
-} 
+}
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> dispatch = <span class="hljs-function">(<span class="hljs-params">prototype, method, obj</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> func = obj.value;
   obj.initializer = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
-    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, args)(<span class="hljs-keyword">this</span>.dispatch);
     }
   };
-} 
+}
 
 <span class="hljs-keyword">export</span> {PropTypes};
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> View = component;</pre></div></pre><a href="javascript:;" class="link close"></a></div>
