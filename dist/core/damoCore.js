@@ -6342,7 +6342,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  var routeConfig = Object.assign({
 	    resolvePath: path,
-	    path: path || option.navKey ? option.navKey + '/' + option.name : option.name,
+	    path: path || (option.navKey ? option.navKey + '/' + option.name : option.name),
 	    onLeave: RouteComponent.onLeave,
 	    onEnter: RouteComponent.onEnter,
 	    childRoutes: RouteComponent.childRoutes,

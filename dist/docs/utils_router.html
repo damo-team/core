@@ -241,9 +241,9 @@
   }
   <span class="hljs-keyword">const</span> routeConfig = <span class="hljs-built_in">Object</span>.assign({
     <span class="hljs-attr">resolvePath</span>: path,
-    <span class="hljs-attr">path</span>: path || option.navKey
+    <span class="hljs-attr">path</span>: path || (option.navKey
       ? option.navKey + <span class="hljs-string">'/'</span> + option.name
-      : option.name,
+      : option.name),
     <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
     <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
     <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes,
