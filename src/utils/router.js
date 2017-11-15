@@ -6,9 +6,9 @@ export default function router(path, RouteComponent, option, strict) {
   }
   const routeConfig = Object.assign({
     resolvePath: path,
-    path: path || option.navKey
+    path: path || (option.navKey
       ? option.navKey + '/' + option.name
-      : option.name,
+      : option.name),
     onLeave: RouteComponent.onLeave,
     onEnter: RouteComponent.onEnter,
     childRoutes: RouteComponent.childRoutes,
