@@ -147,10 +147,23 @@ export function Api(ajaxOption){
     case 'PUT':
       return Api.postput(uri, method, body, ajaxOption);
     case 'DELETE':
-      return Api.delete(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, ajaxOption)
+      return Api.delete(getUrl(uri, body), ajaxOption)
     case 'GET':
     default:
-      return Api.get(`${uri.indexOf('?') > -1 ? uri : uri + '?'}&${param(body)}`, ajaxOption)
+      return Api.get(getUrl(uri, body), ajaxOption)
+  }
+}
+
+function getUrl(uri, data){
+  const idx = uri.indexOf('?');
+  if(idx > -1){
+    if(idx > (uri.length - 1)){
+      return uri + param(data);
+    }else{
+      return uri + '&' + param(data);
+    }
+  }else{
+    return uri + '?' + param(data);
   }
 }
 
