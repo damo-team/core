@@ -12,8 +12,6 @@ export default function router(path, RouteComponent, option) {
     }
   }
 
-  RouteComponent = fromAppBoost(path, RouteComponent);
-
   if (!RouteComponent.prototype || (option && option.strict && option.name !== '/' && !RouteComponent.__view__)) {
     return null;
   }

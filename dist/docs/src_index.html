@@ -443,7 +443,7 @@
   <span class="hljs-attr">$$callback__</span>: [],
   <span class="hljs-attr">$$routesMap__</span>: {},
   setRoute(route){
-    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+    damo.$$routesMap__[damo.getResolvePath(route)] = route;
   },
 
   getRoute(name){
@@ -647,6 +647,11 @@
     autoLoadServices(context);
   },
   autoLoadRoutes(context, option = {}) {
+    <span class="hljs-keyword">const</span> callback = option.callback;
+    option.callback = <span class="hljs-function">(<span class="hljs-params">childRoute, relativePath</span>) =&gt;</span> {
+      damo.setRoute(childRoute);
+      <span class="hljs-keyword">return</span> callback &amp;&amp; callback(childRoute, relativePath)
+    }
     damo.$$routes__ = autoLoadRoutes(context, option);
   },
   view(Selector, SceneComponent, providers, noFlattern) {

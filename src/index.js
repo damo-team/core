@@ -191,7 +191,7 @@ const damo = {
   $$callback__: [],
   $$routesMap__: {},
   setRoute(route){
-    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+    damo.$$routesMap__[damo.getResolvePath(route)] = route;
   },
 
   getRoute(name){
@@ -395,6 +395,11 @@ const damo = {
     autoLoadServices(context);
   },
   autoLoadRoutes(context, option = {}) {
+    const callback = option.callback;
+    option.callback = (childRoute, relativePath) => {
+      damo.setRoute(childRoute);
+      return callback && callback(childRoute, relativePath)
+    }
     damo.$$routes__ = autoLoadRoutes(context, option);
   },
   view(Selector, SceneComponent, providers, noFlattern) {

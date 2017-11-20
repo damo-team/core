@@ -41,7 +41,7 @@ function checkStatus(response, ajaxOption) {
     }catch(e){
       error.response = response.text();
     }
-    error.ajaxOption.errorNotification = ajaxOption.errorNotification;
+    error.errorNotification = ajaxOption.errorNotification;
     throw error;
   }
   return response;
@@ -132,7 +132,7 @@ export function Api(ajaxOption){
   if(ajaxOption.headers){
     if(ajaxOption.headers.target){
       headers = Object.assign({}, ajaxOption.headers);
-      headers.target = substitute(headers.target, body, true);
+      headers.target = substitute(headers.target, ajaxOption.data, true);
     }else{
       headers = ajaxOption.headers;
     }
@@ -140,31 +140,36 @@ export function Api(ajaxOption){
   ajaxOption.headers = headers;
   ajaxOption.credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
 
-  const uri = substitute(ajaxOption.url, body, true);
+  const uri = substitute(ajaxOption.url, ajaxOption.data, true);
   
   switch(method){
     case 'POST':
     case 'PUT':
-      return Api.postput(uri, method, body, ajaxOption);
+      return Api.postput(uri, method, ajaxOption.data, ajaxOption);
     case 'DELETE':
-      return Api.delete(getUrl(uri, body), ajaxOption)
+      return Api.delete(getUrl(uri, ajaxOption.data), ajaxOption)
     case 'GET':
     default:
-      return Api.get(getUrl(uri, body), ajaxOption)
+      return Api.get(getUrl(uri, ajaxOption.data), ajaxOption)
   }
 }
 
 function getUrl(uri, data){
-  const idx = uri.indexOf('?');
-  if(idx > -1){
-    if(idx > (uri.length - 1)){
-      return uri + param(data);
+  if(data){
+    const idx = uri.indexOf('?');
+    if(idx > -1){
+      if(idx > (uri.length - 1)){
+        return uri + param(data);
+      }else{
+        return uri + '&' + param(data);
+      }
     }else{
-      return uri + '&' + param(data);
+      return uri + '?' + param(data);
     }
   }else{
-    return uri + '?' + param(data);
+    return uri;
   }
+  
 }
 
 Api.headers = Object.assign(window.ajaxHeader || {}, {
@@ -181,7 +186,7 @@ Object.assign(Api, {
   error(err){
     return Promise.reject(err);
   },
-  get(uri, ajaxOption){
+  get(uri, ajaxOption = {}){
     return fetch(uri,
     {
       method: 'GET',
@@ -191,7 +196,7 @@ Object.assign(Api, {
     .then(response => checkStatus(response, ajaxOption))
     .then(response => parseJSON(response, ajaxOption));
   },
-  delete(uri, ajaxOption){
+  delete(uri, ajaxOption = {}){
     return fetch(uri,
     {
       method: 'DELETE',
@@ -201,7 +206,7 @@ Object.assign(Api, {
     .then(response => checkStatus(response, ajaxOption))
     .then(response => parseJSON(response, ajaxOption));
   },
-  postput(uri, method, data, ajaxOption){
+  postput(uri, method, data, ajaxOption = {}){
     return fetch(uri,
     {
       method: method,
@@ -212,10 +217,10 @@ Object.assign(Api, {
     .then(response => checkStatus(response, ajaxOption))
     .then(response => parseJSON(response, ajaxOption));
   },
-  post(uri, data, ajaxOption){
+  post(uri, data, ajaxOption = {}){
     return Api.postput(uri, 'POST', data, ajaxOption);
   },
-  put(uri, data, ajaxOption){
+  put(uri, data, ajaxOption = {}){
     return Api.postput(uri, 'PUT', data, ajaxOption);
   }
 });

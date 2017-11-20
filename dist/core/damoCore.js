@@ -379,7 +379,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  $$callback__: [],
 	  $$routesMap__: {},
 	  setRoute: function setRoute(route) {
-	    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+	    damo.$$routesMap__[damo.getResolvePath(route)] = route;
 	  },
 	  getRoute: function getRoute(name) {
 	    return damo.$$routesMap__[name];
@@ -564,6 +564,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  autoLoadRoutes: function autoLoadRoutes(context) {
 	    var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+	    var callback = option.callback;
+	    option.callback = function (childRoute, relativePath) {
+	      damo.setRoute(childRoute);
+	      return callback && callback(childRoute, relativePath);
+	    };
 	    damo.$$routes__ = _autoLoadRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers, noFlattern) {
@@ -1027,7 +1032,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } catch (e) {
 	      error.response = response.text();
 	    }
-	    error.ajaxOption.errorNotification = ajaxOption.errorNotification;
+	    error.errorNotification = ajaxOption.errorNotification;
 	    throw error;
 	  }
 	  return response;
@@ -1118,7 +1123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (ajaxOption.headers) {
 	    if (ajaxOption.headers.target) {
 	      headers = Object.assign({}, ajaxOption.headers);
-	      headers.target = (0, _core.substitute)(headers.target, body, true);
+	      headers.target = (0, _core.substitute)(headers.target, ajaxOption.data, true);
 	    } else {
 	      headers = ajaxOption.headers;
 	    }
@@ -1126,30 +1131,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ajaxOption.headers = headers;
 	  ajaxOption.credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
 
-	  var uri = (0, _core.substitute)(ajaxOption.url, body, true);
+	  var uri = (0, _core.substitute)(ajaxOption.url, ajaxOption.data, true);
 
 	  switch (method) {
 	    case 'POST':
 	    case 'PUT':
-	      return Api.postput(uri, method, body, ajaxOption);
+	      return Api.postput(uri, method, ajaxOption.data, ajaxOption);
 	    case 'DELETE':
-	      return Api.delete(getUrl(uri, body), ajaxOption);
+	      return Api.delete(getUrl(uri, ajaxOption.data), ajaxOption);
 	    case 'GET':
 	    default:
-	      return Api.get(getUrl(uri, body), ajaxOption);
+	      return Api.get(getUrl(uri, ajaxOption.data), ajaxOption);
 	  }
 	}
 
 	function getUrl(uri, data) {
-	  var idx = uri.indexOf('?');
-	  if (idx > -1) {
-	    if (idx > uri.length - 1) {
-	      return uri + param(data);
+	  if (data) {
+	    var idx = uri.indexOf('?');
+	    if (idx > -1) {
+	      if (idx > uri.length - 1) {
+	        return uri + param(data);
+	      } else {
+	        return uri + '&' + param(data);
+	      }
 	    } else {
-	      return uri + '&' + param(data);
+	      return uri + '?' + param(data);
 	    }
 	  } else {
-	    return uri + '?' + param(data);
+	    return uri;
 	  }
 	}
 
@@ -1169,7 +1178,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  error: function error(err) {
 	    return Promise.reject(err);
 	  },
-	  get: function get(uri, ajaxOption) {
+	  get: function get(uri) {
+	    var ajaxOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: 'GET',
 	      credentials: constants[ajaxOption.credential],
@@ -1180,7 +1191,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  delete: function _delete(uri, ajaxOption) {
+	  delete: function _delete(uri) {
+	    var ajaxOption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: 'DELETE',
 	      credentials: constants[ajaxOption.credential],
@@ -1191,7 +1204,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  postput: function postput(uri, method, data, ajaxOption) {
+	  postput: function postput(uri, method, data) {
+	    var ajaxOption = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
 	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: method,
 	      credentials: constants[ajaxOption.credential],
@@ -1203,10 +1218,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  post: function post(uri, data, ajaxOption) {
+	  post: function post(uri, data) {
+	    var ajaxOption = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
 	    return Api.postput(uri, 'POST', data, ajaxOption);
 	  },
-	  put: function put(uri, data, ajaxOption) {
+	  put: function put(uri, data) {
+	    var ajaxOption = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
 	    return Api.postput(uri, 'PUT', data, ajaxOption);
 	  }
 	});
@@ -1541,7 +1560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          case _seamlessImmutable2.default.isImmutable(options[key]):
 	            options[key] = {
 	              response: Promise.resolve(options[key]),
-	              operate: key,
+	              name: key,
 	              change: {
 	                name: key,
 	                callback: function callback(data) {
@@ -1553,7 +1572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          case isPromise(options[key]):
 	            Object.assign(options[key], {
 	              response: options[key],
-	              operate: key,
+	              name: key,
 	              change: {
 	                name: key,
 	                callback: function callback(data) {
@@ -1564,9 +1583,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            break;
 	          default:
 	            if (options[key].change) {
-	              if (options[key].change === 'function') {
+	              if (typeof options[key].change === 'function') {
 	                Object.assign(options[key], {
-	                  operate: key,
+	                  name: key,
 	                  change: {
 	                    name: key,
 	                    callback: options[key].change
@@ -1575,7 +1594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              }
 	            } else {
 	              Object.assign(options[key], {
-	                operate: key,
+	                name: key,
 	                change: {
 	                  name: key,
 	                  callback: function callback(data) {
@@ -6365,8 +6384,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      path = RouteComponent.routePath;
 	    }
 	  }
-
-	  RouteComponent = fromAppBoost(path, RouteComponent);
 
 	  if (!RouteComponent.prototype || option && option.strict && option.name !== '/' && !RouteComponent.__view__) {
 	    return null;

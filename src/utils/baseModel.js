@@ -183,7 +183,7 @@ export class BaseModel extends EventEmitter {
         case SI.isImmutable(options[key]):
           options[key] = {
             response: Promise.resolve(options[key]),
-            operate: key,
+            name: key,
             change: {
               name: key,
               callback: data => data
@@ -193,7 +193,7 @@ export class BaseModel extends EventEmitter {
         case isPromise(options[key]):
           Object.assign(options[key], {
             response: options[key],
-            operate: key,
+            name: key,
             change: {
               name: key,
               callback: data => data
@@ -202,9 +202,9 @@ export class BaseModel extends EventEmitter {
           break;
         default:
           if (options[key].change) {
-            if (options[key].change === 'function') {
+            if (typeof options[key].change === 'function') {
               Object.assign(options[key], {
-                operate: key,
+                name: key,
                 change: {
                   name: key,
                   callback: options[key].change
@@ -213,7 +213,7 @@ export class BaseModel extends EventEmitter {
             }
           } else {
             Object.assign(options[key], {
-              operate: key,
+              name: key,
               change: {
                 name: key,
                 callback: data => data

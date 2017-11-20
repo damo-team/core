@@ -307,7 +307,7 @@ see: <a href="https://stackoverflow.com/questions/34304335/redux-using-async-mid
     }<span class="hljs-keyword">catch</span>(e){
       error.response = response.text();
     }
-    error.ajaxOption.errorNotification = ajaxOption.errorNotification;
+    error.errorNotification = ajaxOption.errorNotification;
     <span class="hljs-keyword">throw</span> error;
   }
   <span class="hljs-keyword">return</span> response;
@@ -481,7 +481,7 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
   <span class="hljs-keyword">if</span>(ajaxOption.headers){
     <span class="hljs-keyword">if</span>(ajaxOption.headers.target){
       headers = <span class="hljs-built_in">Object</span>.assign({}, ajaxOption.headers);
-      headers.target = substitute(headers.target, body, <span class="hljs-literal">true</span>);
+      headers.target = substitute(headers.target, ajaxOption.data, <span class="hljs-literal">true</span>);
     }<span class="hljs-keyword">else</span>{
       headers = ajaxOption.headers;
     }
@@ -489,31 +489,36 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
   ajaxOption.headers = headers;
   ajaxOption.credential = ajaxOption.withCredentials ? <span class="hljs-string">'INCLUDE'</span> : <span class="hljs-string">'SAME_ORIGIN'</span>;
 
-  <span class="hljs-keyword">const</span> uri = substitute(ajaxOption.url, body, <span class="hljs-literal">true</span>);
+  <span class="hljs-keyword">const</span> uri = substitute(ajaxOption.url, ajaxOption.data, <span class="hljs-literal">true</span>);
   
   <span class="hljs-keyword">switch</span>(method){
     <span class="hljs-keyword">case</span> <span class="hljs-string">'POST'</span>:
     <span class="hljs-keyword">case</span> <span class="hljs-string">'PUT'</span>:
-      <span class="hljs-keyword">return</span> Api.postput(uri, method, body, ajaxOption);
+      <span class="hljs-keyword">return</span> Api.postput(uri, method, ajaxOption.data, ajaxOption);
     <span class="hljs-keyword">case</span> <span class="hljs-string">'DELETE'</span>:
-      <span class="hljs-keyword">return</span> Api.delete(getUrl(uri, body), ajaxOption)
+      <span class="hljs-keyword">return</span> Api.delete(getUrl(uri, ajaxOption.data), ajaxOption)
     <span class="hljs-keyword">case</span> <span class="hljs-string">'GET'</span>:
     <span class="hljs-keyword">default</span>:
-      <span class="hljs-keyword">return</span> Api.get(getUrl(uri, body), ajaxOption)
+      <span class="hljs-keyword">return</span> Api.get(getUrl(uri, ajaxOption.data), ajaxOption)
   }
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getUrl</span>(<span class="hljs-params">uri, data</span>)</span>{
-  <span class="hljs-keyword">const</span> idx = uri.indexOf(<span class="hljs-string">'?'</span>);
-  <span class="hljs-keyword">if</span>(idx &gt; <span class="hljs-number">-1</span>){
-    <span class="hljs-keyword">if</span>(idx &gt; (uri.length - <span class="hljs-number">1</span>)){
-      <span class="hljs-keyword">return</span> uri + param(data);
+  <span class="hljs-keyword">if</span>(data){
+    <span class="hljs-keyword">const</span> idx = uri.indexOf(<span class="hljs-string">'?'</span>);
+    <span class="hljs-keyword">if</span>(idx &gt; <span class="hljs-number">-1</span>){
+      <span class="hljs-keyword">if</span>(idx &gt; (uri.length - <span class="hljs-number">1</span>)){
+        <span class="hljs-keyword">return</span> uri + param(data);
+      }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'&amp;'</span> + param(data);
+      }
     }<span class="hljs-keyword">else</span>{
-      <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'&amp;'</span> + param(data);
+      <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'?'</span> + param(data);
     }
   }<span class="hljs-keyword">else</span>{
-    <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'?'</span> + param(data);
+    <span class="hljs-keyword">return</span> uri;
   }
+  
 }
 
 Api.headers = <span class="hljs-built_in">Object</span>.assign(<span class="hljs-built_in">window</span>.ajaxHeader || {}, {
@@ -530,7 +535,7 @@ Api.preFetch = <span class="hljs-function"><span class="hljs-params">d</span> =&
   error(err){
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(err);
   },
-  get(uri, ajaxOption){
+  get(uri, ajaxOption = {}){
     <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>,
@@ -540,7 +545,7 @@ Api.preFetch = <span class="hljs-function"><span class="hljs-params">d</span> =&
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  <span class="hljs-keyword">delete</span>(uri, ajaxOption){
+  <span class="hljs-keyword">delete</span>(uri, ajaxOption = {}){
     <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: <span class="hljs-string">'DELETE'</span>,
@@ -550,7 +555,7 @@ Api.preFetch = <span class="hljs-function"><span class="hljs-params">d</span> =&
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  postput(uri, method, data, ajaxOption){
+  postput(uri, method, data, ajaxOption = {}){
     <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: method,
@@ -561,10 +566,10 @@ Api.preFetch = <span class="hljs-function"><span class="hljs-params">d</span> =&
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  post(uri, data, ajaxOption){
+  post(uri, data, ajaxOption = {}){
     <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'POST'</span>, data, ajaxOption);
   },
-  put(uri, data, ajaxOption){
+  put(uri, data, ajaxOption = {}){
     <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'PUT'</span>, data, ajaxOption);
   }
 });</pre></div></pre><a href="javascript:;" class="link close"></a></div>

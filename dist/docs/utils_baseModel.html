@@ -524,7 +524,7 @@
         <span class="hljs-keyword">case</span> SI.isImmutable(options[key]):
           options[key] = {
             <span class="hljs-attr">response</span>: <span class="hljs-built_in">Promise</span>.resolve(options[key]),
-            <span class="hljs-attr">operate</span>: key,
+            <span class="hljs-attr">name</span>: key,
             <span class="hljs-attr">change</span>: {
               <span class="hljs-attr">name</span>: key,
               <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
@@ -534,7 +534,7 @@
         <span class="hljs-keyword">case</span> isPromise(options[key]):
           <span class="hljs-built_in">Object</span>.assign(options[key], {
             <span class="hljs-attr">response</span>: options[key],
-            <span class="hljs-attr">operate</span>: key,
+            <span class="hljs-attr">name</span>: key,
             <span class="hljs-attr">change</span>: {
               <span class="hljs-attr">name</span>: key,
               <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
@@ -543,9 +543,9 @@
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">default</span>:
           <span class="hljs-keyword">if</span> (options[key].change) {
-            <span class="hljs-keyword">if</span> (options[key].change === <span class="hljs-string">'function'</span>) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options[key].change === <span class="hljs-string">'function'</span>) {
               <span class="hljs-built_in">Object</span>.assign(options[key], {
-                <span class="hljs-attr">operate</span>: key,
+                <span class="hljs-attr">name</span>: key,
                 <span class="hljs-attr">change</span>: {
                   <span class="hljs-attr">name</span>: key,
                   <span class="hljs-attr">callback</span>: options[key].change
@@ -554,7 +554,7 @@
             }
           } <span class="hljs-keyword">else</span> {
             <span class="hljs-built_in">Object</span>.assign(options[key], {
-              <span class="hljs-attr">operate</span>: key,
+              <span class="hljs-attr">name</span>: key,
               <span class="hljs-attr">change</span>: {
                 <span class="hljs-attr">name</span>: key,
                 <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data
