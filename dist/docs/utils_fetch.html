@@ -233,7 +233,7 @@
 <ol>
 <li>封装ES7的fetch模块</li>
 <li>对外提供get, post, delete, put静态方法，分别调用不同类型的接口</li>
-<li>对外开发errorhandler和mock数据的接口</li>
+<li>对外开发checkStatus和mock数据的接口</li>
 </ol>
 
       </td>
@@ -270,12 +270,11 @@
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseJSON</span>(<span class="hljs-params">response, errorNotification, uri</span>) </span>{
-  <span class="hljs-keyword">return</span> response.json().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> Api.errorHandler(res, errorNotification, uri));
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseJSON</span>(<span class="hljs-params">response, ajaxOption</span>) </span>{
+  <span class="hljs-keyword">return</span> response.json().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> Api.checkStatus(res, ajaxOption));
 }
 
-Api.errorHandler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res, errorNotification</span>)</span>{<span class="hljs-keyword">return</span> res};
-Api.validateHandler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data, ajaxOption</span>)</span>{<span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, data)};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+Api.checkStatus = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res, ajaxOption</span>)</span>{<span class="hljs-keyword">return</span> res};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
@@ -298,8 +297,8 @@ see: <a href="https://stackoverflow.com/questions/34304335/redux-using-async-mid
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkStatus</span>(<span class="hljs-params">response, errorNotification</span>) </span>{
-  <span class="hljs-keyword">if</span>(errorNotification &amp;&amp; errorNotification.quiet) <span class="hljs-keyword">return</span> response;
+        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkStatus</span>(<span class="hljs-params">response, ajaxOption</span>) </span>{
+  <span class="hljs-keyword">if</span>(ajaxOption.errorNotification &amp;&amp; ajaxOption.errorNotification.quiet) <span class="hljs-keyword">return</span> response;
 
   <span class="hljs-keyword">if</span> (response.status &lt; HttpCodes.OK || response.status &gt;= HttpCodes.ERROR) {
     <span class="hljs-keyword">let</span> error = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(response.statusText);
@@ -308,7 +307,7 @@ see: <a href="https://stackoverflow.com/questions/34304335/redux-using-async-mid
     }<span class="hljs-keyword">catch</span>(e){
       error.response = response.text();
     }
-    error.errorNotification = errorNotification;
+    error.ajaxOption.errorNotification = ajaxOption.errorNotification;
     <span class="hljs-keyword">throw</span> error;
   }
   <span class="hljs-keyword">return</span> response;
@@ -334,29 +333,7 @@ see: <a href="https://stackoverflow.com/questions/34304335/redux-using-async-mid
       </td>
       
       <td class="code">
-        <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">let</span> doFetch;
-<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'production'</span>) {
-  doFetch = fetch;
-}<span class="hljs-keyword">else</span>{
-  <span class="hljs-keyword">if</span>(location.search.indexOf(<span class="hljs-string">'debug=true'</span>) &gt; <span class="hljs-number">-1</span> || <span class="hljs-built_in">window</span>.DEBUG){
-    doFetch = <span class="hljs-function">(<span class="hljs-params">uri, options</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span> (Api.getMockUrl &amp;&amp; uri.indexOf(<span class="hljs-string">'proxy=true'</span>) &gt; <span class="hljs-number">-1</span>) {
-        <span class="hljs-keyword">let</span> tmp = uri.split(<span class="hljs-string">'?'</span>);
-        <span class="hljs-keyword">let</span> url = tmp[<span class="hljs-number">0</span>].replace(location.protocol + <span class="hljs-string">'//'</span> + location.hostname, <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/^[:\d]*/</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-regexp">/\/\{[^\}]*\}/</span>, <span class="hljs-string">''</span>);
-        <span class="hljs-keyword">let</span> params = {};
-        tmp[<span class="hljs-number">1</span>].split(<span class="hljs-string">'&amp;'</span>).forEach(<span class="hljs-function"><span class="hljs-params">str</span> =&gt;</span> {
-          <span class="hljs-keyword">let</span> s = str.split(<span class="hljs-string">'='</span>);
-          params[s[<span class="hljs-number">0</span>]] = s[<span class="hljs-number">1</span>];
-        });
-        uri = Api.getMockUrl(url, params, options);
-      }
-      <span class="hljs-keyword">return</span> fetch(uri, options);
-    }
-  }<span class="hljs-keyword">else</span>{
-    doFetch = fetch;
-  }
-}
-
+        <div class='highlight'><pre><div class='highlight'><pre>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isValidParamValue</span>(<span class="hljs-params">val</span>) </span>{
     <span class="hljs-keyword">var</span> t = <span class="hljs-keyword">typeof</span> val;
     <span class="hljs-comment">// #! If the type of val is null, undefined, number, string, boolean, return TRUE.</span>
@@ -480,7 +457,7 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
 <td>NA</td>
 </tr>
 <tr>
-<td>errorHandler</td>
+<td>checkStatus</td>
 <td>接口错误处理的开放接口</td>
 <td>(res: 接口数据, errorNotification: 错误处理器}</td>
 <td>NA</td>
@@ -498,8 +475,8 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
       
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Api</span>(<span class="hljs-params">ajaxOption</span>)</span>{
+  ajaxOption = Api.preFetch(ajaxOption);
   <span class="hljs-keyword">const</span> method = ajaxOption.method.toLocaleUpperCase();
-  <span class="hljs-keyword">const</span> body = Api.validateHandler(ajaxOption.data || ajaxOption.params, ajaxOption);
   <span class="hljs-keyword">let</span> headers;
   <span class="hljs-keyword">if</span>(ajaxOption.headers){
     <span class="hljs-keyword">if</span>(ajaxOption.headers.target){
@@ -509,18 +486,33 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
       headers = ajaxOption.headers;
     }
   }
-  <span class="hljs-keyword">const</span> credential = ajaxOption.withCredentials ? <span class="hljs-string">'INCLUDE'</span> : <span class="hljs-string">'SAME_ORIGIN'</span>;
+  ajaxOption.headers = headers;
+  ajaxOption.credential = ajaxOption.withCredentials ? <span class="hljs-string">'INCLUDE'</span> : <span class="hljs-string">'SAME_ORIGIN'</span>;
+
   <span class="hljs-keyword">const</span> uri = substitute(ajaxOption.url, body, <span class="hljs-literal">true</span>);
   
   <span class="hljs-keyword">switch</span>(method){
     <span class="hljs-keyword">case</span> <span class="hljs-string">'POST'</span>:
     <span class="hljs-keyword">case</span> <span class="hljs-string">'PUT'</span>:
-      <span class="hljs-keyword">return</span> Api.postput(uri, method, body, headers, credential, ajaxOption.errorNotification);
+      <span class="hljs-keyword">return</span> Api.postput(uri, method, body, ajaxOption);
     <span class="hljs-keyword">case</span> <span class="hljs-string">'DELETE'</span>:
-      <span class="hljs-keyword">return</span> Api.delete(<span class="hljs-string">`<span class="hljs-subst">${uri.indexOf(<span class="hljs-string">'?'</span>) &gt; <span class="hljs-number">-1</span> ? uri : uri + <span class="hljs-string">'?'</span>}</span>&amp;<span class="hljs-subst">${param(body)}</span>`</span>, headers, credential, ajaxOption.errorNotification)
+      <span class="hljs-keyword">return</span> Api.delete(getUrl(uri, body), ajaxOption)
     <span class="hljs-keyword">case</span> <span class="hljs-string">'GET'</span>:
     <span class="hljs-keyword">default</span>:
-      <span class="hljs-keyword">return</span> Api.get(<span class="hljs-string">`<span class="hljs-subst">${uri.indexOf(<span class="hljs-string">'?'</span>) &gt; <span class="hljs-number">-1</span> ? uri : uri + <span class="hljs-string">'?'</span>}</span>&amp;<span class="hljs-subst">${param(body)}</span>`</span>, headers, credential, ajaxOption.errorNotification)
+      <span class="hljs-keyword">return</span> Api.get(getUrl(uri, body), ajaxOption)
+  }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getUrl</span>(<span class="hljs-params">uri, data</span>)</span>{
+  <span class="hljs-keyword">const</span> idx = uri.indexOf(<span class="hljs-string">'?'</span>);
+  <span class="hljs-keyword">if</span>(idx &gt; <span class="hljs-number">-1</span>){
+    <span class="hljs-keyword">if</span>(idx &gt; (uri.length - <span class="hljs-number">1</span>)){
+      <span class="hljs-keyword">return</span> uri + param(data);
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'&amp;'</span> + param(data);
+    }
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-keyword">return</span> uri + <span class="hljs-string">'?'</span> + param(data);
   }
 }
 
@@ -528,7 +520,8 @@ Api.headers = <span class="hljs-built_in">Object</span>.assign(<span class="hljs
   <span class="hljs-string">'Accept'</span>: constants.APP_JSON_HEADER,
   <span class="hljs-string">'Content-Type'</span>: constants.APP_JSON_HEADER
 });
-Api.doFetch = doFetch;
+Api.fetch = fetch;
+Api.preFetch = <span class="hljs-function"><span class="hljs-params">d</span> =&gt;</span> d;
 
 <span class="hljs-built_in">Object</span>.assign(Api, {
   success(res){
@@ -537,65 +530,44 @@ Api.doFetch = doFetch;
   error(err){
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(err);
   },
-  get(uri,  headers, credential, errorNotification){
-    <span class="hljs-keyword">return</span> doFetch(uri,
+  get(uri, ajaxOption){
+    <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>,
-      <span class="hljs-attr">credentials</span>: constants[credential],
-      <span class="hljs-attr">headers</span>: headers || Api.headers
+      <span class="hljs-attr">credentials</span>: constants[ajaxOption.credential],
+      <span class="hljs-attr">headers</span>: ajaxOption.headers || Api.headers
     })
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  <span class="hljs-keyword">delete</span>(uri, headers, credential, errorNotification){
-    <span class="hljs-keyword">return</span> doFetch(uri,
+  <span class="hljs-keyword">delete</span>(uri, ajaxOption){
+    <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: <span class="hljs-string">'DELETE'</span>,
-      <span class="hljs-attr">credentials</span>: constants[credential],
-      <span class="hljs-attr">headers</span>: headers || Api.headers
+      <span class="hljs-attr">credentials</span>: constants[ajaxOption.credential],
+      <span class="hljs-attr">headers</span>: ajaxOption.headers || Api.headers
     })
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  postput(uri, method, data, headers, credential, errorNotification){
-    <span class="hljs-keyword">return</span> doFetch(uri,
+  postput(uri, method, data, ajaxOption){
+    <span class="hljs-keyword">return</span> fetch(uri,
     {
       <span class="hljs-attr">method</span>: method,
-      <span class="hljs-attr">credentials</span>: constants[credential],
-      <span class="hljs-attr">headers</span>: headers || Api.headers,
+      <span class="hljs-attr">credentials</span>: constants[ajaxOption.credential],
+      <span class="hljs-attr">headers</span>: ajaxOption.headers || Api.headers,
       <span class="hljs-attr">body</span>: <span class="hljs-built_in">JSON</span>.stringify(data)
     })
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, errorNotification))
-    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, errorNotification, uri));
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> checkStatus(response, ajaxOption))
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> parseJSON(response, ajaxOption));
   },
-  post(uri, data, headers, credential, errorNotification){
-    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'POST'</span>, data, headers, credential, errorNotification);
+  post(uri, data, ajaxOption){
+    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'POST'</span>, data, ajaxOption);
   },
-  put(uri, data, headers, credential, errorNotification){
-    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'PUT'</span>, data, headers, credential, errorNotification);
+  put(uri, data, ajaxOption){
+    <span class="hljs-keyword">return</span> Api.postput(uri, <span class="hljs-string">'PUT'</span>, data, ajaxOption);
   }
 });</pre></div></pre><a href="javascript:;" class="link close"></a></div>
-      </td>
-      
-    </tr>
-    
-    
-    <tr id='section-7'>
-      
-      <td class="docs header-docs" colspan="2">
-        <div class="pilwrap ">
-          <a class="pilcrow" href="#section-7">&#182;</a>
-        </div>
-        <ul>
-<li>需要在业务中实现这个方法来集成</li>
-</ul>
-<p>Api.getMockUrl = function(url, params, options){
-  if(url.indexOf(‘.json’) === -1){
-    url = url + ‘.json’;
-  }
-  return ‘/mocks’ + url;
-} </p>
-
       </td>
       
     </tr>

@@ -281,6 +281,7 @@
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> configureStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./store/configureStore'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxSelector = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxSelector'</span>);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RxComponent = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./utils/rxComponent'</span>);
+<span class="hljs-keyword">import</span> hoistNonReactStatics <span class="hljs-keyword">from</span> <span class="hljs-string">'hoist-non-react-statics'</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">extractModules</span>(<span class="hljs-params">context</span>)</span>{
   <span class="hljs-keyword">const</span> modules = {};
@@ -352,7 +353,7 @@
 }
 
 <span class="hljs-comment">// #! require.context('./scenes', true, /index\.jsx$/)</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadScenesRoutes</span>(<span class="hljs-params">context, option = {}</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">autoLoadRoutes</span>(<span class="hljs-params">context, option</span>) </span>{
   <span class="hljs-keyword">if</span> (!context) {
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'需要提供require.context的遍历列表！'</span>);
   }
@@ -361,8 +362,8 @@
       <span class="hljs-attr">callback</span>: option
     };
   }
-  <span class="hljs-keyword">const</span> routeCallback = option.callback || <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
-  <span class="hljs-keyword">const</span> level = option.level || <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">const</span> routeCallback = option.callback || <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}
+  <span class="hljs-keyword">const</span> leave = option.leave || <span class="hljs-number">1</span>;
   <span class="hljs-keyword">const</span> routes = [];
   context
     .keys()
@@ -371,18 +372,20 @@
       <span class="hljs-keyword">const</span> keys = relativePath
         .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)
         .split(path.sep);
-      <span class="hljs-keyword">const</span> Comp = context(relativePath);
       <span class="hljs-keyword">if</span> (keys[<span class="hljs-number">0</span>] === <span class="hljs-string">''</span>) {
         keys.shift();
       }
+      <span class="hljs-keyword">const</span> Comp = context(relativePath);
       <span class="hljs-keyword">let</span> key,
         childRoute,
         temp,
         name,
         children;
-      <span class="hljs-keyword">if</span> (keys.length &lt; level) {
-        name = keys.pop() || <span class="hljs-string">'/'</span>;
-        childRoute = router(Comp.routePath, Comp, {<span class="hljs-attr">name</span>: name});
+      <span class="hljs-keyword">if</span> (keys.length &lt; leave) {
+        childRoute = router(Comp.routePath, Comp, {
+          <span class="hljs-attr">name</span>: keys[<span class="hljs-number">0</span>] || <span class="hljs-string">'/'</span>,
+          <span class="hljs-attr">strict</span>: option.strict
+        });
         <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
           routes.push(childRoute);
         };
@@ -398,14 +401,20 @@
           }
         }
         <span class="hljs-keyword">if</span>(!route){
-          route = children.find(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> route.name === <span class="hljs-string">'/'</span>);
+					route = children.find(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
+	          <span class="hljs-keyword">return</span> route.name === <span class="hljs-string">'/'</span>;
+	        });
+	        children = route.childRoutes || [];
         }
+        
         <span class="hljs-keyword">if</span> (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath, Comp, {
             <span class="hljs-attr">name</span>: name,
-            <span class="hljs-attr">navKey</span>: navKey
-          }, option.strict);
+            <span class="hljs-attr">navKey</span>: navKey,
+            <span class="hljs-attr">strict</span>: option.strict
+          });
+          childRoute.parent = route;
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             route
               .childRoutes
@@ -414,8 +423,9 @@
         } <span class="hljs-keyword">else</span> {
           childRoute = router(Comp.routePath, Comp, {
             <span class="hljs-attr">name</span>: name,
-            <span class="hljs-attr">navKey</span>: navKey
-          }, option.strict);
+            <span class="hljs-attr">navKey</span>: navKey,
+            <span class="hljs-attr">strict</span>: option.strict
+          });
           <span class="hljs-keyword">if</span> (childRoute &amp;&amp; routeCallback(childRoute, relativePath) !== <span class="hljs-literal">false</span>) {
             routes.push(childRoute);
           };
@@ -431,6 +441,33 @@
   <span class="hljs-attr">$$defaultModels__</span>: {},
   <span class="hljs-attr">$$store__</span>: <span class="hljs-literal">null</span>,
   <span class="hljs-attr">$$callback__</span>: [],
+  <span class="hljs-attr">$$routesMap__</span>: {},
+  setRoute(route){
+    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+  },
+
+  getRoute(name){
+    <span class="hljs-keyword">return</span> damo.$$routesMap__[name];
+  },
+
+  getResolvePath(route) {
+    <span class="hljs-keyword">let</span> resolvePath;
+    <span class="hljs-keyword">if</span> (route.resolvePath) {
+      resolvePath = route.resolvePath;
+    } <span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">const</span> paths = [route.path || route.name];
+      <span class="hljs-keyword">let</span> item = route;
+      <span class="hljs-keyword">while</span> (item = item.parent) {
+        paths.unshift(item.name);
+      }
+      resolvePath = paths
+        .join(<span class="hljs-string">'/'</span>)
+        .replace(<span class="hljs-regexp">/\/+/g</span>, <span class="hljs-string">'/'</span>);
+      route.resolvePath = resolvePath;
+    }
+    <span class="hljs-keyword">return</span> resolvePath;
+  },
+
   getRoutes() {
     <span class="hljs-keyword">return</span> damo.$$routes__;
   },
@@ -548,36 +585,32 @@
       .getModel(modelName)
       .select(prop, <span class="hljs-literal">true</span>);
   },
-  route(path, RouteComponent, option = {}) {
-    <span class="hljs-keyword">let</span> routeConfig;
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(path) === path) {
-      <span class="hljs-keyword">if</span> (path.path &amp;&amp; path.component) {
-        routeConfig = path;
-      } <span class="hljs-keyword">else</span> {
-        option = RouteComponent;
-        RouteComponent = path;
-        path = RouteComponent.routePath;
-      }
+  route(path, RouteComponent, option) {
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span> &amp;&amp; <span class="hljs-keyword">typeof</span> path === <span class="hljs-string">'string'</span>){
+      <span class="hljs-keyword">return</span> damo.getRoute(path);
     }
-    <span class="hljs-keyword">if</span>(!routeConfig){
-      routeConfig = router(path, RouteComponent, option, option.strict);
-    }
+    <span class="hljs-keyword">const</span> routeConfig = router(path, RouteComponent, option);
+    damo.setRoute(routeConfig);
     damo
       .$$routes__
       .push(routeConfig);
 
     <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option = {}</span>) =&gt;</span> {
-        routeConfig.childRoutes = routeConfig.childRoutes || [];
-        <span class="hljs-keyword">const</span> _routeConfig = router(path, RouteComponent, option, option.strict);
-        <span class="hljs-keyword">if</span> (_routeConfig) {
-          routeConfig
-            .childRoutes
-            .push(_routeConfig);
+      <span class="hljs-attr">route</span>: <span class="hljs-function">(<span class="hljs-params">path, RouteComponent, option</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span> &amp;&amp; <span class="hljs-keyword">typeof</span> path === <span class="hljs-string">'string'</span>){
+          <span class="hljs-keyword">return</span> damo.getRoute(path);
         }
+        
+        routeConfig.childRoutes = routeConfig.childRoutes || [];
+        <span class="hljs-keyword">const</span> childRouteConfig = router(path, RouteComponent, option);
+        damo.setRoute(childRouteConfig);
+        routeConfig
+          .childRoutes
+          .push(childRouteConfig);
       }
     }
   },
+  
   autoLoadModels(modelContext, resourceContext, noHot) {
     <span class="hljs-keyword">if</span> (!damo.$$store__) {
       damo
@@ -613,40 +646,37 @@
   autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, option) {
-    damo.$$routes__ = autoLoadScenesRoutes(context, option);
+  autoLoadRoutes(context, option = {}) {
+    damo.$$routes__ = autoLoadRoutes(context, option);
   },
   view(Selector, SceneComponent, providers, noFlattern) {
     <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> providers === <span class="hljs-string">'boolean'</span>){
       noFlattern = providers;
       providers = <span class="hljs-literal">null</span>;
     }
-    <span class="hljs-keyword">const</span> getView = <span class="hljs-function">(<span class="hljs-params">nextState, callback</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
-        <span class="hljs-keyword">const</span> moelds = Selector;
-        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
-          <span class="hljs-keyword">static</span> noFlattern = noFlattern;
-          <span class="hljs-keyword">static</span> dataBindings = moelds;
-          <span class="hljs-keyword">static</span> eventBindings = moelds;
-        }
-        Selector = SelectorClass;
-      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
-        providers = SceneComponent;
-        SceneComponent = Selector;
-        Selector = <span class="hljs-literal">null</span>;
-      }<span class="hljs-keyword">else</span>{
-        Selection.noFlattern = noFlattern;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(Selector)) {
+      <span class="hljs-keyword">const</span> moelds = Selector;
+      <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SelectorClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseSelector</span> </span>{
+        <span class="hljs-keyword">static</span> noFlattern = noFlattern;
+        <span class="hljs-keyword">static</span> dataBindings = moelds;
+        <span class="hljs-keyword">static</span> eventBindings = moelds;
       }
-      <span class="hljs-keyword">if</span>(callback){
-        callback(<span class="hljs-literal">null</span>, View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent));
-      }<span class="hljs-keyword">else</span>{
-        <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
-      }
-    }
-    <span class="hljs-keyword">if</span> (!damo.$$store__) {
-      <span class="hljs-keyword">return</span> getView;
+      Selector = SelectorClass;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (Selector.prototype.isReactComponent) {
+      providers = SceneComponent;
+      SceneComponent = Selector;
+      Selector = <span class="hljs-literal">null</span>;
     }<span class="hljs-keyword">else</span>{
-      <span class="hljs-keyword">return</span> getView();
+      Selection.noFlattern = noFlattern;
+    }
+    
+    <span class="hljs-keyword">if</span> (!damo.$$store__) {
+      <span class="hljs-keyword">const</span> getView = <span class="hljs-function">(<span class="hljs-params">location, callback</span>) =&gt;</span> {
+        callback(<span class="hljs-literal">null</span>, View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent));
+      }
+      <span class="hljs-keyword">return</span> hoistNonReactStatics(getView, SceneComponent);
+    }<span class="hljs-keyword">else</span>{
+      <span class="hljs-keyword">return</span> View({<span class="hljs-attr">selector</span>: Selector, <span class="hljs-attr">providers</span>: providers})(SceneComponent);
     }
   },
   bootstrap(RootComponent, DOM, dirname) {
@@ -662,6 +692,9 @@
         RootComponent = <span class="hljs-literal">null</span>;
       } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Array</span>.isArray(RootComponent)) {
         routes = RootComponent;
+        damo.$$routes__ = routes;
+        damo.$$routesMap__ = {};
+        routes.forEach(<span class="hljs-function"><span class="hljs-params">route</span> =&gt;</span> damo.setRoute(route));
         RootComponent = <span class="hljs-literal">null</span>;
       }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!React.isValidElement(RootComponent)) {
         RootComponent = React.createElement(RootComponent, <span class="hljs-literal">null</span>);

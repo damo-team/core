@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("seamless-immutable"), require("react"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
+		module.exports = factory(require("seamless-immutable"), require("react"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("hoist-non-react-statics"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
 	else if(typeof define === 'function' && define.amd)
-		define(["seamless-immutable", "react", "events", "react-router", "rxjs", "cuid", "react-dom", "react-redux", "react-redux-loading-bar", "recompose", "damo-redux", "hoist-non-react-statics", "isomorphic-fetch", "react-router-redux", "redux-logger", "redux-promise-middleware", "redux-thunk"], factory);
+		define(["seamless-immutable", "react", "events", "react-router", "rxjs", "cuid", "hoist-non-react-statics", "react-dom", "react-redux", "react-redux-loading-bar", "recompose", "damo-redux", "isomorphic-fetch", "react-router-redux", "redux-logger", "redux-promise-middleware", "redux-thunk"], factory);
 	else if(typeof exports === 'object')
-		exports["damo"] = factory(require("seamless-immutable"), require("react"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("hoist-non-react-statics"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
+		exports["damo"] = factory(require("seamless-immutable"), require("react"), require("events"), require("react-router"), require("rxjs"), require("cuid"), require("hoist-non-react-statics"), require("react-dom"), require("react-redux"), require("react-redux-loading-bar"), require("recompose"), require("damo-redux"), require("isomorphic-fetch"), require("react-router-redux"), require("redux-logger"), require("redux-promise-middleware"), require("redux-thunk"));
 	else
-		root["damo"] = factory(root["seamless-immutable"], root["react"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["hoist-non-react-statics"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-logger"], root["redux-promise-middleware"], root["redux-thunk"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_14__, __WEBPACK_EXTERNAL_MODULE_27__, __WEBPACK_EXTERNAL_MODULE_28__, __WEBPACK_EXTERNAL_MODULE_29__, __WEBPACK_EXTERNAL_MODULE_30__, __WEBPACK_EXTERNAL_MODULE_31__, __WEBPACK_EXTERNAL_MODULE_56__, __WEBPACK_EXTERNAL_MODULE_57__, __WEBPACK_EXTERNAL_MODULE_58__, __WEBPACK_EXTERNAL_MODULE_59__, __WEBPACK_EXTERNAL_MODULE_60__, __WEBPACK_EXTERNAL_MODULE_61__, __WEBPACK_EXTERNAL_MODULE_62__) {
+		root["damo"] = factory(root["seamless-immutable"], root["react"], root["events"], root["react-router"], root["rxjs"], root["cuid"], root["hoist-non-react-statics"], root["react-dom"], root["react-redux"], root["react-redux-loading-bar"], root["recompose"], root["damo-redux"], root["isomorphic-fetch"], root["react-router-redux"], root["redux-logger"], root["redux-promise-middleware"], root["redux-thunk"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_13__, __WEBPACK_EXTERNAL_MODULE_14__, __WEBPACK_EXTERNAL_MODULE_27__, __WEBPACK_EXTERNAL_MODULE_28__, __WEBPACK_EXTERNAL_MODULE_29__, __WEBPACK_EXTERNAL_MODULE_30__, __WEBPACK_EXTERNAL_MODULE_31__, __WEBPACK_EXTERNAL_MODULE_32__, __WEBPACK_EXTERNAL_MODULE_57__, __WEBPACK_EXTERNAL_MODULE_58__, __WEBPACK_EXTERNAL_MODULE_59__, __WEBPACK_EXTERNAL_MODULE_60__, __WEBPACK_EXTERNAL_MODULE_61__, __WEBPACK_EXTERNAL_MODULE_62__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = exports.Link = undefined;
+	exports.autoLoadRoutes = exports.autoLoadServices = exports.RxComponent = exports.RxSelector = exports.configureStore = exports.Link = undefined;
 
 	var _core = __webpack_require__(1);
 
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _componentDecorator = __webpack_require__(49);
+	var _componentDecorator = __webpack_require__(50);
 
 	Object.keys(_componentDecorator).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -97,7 +97,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resource = __webpack_require__(43);
+	var _resource = __webpack_require__(44);
 
 	Object.keys(_resource).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -169,7 +169,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 	exports.autoLoadStore = autoLoadStore;
-	exports.autoLoadScenesRoutes = autoLoadScenesRoutes;
 
 	var _seamlessImmutable = __webpack_require__(2);
 
@@ -179,25 +178,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(28);
+	var _reactDom = __webpack_require__(29);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _path = __webpack_require__(53);
+	var _path = __webpack_require__(54);
 
 	var _path2 = _interopRequireDefault(_path);
 
-	var _router = __webpack_require__(50);
+	var _router = __webpack_require__(51);
 
 	var _router2 = _interopRequireDefault(_router);
 
-	var _reactRedux = __webpack_require__(29);
+	var _reactRedux = __webpack_require__(30);
 
 	var _reactRouter = __webpack_require__(13);
 
-	var _useBasename = __webpack_require__(36);
+	var _useBasename = __webpack_require__(37);
 
 	var _useBasename2 = _interopRequireDefault(_useBasename);
+
+	var _hoistNonReactStatics = __webpack_require__(28);
+
+	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -224,9 +227,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	var Link = exports.Link = __webpack_require__(13).Link;
-	var configureStore = exports.configureStore = __webpack_require__(46);
-	var RxSelector = exports.RxSelector = __webpack_require__(51);
+	var configureStore = exports.configureStore = __webpack_require__(47);
+	var RxSelector = exports.RxSelector = __webpack_require__(52);
 	var RxComponent = exports.RxComponent = __webpack_require__(26);
+
 
 	function extractModules(context) {
 	  var modules = {};
@@ -287,9 +291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// #! require.context('./scenes', true, /index\.jsx$/)
 	exports.autoLoadServices = _autoLoadServices;
-	function autoLoadScenesRoutes(context) {
-	  var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+	function _autoLoadRoutes(context, option) {
 	  if (!context) {
 	    throw new Error('需要提供require.context的遍历列表！');
 	  }
@@ -299,24 +301,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  }
 	  var routeCallback = option.callback || function () {};
-	  var level = option.level || 1;
+	  var leave = option.leave || 1;
 	  var routes = [];
 	  context.keys().sort(function (a, b) {
 	    return a.split('/').length > b.split('/').length;
 	  }).forEach(function (relativePath) {
 	    var keys = relativePath.slice(2, -10).split(_path2.default.sep);
-	    var Comp = context(relativePath);
 	    if (keys[0] === '') {
 	      keys.shift();
 	    }
+	    var Comp = context(relativePath);
 	    var key = void 0,
 	        childRoute = void 0,
 	        temp = void 0,
 	        name = void 0,
 	        children = void 0;
-	    if (keys.length < level) {
-	      name = keys.pop() || '/';
-	      childRoute = (0, _router2.default)(Comp.routePath, Comp, { name: name });
+	    if (keys.length < leave) {
+	      childRoute = (0, _router2.default)(Comp.routePath, Comp, {
+	        name: keys[0] || '/',
+	        strict: option.strict
+	      });
 	      if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	        routes.push(childRoute);
 	      };
@@ -337,21 +341,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        route = children.find(function (route) {
 	          return route.name === '/';
 	        });
+	        children = route.childRoutes || [];
 	      }
+
 	      if (route) {
 	        route.childRoutes = route.childRoutes || [];
 	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
 	          name: name,
-	          navKey: navKey
-	        }, option.strict);
+	          navKey: navKey,
+	          strict: option.strict
+	        });
+	        childRoute.parent = route;
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          route.childRoutes.push(childRoute);
 	        }
 	      } else {
 	        childRoute = (0, _router2.default)(Comp.routePath, Comp, {
 	          name: name,
-	          navKey: navKey
-	        }, option.strict);
+	          navKey: navKey,
+	          strict: option.strict
+	        });
 	        if (childRoute && routeCallback(childRoute, relativePath) !== false) {
 	          routes.push(childRoute);
 	        };
@@ -361,12 +370,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return routes;
 	}
 
+	exports.autoLoadRoutes = _autoLoadRoutes;
 	var damo = {
 	  Link: Link,
 	  $$routes__: [],
 	  $$defaultModels__: {},
 	  $$store__: null,
 	  $$callback__: [],
+	  $$routesMap__: {},
+	  setRoute: function setRoute(route) {
+	    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+	  },
+	  getRoute: function getRoute(name) {
+	    return damo.$$routesMap__[name];
+	  },
+	  getResolvePath: function getResolvePath(route) {
+	    var resolvePath = void 0;
+	    if (route.resolvePath) {
+	      resolvePath = route.resolvePath;
+	    } else {
+	      var paths = [route.path || route.name];
+	      var item = route;
+	      while (item = item.parent) {
+	        paths.unshift(item.name);
+	      }
+	      resolvePath = paths.join('/').replace(/\/+/g, '/');
+	      route.resolvePath = resolvePath;
+	    }
+	    return resolvePath;
+	  },
 	  getRoutes: function getRoutes() {
 	    return damo.$$routes__;
 	  },
@@ -475,33 +507,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    return damo.$$store__.getModel(modelName).select(prop, true);
 	  },
-	  route: function route(path, RouteComponent) {
-	    var option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	  route: function route(path, RouteComponent, option) {
+	    var _arguments = arguments;
 
-	    var routeConfig = void 0;
-	    if (Object(path) === path) {
-	      if (path.path && path.component) {
-	        routeConfig = path;
-	      } else {
-	        option = RouteComponent;
-	        RouteComponent = path;
-	        path = RouteComponent.routePath;
-	      }
+	    if (arguments.length === 1 && typeof path === 'string') {
+	      return damo.getRoute(path);
 	    }
-	    if (!routeConfig) {
-	      routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
-	    }
+	    var routeConfig = (0, _router2.default)(path, RouteComponent, option);
+	    damo.setRoute(routeConfig);
 	    damo.$$routes__.push(routeConfig);
 
 	    return {
-	      route: function route(path, RouteComponent) {
-	        var option = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	      route: function route(path, RouteComponent, option) {
+	        if (_arguments.length === 1 && typeof path === 'string') {
+	          return damo.getRoute(path);
+	        }
 
 	        routeConfig.childRoutes = routeConfig.childRoutes || [];
-	        var _routeConfig = (0, _router2.default)(path, RouteComponent, option, option.strict);
-	        if (_routeConfig) {
-	          routeConfig.childRoutes.push(_routeConfig);
-	        }
+	        var childRouteConfig = (0, _router2.default)(path, RouteComponent, option);
+	        damo.setRoute(childRouteConfig);
+	        routeConfig.childRoutes.push(childRouteConfig);
 	      }
 	    };
 	  },
@@ -536,49 +561,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	  autoLoadServices: function autoLoadServices(context) {
 	    _autoLoadServices(context);
 	  },
-	  autoLoadRoutes: function autoLoadRoutes(context, option) {
-	    damo.$$routes__ = autoLoadScenesRoutes(context, option);
+	  autoLoadRoutes: function autoLoadRoutes(context) {
+	    var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	    damo.$$routes__ = _autoLoadRoutes(context, option);
 	  },
 	  view: function view(Selector, SceneComponent, providers, noFlattern) {
 	    if (typeof providers === 'boolean') {
 	      noFlattern = providers;
 	      providers = null;
 	    }
-	    var getView = function getView(nextState, callback) {
-	      if (Array.isArray(Selector)) {
-	        var _class, _temp;
+	    if (Array.isArray(Selector)) {
+	      var _class, _temp;
 
-	        var moelds = Selector;
-	        var SelectorClass = (_temp = _class = function (_BaseSelector) {
-	          _inherits(SelectorClass, _BaseSelector);
+	      var moelds = Selector;
+	      var SelectorClass = (_temp = _class = function (_BaseSelector) {
+	        _inherits(SelectorClass, _BaseSelector);
 
-	          function SelectorClass() {
-	            _classCallCheck(this, SelectorClass);
+	        function SelectorClass() {
+	          _classCallCheck(this, SelectorClass);
 
-	            return _possibleConstructorReturn(this, (SelectorClass.__proto__ || Object.getPrototypeOf(SelectorClass)).apply(this, arguments));
-	          }
+	          return _possibleConstructorReturn(this, (SelectorClass.__proto__ || Object.getPrototypeOf(SelectorClass)).apply(this, arguments));
+	        }
 
-	          return SelectorClass;
-	        }(_baseSelector.BaseSelector), _class.noFlattern = noFlattern, _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
+	        return SelectorClass;
+	      }(_baseSelector.BaseSelector), _class.noFlattern = noFlattern, _class.dataBindings = moelds, _class.eventBindings = moelds, _temp);
 
-	        Selector = SelectorClass;
-	      } else if (Selector.prototype.isReactComponent) {
-	        providers = SceneComponent;
-	        SceneComponent = Selector;
-	        Selector = null;
-	      } else {
-	        Selection.noFlattern = noFlattern;
-	      }
-	      if (callback) {
-	        callback(null, (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent));
-	      } else {
-	        return (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent);
-	      }
-	    };
-	    if (!damo.$$store__) {
-	      return getView;
+	      Selector = SelectorClass;
+	    } else if (Selector.prototype.isReactComponent) {
+	      providers = SceneComponent;
+	      SceneComponent = Selector;
+	      Selector = null;
 	    } else {
-	      return getView();
+	      Selection.noFlattern = noFlattern;
+	    }
+
+	    if (!damo.$$store__) {
+	      var getView = function getView(location, callback) {
+	        callback(null, (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent));
+	      };
+	      return (0, _hoistNonReactStatics2.default)(getView, SceneComponent);
+	    } else {
+	      return (0, _componentDecorator.View)({ selector: Selector, providers: providers })(SceneComponent);
 	    }
 	  },
 	  bootstrap: function bootstrap(RootComponent, DOM, dirname) {
@@ -594,6 +618,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        RootComponent = null;
 	      } else if (Array.isArray(RootComponent)) {
 	        routes = RootComponent;
+	        damo.$$routes__ = routes;
+	        damo.$$routesMap__ = {};
+	        routes.forEach(function (route) {
+	          return damo.setRoute(route);
+	        });
 	        RootComponent = null;
 	      } else if (!_react2.default.isValidElement(RootComponent)) {
 	        RootComponent = _react2.default.createElement(RootComponent, null);
@@ -947,7 +976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                                                                                                                                                                                                                               * # 接口调用模块
 	                                                                                                                                                                                                                                                                               * 1. 封装ES7的fetch模块
 	                                                                                                                                                                                                                                                                               * 2. 对外提供get, post, delete, put静态方法，分别调用不同类型的接口
-	                                                                                                                                                                                                                                                                               * 3. 对外开发errorhandler和mock数据的接口
+	                                                                                                                                                                                                                                                                               * 3. 对外开发checkStatus和mock数据的接口
 	                                                                                                                                                                                                                                                                               */
 
 
@@ -974,25 +1003,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /**
 	   * + 接口数据解析，所有的接口数据都会已json格式进行解析
 	   */
-	};function parseJSON(response, errorNotification, uri) {
+	};function parseJSON(response, ajaxOption) {
 	  return response.json().then(function (res) {
-	    return Api.errorHandler(res, errorNotification, uri);
+	    return Api.checkStatus(res, ajaxOption);
 	  });
 	}
 
-	Api.errorHandler = function (res, errorNotification) {
+	Api.checkStatus = function (res, ajaxOption) {
 	  return res;
-	};
-	Api.validateHandler = function (data, ajaxOption) {
-	  return Object.assign({}, data);
 	};
 	/**
 	 * + 错误处理处理
 	 * > see: see: http://php.net/manual/en/function.http-response-code.php
 	 * > see: https://stackoverflow.com/questions/34304335/redux-using-async-middlewares-vs-dispatching-actions-on-success-functions
 	 */
-	function checkStatus(response, errorNotification) {
-	  if (errorNotification && errorNotification.quiet) return response;
+	function checkStatus(response, ajaxOption) {
+	  if (ajaxOption.errorNotification && ajaxOption.errorNotification.quiet) return response;
 
 	  if (response.status < HttpCodes.OK || response.status >= HttpCodes.ERROR) {
 	    var error = new Error(response.statusText);
@@ -1001,7 +1027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } catch (e) {
 	      error.response = response.text();
 	    }
-	    error.errorNotification = errorNotification;
+	    error.ajaxOption.errorNotification = ajaxOption.errorNotification;
 	    throw error;
 	  }
 	  return response;
@@ -1013,28 +1039,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * 2. 在日常环境，当地址栏参数debug=true或者window.DEBUG=true，同时接口url包含proxy=true参数时，触发mock数据逻辑
 	 * 3. 当存在window.Mocky对象时，会针对数据进行mock语法编译，生成假数据。window.Mocky由`damo-mocker`模块提供
 	 */
-	var doFetch = void 0;
-	if (false) {
-	  doFetch = _isomorphicFetch2.default;
-	} else {
-	  if (location.search.indexOf('debug=true') > -1 || window.DEBUG) {
-	    doFetch = function doFetch(uri, options) {
-	      if (Api.getMockUrl && uri.indexOf('proxy=true') > -1) {
-	        var tmp = uri.split('?');
-	        var url = tmp[0].replace(location.protocol + '//' + location.hostname, '').replace(/^[:\d]*/, '').replace(/\/\{[^\}]*\}/, '');
-	        var params = {};
-	        tmp[1].split('&').forEach(function (str) {
-	          var s = str.split('=');
-	          params[s[0]] = s[1];
-	        });
-	        uri = Api.getMockUrl(url, params, options);
-	      }
-	      return (0, _isomorphicFetch2.default)(uri, options);
-	    };
-	  } else {
-	    doFetch = _isomorphicFetch2.default;
-	  }
-	}
 
 	function isValidParamValue(val) {
 	  var t = typeof val === 'undefined' ? 'undefined' : _typeof(val);
@@ -1104,12 +1108,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * | post | 调用post请求    | 同get |         NA      |
 	 * | put | 调用put请求    | 同get |         NA      |
 	 * | delete | 调用delete请求    | 同get |         NA      |
-	 * | errorHandler | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
+	 * | checkStatus | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
 	 * | getMockUrl | 接口mock路径的开放接口    | {url: String, params: 接口参数, options: ajax配置} |         NA      |
 	 */
 	function Api(ajaxOption) {
+	  ajaxOption = Api.preFetch(ajaxOption);
 	  var method = ajaxOption.method.toLocaleUpperCase();
-	  var body = Api.validateHandler(ajaxOption.data || ajaxOption.params, ajaxOption);
 	  var headers = void 0;
 	  if (ajaxOption.headers) {
 	    if (ajaxOption.headers.target) {
@@ -1119,18 +1123,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	      headers = ajaxOption.headers;
 	    }
 	  }
-	  var credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
+	  ajaxOption.headers = headers;
+	  ajaxOption.credential = ajaxOption.withCredentials ? 'INCLUDE' : 'SAME_ORIGIN';
+
 	  var uri = (0, _core.substitute)(ajaxOption.url, body, true);
 
 	  switch (method) {
 	    case 'POST':
 	    case 'PUT':
-	      return Api.postput(uri, method, body, headers, credential, ajaxOption.errorNotification);
+	      return Api.postput(uri, method, body, ajaxOption);
 	    case 'DELETE':
-	      return Api.delete((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), headers, credential, ajaxOption.errorNotification);
+	      return Api.delete(getUrl(uri, body), ajaxOption);
 	    case 'GET':
 	    default:
-	      return Api.get((uri.indexOf('?') > -1 ? uri : uri + '?') + '&' + param(body), headers, credential, ajaxOption.errorNotification);
+	      return Api.get(getUrl(uri, body), ajaxOption);
+	  }
+	}
+
+	function getUrl(uri, data) {
+	  var idx = uri.indexOf('?');
+	  if (idx > -1) {
+	    if (idx > uri.length - 1) {
+	      return uri + param(data);
+	    } else {
+	      return uri + '&' + param(data);
+	    }
+	  } else {
+	    return uri + '?' + param(data);
 	  }
 	}
 
@@ -1138,7 +1157,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  'Accept': constants.APP_JSON_HEADER,
 	  'Content-Type': constants.APP_JSON_HEADER
 	});
-	Api.doFetch = doFetch;
+	Api.fetch = _isomorphicFetch2.default;
+	Api.preFetch = function (d) {
+	  return d;
+	};
 
 	Object.assign(Api, {
 	  success: function success(res) {
@@ -1147,57 +1169,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	  error: function error(err) {
 	    return Promise.reject(err);
 	  },
-	  get: function get(uri, headers, credential, errorNotification) {
-	    return doFetch(uri, {
+	  get: function get(uri, ajaxOption) {
+	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: 'GET',
-	      credentials: constants[credential],
-	      headers: headers || Api.headers
+	      credentials: constants[ajaxOption.credential],
+	      headers: ajaxOption.headers || Api.headers
 	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
+	      return checkStatus(response, ajaxOption);
 	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
+	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  delete: function _delete(uri, headers, credential, errorNotification) {
-	    return doFetch(uri, {
+	  delete: function _delete(uri, ajaxOption) {
+	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: 'DELETE',
-	      credentials: constants[credential],
-	      headers: headers || Api.headers
+	      credentials: constants[ajaxOption.credential],
+	      headers: ajaxOption.headers || Api.headers
 	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
+	      return checkStatus(response, ajaxOption);
 	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
+	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  postput: function postput(uri, method, data, headers, credential, errorNotification) {
-	    return doFetch(uri, {
+	  postput: function postput(uri, method, data, ajaxOption) {
+	    return (0, _isomorphicFetch2.default)(uri, {
 	      method: method,
-	      credentials: constants[credential],
-	      headers: headers || Api.headers,
+	      credentials: constants[ajaxOption.credential],
+	      headers: ajaxOption.headers || Api.headers,
 	      body: JSON.stringify(data)
 	    }).then(function (response) {
-	      return checkStatus(response, errorNotification);
+	      return checkStatus(response, ajaxOption);
 	    }).then(function (response) {
-	      return parseJSON(response, errorNotification, uri);
+	      return parseJSON(response, ajaxOption);
 	    });
 	  },
-	  post: function post(uri, data, headers, credential, errorNotification) {
-	    return Api.postput(uri, 'POST', data, headers, credential, errorNotification);
+	  post: function post(uri, data, ajaxOption) {
+	    return Api.postput(uri, 'POST', data, ajaxOption);
 	  },
-	  put: function put(uri, data, headers, credential, errorNotification) {
-	    return Api.postput(uri, 'PUT', data, headers, credential, errorNotification);
+	  put: function put(uri, data, ajaxOption) {
+	    return Api.postput(uri, 'PUT', data, ajaxOption);
 	  }
 	});
-
-	/**
-	 * + 需要在业务中实现这个方法来集成
-	 */
-	// Api.getMockUrl = function(url, params, options){
-	//   if(url.indexOf('.json') === -1){
-	//     url = url + '.json';
-	//   }
-	//   return '/mocks' + url;
-	// }
 
 /***/ },
 /* 5 */
@@ -1297,7 +1309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // By explicitly using `prop-types` you are opting into new development behavior.
 	  // http://fb.me/prop-types-in-prod
 	  var throwOnDirectAccess = true;
-	  module.exports = __webpack_require__(39)(isValidElement, throwOnDirectAccess);
+	  module.exports = __webpack_require__(40)(isValidElement, throwOnDirectAccess);
 	} else {
 	  // By explicitly using `prop-types` you are opting into new production behavior.
 	  // http://fb.me/prop-types-in-prod
@@ -4038,7 +4050,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	if (true) {
-	  module.exports = __webpack_require__(56);
+	  module.exports = __webpack_require__(57);
 	} else {
 	  module.exports = require('redux');
 	}
@@ -4175,6 +4187,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 32 */
 /***/ function(module, exports) {
 
+	module.exports = __WEBPACK_EXTERNAL_MODULE_32__;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	exports.__esModule = true;
@@ -4182,7 +4200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.canUseDOM = canUseDOM;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4234,7 +4252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4258,7 +4276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4287,7 +4305,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4302,15 +4320,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _ExecutionEnvironment = __webpack_require__(32);
+	var _ExecutionEnvironment = __webpack_require__(33);
 
-	var _PathUtils = __webpack_require__(33);
+	var _PathUtils = __webpack_require__(34);
 
-	var _runTransitionHook = __webpack_require__(35);
+	var _runTransitionHook = __webpack_require__(36);
 
 	var _runTransitionHook2 = _interopRequireDefault(_runTransitionHook);
 
-	var _deprecate = __webpack_require__(34);
+	var _deprecate = __webpack_require__(35);
 
 	var _deprecate2 = _interopRequireDefault(_deprecate);
 
@@ -4450,7 +4468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 	/*
@@ -4546,7 +4564,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4611,7 +4629,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4626,10 +4644,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var emptyFunction = __webpack_require__(15);
 	var invariant = __webpack_require__(16);
 	var warning = __webpack_require__(17);
-	var assign = __webpack_require__(37);
+	var assign = __webpack_require__(38);
 
 	var ReactPropTypesSecret = __webpack_require__(18);
-	var checkPropTypes = __webpack_require__(38);
+	var checkPropTypes = __webpack_require__(39);
 
 	module.exports = function(isValidElement, throwOnDirectAccess) {
 	  /* global Symbol */
@@ -5159,7 +5177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5172,7 +5190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (("development") !== 'production' && setDisplayName) {
 	    var _ret = function () {
 	      /* eslint-disable global-require */
-	      var wrapDisplayName = __webpack_require__(42).default;
+	      var wrapDisplayName = __webpack_require__(43).default;
 	      /* eslint-enable global-require */
 
 	      if (noArgs) {
@@ -5216,7 +5234,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = createHelper;
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5237,14 +5255,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = getDisplayName;
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _getDisplayName = __webpack_require__(41);
+	var _getDisplayName = __webpack_require__(42);
 
 	var _getDisplayName2 = _interopRequireDefault(_getDisplayName);
 
@@ -5257,7 +5275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = wrapDisplayName;
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5290,7 +5308,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	});
 
-	var _resourceAction = __webpack_require__(44);
+	var _resourceAction = __webpack_require__(45);
 
 	Object.keys(_resourceAction).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -5380,7 +5398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5399,7 +5417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(28);
+	var _reactDom = __webpack_require__(29);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -5545,7 +5563,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
@@ -5573,13 +5591,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reduxPromiseMiddleware2 = _interopRequireDefault(_reduxPromiseMiddleware);
 
-	var _reactReduxLoadingBar = __webpack_require__(30);
+	var _reactReduxLoadingBar = __webpack_require__(31);
 
-	var _loadingBarMiddleware = __webpack_require__(48);
+	var _loadingBarMiddleware = __webpack_require__(49);
 
 	var _createReducerFactory = __webpack_require__(23);
 
-	var _enhanceStore = __webpack_require__(47);
+	var _enhanceStore = __webpack_require__(48);
 
 	var _enhanceStore2 = _interopRequireDefault(_enhanceStore);
 
@@ -5684,10 +5702,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Object.assign(appStore.models, models);
 	};
 	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(56)(module)))
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5699,11 +5717,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (false) {
 	  module.exports = require('./configureStore.production');
 	} else {
-	  module.exports = __webpack_require__(45);
+	  module.exports = __webpack_require__(46);
 	}
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5787,7 +5805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5804,7 +5822,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.loadingBarMiddleware = loadingBarMiddleware;
 
-	var _reactReduxLoadingBar = __webpack_require__(30);
+	var _reactReduxLoadingBar = __webpack_require__(31);
 
 	var defaultTypeSuffixes = ['PENDING', 'FULFILLED', 'REJECTED'];
 
@@ -5842,7 +5860,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5856,15 +5874,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _reactRedux = __webpack_require__(29);
+	var _reactRedux = __webpack_require__(30);
 
-	var _recompose = __webpack_require__(31);
+	var _recompose = __webpack_require__(32);
 
 	var _cuid = __webpack_require__(27);
 
 	var _cuid2 = _interopRequireDefault(_cuid);
 
-	var _withState2 = __webpack_require__(52);
+	var _withState2 = __webpack_require__(53);
 
 	var _withState3 = _interopRequireDefault(_withState2);
 
@@ -5872,7 +5890,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _baseSelector = __webpack_require__(3);
 
-	var _hoistNonReactStatics = __webpack_require__(57);
+	var _hoistNonReactStatics = __webpack_require__(28);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
@@ -6324,7 +6342,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var View = exports.View = component;
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6336,20 +6354,35 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(5);
 
-	function router(path, RouteComponent, option, strict) {
-	  if (RouteComponent.prototype === undefined || strict && option.name !== '/' && !RouteComponent.__view__) {
+	function router(path, RouteComponent, option) {
+	  var routeConfig = void 0;
+	  if (Object(path) === path) {
+	    if (path.path && path.component) {
+	      routeConfig = path;
+	    } else {
+	      option = RouteComponent;
+	      RouteComponent = path;
+	      path = RouteComponent.routePath;
+	    }
+	  }
+
+	  RouteComponent = fromAppBoost(path, RouteComponent);
+
+	  if (!RouteComponent.prototype || option && option.strict && option.name !== '/' && !RouteComponent.__view__) {
 	    return null;
 	  }
-	  var routeConfig = Object.assign({
+
+	  routeConfig = Object.assign({
 	    resolvePath: path,
 	    path: path || (option.navKey ? option.navKey + '/' + option.name : option.name),
 	    onLeave: RouteComponent.onLeave,
 	    onEnter: RouteComponent.onEnter,
 	    childRoutes: RouteComponent.childRoutes,
+	    extension: RouteComponent.extension,
 	    getIndexRoute: RouteComponent.getIndexRoute,
-	    getChildRoutes: RouteComponent.getChildRoutes,
-	    extension: RouteComponent.extension
+	    getChildRoutes: RouteComponent.getChildRoutes
 	  }, option);
+
 	  if (RouteComponent.indexRoute) {
 	    if (Object(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
 	      routeConfig.indexRoute = RouteComponent.indexRoute;
@@ -6359,11 +6392,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 	    }
 	  }
-	  if (RouteComponent.prototype.isReactComponent) {
+	  if (RouteComponent.prototype && RouteComponent.prototype.isReactComponent || RouteComponent.__app__) {
 	    routeConfig.component = RouteComponent;
 	  } else {
 	    routeConfig.getComponent = RouteComponent;
 	  }
+
 	  if (option && option.onDestroy) {
 	    delete routeConfig.onDestroy;
 	    var componentWillMount = RouteComponent.prototype.componentWillMount;
@@ -6372,12 +6406,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.props.router.setRouteLeaveHook(this.props.route, option.onDestroy);
 	    };
 	  }
+
 	  return routeConfig;
 	}
 	module.exports = exports['default'];
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6625,7 +6660,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6640,11 +6675,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react = __webpack_require__(5);
 
-	var _createHelper = __webpack_require__(40);
+	var _createHelper = __webpack_require__(41);
 
 	var _createHelper2 = _interopRequireDefault(_createHelper);
 
-	var _recompose = __webpack_require__(31);
+	var _recompose = __webpack_require__(32);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6703,7 +6738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -6931,10 +6966,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(55)))
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -7124,7 +7159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 55 */
+/* 56 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -7138,12 +7173,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		return module;
 	}
 
-
-/***/ },
-/* 56 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_56__;
 
 /***/ },
 /* 57 */

@@ -44,6 +44,7 @@ export const Link = require('react-router').Link;
 export const configureStore = require('./store/configureStore');
 export const RxSelector = require('./utils/rxSelector');
 export const RxComponent = require('./utils/rxComponent');
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 function extractModules(context){
   const modules = {};
@@ -100,7 +101,7 @@ export function autoLoadServices(context) {
 }
 
 // #! require.context('./scenes', true, /index\.jsx$/)
-export function autoLoadScenesRoutes(context, option = {}) {
+export function autoLoadRoutes(context, option) {
   if (!context) {
     throw new Error('需要提供require.context的遍历列表！');
   }
@@ -109,8 +110,8 @@ export function autoLoadScenesRoutes(context, option = {}) {
       callback: option
     };
   }
-  const routeCallback = option.callback || function () {};
-  const level = option.level || 1;
+  const routeCallback = option.callback || function () {}
+  const leave = option.leave || 1;
   const routes = [];
   context
     .keys()
@@ -119,18 +120,20 @@ export function autoLoadScenesRoutes(context, option = {}) {
       const keys = relativePath
         .slice(2, -10)
         .split(path.sep);
-      const Comp = context(relativePath);
       if (keys[0] === '') {
         keys.shift();
       }
+      const Comp = context(relativePath);
       let key,
         childRoute,
         temp,
         name,
         children;
-      if (keys.length < level) {
-        name = keys.pop() || '/';
-        childRoute = router(Comp.routePath, Comp, {name: name});
+      if (keys.length < leave) {
+        childRoute = router(Comp.routePath, Comp, {
+          name: keys[0] || '/',
+          strict: option.strict
+        });
         if (childRoute && routeCallback(childRoute, relativePath) !== false) {
           routes.push(childRoute);
         };
@@ -146,14 +149,20 @@ export function autoLoadScenesRoutes(context, option = {}) {
           }
         }
         if(!route){
-          route = children.find(route => route.name === '/');
+					route = children.find(function (route) {
+	          return route.name === '/';
+	        });
+	        children = route.childRoutes || [];
         }
+        
         if (route) {
           route.childRoutes = route.childRoutes || [];
           childRoute = router(Comp.routePath, Comp, {
             name: name,
-            navKey: navKey
-          }, option.strict);
+            navKey: navKey,
+            strict: option.strict
+          });
+          childRoute.parent = route;
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             route
               .childRoutes
@@ -162,8 +171,9 @@ export function autoLoadScenesRoutes(context, option = {}) {
         } else {
           childRoute = router(Comp.routePath, Comp, {
             name: name,
-            navKey: navKey
-          }, option.strict);
+            navKey: navKey,
+            strict: option.strict
+          });
           if (childRoute && routeCallback(childRoute, relativePath) !== false) {
             routes.push(childRoute);
           };
@@ -179,6 +189,33 @@ const damo = {
   $$defaultModels__: {},
   $$store__: null,
   $$callback__: [],
+  $$routesMap__: {},
+  setRoute(route){
+    damo.$$routesMap__[demo.getResolvePath(route)] = route;
+  },
+
+  getRoute(name){
+    return damo.$$routesMap__[name];
+  },
+
+  getResolvePath(route) {
+    let resolvePath;
+    if (route.resolvePath) {
+      resolvePath = route.resolvePath;
+    } else{
+      const paths = [route.path || route.name];
+      let item = route;
+      while (item = item.parent) {
+        paths.unshift(item.name);
+      }
+      resolvePath = paths
+        .join('/')
+        .replace(/\/+/g, '/');
+      route.resolvePath = resolvePath;
+    }
+    return resolvePath;
+  },
+
   getRoutes() {
     return damo.$$routes__;
   },
@@ -296,36 +333,32 @@ const damo = {
       .getModel(modelName)
       .select(prop, true);
   },
-  route(path, RouteComponent, option = {}) {
-    let routeConfig;
-    if (Object(path) === path) {
-      if (path.path && path.component) {
-        routeConfig = path;
-      } else {
-        option = RouteComponent;
-        RouteComponent = path;
-        path = RouteComponent.routePath;
-      }
+  route(path, RouteComponent, option) {
+    if(arguments.length === 1 && typeof path === 'string'){
+      return damo.getRoute(path);
     }
-    if(!routeConfig){
-      routeConfig = router(path, RouteComponent, option, option.strict);
-    }
+    const routeConfig = router(path, RouteComponent, option);
+    damo.setRoute(routeConfig);
     damo
       .$$routes__
       .push(routeConfig);
 
     return {
-      route: (path, RouteComponent, option = {}) => {
-        routeConfig.childRoutes = routeConfig.childRoutes || [];
-        const _routeConfig = router(path, RouteComponent, option, option.strict);
-        if (_routeConfig) {
-          routeConfig
-            .childRoutes
-            .push(_routeConfig);
+      route: (path, RouteComponent, option) => {
+        if(arguments.length === 1 && typeof path === 'string'){
+          return damo.getRoute(path);
         }
+        
+        routeConfig.childRoutes = routeConfig.childRoutes || [];
+        const childRouteConfig = router(path, RouteComponent, option);
+        damo.setRoute(childRouteConfig);
+        routeConfig
+          .childRoutes
+          .push(childRouteConfig);
       }
     }
   },
+  
   autoLoadModels(modelContext, resourceContext, noHot) {
     if (!damo.$$store__) {
       damo
@@ -361,40 +394,37 @@ const damo = {
   autoLoadServices(context) {
     autoLoadServices(context);
   },
-  autoLoadRoutes(context, option) {
-    damo.$$routes__ = autoLoadScenesRoutes(context, option);
+  autoLoadRoutes(context, option = {}) {
+    damo.$$routes__ = autoLoadRoutes(context, option);
   },
   view(Selector, SceneComponent, providers, noFlattern) {
     if(typeof providers === 'boolean'){
       noFlattern = providers;
       providers = null;
     }
-    const getView = (nextState, callback) => {
-      if (Array.isArray(Selector)) {
-        const moelds = Selector;
-        class SelectorClass extends BaseSelector {
-          static noFlattern = noFlattern;
-          static dataBindings = moelds;
-          static eventBindings = moelds;
-        }
-        Selector = SelectorClass;
-      } else if (Selector.prototype.isReactComponent) {
-        providers = SceneComponent;
-        SceneComponent = Selector;
-        Selector = null;
-      }else{
-        Selection.noFlattern = noFlattern;
+    if (Array.isArray(Selector)) {
+      const moelds = Selector;
+      class SelectorClass extends BaseSelector {
+        static noFlattern = noFlattern;
+        static dataBindings = moelds;
+        static eventBindings = moelds;
       }
-      if(callback){
-        callback(null, View({selector: Selector, providers: providers})(SceneComponent));
-      }else{
-        return View({selector: Selector, providers: providers})(SceneComponent);
-      }
-    }
-    if (!damo.$$store__) {
-      return getView;
+      Selector = SelectorClass;
+    } else if (Selector.prototype.isReactComponent) {
+      providers = SceneComponent;
+      SceneComponent = Selector;
+      Selector = null;
     }else{
-      return getView();
+      Selection.noFlattern = noFlattern;
+    }
+    
+    if (!damo.$$store__) {
+      const getView = (location, callback) => {
+        callback(null, View({selector: Selector, providers: providers})(SceneComponent));
+      }
+      return hoistNonReactStatics(getView, SceneComponent);
+    }else{
+      return View({selector: Selector, providers: providers})(SceneComponent);
     }
   },
   bootstrap(RootComponent, DOM, dirname) {
@@ -410,6 +440,9 @@ const damo = {
         RootComponent = null;
       } else if (Array.isArray(RootComponent)) {
         routes = RootComponent;
+        damo.$$routes__ = routes;
+        damo.$$routesMap__ = {};
+        routes.forEach(route => damo.setRoute(route));
         RootComponent = null;
       }else if (!React.isValidElement(RootComponent)) {
         RootComponent = React.createElement(RootComponent, null);

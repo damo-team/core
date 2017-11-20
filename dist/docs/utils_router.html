@@ -235,36 +235,52 @@
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-keyword">import</span> {Component} <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">router</span>(<span class="hljs-params">path, RouteComponent, option, strict</span>) </span>{
-  <span class="hljs-keyword">if</span> (RouteComponent.prototype === <span class="hljs-literal">undefined</span> || (strict &amp;&amp; option.name !== <span class="hljs-string">'/'</span> &amp;&amp; !RouteComponent.__view__)) {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">router</span>(<span class="hljs-params">path, RouteComponent, option</span>) </span>{
+  <span class="hljs-keyword">let</span> routeConfig;
+  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(path) === path) {
+    <span class="hljs-keyword">if</span> (path.path &amp;&amp; path.component) {
+      routeConfig = path;
+    } <span class="hljs-keyword">else</span> {
+      option = RouteComponent;
+      RouteComponent = path;
+      path = RouteComponent.routePath;
+    }
+  }
+
+  RouteComponent = fromAppBoost(path, RouteComponent);
+
+  <span class="hljs-keyword">if</span> (!RouteComponent.prototype || (option &amp;&amp; option.strict &amp;&amp; option.name !== <span class="hljs-string">'/'</span> &amp;&amp; !RouteComponent.__view__)) {
     <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
   }
-  <span class="hljs-keyword">const</span> routeConfig = <span class="hljs-built_in">Object</span>.assign({
+
+  routeConfig = <span class="hljs-built_in">Object</span>.assign({
     <span class="hljs-attr">resolvePath</span>: path,
     <span class="hljs-attr">path</span>: path || (option.navKey
-      ? option.navKey + <span class="hljs-string">'/'</span> + option.name
-      : option.name),
+    ? option.navKey + <span class="hljs-string">'/'</span> + option.name
+    : option.name),
     <span class="hljs-attr">onLeave</span>: RouteComponent.onLeave,
     <span class="hljs-attr">onEnter</span>: RouteComponent.onEnter,
     <span class="hljs-attr">childRoutes</span>: RouteComponent.childRoutes,
+    <span class="hljs-attr">extension</span>: RouteComponent.extension,
     <span class="hljs-attr">getIndexRoute</span>: RouteComponent.getIndexRoute,
-    <span class="hljs-attr">getChildRoutes</span>: RouteComponent.getChildRoutes,
-    <span class="hljs-attr">extension</span>: RouteComponent.extension
+    <span class="hljs-attr">getChildRoutes</span>: RouteComponent.getChildRoutes
   }, option);
+
   <span class="hljs-keyword">if</span> (RouteComponent.indexRoute) {
     <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>(RouteComponent.indexRoute) === RouteComponent.indexRoute) {
-      routeConfig.indexRoute = RouteComponent.indexRoute
+      routeConfig.indexRoute = RouteComponent.indexRoute;
     } <span class="hljs-keyword">else</span> {
       routeConfig.indexRoute = {
         <span class="hljs-attr">component</span>: RouteComponent.indexRoute
-      }
+      };
     }
   }
-  <span class="hljs-keyword">if</span> (RouteComponent.prototype.isReactComponent) {
+  <span class="hljs-keyword">if</span> (RouteComponent.prototype &amp;&amp; RouteComponent.prototype.isReactComponent || RouteComponent.__app__) {
     routeConfig.component = RouteComponent;
   } <span class="hljs-keyword">else</span> {
     routeConfig.getComponent = RouteComponent;
   }
+
   <span class="hljs-keyword">if</span> (option &amp;&amp; option.onDestroy) {
     <span class="hljs-keyword">delete</span> routeConfig.onDestroy;
     <span class="hljs-keyword">const</span> componentWillMount = RouteComponent.prototype.componentWillMount;
@@ -276,6 +292,7 @@
         .setRouteLeaveHook(<span class="hljs-keyword">this</span>.props.route, option.onDestroy)
     }
   }
+
   <span class="hljs-keyword">return</span> routeConfig;
 }</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
