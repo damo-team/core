@@ -304,7 +304,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var leave = option.leave || 1;
 	  var routes = [];
 	  context.keys().sort(function (a, b) {
-	    return a.split('/').length > b.split('/').length;
+	    return a.split('/').length - b.split('/').length;
 	  }).forEach(function (relativePath) {
 	    var keys = relativePath.slice(2, -10).split(_path2.default.sep);
 	    if (keys[0] === '') {
@@ -1010,11 +1010,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	};function parseJSON(response, ajaxOption) {
 	  return response.json().then(function (res) {
-	    return Api.checkStatus(res, ajaxOption);
+	    return Api.processData(res, ajaxOption);
 	  });
 	}
 
-	Api.checkStatus = function (res, ajaxOption) {
+	Api.checkStatus = Api.processData = function (res, ajaxOption) {
 	  return res;
 	};
 	/**
@@ -1113,7 +1113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * | post | 调用post请求    | 同get |         NA      |
 	 * | put | 调用put请求    | 同get |         NA      |
 	 * | delete | 调用delete请求    | 同get |         NA      |
-	 * | checkStatus | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
+	 * | processData | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
 	 * | getMockUrl | 接口mock路径的开放接口    | {url: String, params: 接口参数, options: ajax配置} |         NA      |
 	 */
 	function Api(ajaxOption) {
@@ -1611,7 +1611,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (promises.length === 1) {
 	        return promises[0];
 	      } else {
-	        var _promise = Promise.all[promises];
+	        var _promise = Promise.all(promises);
 	        _promise.fromSubscribe = function (callback) {
 	          if (callback) {
 	            _promise.then(function (res) {
@@ -2034,6 +2034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (payload.changes) {
 	    var _records = payload.record === undefined ? payload.records : payload.record;
 	    var generatorKey = payload.cid;
+	    var newState = void 0;
 
 	    payload.changes.forEach(function (change) {
 	      switch (change.type) {
@@ -2049,12 +2050,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  return recordMap[r[generatorKey]] = r;
 	                });
 	                records = records.asMutable().map(function (r) {
-	                  if (recordMap[r[generatorKey]]) {
+	                  if (recordMap[r[generatorKey]] === undefined) {
 	                    //发现存在，则merge
+	                    return r;
+	                  } else {
 	                    _recordArr.splice(_recordArr.indexOf(recordMap[r[generatorKey]]), 1);
 	                    return merge(r, recordMap[r[generatorKey]], change.attrs);
-	                  } else {
-	                    return r;
 	                  }
 	                });
 
@@ -2081,10 +2082,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 
 	                records = records.asMutable().map(function (r) {
-	                  if (recordMap[r[generatorKey]]) {
-	                    return merge(r, recordMap[r[generatorKey]], change.attrs);
-	                  } else {
+	                  if (recordMap[r[generatorKey]] === undefined) {
 	                    return r;
+	                  } else {
+	                    return merge(r, recordMap[r[generatorKey]], change.attrs);
 	                  }
 	                });
 
@@ -2107,7 +2108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  return recordMap[r[generatorKey]] = r;
 	                });
 	                return records.filter(function (r) {
-	                  return !recordMap[r[generatorKey]];
+	                  return recordMap[r[generatorKey]] === undefined;
 	                });
 	              });
 	            } else if (immutableState[change.name][generatorKey] == _records[generatorKey]) {
@@ -2116,14 +2117,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          break;
 	        case changeOperators.RECONFIGURE:
-	          immutableState = immutableState.set(change.name, _records || immutableState[change.name]);
+	          immutableState = immutableState.set(change.name, _records === undefined ? immutableState[change.name] : _records);
 	          break;
 	        case changeOperators.SETPROPERTY:
-	          immutableState = immutableState.set(change.name, change.getData(_records, immutableState[change.name]) || immutableState[change.name]);
+	          newState = change.getData(_records, immutableState[change.name]);
+	          immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
 	          break;
 	        default:
 	          // #! 支持函数
-	          var newState = void 0;
 	          if (change.callback) {
 	            newState = change.callback(_records, immutableState[change.name], payload.params, immutableState, initialState);
 	          } else if (change[payload.status]) {
@@ -2131,8 +2132,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
 	          }
 	          if (change.name) {
-	            immutableState = immutableState.set(change.name, newState || immutableState[change.name]);
-	          } else if (newState) {
+	            immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
+	          } else if (newState !== undefined) {
 	            immutableState = newState;
 	          }
 	          break;

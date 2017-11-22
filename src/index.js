@@ -115,7 +115,7 @@ export function autoLoadRoutes(context, option) {
   const routes = [];
   context
     .keys()
-    .sort((a, b) => a.split('/').length > b.split('/').length)
+    .sort((a, b) => a.split('/').length - b.split('/').length)
     .forEach(relativePath => {
       const keys = relativePath
         .slice(2, -10)

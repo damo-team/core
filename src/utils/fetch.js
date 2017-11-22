@@ -22,10 +22,10 @@ const constants = {
  * + 接口数据解析，所有的接口数据都会已json格式进行解析
  */
 function parseJSON(response, ajaxOption) {
-  return response.json().then((res) => Api.checkStatus(res, ajaxOption));
+  return response.json().then((res) => Api.processData(res, ajaxOption));
 }
 
-Api.checkStatus = function(res, ajaxOption){return res};
+Api.checkStatus = Api.processData = function(res, ajaxOption){return res};
 /**
  * + 错误处理处理
  * > see: see: http://php.net/manual/en/function.http-response-code.php
@@ -122,7 +122,7 @@ function param(o, sep, eq, serializeArray) {
  * | post | 调用post请求    | 同get |         NA      |
  * | put | 调用put请求    | 同get |         NA      |
  * | delete | 调用delete请求    | 同get |         NA      |
- * | checkStatus | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
+ * | processData | 接口错误处理的开放接口    | (res: 接口数据, errorNotification: 错误处理器} |         NA      |
  * | getMockUrl | 接口mock路径的开放接口    | {url: String, params: 接口参数, options: ajax配置} |         NA      |
  */
 export function Api(ajaxOption){

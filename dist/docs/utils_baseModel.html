@@ -570,7 +570,7 @@
     <span class="hljs-keyword">if</span> (promises.length === <span class="hljs-number">1</span>) {
       <span class="hljs-keyword">return</span> promises[<span class="hljs-number">0</span>];
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">const</span> promise = <span class="hljs-built_in">Promise</span>.all[promises];
+      <span class="hljs-keyword">const</span> promise = <span class="hljs-built_in">Promise</span>.all(promises);
       promise.fromSubscribe = <span class="hljs-function">(<span class="hljs-params">callback</span>) =&gt;</span> {
         <span class="hljs-keyword">if</span> (callback) {
           promise.then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> {

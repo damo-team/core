@@ -367,7 +367,7 @@
   <span class="hljs-keyword">const</span> routes = [];
   context
     .keys()
-    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length &gt; b.split(<span class="hljs-string">'/'</span>).length)
+    .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.split(<span class="hljs-string">'/'</span>).length - b.split(<span class="hljs-string">'/'</span>).length)
     .forEach(<span class="hljs-function"><span class="hljs-params">relativePath</span> =&gt;</span> {
       <span class="hljs-keyword">const</span> keys = relativePath
         .slice(<span class="hljs-number">2</span>, <span class="hljs-number">-10</span>)

@@ -97,6 +97,7 @@ export function applyCrudReducer(immutableState, payload, initialState){
   if(payload.changes){
     let _records = payload.record === undefined ? payload.records : payload.record;
     let generatorKey = payload.cid;
+    let newState;
     
     payload.changes.forEach(change => {
       switch(change.type){
@@ -110,11 +111,11 @@ export function applyCrudReducer(immutableState, payload, initialState){
                 let _recordArr = [].concat(_records);
                 _recordArr.forEach(r => recordMap[r[generatorKey]] = r);
                 records = records.asMutable().map(r => {
-                  if(recordMap[r[generatorKey]]){ //发现存在，则merge
+                  if(recordMap[r[generatorKey]] === undefined){ //发现存在，则merge
+                    return r;
+                  }else{
                     _recordArr.splice(_recordArr.indexOf(recordMap[r[generatorKey]]), 1);
                     return merge(r, recordMap[r[generatorKey]], change.attrs);
-                  }else{
-                    return r;
                   }
                 });
                 
@@ -139,10 +140,10 @@ export function applyCrudReducer(immutableState, payload, initialState){
                 _recordArr.forEach(r => recordMap[r[generatorKey]] = r);
 
                 records = records.asMutable().map(r => {
-                  if(recordMap[r[generatorKey]]){
-                    return merge(r, recordMap[r[generatorKey]], change.attrs);
-                  }else{
+                  if(recordMap[r[generatorKey]] === undefined){
                     return r;
+                  }else{
+                    return merge(r, recordMap[r[generatorKey]], change.attrs);
                   }
                 });
                 
@@ -162,7 +163,7 @@ export function applyCrudReducer(immutableState, payload, initialState){
                 let recordMap = {};
                 let _recordArr = [].concat(_records);
                 _recordArr.forEach(r => recordMap[r[generatorKey]] = r);
-                return records.filter(r => !recordMap[r[generatorKey]]);
+                return records.filter(r => recordMap[r[generatorKey]] === undefined);
               });
             }else if(immutableState[change.name][generatorKey] == _records[generatorKey]){
               immutableState = immutableState.set(change.name, null);
@@ -170,22 +171,22 @@ export function applyCrudReducer(immutableState, payload, initialState){
           }
           break;
         case changeOperators.RECONFIGURE:
-          immutableState = immutableState.set(change.name, _records || immutableState[change.name]);
+          immutableState = immutableState.set(change.name, _records === undefined? immutableState[change.name] : _records);
           break;
         case changeOperators.SETPROPERTY:
-          immutableState = immutableState.set(change.name, change.getData(_records, immutableState[change.name]) || immutableState[change.name]);
+          newState = change.getData(_records, immutableState[change.name]);
+          immutableState = immutableState.set(change.name,  newState === undefined ? immutableState[change.name] : newState);
           break;
         default:
           // #! 支持函数
-          let newState;
           if(change.callback){
             newState = change.callback(_records, immutableState[change.name], payload.params, immutableState, initialState);
           }else if(change[payload.status]){ // #! 符合status的对应callback
             newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
           }
           if(change.name){
-            immutableState = immutableState.set(change.name, newState || immutableState[change.name]);
-          }else if(newState){
+            immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
+          }else if(newState !== undefined){
             immutableState = newState;
           }
           break;

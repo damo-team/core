@@ -271,10 +271,10 @@
       
       <td class="code">
         <div class='highlight'><pre><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parseJSON</span>(<span class="hljs-params">response, ajaxOption</span>) </span>{
-  <span class="hljs-keyword">return</span> response.json().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> Api.checkStatus(res, ajaxOption));
+  <span class="hljs-keyword">return</span> response.json().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> Api.processData(res, ajaxOption));
 }
 
-Api.checkStatus = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res, ajaxOption</span>)</span>{<span class="hljs-keyword">return</span> res};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
+Api.checkStatus = Api.processData = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">res, ajaxOption</span>)</span>{<span class="hljs-keyword">return</span> res};</pre></div></pre><a href="javascript:;" class="link close"></a></div>
       </td>
       
     </tr>
@@ -457,7 +457,7 @@ see: <a href="http://unixpapa.com/js/querystring.html">http://unixpapa.com/js/qu
 <td>NA</td>
 </tr>
 <tr>
-<td>checkStatus</td>
+<td>processData</td>
 <td>接口错误处理的开放接口</td>
 <td>(res: 接口数据, errorNotification: 错误处理器}</td>
 <td>NA</td>

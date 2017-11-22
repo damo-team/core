@@ -378,6 +378,7 @@
   <span class="hljs-keyword">if</span>(payload.changes){
     <span class="hljs-keyword">let</span> _records = payload.record === <span class="hljs-literal">undefined</span> ? payload.records : payload.record;
     <span class="hljs-keyword">let</span> generatorKey = payload.cid;
+    <span class="hljs-keyword">let</span> newState;
     
     payload.changes.forEach(<span class="hljs-function"><span class="hljs-params">change</span> =&gt;</span> {
       <span class="hljs-keyword">switch</span>(change.type){
@@ -421,11 +422,11 @@
                 <span class="hljs-keyword">let</span> _recordArr = [].concat(_records);
                 _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
                 records = records.asMutable().map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> {
-                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]]){ <span class="hljs-comment">//发现存在，则merge</span>
+                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]] === <span class="hljs-literal">undefined</span>){ <span class="hljs-comment">//发现存在，则merge</span>
+                    <span class="hljs-keyword">return</span> r;
+                  }<span class="hljs-keyword">else</span>{
                     _recordArr.splice(_recordArr.indexOf(recordMap[r[generatorKey]]), <span class="hljs-number">1</span>);
                     <span class="hljs-keyword">return</span> merge(r, recordMap[r[generatorKey]], change.attrs);
-                  }<span class="hljs-keyword">else</span>{
-                    <span class="hljs-keyword">return</span> r;
                   }
                 });
                 
@@ -465,10 +466,10 @@
                 _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
 
                 records = records.asMutable().map(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> {
-                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]]){
-                    <span class="hljs-keyword">return</span> merge(r, recordMap[r[generatorKey]], change.attrs);
-                  }<span class="hljs-keyword">else</span>{
+                  <span class="hljs-keyword">if</span>(recordMap[r[generatorKey]] === <span class="hljs-literal">undefined</span>){
                     <span class="hljs-keyword">return</span> r;
+                  }<span class="hljs-keyword">else</span>{
+                    <span class="hljs-keyword">return</span> merge(r, recordMap[r[generatorKey]], change.attrs);
                   }
                 });
                 
@@ -518,7 +519,7 @@
                 <span class="hljs-keyword">let</span> recordMap = {};
                 <span class="hljs-keyword">let</span> _recordArr = [].concat(_records);
                 _recordArr.forEach(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] = r);
-                <span class="hljs-keyword">return</span> records.filter(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> !recordMap[r[generatorKey]]);
+                <span class="hljs-keyword">return</span> records.filter(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> recordMap[r[generatorKey]] === <span class="hljs-literal">undefined</span>);
               });
             }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(immutableState[change.name][generatorKey] == _records[generatorKey]){
               immutableState = immutableState.set(change.name, <span class="hljs-literal">null</span>);
@@ -526,22 +527,22 @@
           }
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">case</span> changeOperators.RECONFIGURE:
-          immutableState = immutableState.set(change.name, _records || immutableState[change.name]);
+          immutableState = immutableState.set(change.name, _records === <span class="hljs-literal">undefined</span>? immutableState[change.name] : _records);
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">case</span> changeOperators.SETPROPERTY:
-          immutableState = immutableState.set(change.name, change.getData(_records, immutableState[change.name]) || immutableState[change.name]);
+          newState = change.getData(_records, immutableState[change.name]);
+          immutableState = immutableState.set(change.name,  newState === <span class="hljs-literal">undefined</span> ? immutableState[change.name] : newState);
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">default</span>:
           <span class="hljs-comment">// #! 支持函数</span>
-          <span class="hljs-keyword">let</span> newState;
           <span class="hljs-keyword">if</span>(change.callback){
             newState = change.callback(_records, immutableState[change.name], payload.params, immutableState, initialState);
           }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(change[payload.status]){ <span class="hljs-comment">// #! 符合status的对应callback</span>
             newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
           }
           <span class="hljs-keyword">if</span>(change.name){
-            immutableState = immutableState.set(change.name, newState || immutableState[change.name]);
-          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(newState){
+            immutableState = immutableState.set(change.name, newState === <span class="hljs-literal">undefined</span> ? immutableState[change.name] : newState);
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(newState !== <span class="hljs-literal">undefined</span>){
             immutableState = newState;
           }
           <span class="hljs-keyword">break</span>;

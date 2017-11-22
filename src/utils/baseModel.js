@@ -229,7 +229,7 @@ export class BaseModel extends EventEmitter {
     if (promises.length === 1) {
       return promises[0];
     } else {
-      const promise = Promise.all[promises];
+      const promise = Promise.all(promises);
       promise.fromSubscribe = (callback) => {
         if (callback) {
           promise.then(res => {
