@@ -379,7 +379,7 @@
     <span class="hljs-keyword">let</span> _records = payload.record === <span class="hljs-literal">undefined</span> ? payload.records : payload.record;
     <span class="hljs-keyword">let</span> generatorKey = payload.cid;
     <span class="hljs-keyword">let</span> newState;
-    
+
     payload.changes.forEach(<span class="hljs-function"><span class="hljs-params">change</span> =&gt;</span> {
       <span class="hljs-keyword">switch</span>(change.type){
         <span class="hljs-keyword">case</span> changeOperators.ADD:</pre></div></pre><a href="javascript:;" class="link close"></a></div>
@@ -527,11 +527,11 @@
           }
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">case</span> changeOperators.RECONFIGURE:
-          immutableState = immutableState.set(change.name, _records === <span class="hljs-literal">undefined</span>? immutableState[change.name] : _records);
+          immutableState = immutableState.set(change.name, _records === <span class="hljs-literal">undefined</span>? initialState[change.name] : _records);
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">case</span> changeOperators.SETPROPERTY:
           newState = change.getData(_records, immutableState[change.name]);
-          immutableState = immutableState.set(change.name,  newState === <span class="hljs-literal">undefined</span> ? immutableState[change.name] : newState);
+          immutableState = immutableState.set(change.name,  newState === <span class="hljs-literal">undefined</span> ? initialState[change.name] : newState);
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">default</span>:
           <span class="hljs-comment">// #! 支持函数</span>
@@ -541,8 +541,10 @@
             newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
           }
           <span class="hljs-keyword">if</span>(change.name){
-            immutableState = immutableState.set(change.name, newState === <span class="hljs-literal">undefined</span> ? immutableState[change.name] : newState);
-          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(newState !== <span class="hljs-literal">undefined</span>){
+            immutableState = immutableState.set(change.name, newState === <span class="hljs-literal">undefined</span> ? initialState[change.name] : newState);
+          }<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(newState === <span class="hljs-literal">undefined</span>){
+            immutableState = initialState;
+          }<span class="hljs-keyword">else</span>{
             immutableState = newState;
           }
           <span class="hljs-keyword">break</span>;

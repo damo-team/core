@@ -542,6 +542,9 @@
           });
           <span class="hljs-keyword">break</span>;
         <span class="hljs-keyword">default</span>:
+          <span class="hljs-keyword">if</span>(options[key].response === <span class="hljs-literal">undefined</span>){
+            options[key].response = <span class="hljs-built_in">Promise</span>.resolve();
+          }
           <span class="hljs-keyword">if</span> (options[key].change) {
             <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> options[key].change === <span class="hljs-string">'function'</span>) {
               <span class="hljs-built_in">Object</span>.assign(options[key], {
@@ -691,7 +694,7 @@
 
         <span class="hljs-keyword">return</span> promise;
       }
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (opt.response) {
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (opt.response !== <span class="hljs-literal">undefined</span>) {
       <span class="hljs-keyword">const</span> operate = opt.operate;
       <span class="hljs-keyword">const</span> ucOperate = ucfirst(operate);
       <span class="hljs-keyword">const</span> needToOperate = operate &amp;&amp; (opt.change || opt.changes);

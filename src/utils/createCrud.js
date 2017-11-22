@@ -98,7 +98,7 @@ export function applyCrudReducer(immutableState, payload, initialState){
     let _records = payload.record === undefined ? payload.records : payload.record;
     let generatorKey = payload.cid;
     let newState;
-    
+
     payload.changes.forEach(change => {
       switch(change.type){
         case changeOperators.ADD:
@@ -171,11 +171,11 @@ export function applyCrudReducer(immutableState, payload, initialState){
           }
           break;
         case changeOperators.RECONFIGURE:
-          immutableState = immutableState.set(change.name, _records === undefined? immutableState[change.name] : _records);
+          immutableState = immutableState.set(change.name, _records === undefined? initialState[change.name] : _records);
           break;
         case changeOperators.SETPROPERTY:
           newState = change.getData(_records, immutableState[change.name]);
-          immutableState = immutableState.set(change.name,  newState === undefined ? immutableState[change.name] : newState);
+          immutableState = immutableState.set(change.name,  newState === undefined ? initialState[change.name] : newState);
           break;
         default:
           // #! 支持函数
@@ -185,8 +185,10 @@ export function applyCrudReducer(immutableState, payload, initialState){
             newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
           }
           if(change.name){
-            immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
-          }else if(newState !== undefined){
+            immutableState = immutableState.set(change.name, newState === undefined ? initialState[change.name] : newState);
+          }else if(newState === undefined){
+            immutableState = initialState;
+          }else{
             immutableState = newState;
           }
           break;

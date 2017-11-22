@@ -201,6 +201,9 @@ export class BaseModel extends EventEmitter {
           });
           break;
         default:
+          if(options[key].response === undefined){
+            options[key].response = Promise.resolve();
+          }
           if (options[key].change) {
             if (typeof options[key].change === 'function') {
               Object.assign(options[key], {
@@ -331,7 +334,7 @@ export class BaseModel extends EventEmitter {
 
         return promise;
       }
-    } else if (opt.response) {
+    } else if (opt.response !== undefined) {
       const operate = opt.operate;
       const ucOperate = ucfirst(operate);
       const needToOperate = operate && (opt.change || opt.changes);

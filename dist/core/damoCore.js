@@ -1582,6 +1582,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	            break;
 	          default:
+	            if (options[key].response === undefined) {
+	              options[key].response = Promise.resolve();
+	            }
 	            if (options[key].change) {
 	              if (typeof options[key].change === 'function') {
 	                Object.assign(options[key], {
@@ -1720,7 +1723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          return promise;
 	        };
-	      } else if (opt.response) {
+	      } else if (opt.response !== undefined) {
 	        var operate = opt.operate;
 	        var ucOperate = (0, _core.ucfirst)(operate);
 	        var needToOperate = operate && (opt.change || opt.changes);
@@ -2117,11 +2120,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          break;
 	        case changeOperators.RECONFIGURE:
-	          immutableState = immutableState.set(change.name, _records === undefined ? immutableState[change.name] : _records);
+	          immutableState = immutableState.set(change.name, _records === undefined ? initialState[change.name] : _records);
 	          break;
 	        case changeOperators.SETPROPERTY:
 	          newState = change.getData(_records, immutableState[change.name]);
-	          immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
+	          immutableState = immutableState.set(change.name, newState === undefined ? initialState[change.name] : newState);
 	          break;
 	        default:
 	          // #! 支持函数
@@ -2132,8 +2135,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            newState = change[payload.status](_records, immutableState[change.name], payload.params, immutableState, initialState);
 	          }
 	          if (change.name) {
-	            immutableState = immutableState.set(change.name, newState === undefined ? immutableState[change.name] : newState);
-	          } else if (newState !== undefined) {
+	            immutableState = immutableState.set(change.name, newState === undefined ? initialState[change.name] : newState);
+	          } else if (newState === undefined) {
+	            immutableState = initialState;
+	          } else {
 	            immutableState = newState;
 	          }
 	          break;
