@@ -493,7 +493,7 @@ const exportObj = {
   },
   deserialize: (obj, depth) => {
     if(SI.isImmutable(obj)){
-      return obj.asMutable({isDeep: depth});
+      return obj.asMutable({deep: depth});
     }else{
       return obj;
     }
